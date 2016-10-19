@@ -1,0 +1,21 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <title></title>
+    <script src="scripts/jquery-2.2.4.min.js"></script>
+    <script src="scripts/knockout-min.js"></script>
+    <script src="scripts/require.js"></script>
+</head>
+<body>
+    <multi-typeahead></multi-typeahead>
+    <div data-bind="foreach: recipes">
+        <div>
+            <img width="100px" height="100px" data-bind="attr:{src: imageURL}" />&nbsp;&nbsp;<a data-bind="text: recipeName, attr:{href: 'recipe.html?id=' + id}" target="_blank"></a><br />
+        </div>
+    </div>
+
+    <script src="js/appsettings.js"></script>
+    <script src="js/multiTypeahead.js"></script>
+</body>
+</html>

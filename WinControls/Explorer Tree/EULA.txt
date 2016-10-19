@@ -1,0 +1,75 @@
+General Source Code - User Licence
+
+The following agreement applies to a software product "ExplorerTree"
+
+This is a legal agreement (hereafter "Agreement") between you, either an 
+individual or an entity, as the buyer of the source code (hereafter 
+"Recipient") and Rajesh Lal the author of the product. (hereafter "Author").
+
+NON-DISCLOSURE AND LICENCE AGREEMENT FOR ExplorerTree
+
+1. GRANT OF LICENCE.
+
+Author grants Recipient a limited, non-exclusive, nontransferable, royalty-free 
+licence to use the Product and its source code.
+
+Recipient may not sell, rent, transfer or disclose source code of the software 
+product or derivative work of the software product to the third party without
+written permission from the Author.
+
+Recipient may not use source code for development commercially competitive product
+to Author's Work.
+
+Recipient shall not use Author's name, logo or trademarks to market Recipient's
+resulting software components or applications without express written consent 
+from the Author.
+
+2. TERM OF AGREEMENT.
+
+The term of this Agreement shall commence at the date Recipient purchases the 
+Product.
+
+3. MAINTENANCE.
+
+The Author is not obligated to provide maintenance or technical support to Recipient
+for the Product licensed under this Agreement.
+
+4. DISCLAIMER OF WARRANTIES.
+
+To the maximum extent permitted by applicable law, the Product is provided 
+"as is" and without warranties of any kind, whether express or implied, 
+including but not limited to the implied warranties of merchantability or 
+fitness for a particular purpose. The entire risk arising out of the use or 
+installation of the Product, if any, remains with Recipient.
+
+5. EXCLUSION OF INCIDENTAL, CONSEQUENTIAL AND CERTAIN OTHER DAMAGES.
+
+To the maximum extent permitted by applicable law, in no event shall 
+Author be liable for any special, incidental, indirect, consequential or 
+punitive damages whatsoever arising out of or in any way related to the use of 
+or the inability to use the Product.
+
+6. LIMITATION OF LIABILITY AND REMEDIES.
+
+To the maximum extent permitted by applicable law, any liability of the Author will 
+be limited exclusively to a refund of the purchase price.
+
+
+7. GOVERNING LAW.
+
+This Agreement shall be construed and controlled by the laws of the 
+United States. Exclusive jurisdiction and venue for all matters relating to 
+this Agreement shall be in courts located in the United States. The Recipient 
+consents to such jurisdiction and venue.
+
+8. ENTIRE AGREEMENT.
+
+This Agreement constitutes the complete and exclusive agreement between the Author
+and Recipient with respect to the subject matter hereof and supersedes all 
+prior oral or written understandings, communications or agreements not 
+specifically incorporated herein. This Agreement may not be modified except in 
+a writing duly signed by an authorised representative of the Author and Recipient.
+
+Should you have any questions concerning this Agreement, please contact 
+the Author.
+

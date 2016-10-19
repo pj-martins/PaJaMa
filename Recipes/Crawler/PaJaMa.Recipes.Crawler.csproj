@@ -1,0 +1,216 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{DE57D4EA-72F6-4458-8A39-DFB27FC57D48}</ProjectGuid>
+    <OutputType>Exe</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>Crawler</RootNamespace>
+    <AssemblyName>Crawler</AssemblyName>
+    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <IsWebBootstrapper>false</IsWebBootstrapper>
+    <PublishUrl>publish\</PublishUrl>
+    <Install>true</Install>
+    <InstallFrom>Disk</InstallFrom>
+    <UpdateEnabled>false</UpdateEnabled>
+    <UpdateMode>Foreground</UpdateMode>
+    <UpdateInterval>7</UpdateInterval>
+    <UpdateIntervalUnits>Days</UpdateIntervalUnits>
+    <UpdatePeriodically>false</UpdatePeriodically>
+    <UpdateRequired>false</UpdateRequired>
+    <MapFileExtensions>true</MapFileExtensions>
+    <ApplicationRevision>0</ApplicationRevision>
+    <ApplicationVersion>1.0.0.%2a</ApplicationVersion>
+    <UseApplicationTrust>false</UseApplicationTrust>
+    <BootstrapperEnabled>true</BootstrapperEnabled>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'ReleasePJServer|AnyCPU'">
+    <OutputPath>\\Pjserver\e\Temp\recipescrawler\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <Optimize>true</Optimize>
+    <DebugType>pdbonly</DebugType>
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+    <Prefer32Bit>true</Prefer32Bit>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == '2ReleasePJServer|AnyCPU'">
+    <OutputPath>\\Pjserver\e\Temp\recipescleanup\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <Optimize>true</Optimize>
+    <DebugType>pdbonly</DebugType>
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+    <Prefer32Bit>true</Prefer32Bit>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="AutoMapper, Version=4.2.1.0, Culture=neutral, PublicKeyToken=be96cd2c38ef1005, processorArchitecture=MSIL">
+      <HintPath>..\packages\AutoMapper.4.2.1\lib\net45\AutoMapper.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="EntityFramework">
+      <HintPath>..\packages\EntityFramework.6.1.3\lib\net45\EntityFramework.dll</HintPath>
+    </Reference>
+    <Reference Include="EntityFramework.SqlServer">
+      <HintPath>..\packages\EntityFramework.6.1.3\lib\net45\EntityFramework.SqlServer.dll</HintPath>
+    </Reference>
+    <Reference Include="HtmlAgilityPack, Version=1.4.6.0, Culture=neutral, PublicKeyToken=bd319b19eaf3b43a, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>ThidParty\HtmlAgilityPack.dll</HintPath>
+    </Reference>
+    <Reference Include="Newtonsoft.Json, Version=4.5.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL" />
+    <Reference Include="System" />
+    <Reference Include="System.ComponentModel.DataAnnotations" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Data.Linq" />
+    <Reference Include="System.Web" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Attributes.cs" />
+    <Compile Include="CrawlerBase.cs" />
+    <Compile Include="Crawlers\AllRecipesCrawler.cs" />
+    <Compile Include="Crawlers\BettyCrockerCrawler.cs" />
+    <Compile Include="Crawlers\BarNoneDrinksCrawler.cs" />
+    <Compile Include="Cleanup.cs" />
+    <Compile Include="Crawlers\BigOvenCrawler.cs" />
+    <Compile Include="Crawlers\BodyBuildingCrawler.cs" />
+    <Compile Include="Crawlers\CampbellCrawler.cs" />
+    <Compile Include="Crawlers\ChowCrawler.cs" />
+    <Compile Include="Crawlers\ComfortFoodCrawler.cs" />
+    <Compile Include="Crawlers\CooksCrawler.cs" />
+    <Compile Include="CrawlerHelper.cs" />
+    <Compile Include="Crawlers\CountryCrockCrawler.cs" />
+    <Compile Include="Crawlers\DrinksMixerCrawler.cs" />
+    <Compile Include="Crawlers\EatingWellCrawler.cs" />
+    <Compile Include="Crawlers\EpicuriousCrawler.cs" />
+    <Compile Include="Crawlers\FineCookingCrawler.cs" />
+    <Compile Include="Crawlers\FoodCrawlerOLD.cs" />
+    <Compile Include="Crawlers\FoodCrawler.cs" />
+    <Compile Include="Crawlers\FoodNetworkCrawler.cs" />
+    <Compile Include="Crawlers\FoodRepublicCrawler.cs" />
+    <Compile Include="Crawlers\EveryDayRachaelRayCrawler.cs" />
+    <Compile Include="Crawlers\GirlCarnivoreCrawler.cs" />
+    <Compile Include="Crawlers\HelmannsCrawler.cs" />
+    <Compile Include="Crawlers\IncredibleEggCrawler.cs" />
+    <Compile Include="Crawlers\KnorrCrawler.cs" />
+    <Compile Include="Crawlers\IAdoreFoodCrawler.cs" />
+    <Compile Include="Crawlers\LiquorCrawler.cs" />
+    <Compile Include="Crawlers\Food52Crawler.cs" />
+    <Compile Include="Crawlers\McCormickCrawler.cs" />
+    <Compile Include="Crawlers\MyRecipesCrawler.cs" />
+    <Compile Include="Crawlers\LeitesCulinariaCrawler.cs" />
+    <Compile Include="Crawlers\OnceUponAChefCrawler.cs" />
+    <Compile Include="Crawlers\PickyPalateCrawler.cs" />
+    <Compile Include="Crawlers\PillsburyCrawler.cs" />
+    <Compile Include="Crawlers\RawTextCrawler.cs" />
+    <Compile Include="Crawlers\SeriousEatsCrawler.cs" />
+    <Compile Include="Crawlers\FramedCooksCrawler.cs" />
+    <Compile Include="Crawlers\SpoonForkBaconCrawler.cs" />
+    <Compile Include="Crawlers\DaisyBrandCrawler.cs" />
+    <Compile Include="Crawlers\SteamyKitchenCrawler.cs" />
+    <Compile Include="Crawlers\ThePioneerWomanCrawler.cs" />
+    <Compile Include="Crawlers\YummlyCrawler.cs" />
+    <Compile Include="Crawlers\_101CookbooksCrawler.cs" />
+    <Compile Include="Crawlers\SimplyRecipesCrawler.cs" />
+    <Compile Include="Crawlers\TheKitchnCrawler.cs" />
+    <Compile Include="Properties\Resources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
+    <Compile Include="Crawlers\TasteOfHomeCrawler.cs" />
+    <Compile Include="Crawlers\MarthaStewartCrawler.cs" />
+    <Compile Include="Program.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Crawlers\SaveurCrawler.cs" />
+    <Compile Include="TempFixer.cs" />
+    <Compile Include="Crawlers\TheVirtualBarCrawler.cs" />
+    <Compile Include="Crawlers\_1001CocktailsFrenchCrawler.cs" />
+    <Compile Include="Crawlers\_1001CocktailsCrawler.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="App.config" />
+    <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\Common\PaJaMa.Common.csproj">
+      <Project>{4c71ada7-e306-467a-b014-9bd42287dcb1}</Project>
+      <Name>PaJaMa.Common</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Data\PaJaMa.Data.csproj">
+      <Project>{de4cf9b2-3751-4d1c-950d-01d210d17ddd}</Project>
+      <Name>PaJaMa.Data</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Model\Dto\PaJaMa.Recipes.Model.Dto.csproj">
+      <Project>{2635303c-3970-4107-bf69-dc9635f4575f}</Project>
+      <Name>PaJaMa.Recipes.Model.Dto</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Model\PaJaMa.Recipes.Model.csproj">
+      <Project>{3527e786-7f99-48d5-a514-0c2a2930de55}</Project>
+      <Name>PaJaMa.Recipes.Model</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <BootstrapperPackage Include=".NETFramework,Version=v4.5">
+      <Visible>False</Visible>
+      <ProductName>Microsoft .NET Framework 4.5 %28x86 and x64%29</ProductName>
+      <Install>true</Install>
+    </BootstrapperPackage>
+    <BootstrapperPackage Include="Microsoft.Net.Client.3.5">
+      <Visible>False</Visible>
+      <ProductName>.NET Framework 3.5 SP1 Client Profile</ProductName>
+      <Install>false</Install>
+    </BootstrapperPackage>
+    <BootstrapperPackage Include="Microsoft.Net.Framework.3.5.SP1">
+      <Visible>False</Visible>
+      <ProductName>.NET Framework 3.5 SP1</ProductName>
+      <Install>false</Install>
+    </BootstrapperPackage>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Keywords.txt" />
+    <Content Include="ThirdParty\HtmlAgilityPack.dll" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Properties\Resources.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

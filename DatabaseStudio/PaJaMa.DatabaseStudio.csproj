@@ -1,0 +1,411 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{820CB94A-0F66-44A4-ACAE-EEC7AE7D6BA3}</ProjectGuid>
+    <OutputType>WinExe</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>PaJaMa.DatabaseStudio</RootNamespace>
+    <AssemblyName>DatabaseStudio</AssemblyName>
+    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup>
+    <ApplicationIcon>Database.ico</ApplicationIcon>
+  </PropertyGroup>
+  <PropertyGroup>
+    <StartupObject>PaJaMa.DatabaseStudio.Program</StartupObject>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'ReleaseDropBox|AnyCPU'">
+    <OutputPath>C:\Users\PJ\Dropbox\Binaries\DatabaseStudio\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <Optimize>true</Optimize>
+    <DebugType>pdbonly</DebugType>
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+    <Prefer32Bit>true</Prefer32Bit>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug2|AnyCPU'">
+    <DebugSymbols>true</DebugSymbols>
+    <OutputPath>bin\Debug2\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <DebugType>full</DebugType>
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+    <Prefer32Bit>true</Prefer32Bit>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x86'">
+    <DebugSymbols>true</DebugSymbols>
+    <OutputPath>bin\x86\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <DebugType>full</DebugType>
+    <PlatformTarget>x86</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+    <Prefer32Bit>true</Prefer32Bit>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x86'">
+    <OutputPath>bin\x86\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <Optimize>true</Optimize>
+    <DebugType>pdbonly</DebugType>
+    <PlatformTarget>x86</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+    <Prefer32Bit>true</Prefer32Bit>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'ReleaseDropBox|x86'">
+    <OutputPath>bin\x86\ReleaseDropBox\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <Optimize>true</Optimize>
+    <DebugType>pdbonly</DebugType>
+    <PlatformTarget>x86</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+    <Prefer32Bit>true</Prefer32Bit>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug2|x86'">
+    <DebugSymbols>true</DebugSymbols>
+    <OutputPath>bin\x86\Debug2\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <DebugType>full</DebugType>
+    <PlatformTarget>x86</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+    <Prefer32Bit>true</Prefer32Bit>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x64'">
+    <DebugSymbols>true</DebugSymbols>
+    <OutputPath>bin\x64\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <DebugType>full</DebugType>
+    <PlatformTarget>x64</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+    <Prefer32Bit>true</Prefer32Bit>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x64'">
+    <OutputPath>bin\x64\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <Optimize>true</Optimize>
+    <DebugType>pdbonly</DebugType>
+    <PlatformTarget>x64</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+    <Prefer32Bit>true</Prefer32Bit>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'ReleaseDropBox|x64'">
+    <OutputPath>bin\x64\ReleaseDropBox\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <Optimize>true</Optimize>
+    <DebugType>pdbonly</DebugType>
+    <PlatformTarget>x64</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+    <Prefer32Bit>true</Prefer32Bit>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug2|x64'">
+    <DebugSymbols>true</DebugSymbols>
+    <OutputPath>bin\x64\Debug2\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <DebugType>full</DebugType>
+    <PlatformTarget>x64</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+    <Prefer32Bit>true</Prefer32Bit>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Deployment" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Windows.Forms" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Classes\CommandLineHelper.cs" />
+    <Compile Include="Classes\GridHelper.cs" />
+    <Compile Include="Compare\Classes\DataDifference.cs" />
+    <Compile Include="Compare\Workspaces\CompareWorkspace.cs" />
+    <Compile Include="Compare\Classes\CredentialSynchronization.cs" />
+    <Compile Include="Compare\Classes\DatabaseSynchronization.cs" />
+    <Compile Include="Compare\Classes\IndexSynchronization.cs" />
+    <Compile Include="Compare\Classes\ExtendedPropertySynchronization.cs" />
+    <Compile Include="Compare\Classes\ColumnSynchronization.cs" />
+    <Compile Include="Compare\Classes\KeyConstraintSynchronization.cs" />
+    <Compile Include="Compare\Classes\DefaultConstraintSynchronization.cs" />
+    <Compile Include="Compare\Classes\DatabasePrincipalSynchronization.cs" />
+    <Compile Include="Compare\Classes\PermissionSynchronization.cs" />
+    <Compile Include="Compare\Classes\ViewSynchronization.cs" />
+    <Compile Include="Compare\Classes\TriggerSynchronization.cs" />
+    <Compile Include="Compare\Classes\ServerLoginSynchronization.cs" />
+    <Compile Include="Compare\Classes\SchemaSynchronization.cs" />
+    <Compile Include="Compare\Classes\ForeignKeySynchronization.cs" />
+    <Compile Include="Compare\Classes\RoutineSynonymSynchronization.cs" />
+    <Compile Include="Compare\Classes\DatabaseObjectSynchronizationBase.cs" />
+    <Compile Include="Compare\Classes\TableSynchronization.cs" />
+    <Compile Include="Compare\Helpers\SynchronizationHelper.cs" />
+    <Compile Include="DatabaseObjects\View.cs" />
+    <Compile Include="DataGenerate\Classes\ColumnWorkspace.cs" />
+    <Compile Include="Classes\Events.cs" />
+    <Compile Include="DataGenerate\Classes\TableWorkspace.cs" />
+    <Compile Include="DatabaseObjects\Attributes.cs" />
+    <Compile Include="DatabaseObjects\Column.cs" />
+    <Compile Include="DatabaseObjects\Credential.cs" />
+    <Compile Include="DatabaseObjects\Database.cs" />
+    <Compile Include="DatabaseObjects\DatabaseObjectBase.cs" />
+    <Compile Include="DatabaseObjects\DatabasePrincipal.cs" />
+    <Compile Include="DatabaseObjects\DefaultConstraint.cs" />
+    <Compile Include="DatabaseObjects\ExtendedProperty.cs" />
+    <Compile Include="DatabaseObjects\ForeignKey.cs" />
+    <Compile Include="DatabaseObjects\Index.cs" />
+    <Compile Include="DatabaseObjects\KeyConstraint.cs" />
+    <Compile Include="Compare\Classes\ObjectType.cs" />
+    <Compile Include="DatabaseObjects\Permission.cs" />
+    <Compile Include="DatabaseObjects\RoutineSynonym.cs" />
+    <Compile Include="DatabaseObjects\Schema.cs" />
+    <Compile Include="DatabaseObjects\ServerLogin.cs" />
+    <Compile Include="Compare\Classes\SynchronizationItem.cs" />
+    <Compile Include="DatabaseObjects\Table.cs" />
+    <Compile Include="DatabaseObjects\Trigger.cs" />
+    <Compile Include="Compare\Enums.cs" />
+    <Compile Include="Compare\frmCreates.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Compare\frmCreates.Designer.cs">
+      <DependentUpon>frmCreates.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Compare\frmDataDetails.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Compare\frmDataDetails.Designer.cs">
+      <DependentUpon>frmDataDetails.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Compare\ucCompare.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Compare\ucCompare.Designer.cs">
+      <DependentUpon>ucCompare.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Compare\Helpers\CompareHelper.cs" />
+    <Compile Include="Compare\Helpers\DataHelper.cs" />
+    <Compile Include="Compare\Helpers\TransferHelper.cs" />
+    <Compile Include="Compare\TaggedDataTable.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Compare\ucDifferences.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Compare\ucDifferences.Designer.cs">
+      <DependentUpon>ucDifferences.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Compare\Workspaces\ColumnWorkspace.cs" />
+    <Compile Include="Compare\Workspaces\DropWorkspace.cs" />
+    <Compile Include="Compare\Workspaces\ObjectWorkspace.cs" />
+    <Compile Include="Compare\Workspaces\ProgrammibilityWorkspace.cs" />
+    <Compile Include="Compare\Workspaces\TableWorkspace.cs" />
+    <Compile Include="Compare\Workspaces\WorkspaceBase.cs" />
+    <Compile Include="DataGenerate\Content\Content.cs" />
+    <Compile Include="DataGenerate\Content\ContentHelper.cs" />
+    <Compile Include="DataGenerate\Content\Controls\frmContentBase.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="DataGenerate\Content\Controls\frmContentBase.Designer.cs">
+      <DependentUpon>frmContentBase.cs</DependentUpon>
+    </Compile>
+    <Compile Include="DataGenerate\Content\Controls\frmDateTimeContent.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="DataGenerate\Content\Controls\frmDateTimeContent.Designer.cs">
+      <DependentUpon>frmDateTimeContent.cs</DependentUpon>
+    </Compile>
+    <Compile Include="DataGenerate\Content\Controls\frmNumericContent.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="DataGenerate\Content\Controls\frmNumericContent.Designer.cs">
+      <DependentUpon>frmNumericContent.cs</DependentUpon>
+    </Compile>
+    <Compile Include="DataGenerate\Content\Controls\frmStringContent.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="DataGenerate\Content\Controls\frmStringContent.Designer.cs">
+      <DependentUpon>frmStringContent.cs</DependentUpon>
+    </Compile>
+    <Compile Include="DataGenerate\dlgAddNRows.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="DataGenerate\dlgAddNRows.Designer.cs">
+      <DependentUpon>dlgAddNRows.cs</DependentUpon>
+    </Compile>
+    <Compile Include="DataGenerate\ucDataGenerate.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="DataGenerate\ucDataGenerate.Designer.cs">
+      <DependentUpon>ucDataGenerate.cs</DependentUpon>
+    </Compile>
+    <Compile Include="frmMain.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="frmMain.Designer.cs">
+      <DependentUpon>frmMain.cs</DependentUpon>
+    </Compile>
+    <Compile Include="DataGenerate\Helper\GeneratorHelper.cs" />
+    <Compile Include="Classes\IDatabase.cs" />
+    <Compile Include="Query\Classes\ExternalTypes.cs" />
+    <Compile Include="Query\Classes\SchemaHelper.cs" />
+    <Compile Include="Query\ucQueryOutput.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Query\ucQueryOutput.Designer.cs">
+      <DependentUpon>ucQueryOutput.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Query\ucQuery.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Query\ucQuery.Designer.cs">
+      <DependentUpon>ucQuery.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Query\ucWorkspace.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Query\ucWorkspace.Designer.cs">
+      <DependentUpon>ucWorkspace.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Program.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Query\Classes\Workspace.cs" />
+    <Compile Include="Search\Classes\ColumnWorkspace.cs" />
+    <Compile Include="Search\Classes\TableWorkspace.cs" />
+    <Compile Include="Search\SearchHelper.cs" />
+    <Compile Include="Search\ucSearch.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Search\ucSearch.Designer.cs">
+      <DependentUpon>ucSearch.cs</DependentUpon>
+    </Compile>
+    <EmbeddedResource Include="Compare\frmCreates.resx">
+      <DependentUpon>frmCreates.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Compare\frmDataDetails.resx">
+      <DependentUpon>frmDataDetails.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Compare\ucCompare.resx">
+      <DependentUpon>ucCompare.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Compare\ucDifferences.resx">
+      <DependentUpon>ucDifferences.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="DataGenerate\Content\Controls\frmContentBase.resx">
+      <DependentUpon>frmContentBase.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="DataGenerate\Content\Controls\frmDateTimeContent.resx">
+      <DependentUpon>frmDateTimeContent.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="DataGenerate\Content\Controls\frmNumericContent.resx">
+      <DependentUpon>frmNumericContent.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="DataGenerate\Content\Controls\frmStringContent.resx">
+      <DependentUpon>frmStringContent.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="DataGenerate\dlgAddNRows.resx">
+      <DependentUpon>dlgAddNRows.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="DataGenerate\ucDataGenerate.resx">
+      <DependentUpon>ucDataGenerate.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="frmMain.resx">
+      <DependentUpon>frmMain.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Query\ucQueryOutput.resx">
+      <DependentUpon>ucQueryOutput.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Query\ucQuery.resx">
+      <DependentUpon>ucQuery.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Query\ucWorkspace.resx">
+      <DependentUpon>ucWorkspace.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Properties\Resources.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <Compile Include="Properties\Resources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Resources.resx</DependentUpon>
+      <DesignTime>True</DesignTime>
+    </Compile>
+    <EmbeddedResource Include="Search\ucSearch.resx">
+      <DependentUpon>ucSearch.cs</DependentUpon>
+    </EmbeddedResource>
+    <None Include="Properties\Settings.settings">
+      <Generator>SettingsSingleFileGenerator</Generator>
+      <LastGenOutput>Settings.Designer.cs</LastGenOutput>
+    </None>
+    <Compile Include="Properties\Settings.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Settings.settings</DependentUpon>
+      <DesignTimeSharedInput>True</DesignTimeSharedInput>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="App.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Compare\Scripts\DatabaseCreate.sql" />
+    <Content Include="Compare\Scripts\TestDatabase.sql" />
+    <EmbeddedResource Include="DataGenerate\Content\State.txt" />
+    <EmbeddedResource Include="DataGenerate\Content\Street.txt" />
+    <EmbeddedResource Include="DataGenerate\Content\City.txt" />
+    <EmbeddedResource Include="DataGenerate\Content\FirstName.txt" />
+    <EmbeddedResource Include="DataGenerate\Content\LastName.txt" />
+    <Content Include="Database.ico" />
+    <Content Include="Resources\SQLite\System.Data.SQLite.dll" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Common\PaJaMa.Common.csproj">
+      <Project>{4c71ada7-e306-467a-b014-9bd42287dcb1}</Project>
+      <Name>PaJaMa.Common</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\WinControls\PaJaMa.WinControls.csproj">
+      <Project>{bd3684c1-dd08-441f-9448-ca39006e113a}</Project>
+      <Name>PaJaMa.WinControls</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup />
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

@@ -1,0 +1,44 @@
+﻿.imgIncludeExclude {
+    padding: 2px;
+}
+
+.ratingList {
+    padding: 0px;
+    margin-top: 5px;
+    list-style-type: none;
+}
+
+.recipes {
+    margin-top: 5px;
+}
+
+.resultsText {
+    font-weight: bold;
+}
+
+.recipe {
+    margin-top: -55px;
+}
+
+.thumbnailContainer {
+    height: 140px;
+    width: 140px;
+    line-height: 140px;
+}
+
+.horizontal-align {
+    float: left;
+}
+
+.search-controls {
+    margin-left: 5px;
+    margin-top: 55px;
+    width: 275px;
+    position: fixed;
+}
+
+.search-results {
+    margin-top: 55px;
+    margin-left: 305px;
+    position: absolute;
+}

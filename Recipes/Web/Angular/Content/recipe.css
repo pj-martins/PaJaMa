@@ -1,0 +1,160 @@
+﻿.imageContainer {
+    background-color: #ddd;
+    text-align: center;
+    vertical-align: middle;
+}
+
+.image {
+    max-width: 100%;
+    max-height: 100%;
+}
+
+.recipeImages {
+    position: absolute;
+    margin-top: 5px;
+}
+
+.recipeImageContainer {
+    width: 250px;
+    height: 250px;
+    line-height: 250px;
+}
+
+.recipeDetails {
+    margin-left: 256px;
+    margin-top: 55px;
+}
+
+.recipeIngredients {
+    margin-top: 20px;
+}
+
+.ratings {
+    margin-top: 5px;
+}
+
+.sourceRating {
+    position: absolute;
+    width: 120px;
+}
+
+.userRating {
+    position: absolute;
+    margin-left: 150px;
+    width: 120px;
+}
+
+.bookmark {
+    margin-top: 55px;
+    height: 25px;
+}
+
+.ratingList {
+    padding: 0px;
+    list-style-type: none;
+}
+
+.directions {
+    width: 800px;
+}
+
+
+.actionButtons {
+    position: absolute;
+    margin-left: 200px;
+    width: 350px;
+    text-align: right;
+}
+
+.addDialog {
+    position: absolute;
+    margin-left: 100px;
+    margin-top: 100px;
+    padding: 10px;
+    width: 400px;
+    background-color: white;
+    z-index: 1000;
+}
+
+.servingsInput {
+    position: absolute;
+    width: 120px;
+}
+
+button {
+    border: 1px solid #dcdcdc;
+    border-radius: 3px;
+    background-color: #70BDE2;
+    color: white;
+    font-weight: bold;
+    margin-top: 3px;
+    width: 126px;
+    height: 30px;
+}
+
+.header {
+    border-bottom: 1px solid #52AAD5;
+    background-color: #94D0ED;
+    top: 0;
+    right: 0;
+    left: 0;
+    height: 50px;
+    z-index: 1000;
+    position: fixed;
+}
+
+.headerText {
+    padding: 12px;
+    font-size: 18px;
+    font-weight: bold;
+}
+
+.shadowed {
+    box-shadow: 1px 1px 5px #3698C7;
+}
+
+.nutritionInfo {
+    font-style: italic;
+}
+
+.clickable {
+    color: blue;
+    cursor: pointer;
+}
+
+.pdf {
+    margin-top: -35px;
+    margin-left: 175px;
+}
+
+.pdfProperties {
+    width: 160px;
+    text-align: left;
+    margin-left: 10px;
+}
+
+.pdfGo {
+    width: 50px;
+    margin-left: 100px;
+}
+
+.email {
+    margin-left: 25px;
+}
+
+.emailProperties {
+    width: 300px;
+    text-align: left;
+    margin-left: 10px;
+    margin-right: 10px;
+}
+
+.emailGo {
+    width: 50px;
+    margin-left: 250px;
+}
+
+.loadingIngredient {
+    position: absolute;
+    background-color: white;
+}

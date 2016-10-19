@@ -1,0 +1,202 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{3527E786-7F99-48D5-A514-0C2A2930DE55}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>PaJaMa.Recipes.Model</RootNamespace>
+    <AssemblyName>PaJaMa.Recipes.Model</AssemblyName>
+    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'ReleasePJServer|AnyCPU'">
+    <OutputPath>bin\ReleasePJServer\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <Optimize>true</Optimize>
+    <DebugType>pdbonly</DebugType>
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == '2ReleasePJServer|AnyCPU'">
+    <OutputPath>bin\2ReleasePJServer\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <Optimize>true</Optimize>
+    <DebugType>pdbonly</DebugType>
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="AutoMapper, Version=4.2.1.0, Culture=neutral, PublicKeyToken=be96cd2c38ef1005, processorArchitecture=MSIL">
+      <HintPath>..\packages\AutoMapper.4.2.1\lib\net45\AutoMapper.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="EntityFramework, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+      <HintPath>..\packages\EntityFramework.6.1.3\lib\net45\EntityFramework.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="EntityFramework.SqlServer, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+      <HintPath>..\packages\EntityFramework.6.1.3\lib\net45\EntityFramework.SqlServer.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="MySql.Data, Version=6.9.9.0, Culture=neutral, PublicKeyToken=c5687fc88969c44d, processorArchitecture=MSIL">
+      <HintPath>..\packages\MySql.Data.6.9.9\lib\net45\MySql.Data.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="MySql.Data.Entity.EF6, Version=6.9.9.0, Culture=neutral, PublicKeyToken=c5687fc88969c44d, processorArchitecture=MSIL">
+      <HintPath>..\packages\MySql.Data.Entity.6.9.9\lib\net45\MySql.Data.Entity.EF6.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.ComponentModel.DataAnnotations" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Data.Linq" />
+    <Reference Include="System.Runtime.Serialization" />
+    <Reference Include="System.Security" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Classes\RecipeDtoHelper.cs" />
+    <Compile Include="Entities\Base\IngredientBase.cs">
+      <DependentUpon>_EntityBase.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Entities\Base\IngredientMeasurementAlternateBase.cs">
+      <DependentUpon>_EntityBase.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Entities\Base\IngredientMeasurementBase.cs">
+      <DependentUpon>_EntityBase.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Entities\Base\MeasurementBase.cs">
+      <DependentUpon>_EntityBase.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Entities\Base\RecipeBase.cs">
+      <DependentUpon>_EntityBase.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Entities\Base\RecipeImageBase.cs">
+      <DependentUpon>_EntityBase.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Entities\Base\RecipeIngredientMeasurementBase.cs">
+      <DependentUpon>_EntityBase.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Entities\Base\RecipeSearchBase.cs">
+      <DependentUpon>_EntityBase.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Entities\Base\RecipeSourceBase.cs">
+      <DependentUpon>_EntityBase.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Entities\Base\UserBase.cs">
+      <DependentUpon>_EntityBase.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Entities\Base\UserRecipeBase.cs">
+      <DependentUpon>_EntityBase.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Entities\Base\_EntityBase.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>_EntityBase.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Entities\Ingredient.cs" />
+    <Compile Include="Entities\IngredientMeasurement.cs" />
+    <Compile Include="Entities\IngredientMeasurementAlternate.cs" />
+    <Compile Include="Entities\Measurement.cs" />
+    <Compile Include="Entities\Recipe.cs" />
+    <Compile Include="Entities\RecipeImage.cs" />
+    <Compile Include="Entities\RecipeIngredientMeasurement.cs" />
+    <Compile Include="Entities\RecipeSearch.cs" />
+    <Compile Include="RecipesContext.Context.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>RecipesContext.Context.tt</DependentUpon>
+    </Compile>
+    <Compile Include="RecipesContext.cs" />
+    <Compile Include="Entities\RecipeSource.cs" />
+    <Compile Include="Entities\User.cs" />
+    <Compile Include="Entities\UserRecipe.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Properties\Settings.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTimeSharedInput>True</DesignTimeSharedInput>
+      <DependentUpon>Settings.settings</DependentUpon>
+    </Compile>
+    <Compile Include="RecipesContext.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>RecipesContext.edmx</DependentUpon>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\Common\PaJaMa.Common.csproj">
+      <Project>{4c71ada7-e306-467a-b014-9bd42287dcb1}</Project>
+      <Name>PaJaMa.Common</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Data\PaJaMa.Data.csproj">
+      <Project>{de4cf9b2-3751-4d1c-950d-01d210d17ddd}</Project>
+      <Name>PaJaMa.Data</Name>
+    </ProjectReference>
+    <ProjectReference Include="Dto\PaJaMa.Recipes.Model.Dto.csproj">
+      <Project>{2635303c-3970-4107-bf69-dc9635f4575f}</Project>
+      <Name>PaJaMa.Recipes.Model.Dto</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="App.Config" />
+    <None Include="Entities\Base\_EntityBase.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>_EntityBase.cs</LastGenOutput>
+    </None>
+    <None Include="packages.config" />
+    <None Include="Properties\Settings.settings">
+      <Generator>SettingsSingleFileGenerator</Generator>
+      <LastGenOutput>Settings.Designer.cs</LastGenOutput>
+    </None>
+    <EntityDeploy Include="RecipesContext.edmx">
+      <Generator>EntityModelCodeGenerator</Generator>
+      <LastGenOutput>RecipesContext.Designer.cs</LastGenOutput>
+    </EntityDeploy>
+    <None Include="RecipesContext.Context.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <DependentUpon>RecipesContext.edmx</DependentUpon>
+      <LastGenOutput>RecipesContext.Context.cs</LastGenOutput>
+    </None>
+    <None Include="RecipesContext.edmx.diagram">
+      <DependentUpon>RecipesContext.edmx</DependentUpon>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <Service Include="{3259AA49-8AA1-44D3-9025-A0B520596A8C}" />
+    <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

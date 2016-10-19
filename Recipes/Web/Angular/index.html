@@ -1,0 +1,65 @@
+﻿<!DOCTYPE html>
+<html ng-app="recipeSearch">
+<head>
+	<meta charset="utf-8" />
+	<meta name="viewport" content="width=device-width" />
+	<title>Recipe Search</title>
+
+	<link href="Content/site.css" rel="stylesheet" />
+	<link href="Content/bootstrap.min.css" rel="stylesheet" />
+	<link href="Content/gridView.css" rel="stylesheet" />
+    <link href="Content/checkList.css" rel="stylesheet" />
+    <link href="Content/starrating.css" rel="stylesheet" />
+	<link href="Content/ajaxloader.css" rel="stylesheet" />
+	<link href="Content/recipesearch.css" rel="stylesheet" />
+	<link href="Content/recipe.css" rel="stylesheet" />
+	
+	<script src="Scripts/jquery.min.js"></script>
+	<script src="Scripts/angular.min.js"></script>
+	<script src="Scripts/angular-route.min.js"></script>
+	<script src="Scripts/ui-bootstrap-0.12.0.min.js"></script>
+	<script src="Scripts/ui-bootstrap-tpls-0.12.0.min.js"></script>
+	<script src="Scripts/angular-strap.min.js"></script>
+	<script src="Scripts/angular-strap.tpl.min.js"></script>
+	<script src="Scripts/ng-infinite-scroll.js"></script>
+    <script src="Scripts/jspdf.js"></script>
+    <script src="Scripts/jspdf.plugin.addimage.js"></script>
+    <script src="Scripts/jspdf.plugin.split_text_to_size.js"></script>
+    <script src="Scripts/filesaver.js"></script>
+
+	
+	<script src="Scripts/angular-local-storage.js"></script>
+
+    <script src="Scripts/pjm/pjm.js"></script>
+    <script src="Scripts/pjm/filters.js"></script>
+    <script src="Scripts/pjm/gridView.js"></script>
+    <script src="Scripts/pjm/entityFactory.js"></script>
+
+    <script src="app/app.js"></script>
+    <script src="app/directives/ngBlur.js"></script>
+	<script src="app/directives/ngEnter.js"></script>
+	<script src="app/services/emailService.js"></script>
+	<script src="app/services/pdfService.js"></script>
+	<script src="app/services/quantityDisplayService.js"></script>
+	<script src="app/services/appSettings.js"></script>
+	<script src="app/services/templateFactory.js"></script>
+	
+	<script src="Scripts/login.js"></script>
+	<script src="app/services/recipeFactory.js"></script>
+	<script src="app/controllers/recipeViewController.js"></script>
+	<script src="app/controllers/recipeSearchController.js"></script>
+	<script src="app/controllers/recipeIngredientController.js"></script>
+	<script src="app/controllers/addIngredientController.js"></script>
+    <script src="app/directives/recipe.js"></script>
+
+	
+
+</head>
+<body>
+	<div data-ng-view="" id="ng-view"></div>
+
+	<div id="loadingDiv" style="display:none;">
+		<img ng-src='img/ajax-loader.gif' class="ajax-loader" />
+	</div>
+</body>
+</html>

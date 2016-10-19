@@ -1,0 +1,16 @@
+Explorer Tree
+----------------------------------------------------------------
+Copyright © Rajesh Lal, 2006-2007
+Email connectrajesh@hotmail.com
+
+Author Quartz (Rajesh Lal - connectrajesh@hotmail.com)
+
+The program is FREE for any personal or non-commercial usage. In the case of
+modifying and/or redistributing the code it's obligate to retain
+the original copyright notice.  It is not allowed to create your
+own commercial products on the basis of the program or any parts
+of it.
+
+Please, contact me for purchase/ modification and redistribution with, remarks, ideas, etc.
+also check the EULA.txt for User agreement
+www.irajesh.com

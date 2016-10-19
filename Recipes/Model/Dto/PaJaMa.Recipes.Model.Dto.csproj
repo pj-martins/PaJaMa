@@ -1,0 +1,150 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{2635303C-3970-4107-BF69-DC9635F4575F}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>PaJaMa.Recipes.Model.Dto</RootNamespace>
+    <AssemblyName>PaJaMa.Recipes.Model.Dto</AssemblyName>
+    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'ReleasePJServer|AnyCPU'">
+    <OutputPath>bin\ReleasePJServer\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <Optimize>true</Optimize>
+    <DebugType>pdbonly</DebugType>
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == '2ReleasePJServer|AnyCPU'">
+    <OutputPath>bin\2ReleasePJServer\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <Optimize>true</Optimize>
+    <DebugType>pdbonly</DebugType>
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="System" />
+    <Reference Include="System.ComponentModel.DataAnnotations" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Data.Linq" />
+    <Reference Include="System.Runtime.Serialization" />
+    <Reference Include="System.Security" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Classes\RecipeDtoHelper.cs" />
+    <Compile Include="Entities\Base64ImageDto.cs" />
+    <Compile Include="Entities\Base\IngredientDtoBase.cs">
+      <DependentUpon>_DtoBase.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Entities\Base\IngredientMeasurementAlternateDtoBase.cs">
+      <DependentUpon>_DtoBase.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Entities\Base\IngredientMeasurementDtoBase.cs">
+      <DependentUpon>_DtoBase.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Entities\Base\MeasurementDtoBase.cs">
+      <DependentUpon>_DtoBase.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Entities\Base\RecipeDtoBase.cs">
+      <DependentUpon>_DtoBase.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Entities\Base\RecipeImageDtoBase.cs">
+      <DependentUpon>_DtoBase.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Entities\Base\RecipeIngredientMeasurementDtoBase.cs">
+      <DependentUpon>_DtoBase.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Entities\Base\RecipeSearchDtoBase.cs">
+      <DependentUpon>_DtoBase.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Entities\Base\RecipeSourceDtoBase.cs">
+      <DependentUpon>_DtoBase.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Entities\Base\UserDtoBase.cs">
+      <DependentUpon>_DtoBase.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Entities\Base\UserRecipeDtoBase.cs">
+      <DependentUpon>_DtoBase.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Entities\Base\_DtoBase.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>_DtoBase.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Entities\IngredientDto.cs" />
+    <Compile Include="Entities\IngredientMeasurementAlternateDto.cs" />
+    <Compile Include="Entities\IngredientMeasurementDto.cs" />
+    <Compile Include="Entities\MeasurementDto.cs" />
+    <Compile Include="Entities\RecipeCoverDto.cs" />
+    <Compile Include="Entities\RecipeDto.cs" />
+    <Compile Include="Entities\RecipeImageDto.cs" />
+    <Compile Include="Entities\RecipeIngredientDto.cs" />
+    <Compile Include="Entities\RecipeIngredientMeasurementDto.cs" />
+    <Compile Include="Entities\RecipeSearchDto.cs" />
+    <Compile Include="Entities\RecipeSourceDto.cs" />
+    <Compile Include="Entities\UserDto.cs" />
+    <Compile Include="Entities\UserRecipeDto.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <Service Include="{3259AA49-8AA1-44D3-9025-A0B520596A8C}" />
+    <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Entities\Base\_DtoBase.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>_DtoBase.cs</LastGenOutput>
+    </Content>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\..\Common\PaJaMa.Common.csproj">
+      <Project>{4c71ada7-e306-467a-b014-9bd42287dcb1}</Project>
+      <Name>PaJaMa.Common</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\..\Data\PaJaMa.Data.csproj">
+      <Project>{de4cf9b2-3751-4d1c-950d-01d210d17ddd}</Project>
+      <Name>PaJaMa.Data</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="app.config" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

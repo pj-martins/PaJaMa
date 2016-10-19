@@ -1,0 +1,175 @@
+﻿<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+	<title></title>
+	<style type="text/css">
+		img {
+			display: none !important;
+		}
+
+		* {
+			background-image: none !important;
+		}
+
+		.url-container {
+			position: fixed;
+			width: 100%;
+			z-index: 1000;
+		}
+
+		.content-container {
+			position: absolute;
+			margin-top: 30px;
+			top: 0;
+			bottom: 0;
+			left: 0;
+			right: 0;
+		}
+
+		#divBING {
+			display: none;
+		}
+
+		.pre-wrap {
+			white-space: pre-wrap; /* Since CSS 2.1 */
+			white-space: -moz-pre-wrap; /* Mozilla, since 1999 */
+			white-space: -pre-wrap; /* Opera 4-6 */
+			white-space: -o-pre-wrap; /* Opera 7 */
+			word-wrap: break-word; /* Internet Explorer 5.5+ */
+		}
+	</style>
+	<script type="text/javascript" src="Scripts/jquery-2.2.3.min.js"></script>
+	<script type="text/javascript">
+		var currData;
+		var repeatCount = 0;
+		var showData = function () {
+			repeatCount = 0;
+			var output = currData;
+			$('#divResults').removeClass('wrap-content');
+			if ($('#chkRawText').is(':checked')) {
+				var tempDiv = document.createElement('div');
+				tempDiv.innerHTML = output;
+				var scripts = tempDiv.getElementsByTagName('script');
+				var i = scripts.length;
+				while (i--) {
+					scripts[i].parentNode.removeChild(scripts[i]);
+				}
+				var styles = tempDiv.getElementsByTagName('style');
+				i = styles.length;
+				while (i--) {
+					styles[i].parentNode.removeChild(styles[i]);
+				}
+				output = tempDiv.innerHTML;
+				output = output.replace(/<[^>]*>?/g, '').replace(/(\r\n|\r|\n){2}/g, '$1').replace(/(\r\n|\r|\n){3,}/g, '$1\n');
+			}
+			else if ($('#chkStripImages').is(':checked')) {
+				output = currData.replace(/<img[^>]*>/g, '');
+			}
+			else {
+				output = $('<div/>').text(currData).html();
+			}
+
+			if (!$('#chkStripImages').is(':checked')) {
+				if ($('#chkRetainFormat').is(':checked'))
+					output = "<pre class='pre-wrap'>" + output + '</pre>';
+				else
+					$('#divResults').addClass('wrap-content');
+
+			}
+			$('#divResults').html(output);
+		}
+
+		var retrieveText = function () {
+			$('#chkRawText').prop('checked', true);
+			$('#divResults').text('Loading...');
+			var url = $('#inpUrl').val();
+			if (url.indexOf('http') < 0) {
+				url = 'http://' + url;
+				$('#inpUrl').val(url)
+			}
+			$.post('api/Content/GetText', { url: url.toString() }, function (data) {
+				currData = data;
+				showData();
+			});
+		}
+
+		var searchResults = [];
+		var openSearchResult = function (index) {
+			var newWin = window.open(window.location.href);
+			window.setTimeout(function () {
+				newWin.$('#inpUrl').val(searchResults[index].Url);
+				newWin.retrieveText();
+			}, 500);
+		}
+
+		var stripImages = function () {
+			if (!confirm('WARNING! Not fully tested, some images MIGHT be visible! Continue?'))
+				return;
+			showData();
+		}
+
+		var showBingSearch = function () {
+			$("#divUrl").hide();
+			$("#divBING").show();
+			$("#inpKeywords").focus();
+		}
+
+		var bingSearch = function () {
+			$('#divResults').text('Searching...');
+			$.post('api/Content/Bing', { keywords: $('#inpKeywords').val() }, function (data) {
+				$('#chkRawText').prop('checked', true);
+				var output = '';
+				searchResults = JSON.parse(data).d.results;
+				for (var i = 0; i < searchResults.length; i++) {
+					output += searchResults[i].Description + "<br /><a href='javascript:void(0);' onclick='openSearchResult(" + i.toString() + ")'>" + searchResults[i].Url + '</a><br /><br />';
+				}
+
+				$('#divResults').html(output)
+			});
+		}
+
+		var lock = false;
+		$(document).ready(function () {
+			$('#inpUrl').val('http://');
+			$('#inpUrl').keypress(function (event) {
+				if (event.which == 13) {
+					retrieveText();
+				}
+			});
+			$('#inpKeywords').keypress(function (event) {
+				if (event.which == 13) {
+					bingSearch();
+				}
+			})
+			$('#divResults').bind('DOMSubtreeModified', function () {
+				if ($('#chkStripImages').is(':checked')) {
+					if (lock || repeatCount > 10) return;
+					lock = true;
+					var html = $('#divResults').html();
+					html = html.replace(/<img[^>]*>/g, '');
+					$('#divResults').html(html);
+					repeatCount++;
+					lock = false;
+				}
+			});
+		});
+	</script>
+</head>
+<body>
+	<div class="url-container">
+		<div id="divUrl">
+			URL:&nbsp;&nbsp;&nbsp;<input type="text" style="width:60%" id="inpUrl" />&nbsp;&nbsp;<button onclick="retrieveText()">Go</button>&nbsp;&nbsp;
+			<input type='radio' name='options' id="chkRawText" checked="checked" onchange="showData()" />&nbsp;Raw Text&nbsp;&nbsp;
+			<input type='radio' name='options' id="chkRawHTML" onchange="showData()" />&nbsp;Raw HTML&nbsp;&nbsp;
+			<input type='radio' name='options' id="chkStripImages" onchange="stripImages()" />&nbsp;Strip Images
+			<input type='checkbox' id="chkRetainFormat" onchange="showData()" checked="checked" />&nbsp;Retain Format
+			<button onclick="showBingSearch()">BING Search</button>
+		</div>
+		<div id="divBING">
+			Keywords:&nbsp;&nbsp;&nbsp;<input type="text" style="width:70%" id="inpKeywords" />&nbsp;&nbsp;<button onclick="bingSearch()">Search</button>&nbsp;&nbsp;
+		</div>
+	</div>
+	<div class="content-container" id="divResults">
+	</div>
+</body>
+</html>

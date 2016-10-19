@@ -1,0 +1,23 @@
+﻿.loginLogout {
+    position: fixed;
+    top: 4em;
+    right: 2em;
+    z-index: 1000;
+}
+
+.loginPopup {
+    width: 195px;
+    height: 140px;
+    position: relative;
+    margin-left: -250px;
+    background-color: white;
+    text-align: left;
+}
+
+.loginControls {
+    margin-left: 15px;
+    margin-top: 15px;
+}
+
+.myrecipesdrop {
+}

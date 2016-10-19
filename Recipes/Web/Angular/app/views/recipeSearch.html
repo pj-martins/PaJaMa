@@ -1,0 +1,99 @@
+﻿<div ng-init="init()">
+    <div class="header shadowed">
+        <div class="headerText">Recipe Searcher</div>
+    </div>
+    <br />
+    <div class="horizontal-align search-controls">
+        <div class="row">
+            <div class="col-md-12">
+                <input type="text" ng-model="keyword" ng-enter="keywordEnter()" class="form-control" placeholder="Keyword" />
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-6">
+                <button ng-click="includeKeyword()">Include</button>
+            </div>
+            <div class="col-md-6">
+                <button ng-click="excludeKeyword()">Exclude</button>
+            </div>
+        </div>
+        <br />
+        <div class="row">
+            <div class="col-md-12">
+                <div class="grid shadowed" grid-view="gridKeywords"></div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-12">
+                <select ng-model="source" ng-options="recipeSource as recipeSource.recipeSourceName for recipeSource in recipeSources | orderBy : 'recipeSourceName'" ng-change="selectSource()" class="form-control">
+                    <option value="">All Sources</option>
+                </select>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-12">
+                <ul class="ratingList">
+                    <li>Minimum Rating:</li>
+                    <li ng-repeat="rat in [1,2,3,4,5,6,7,8,9,10]">
+                        <div ng-switch="rating >= rat / 2">
+                            <img ng-switch-when="true" class="userstar" ng-click="setFilterRating(rat / 2);" ng-src="{{rat % 2 == 1 ? 'img/starleft.png' : 'img/starright.png'}}" />
+                            <img ng-switch-when="false" class="userstar" ng-click="setFilterRating(rat / 2);" ng-src="{{rat % 2 == 1 ? 'img/staremptyleft.png' : 'img/staremptyright.png'}}" />
+                        </div>
+                    </li>
+                </ul>
+            </div>
+        </div>
+        <div class="row" ng-show="canBookmark()">
+            <div class="col-md-12">
+                <input type="checkbox" ng-model="bookmarked" ng-change="setBookmarked();" />&nbsp;Bookmarked
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-12">
+                <input type="checkbox" ng-model="picturesOnly" ng-change="setPicturesOnly();" />&nbsp;With Picture(s)
+            </div>
+        </div>
+        <br />
+        <div class="row">
+            <div class="col-md-6">
+                <button ng-click="startSearch(1)">Search</button>
+            </div>
+            <div class="col-md-6">
+                <button ng-click="clearScreen()">Clear</button>
+            </div>
+        </div>
+    </div>
+    <div class="horizontal-align search-results">
+        <div infinite-scroll="scrollNext()" infinite-scroll-distance="1" infinite-scroll-disabled="busy">
+            <div class="recipes">
+                <div class="resultsText">{{resultsText}}</div>
+                <ul>
+                    <li ng-repeat="rec in searchResults" style="height:250px; cursor:pointer" ng-click="openRecipe(rec);">
+                        <div tooltip-html-unsafe="{{rec.ingredients.join('<br />')}}" tooltip-placement="bottom">
+                            <div class="thumbnailContainer imageContainer">
+                                <img class="image" ng-src="{{rec.imageURL}}" /><br />
+                            </div>
+                            <div style="width:220px">{{rec.recipeName}}</div>
+                            <ul class="ratingList">
+                                <li ng-repeat="rat in [1,2,3,4,5,6,7,8,9,10]">
+                                    <div ng-switch="rec.rating >= rat / 2">
+                                        <img ng-switch-when="true" ng-click="setFilterRating(rat / 2);" ng-src="{{rat % 2 == 1 ? 'img/starleft.png' : 'img/starright.png'}}" />
+                                        <img ng-switch-when="false" ng-click="setFilterRating(rat / 2);" ng-src="{{rat % 2 == 1 ? 'img/staremptyleft.png' : 'img/staremptyright.png'}}" />
+                                    </div>
+                                </li>
+                            </ul>
+                        </div>
+                    </li>
+                </ul>
+                <script type="text/ng-template" id="Recipe">
+                    <div class="modal-body recipe">
+                        <recipe></recipe>
+                    </div>
+                    <div class="modal-footer">
+                        <button class="btn btn-warning" ng-click="ok()">Ok</button>
+                    </div>
+                </script>
+            </div>
+        </div>
+    </div>
+</div>

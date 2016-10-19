@@ -1,0 +1,737 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+    <Schema Namespace="RecipesDemoModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2008" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="Ingredient">
+          <Key>
+            <PropertyRef Name="IngredientID" />
+          </Key>
+          <Property Name="IngredientID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="IngredientName" Type="nvarchar" MaxLength="255" Nullable="false" />
+        </EntityType>
+        <EntityType Name="IngredientMeasurement">
+          <Key>
+            <PropertyRef Name="IngredientMeasurementID" />
+          </Key>
+          <Property Name="IngredientMeasurementID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="IngredientID" Type="int" Nullable="false" />
+          <Property Name="MeasurementID" Type="int" />
+          <Property Name="CaloriesPer" Type="real" />
+          <Property Name="CarbohydratesPer" Type="real" />
+          <Property Name="FatPer" Type="real" />
+          <Property Name="SaturatedFatPer" Type="real" />
+          <Property Name="SugarsPer" Type="real" />
+          <Property Name="ProteinPer" Type="real" />
+        </EntityType>
+        <EntityType Name="IngredientMeasurementAlternate">
+          <Key>
+            <PropertyRef Name="IngredientMeasurementAlternateID" />
+          </Key>
+          <Property Name="IngredientMeasurementAlternateID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="FromIngredientMeasurementID" Type="int" Nullable="false" />
+          <Property Name="ToIngredientMeasurementID" Type="int" Nullable="false" />
+          <Property Name="Multiplier" Type="real" />
+        </EntityType>
+        <EntityType Name="Measurement">
+          <Key>
+            <PropertyRef Name="MeasurementID" />
+          </Key>
+          <Property Name="MeasurementID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="MeasurementName" Type="nvarchar" MaxLength="50" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Recipe">
+          <Key>
+            <PropertyRef Name="RecipeID" />
+          </Key>
+          <Property Name="RecipeID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="RecipeName" Type="nvarchar" MaxLength="255" Nullable="false" />
+          <Property Name="Directions" Type="nvarchar(max)" />
+          <Property Name="NumberOfServings" Type="int" />
+          <Property Name="Rating" Type="real" />
+          <Property Name="Inactive" Type="bit" Nullable="false" />
+          <Property Name="RecipeURL" Type="nvarchar" MaxLength="255" />
+          <Property Name="RecipeSourceID" Type="int" />
+        </EntityType>
+        <EntityType Name="RecipeImage">
+          <Key>
+            <PropertyRef Name="RecipeImageID" />
+          </Key>
+          <Property Name="RecipeImageID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="RecipeID" Type="int" Nullable="false" />
+          <Property Name="ImageURL" Type="nvarchar" MaxLength="255" />
+          <Property Name="LocalImagePath" Type="nvarchar" MaxLength="255" />
+          <Property Name="Sequence" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="RecipeIngredientMeasurement">
+          <Key>
+            <PropertyRef Name="RecipeIngredientMeasurementID" />
+          </Key>
+          <Property Name="RecipeIngredientMeasurementID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="RecipeID" Type="int" Nullable="false" />
+          <Property Name="IngredientMeasurementID" Type="int" Nullable="false" />
+          <Property Name="Quantity" Type="real" />
+          <Property Name="IsOptional" Type="bit" Nullable="false" />
+        </EntityType>
+        <EntityType Name="RecipeSearch">
+          <Key>
+            <PropertyRef Name="RecipeID" />
+          </Key>
+          <Property Name="RecipeID" Type="int" Nullable="false" />
+          <Property Name="RecipeName" Type="nvarchar" MaxLength="255" Nullable="false" />
+          <Property Name="Ingredients" Type="varchar" MaxLength="5000" Nullable="false" />
+        </EntityType>
+        <EntityType Name="RecipeSource">
+          <Key>
+            <PropertyRef Name="RecipeSourceID" />
+          </Key>
+          <Property Name="RecipeSourceID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="RecipeSourceName" Type="nvarchar" MaxLength="255" Nullable="false" />
+        </EntityType>
+        <EntityType Name="User">
+          <Key>
+            <PropertyRef Name="UserID" />
+          </Key>
+          <Property Name="UserID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="UserName" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="Password" Type="nvarchar" MaxLength="255" Nullable="false" />
+        </EntityType>
+        <EntityType Name="UserRecipe">
+          <Key>
+            <PropertyRef Name="UserRecipeID" />
+          </Key>
+          <Property Name="UserRecipeID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="UserID" Type="int" Nullable="false" />
+          <Property Name="RecipeID" Type="int" Nullable="false" />
+          <Property Name="IsBookmarked" Type="bit" Nullable="false" />
+          <Property Name="Rating" Type="real" />
+          <Property Name="Notes" Type="nvarchar" MaxLength="1000" />
+          <Property Name="AllowEdit" Type="bit" Nullable="false" />
+        </EntityType>
+        <Association Name="FK_IngredientMeasurement_Ingredient">
+          <End Role="Ingredient" Type="Self.Ingredient" Multiplicity="1" />
+          <End Role="IngredientMeasurement" Type="Self.IngredientMeasurement" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Ingredient">
+              <PropertyRef Name="IngredientID" />
+            </Principal>
+            <Dependent Role="IngredientMeasurement">
+              <PropertyRef Name="IngredientID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_IngredientMeasurement_Measurement">
+          <End Role="Measurement" Type="Self.Measurement" Multiplicity="0..1" />
+          <End Role="IngredientMeasurement" Type="Self.IngredientMeasurement" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Measurement">
+              <PropertyRef Name="MeasurementID" />
+            </Principal>
+            <Dependent Role="IngredientMeasurement">
+              <PropertyRef Name="MeasurementID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_IngredientMeasurementAlternate_IngredientMeasurement">
+          <End Role="IngredientMeasurement" Type="Self.IngredientMeasurement" Multiplicity="1" />
+          <End Role="IngredientMeasurementAlternate" Type="Self.IngredientMeasurementAlternate" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="IngredientMeasurement">
+              <PropertyRef Name="IngredientMeasurementID" />
+            </Principal>
+            <Dependent Role="IngredientMeasurementAlternate">
+              <PropertyRef Name="FromIngredientMeasurementID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_IngredientMeasurementAlternate_IngredientMeasurement1">
+          <End Role="IngredientMeasurement" Type="Self.IngredientMeasurement" Multiplicity="1" />
+          <End Role="IngredientMeasurementAlternate" Type="Self.IngredientMeasurementAlternate" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="IngredientMeasurement">
+              <PropertyRef Name="IngredientMeasurementID" />
+            </Principal>
+            <Dependent Role="IngredientMeasurementAlternate">
+              <PropertyRef Name="ToIngredientMeasurementID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Recipe_RecipeSource">
+          <End Role="RecipeSource" Type="Self.RecipeSource" Multiplicity="0..1" />
+          <End Role="Recipe" Type="Self.Recipe" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="RecipeSource">
+              <PropertyRef Name="RecipeSourceID" />
+            </Principal>
+            <Dependent Role="Recipe">
+              <PropertyRef Name="RecipeSourceID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_RecipeImage_Recipe">
+          <End Role="Recipe" Type="Self.Recipe" Multiplicity="1" />
+          <End Role="RecipeImage" Type="Self.RecipeImage" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Recipe">
+              <PropertyRef Name="RecipeID" />
+            </Principal>
+            <Dependent Role="RecipeImage">
+              <PropertyRef Name="RecipeID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_RecipeIngredient_Recipe">
+          <End Role="Recipe" Type="Self.Recipe" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="RecipeIngredientMeasurement" Type="Self.RecipeIngredientMeasurement" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Recipe">
+              <PropertyRef Name="RecipeID" />
+            </Principal>
+            <Dependent Role="RecipeIngredientMeasurement">
+              <PropertyRef Name="RecipeID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_RecipeIngredientMeasurement_IngredientMeasurement">
+          <End Role="IngredientMeasurement" Type="Self.IngredientMeasurement" Multiplicity="1" />
+          <End Role="RecipeIngredientMeasurement" Type="Self.RecipeIngredientMeasurement" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="IngredientMeasurement">
+              <PropertyRef Name="IngredientMeasurementID" />
+            </Principal>
+            <Dependent Role="RecipeIngredientMeasurement">
+              <PropertyRef Name="IngredientMeasurementID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_UserRecipe_Recipe">
+          <End Role="Recipe" Type="Self.Recipe" Multiplicity="1" />
+          <End Role="UserRecipe" Type="Self.UserRecipe" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Recipe">
+              <PropertyRef Name="RecipeID" />
+            </Principal>
+            <Dependent Role="UserRecipe">
+              <PropertyRef Name="RecipeID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_UserRecipe_User">
+          <End Role="User" Type="Self.User" Multiplicity="1" />
+          <End Role="UserRecipe" Type="Self.UserRecipe" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="User">
+              <PropertyRef Name="UserID" />
+            </Principal>
+            <Dependent Role="UserRecipe">
+              <PropertyRef Name="UserID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="RecipesDemoModelStoreContainer">
+          <EntitySet Name="Ingredient" EntityType="Self.Ingredient" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="IngredientMeasurement" EntityType="Self.IngredientMeasurement" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="IngredientMeasurementAlternate" EntityType="Self.IngredientMeasurementAlternate" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Measurement" EntityType="Self.Measurement" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Recipe" EntityType="Self.Recipe" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="RecipeImage" EntityType="Self.RecipeImage" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="RecipeIngredientMeasurement" EntityType="Self.RecipeIngredientMeasurement" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="RecipeSearch" EntityType="Self.RecipeSearch" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="RecipeSource" EntityType="Self.RecipeSource" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="User" EntityType="Self.User" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="UserRecipe" EntityType="Self.UserRecipe" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK_IngredientMeasurement_Ingredient" Association="Self.FK_IngredientMeasurement_Ingredient">
+            <End Role="Ingredient" EntitySet="Ingredient" />
+            <End Role="IngredientMeasurement" EntitySet="IngredientMeasurement" />
+          </AssociationSet>
+          <AssociationSet Name="FK_IngredientMeasurement_Measurement" Association="Self.FK_IngredientMeasurement_Measurement">
+            <End Role="Measurement" EntitySet="Measurement" />
+            <End Role="IngredientMeasurement" EntitySet="IngredientMeasurement" />
+          </AssociationSet>
+          <AssociationSet Name="FK_IngredientMeasurementAlternate_IngredientMeasurement" Association="Self.FK_IngredientMeasurementAlternate_IngredientMeasurement">
+            <End Role="IngredientMeasurement" EntitySet="IngredientMeasurement" />
+            <End Role="IngredientMeasurementAlternate" EntitySet="IngredientMeasurementAlternate" />
+          </AssociationSet>
+          <AssociationSet Name="FK_IngredientMeasurementAlternate_IngredientMeasurement1" Association="Self.FK_IngredientMeasurementAlternate_IngredientMeasurement1">
+            <End Role="IngredientMeasurement" EntitySet="IngredientMeasurement" />
+            <End Role="IngredientMeasurementAlternate" EntitySet="IngredientMeasurementAlternate" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Recipe_RecipeSource" Association="Self.FK_Recipe_RecipeSource">
+            <End Role="RecipeSource" EntitySet="RecipeSource" />
+            <End Role="Recipe" EntitySet="Recipe" />
+          </AssociationSet>
+          <AssociationSet Name="FK_RecipeImage_Recipe" Association="Self.FK_RecipeImage_Recipe">
+            <End Role="Recipe" EntitySet="Recipe" />
+            <End Role="RecipeImage" EntitySet="RecipeImage" />
+          </AssociationSet>
+          <AssociationSet Name="FK_RecipeIngredient_Recipe" Association="Self.FK_RecipeIngredient_Recipe">
+            <End Role="Recipe" EntitySet="Recipe" />
+            <End Role="RecipeIngredientMeasurement" EntitySet="RecipeIngredientMeasurement" />
+          </AssociationSet>
+          <AssociationSet Name="FK_RecipeIngredientMeasurement_IngredientMeasurement" Association="Self.FK_RecipeIngredientMeasurement_IngredientMeasurement">
+            <End Role="IngredientMeasurement" EntitySet="IngredientMeasurement" />
+            <End Role="RecipeIngredientMeasurement" EntitySet="RecipeIngredientMeasurement" />
+          </AssociationSet>
+          <AssociationSet Name="FK_UserRecipe_Recipe" Association="Self.FK_UserRecipe_Recipe">
+            <End Role="Recipe" EntitySet="Recipe" />
+            <End Role="UserRecipe" EntitySet="UserRecipe" />
+          </AssociationSet>
+          <AssociationSet Name="FK_UserRecipe_User" Association="Self.FK_UserRecipe_User">
+            <End Role="User" EntitySet="User" />
+            <End Role="UserRecipe" EntitySet="UserRecipe" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema></edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="PaJaMa.Recipes.Model" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="Ingredient">
+          <Key>
+            <PropertyRef Name="IngredientID" />
+          </Key>
+          <Property Name="IngredientID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="IngredientName" Type="String" MaxLength="255" FixedLength="false" Unicode="true" Nullable="false" />
+          <NavigationProperty Name="IngredientMeasurements" Relationship="Self.FK_IngredientMeasurement_Ingredient" FromRole="Ingredient" ToRole="IngredientMeasurement" />
+        </EntityType>
+        <EntityType Name="IngredientMeasurement">
+          <Key>
+            <PropertyRef Name="IngredientMeasurementID" />
+          </Key>
+          <Property Name="IngredientMeasurementID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="IngredientID" Type="Int32" Nullable="false" />
+          <Property Name="MeasurementID" Type="Int32" />
+          <Property Name="CaloriesPer" Type="Single" />
+          <Property Name="CarbohydratesPer" Type="Single" />
+          <Property Name="FatPer" Type="Single" />
+          <Property Name="SaturatedFatPer" Type="Single" />
+          <Property Name="SugarsPer" Type="Single" />
+          <Property Name="ProteinPer" Type="Single" />
+          <NavigationProperty Name="Ingredient" Relationship="Self.FK_IngredientMeasurement_Ingredient" FromRole="IngredientMeasurement" ToRole="Ingredient" />
+          <NavigationProperty Name="Measurement" Relationship="Self.FK_IngredientMeasurement_Measurement" FromRole="IngredientMeasurement" ToRole="Measurement" />
+          <NavigationProperty Name="FromIngredientMeasurementAlternates" Relationship="Self.FK_IngredientMeasurementAlternate_IngredientMeasurement" FromRole="IngredientMeasurement" ToRole="IngredientMeasurementAlternate" />
+          <NavigationProperty Name="ToIngredientMeasurementAlternates" Relationship="Self.FK_IngredientMeasurementAlternate_IngredientMeasurement1" FromRole="IngredientMeasurement" ToRole="IngredientMeasurementAlternate" />
+          <NavigationProperty Name="RecipeIngredientMeasurements" Relationship="Self.FK_RecipeIngredientMeasurement_IngredientMeasurement" FromRole="IngredientMeasurement" ToRole="RecipeIngredientMeasurement" />
+        </EntityType>
+        <EntityType Name="IngredientMeasurementAlternate">
+          <Key>
+            <PropertyRef Name="IngredientMeasurementAlternateID" />
+          </Key>
+          <Property Name="IngredientMeasurementAlternateID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="FromIngredientMeasurementID" Type="Int32" Nullable="false" />
+          <Property Name="ToIngredientMeasurementID" Type="Int32" Nullable="false" />
+          <Property Name="Multiplier" Type="Single" />
+          <NavigationProperty Name="FromIngredientMeasurement" Relationship="Self.FK_IngredientMeasurementAlternate_IngredientMeasurement" FromRole="IngredientMeasurementAlternate" ToRole="IngredientMeasurement" />
+          <NavigationProperty Name="ToIngredientMeasurement" Relationship="Self.FK_IngredientMeasurementAlternate_IngredientMeasurement1" FromRole="IngredientMeasurementAlternate" ToRole="IngredientMeasurement" />
+        </EntityType>
+        <EntityType Name="Measurement">
+          <Key>
+            <PropertyRef Name="MeasurementID" />
+          </Key>
+          <Property Name="MeasurementID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="MeasurementName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <NavigationProperty Name="IngredientMeasurements" Relationship="Self.FK_IngredientMeasurement_Measurement" FromRole="Measurement" ToRole="IngredientMeasurement" />
+        </EntityType>
+        <EntityType Name="Recipe">
+          <Key>
+            <PropertyRef Name="RecipeID" />
+          </Key>
+          <Property Name="RecipeID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="RecipeName" Type="String" MaxLength="255" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Directions" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="NumberOfServings" Type="Int32" />
+          <Property Name="Rating" Type="Single" />
+          <Property Name="Inactive" Type="Boolean" Nullable="false" />
+          <Property Name="RecipeURL" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="RecipeSourceID" Type="Int32" />
+          <NavigationProperty Name="RecipeSource" Relationship="Self.FK_Recipe_RecipeSource" FromRole="Recipe" ToRole="RecipeSource" />
+          <NavigationProperty Name="RecipeImages" Relationship="Self.FK_RecipeImage_Recipe" FromRole="Recipe" ToRole="RecipeImage" />
+          <NavigationProperty Name="RecipeIngredientMeasurements" Relationship="Self.FK_RecipeIngredient_Recipe" FromRole="Recipe" ToRole="RecipeIngredientMeasurement" />
+          <NavigationProperty Name="UserRecipes" Relationship="Self.FK_UserRecipe_Recipe" FromRole="Recipe" ToRole="UserRecipe" />
+        </EntityType>
+        <EntityType Name="RecipeImage">
+          <Key>
+            <PropertyRef Name="RecipeImageID" />
+          </Key>
+          <Property Name="RecipeImageID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="RecipeID" Type="Int32" Nullable="false" />
+          <Property Name="ImageURL" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="LocalImagePath" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="Sequence" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="Recipe" Relationship="Self.FK_RecipeImage_Recipe" FromRole="RecipeImage" ToRole="Recipe" />
+        </EntityType>
+        <EntityType Name="RecipeIngredientMeasurement">
+          <Key>
+            <PropertyRef Name="RecipeIngredientMeasurementID" />
+          </Key>
+          <Property Name="RecipeIngredientMeasurementID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="RecipeID" Type="Int32" Nullable="false" />
+          <Property Name="IngredientMeasurementID" Type="Int32" Nullable="false" />
+          <Property Name="Quantity" Type="Single" />
+          <Property Name="IsOptional" Type="Boolean" Nullable="false" />
+          <NavigationProperty Name="IngredientMeasurement" Relationship="Self.FK_RecipeIngredientMeasurement_IngredientMeasurement" FromRole="RecipeIngredientMeasurement" ToRole="IngredientMeasurement" />
+          <NavigationProperty Name="Recipe" Relationship="Self.FK_RecipeIngredient_Recipe" FromRole="RecipeIngredientMeasurement" ToRole="Recipe" />
+        </EntityType>
+        <EntityType Name="RecipeSource">
+          <Key>
+            <PropertyRef Name="RecipeSourceID" />
+          </Key>
+          <Property Name="RecipeSourceID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="RecipeSourceName" Type="String" MaxLength="255" FixedLength="false" Unicode="true" Nullable="false" />
+          <NavigationProperty Name="Recipes" Relationship="Self.FK_Recipe_RecipeSource" FromRole="RecipeSource" ToRole="Recipe" />
+        </EntityType>
+        <EntityType Name="User">
+          <Key>
+            <PropertyRef Name="UserID" />
+          </Key>
+          <Property Name="UserID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="UserName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Password" Type="String" MaxLength="255" FixedLength="false" Unicode="true" Nullable="false" />
+          <NavigationProperty Name="UserRecipes" Relationship="Self.FK_UserRecipe_User" FromRole="User" ToRole="UserRecipe" />
+        </EntityType>
+        <EntityType Name="UserRecipe">
+          <Key>
+            <PropertyRef Name="UserRecipeID" />
+          </Key>
+          <Property Name="UserRecipeID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="UserID" Type="Int32" Nullable="false" />
+          <Property Name="RecipeID" Type="Int32" Nullable="false" />
+          <Property Name="IsBookmarked" Type="Boolean" Nullable="false" />
+          <Property Name="Rating" Type="Single" />
+          <Property Name="Notes" Type="String" MaxLength="1000" FixedLength="false" Unicode="true" />
+          <Property Name="AllowEdit" Type="Boolean" Nullable="false" />
+          <NavigationProperty Name="Recipe" Relationship="Self.FK_UserRecipe_Recipe" FromRole="UserRecipe" ToRole="Recipe" />
+          <NavigationProperty Name="User" Relationship="Self.FK_UserRecipe_User" FromRole="UserRecipe" ToRole="User" />
+        </EntityType>
+        <Association Name="FK_IngredientMeasurement_Ingredient">
+          <End Role="Ingredient" Type="Self.Ingredient" Multiplicity="1" />
+          <End Role="IngredientMeasurement" Type="Self.IngredientMeasurement" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Ingredient">
+              <PropertyRef Name="IngredientID" />
+            </Principal>
+            <Dependent Role="IngredientMeasurement">
+              <PropertyRef Name="IngredientID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_IngredientMeasurement_Measurement">
+          <End Role="Measurement" Type="Self.Measurement" Multiplicity="0..1" />
+          <End Role="IngredientMeasurement" Type="Self.IngredientMeasurement" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Measurement">
+              <PropertyRef Name="MeasurementID" />
+            </Principal>
+            <Dependent Role="IngredientMeasurement">
+              <PropertyRef Name="MeasurementID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_IngredientMeasurementAlternate_IngredientMeasurement">
+          <End Role="IngredientMeasurement" Type="Self.IngredientMeasurement" Multiplicity="1" />
+          <End Role="IngredientMeasurementAlternate" Type="Self.IngredientMeasurementAlternate" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="IngredientMeasurement">
+              <PropertyRef Name="IngredientMeasurementID" />
+            </Principal>
+            <Dependent Role="IngredientMeasurementAlternate">
+              <PropertyRef Name="FromIngredientMeasurementID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_IngredientMeasurementAlternate_IngredientMeasurement1">
+          <End Role="IngredientMeasurement" Type="Self.IngredientMeasurement" Multiplicity="1" />
+          <End Role="IngredientMeasurementAlternate" Type="Self.IngredientMeasurementAlternate" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="IngredientMeasurement">
+              <PropertyRef Name="IngredientMeasurementID" />
+            </Principal>
+            <Dependent Role="IngredientMeasurementAlternate">
+              <PropertyRef Name="ToIngredientMeasurementID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_RecipeIngredientMeasurement_IngredientMeasurement">
+          <End Role="IngredientMeasurement" Type="Self.IngredientMeasurement" Multiplicity="1" />
+          <End Role="RecipeIngredientMeasurement" Type="Self.RecipeIngredientMeasurement" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="IngredientMeasurement">
+              <PropertyRef Name="IngredientMeasurementID" />
+            </Principal>
+            <Dependent Role="RecipeIngredientMeasurement">
+              <PropertyRef Name="IngredientMeasurementID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Recipe_RecipeSource">
+          <End Role="RecipeSource" Type="Self.RecipeSource" Multiplicity="0..1" />
+          <End Role="Recipe" Type="Self.Recipe" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="RecipeSource">
+              <PropertyRef Name="RecipeSourceID" />
+            </Principal>
+            <Dependent Role="Recipe">
+              <PropertyRef Name="RecipeSourceID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_RecipeImage_Recipe">
+          <End Role="Recipe" Type="Self.Recipe" Multiplicity="1" />
+          <End Role="RecipeImage" Type="Self.RecipeImage" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Recipe">
+              <PropertyRef Name="RecipeID" />
+            </Principal>
+            <Dependent Role="RecipeImage">
+              <PropertyRef Name="RecipeID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_RecipeIngredient_Recipe">
+          <End Role="Recipe" Type="Self.Recipe" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="RecipeIngredientMeasurement" Type="Self.RecipeIngredientMeasurement" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Recipe">
+              <PropertyRef Name="RecipeID" />
+            </Principal>
+            <Dependent Role="RecipeIngredientMeasurement">
+              <PropertyRef Name="RecipeID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_UserRecipe_Recipe">
+          <End Role="Recipe" Type="Self.Recipe" Multiplicity="1" />
+          <End Role="UserRecipe" Type="Self.UserRecipe" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Recipe">
+              <PropertyRef Name="RecipeID" />
+            </Principal>
+            <Dependent Role="UserRecipe">
+              <PropertyRef Name="RecipeID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_UserRecipe_User">
+          <End Role="User" Type="Self.User" Multiplicity="1" />
+          <End Role="UserRecipe" Type="Self.UserRecipe" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="User">
+              <PropertyRef Name="UserID" />
+            </Principal>
+            <Dependent Role="UserRecipe">
+              <PropertyRef Name="UserID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="RecipesContext" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="Ingredients" EntityType="Self.Ingredient" />
+          <EntitySet Name="IngredientMeasurements" EntityType="Self.IngredientMeasurement" />
+          <EntitySet Name="IngredientMeasurementAlternates" EntityType="Self.IngredientMeasurementAlternate" />
+          <EntitySet Name="Measurements" EntityType="Self.Measurement" />
+          <EntitySet Name="Recipes" EntityType="Self.Recipe" />
+          <EntitySet Name="RecipeImages" EntityType="Self.RecipeImage" />
+          <EntitySet Name="RecipeIngredientMeasurements" EntityType="Self.RecipeIngredientMeasurement" />
+          <EntitySet Name="RecipeSources" EntityType="Self.RecipeSource" />
+          <EntitySet Name="Users" EntityType="Self.User" />
+          <EntitySet Name="UserRecipes" EntityType="Self.UserRecipe" />
+          <AssociationSet Name="FK_IngredientMeasurement_Ingredient" Association="Self.FK_IngredientMeasurement_Ingredient">
+            <End Role="Ingredient" EntitySet="Ingredients" />
+            <End Role="IngredientMeasurement" EntitySet="IngredientMeasurements" />
+          </AssociationSet>
+          <AssociationSet Name="FK_IngredientMeasurement_Measurement" Association="Self.FK_IngredientMeasurement_Measurement">
+            <End Role="Measurement" EntitySet="Measurements" />
+            <End Role="IngredientMeasurement" EntitySet="IngredientMeasurements" />
+          </AssociationSet>
+          <AssociationSet Name="FK_IngredientMeasurementAlternate_IngredientMeasurement" Association="Self.FK_IngredientMeasurementAlternate_IngredientMeasurement">
+            <End Role="IngredientMeasurement" EntitySet="IngredientMeasurements" />
+            <End Role="IngredientMeasurementAlternate" EntitySet="IngredientMeasurementAlternates" />
+          </AssociationSet>
+          <AssociationSet Name="FK_IngredientMeasurementAlternate_IngredientMeasurement1" Association="Self.FK_IngredientMeasurementAlternate_IngredientMeasurement1">
+            <End Role="IngredientMeasurement" EntitySet="IngredientMeasurements" />
+            <End Role="IngredientMeasurementAlternate" EntitySet="IngredientMeasurementAlternates" />
+          </AssociationSet>
+          <AssociationSet Name="FK_RecipeIngredientMeasurement_IngredientMeasurement" Association="Self.FK_RecipeIngredientMeasurement_IngredientMeasurement">
+            <End Role="IngredientMeasurement" EntitySet="IngredientMeasurements" />
+            <End Role="RecipeIngredientMeasurement" EntitySet="RecipeIngredientMeasurements" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Recipe_RecipeSource" Association="Self.FK_Recipe_RecipeSource">
+            <End Role="RecipeSource" EntitySet="RecipeSources" />
+            <End Role="Recipe" EntitySet="Recipes" />
+          </AssociationSet>
+          <AssociationSet Name="FK_RecipeImage_Recipe" Association="Self.FK_RecipeImage_Recipe">
+            <End Role="Recipe" EntitySet="Recipes" />
+            <End Role="RecipeImage" EntitySet="RecipeImages" />
+          </AssociationSet>
+          <AssociationSet Name="FK_RecipeIngredient_Recipe" Association="Self.FK_RecipeIngredient_Recipe">
+            <End Role="Recipe" EntitySet="Recipes" />
+            <End Role="RecipeIngredientMeasurement" EntitySet="RecipeIngredientMeasurements" />
+          </AssociationSet>
+          <AssociationSet Name="FK_UserRecipe_Recipe" Association="Self.FK_UserRecipe_Recipe">
+            <End Role="Recipe" EntitySet="Recipes" />
+            <End Role="UserRecipe" EntitySet="UserRecipes" />
+          </AssociationSet>
+          <AssociationSet Name="FK_UserRecipe_User" Association="Self.FK_UserRecipe_User">
+            <End Role="User" EntitySet="Users" />
+            <End Role="UserRecipe" EntitySet="UserRecipes" />
+          </AssociationSet>
+          <EntitySet Name="RecipeSearches" EntityType="PaJaMa.Recipes.Model.RecipeSearch" />
+        </EntityContainer>
+        <EntityType Name="RecipeSearch">
+          <Key>
+            <PropertyRef Name="RecipeID" />
+          </Key>
+          <Property Name="RecipeID" Type="Int32" Nullable="false" />
+          <Property Name="RecipeName" Type="String" Nullable="false" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="Ingredients" Type="String" Nullable="false" MaxLength="5000" FixedLength="false" Unicode="false" />
+        </EntityType>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="RecipesDemoModelStoreContainer" CdmEntityContainer="RecipesContext">
+          <EntitySetMapping Name="Ingredients">
+            <EntityTypeMapping TypeName="PaJaMa.Recipes.Model.Ingredient">
+              <MappingFragment StoreEntitySet="Ingredient">
+                <ScalarProperty Name="IngredientID" ColumnName="IngredientID" />
+                <ScalarProperty Name="IngredientName" ColumnName="IngredientName" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="IngredientMeasurements">
+            <EntityTypeMapping TypeName="PaJaMa.Recipes.Model.IngredientMeasurement">
+              <MappingFragment StoreEntitySet="IngredientMeasurement">
+                <ScalarProperty Name="IngredientMeasurementID" ColumnName="IngredientMeasurementID" />
+                <ScalarProperty Name="IngredientID" ColumnName="IngredientID" />
+                <ScalarProperty Name="MeasurementID" ColumnName="MeasurementID" />
+                <ScalarProperty Name="CaloriesPer" ColumnName="CaloriesPer" />
+                <ScalarProperty Name="CarbohydratesPer" ColumnName="CarbohydratesPer" />
+                <ScalarProperty Name="FatPer" ColumnName="FatPer" />
+                <ScalarProperty Name="SaturatedFatPer" ColumnName="SaturatedFatPer" />
+                <ScalarProperty Name="SugarsPer" ColumnName="SugarsPer" />
+                <ScalarProperty Name="ProteinPer" ColumnName="ProteinPer" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="IngredientMeasurementAlternates">
+            <EntityTypeMapping TypeName="PaJaMa.Recipes.Model.IngredientMeasurementAlternate">
+              <MappingFragment StoreEntitySet="IngredientMeasurementAlternate">
+                <ScalarProperty Name="IngredientMeasurementAlternateID" ColumnName="IngredientMeasurementAlternateID" />
+                <ScalarProperty Name="FromIngredientMeasurementID" ColumnName="FromIngredientMeasurementID" />
+                <ScalarProperty Name="ToIngredientMeasurementID" ColumnName="ToIngredientMeasurementID" />
+                <ScalarProperty Name="Multiplier" ColumnName="Multiplier" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Measurements">
+            <EntityTypeMapping TypeName="PaJaMa.Recipes.Model.Measurement">
+              <MappingFragment StoreEntitySet="Measurement">
+                <ScalarProperty Name="MeasurementID" ColumnName="MeasurementID" />
+                <ScalarProperty Name="MeasurementName" ColumnName="MeasurementName" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Recipes">
+            <EntityTypeMapping TypeName="PaJaMa.Recipes.Model.Recipe">
+              <MappingFragment StoreEntitySet="Recipe">
+                <ScalarProperty Name="RecipeID" ColumnName="RecipeID" />
+                <ScalarProperty Name="RecipeName" ColumnName="RecipeName" />
+                <ScalarProperty Name="Directions" ColumnName="Directions" />
+                <ScalarProperty Name="NumberOfServings" ColumnName="NumberOfServings" />
+                <ScalarProperty Name="Rating" ColumnName="Rating" />
+                <ScalarProperty Name="Inactive" ColumnName="Inactive" />
+                <ScalarProperty Name="RecipeURL" ColumnName="RecipeURL" />
+                <ScalarProperty Name="RecipeSourceID" ColumnName="RecipeSourceID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="RecipeImages">
+            <EntityTypeMapping TypeName="PaJaMa.Recipes.Model.RecipeImage">
+              <MappingFragment StoreEntitySet="RecipeImage">
+                <ScalarProperty Name="RecipeImageID" ColumnName="RecipeImageID" />
+                <ScalarProperty Name="RecipeID" ColumnName="RecipeID" />
+                <ScalarProperty Name="ImageURL" ColumnName="ImageURL" />
+                <ScalarProperty Name="LocalImagePath" ColumnName="LocalImagePath" />
+                <ScalarProperty Name="Sequence" ColumnName="Sequence" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="RecipeIngredientMeasurements">
+            <EntityTypeMapping TypeName="PaJaMa.Recipes.Model.RecipeIngredientMeasurement">
+              <MappingFragment StoreEntitySet="RecipeIngredientMeasurement">
+                <ScalarProperty Name="RecipeIngredientMeasurementID" ColumnName="RecipeIngredientMeasurementID" />
+                <ScalarProperty Name="RecipeID" ColumnName="RecipeID" />
+                <ScalarProperty Name="IngredientMeasurementID" ColumnName="IngredientMeasurementID" />
+                <ScalarProperty Name="Quantity" ColumnName="Quantity" />
+                <ScalarProperty Name="IsOptional" ColumnName="IsOptional" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="RecipeSources">
+            <EntityTypeMapping TypeName="PaJaMa.Recipes.Model.RecipeSource">
+              <MappingFragment StoreEntitySet="RecipeSource">
+                <ScalarProperty Name="RecipeSourceID" ColumnName="RecipeSourceID" />
+                <ScalarProperty Name="RecipeSourceName" ColumnName="RecipeSourceName" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Users">
+            <EntityTypeMapping TypeName="PaJaMa.Recipes.Model.User">
+              <MappingFragment StoreEntitySet="User">
+                <ScalarProperty Name="UserID" ColumnName="UserID" />
+                <ScalarProperty Name="UserName" ColumnName="UserName" />
+                <ScalarProperty Name="Password" ColumnName="Password" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="UserRecipes">
+            <EntityTypeMapping TypeName="PaJaMa.Recipes.Model.UserRecipe">
+              <MappingFragment StoreEntitySet="UserRecipe">
+                <ScalarProperty Name="UserRecipeID" ColumnName="UserRecipeID" />
+                <ScalarProperty Name="UserID" ColumnName="UserID" />
+                <ScalarProperty Name="RecipeID" ColumnName="RecipeID" />
+                <ScalarProperty Name="IsBookmarked" ColumnName="IsBookmarked" />
+                <ScalarProperty Name="Rating" ColumnName="Rating" />
+                <ScalarProperty Name="Notes" ColumnName="Notes" />
+                <ScalarProperty Name="AllowEdit" ColumnName="AllowEdit" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="RecipeSearches">
+            <EntityTypeMapping TypeName="PaJaMa.Recipes.Model.RecipeSearch">
+              <MappingFragment StoreEntitySet="RecipeSearch">
+                <ScalarProperty Name="Ingredients" ColumnName="Ingredients" />
+                <ScalarProperty Name="RecipeName" ColumnName="RecipeName" />
+                <ScalarProperty Name="RecipeID" ColumnName="RecipeID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="true" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>

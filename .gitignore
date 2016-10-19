@@ -45,3 +45,19 @@ $RECYCLE.BIN/
 Network Trash Folder
 Temporary Items
 .apdisk
+**/bin/*
+**/obj/*
+*.suo
+*.user
+*/packages/*
+**/node_modules/*
+Recipes/Web/Angular2/app/app.component.js
+*.map
+Recipes/Web/Angular2/app/constants/appsettings.js
+Recipes/Web/Angular2/app/main.js
+Recipes/Web/Angular2/app/recipes/recipe.js
+Recipes/Web/Angular2/app/recipes/recipefactory.service.js
+Recipes/Web/Angular2/app/recipes/recipes.component.js
+Recipes/Web/Angular2/app/services/entityfactory.service.js
+Recipes/Web/DotNetCore/Data/Migrations/00000000000000_CreateIdentitySchema.cs
+Recipes/Web/DotNetCore/Data/Migrations/00000000000000_CreateIdentitySchema.Designer.cs

@@ -1,0 +1,145 @@
+﻿<div ng-show="recipe != null">
+	<div class="header shadowed" ng-show="!modal">
+		<div class="headerText">{{recipe.recipeName}}</div>
+	</div>
+	<div class="recipeImages">
+		<carousel interval="5000">
+			<slide ng-repeat="image in recipe.recipeImages" active="image.active">
+				<div class="recipeImageContainer imageContainer">
+					<img class="image" ng-src="{{image.imageURL}}" />
+				</div>
+			</slide>
+		</carousel>
+	</div>
+	<div class="recipeDetails">
+		<div class="actionButtons" ng-show="editingRecipe">
+			<button ng-click="addingIngredient=true">Add Ingedient</button><br />
+			<button ng-click="saveRecipe()">Save</button>
+		</div>
+		<div class="actionButtons" ng-show="!editingRecipe">
+			<button ng-click="permalink()" style="width:150px" ng-show="modal">Permalink</button>
+			<div dropdown is-open="pdfOpen">
+				<button type="button" class="dropdown-toggle" dropdown-toggle style="width:150px">
+					Download PDF
+				</button>
+				<ul class="dropdown-menu pdf" role="menu" ng-click="$event.stopPropagation()">
+					<li>
+						<div class="pdfProperties">
+							<input type="checkbox" ng-model="pdfIncludePicture" />Include Picture<br />
+							<input type="checkbox" ng-model="pdfIncludeNutrition" />Include Nutritional Info<br />
+							<input type="checkbox" ng-model="pdfIncludeRating" />Include Rating<br />
+							<button type="button" class="pdfGo" ng-click="downloadPDF()">Go</button>
+						</div>
+					</li>
+				</ul>
+			</div>
+			<div dropdown is-open="emailOpen">
+				<button type="button" class="dropdown-toggle" dropdown-toggle style="width:150px">
+					Send Email
+				</button>
+				<ul class="dropdown-menu email" role="menu" ng-click="$event.stopPropagation()">
+					<li>
+						<div class="emailProperties">
+							<div style="width: 50px">To:</div>
+							<input style="width: 100%" type="text" ng-model="emailTo" /><br />
+							<div style="width: 50px">Subject:</div>
+							<input style="width: 100%" type="text" ng-model="emailSubject" /><br />
+							Message:<br /><textarea ng-model="emailMessage" cols="40"></textarea><br />
+							<button type="button" class="emailGo" ng-click="sendEmail()">Go</button>
+						</div>
+					</li>
+				</ul>
+			</div>
+		</div>
+		<strong ng-show="!editingRecipe">{{recipe.recipeName}}<br /></strong>
+		<div ng-show="editingRecipe">
+			Recipe Name: <a ng-click="toggleRecipeNameEdit(true)">{{recipe.recipeName}}</a>
+			<input type="text" ng-show="editingRecipeName" ng-model="recipe.recipeName" ng-blur="toggleRecipeNameEdit(false)" class="form-control" style=" width:250px" />
+		</div>
+		Servings: <strong><span class="clickable" ng-show="!editingServings" ng-click="toggleServingsEdit(true)">{{recipe.numberOfServings}}</span></strong>
+		<input type="number" ng-show="editingServings" ng-model="recipe.numberOfServings" ng-blur="toggleServingsEdit(false)" class="form-control servingsInput" />
+		<div class="nutritionInfo">
+			Calories: {{recipe.totalCalories}}
+			<br />Carbohydrates: {{recipe.totalCarbohydrates}}
+			<br />Fat: {{recipe.totalFat}}
+			<br />Saturated Fat: {{recipe.totalSaturatedFat}}
+			<br />Protein: {{recipe.totalProtein}}
+			<br />Sugars: {{recipe.totalSugars}}
+		</div>
+		<div class="ratings">
+			<div class="sourceRating">
+				Source Rating:
+				<ul ng-show="recipe != null" class="ratingList">
+					<li ng-repeat="rat in [1,2,3,4,5,6,7,8,9,10]">
+						<div ng-switch="recipe.rating >= rat / 2">
+							<img ng-switch-when="true" ng-src="{{rat % 2 == 1 ? 'img/starleft.png' : 'img/starright.png'}}" />
+							<img ng-switch-when="false" ng-src="{{rat % 2 == 1 ? 'img/staremptyleft.png' : 'img/staremptyright.png'}}" />
+						</div>
+					</li>
+				</ul>
+			</div>
+			<div class="userRating" ng-show="isLoggedIn()">
+				User Rating:
+				<ul ng-show="recipe != null" class="ratingList">
+					<li ng-repeat="rat in [1,2,3,4,5,6,7,8,9,10]">
+						<div ng-switch="recipe.userRating >= rat / 2">
+							<img ng-switch-when="true" class="userstar" ng-click="setRating(rat / 2);" ng-src="{{rat % 2 == 1 ? 'img/userstarleft.png' : 'img/userstarright.png'}}" />
+							<img ng-switch-when="false" class="userstar" ng-click="setRating(rat / 2);" ng-src="{{rat % 2 == 1 ? 'img/userstaremptyleft.png' : 'img/userstaremptyright.png'}}" />
+						</div>
+					</li>
+				</ul>
+			</div>
+		</div>
+		<div class="bookmark">
+			<div ng-show="isLoggedIn()">
+				<input type="checkbox" ng-model="recipe.isBookmarked" ng-change="bookmark()" />&nbsp;Bookmark<br />
+			</div>
+		</div>
+	</div>
+	<div class="recipeIngredients">
+		<div ng-repeat="recipeIngredient in recipe.recipeIngredientMeasurements" ng-controller="RecipeIngredientController">
+			<div ng-class="recipeIngredient.alternates.length > 0 ? 'clickable' : ''" ng-click="recipeIngredient.alternates.length > 0 ? pickAlternate() : null">
+				<input type="checkbox" ng-model="recipeIngredient.include" ng-change="updateNutrition()" /> {{recipeIngredient.friendlyQuantity()}} {{recipeIngredient.getActiveIngredient().measurement.measurementName}}
+				<span ng-show="!recipeIngredient.alternating">{{recipeIngredient.getActiveIngredient().ingredient.ingredientName}}</span>
+				<select ng-show="recipeIngredient.alternating" ng-model="recipeIngredient.activeAlternate" ng-options="ing as ing.toIngredientMeasurement.ingredient.ingredientName for ing in recipeIngredient.alternates track by ing.id" ng-blur="hideAlternate()" ng-change="updateQuantitiesNutrition()" class="alternateSelect"></select>
+				<a ng-show="editingRecipe" ng-click="removeIngredient(recipeIngredient)">Remove</a>
+			</div>
+		</div>
+		<br />
+		<p ng-show="!editingRecipe" class="directions">{{recipe.directions}}</p>
+		<textarea ng-show="editingRecipe" ng-model="recipe.Directions" cols="120" class="form-control"></textarea>
+		<br />
+		<div ng-show="isLoggedIn()">
+			<strong>
+				Notes:&nbsp;<a ng-show="!editingNotes" ng-click="editingNotes = true">Edit</a>
+				<a ng-show="editingNotes && !editingRecipe" ng-click="doneEditingNotes()">Update</a>
+			</strong>
+			<div ng-show="recipe.Notes != ''">
+				<p ng-show="!editingNotes" class="notes">{{recipe.Notes}}</p>
+				<textarea ng-show="editingNotes" ng-model="recipe.Notes" cols="120" class="form-control"></textarea>
+				<br />
+			</div>
+		</div>
+		<div ng-show="editingRecipe">
+			Source: <input type="text" ng-model="recipe.Source" typeahead="recipeSource.RecipeSourceName for recipeSource in getRecipeSources() | filter:$viewValue" class="form-control">
+		</div>
+		<div ng-show="!editingRecipe && recipe.recipeSource">
+			<div ng-show="recipe.recipeURL">
+				<a href="{{recipe.recipeURL}}" target="_blank">{{recipe.recipeSource.recipeSourceName}}</a>
+			</div>
+			<div ng-show="!recipe.recipeURL">
+				{{recipe.recipeSource.recipeSourceName}}
+			</div>
+		</div>
+	</div>
+</div>
+<div ng-controller="AddIngredientController" class="addDialog shadowed" ng-show="addingIngredient">
+	Ingredient: <input type="text" ng-model="addedIngredient" typeahead-editable="false" typeahead-min-length="3" typeahead="ingredient as ingredient.IngredientName for ingredient in getIngredients($viewValue)" typeahead-loading="loadingIngredient" class="form-control">
+	<div ng-show="loadingIngredient" class="loadingIngredient shadowed">Retrieving Ingredients...</div>
+	Measurement: <input type="text" ng-model="addedIngredientMeasurement" typeahead-editable="false" typeahead="measurement as measurement.MeasurementName for measurement in getMeasurements($viewValue) | filter:$viewValue" class="form-control">
+	Quantity: <input type="text" ng-model="addedQuantity" class="form-control"><br />
+	<button ng-click="addIngredient()">OK</button><button ng-click="hideAddIngredient()">Cancel</button>
+</div>
+<div class="addDialog shadowed" ng-show="addingImage">
+	<button ng-click="addIngredient()">OK</button><button ng-click="hideAddIngredient()">Cancel</button>
+</div>
