@@ -3,9 +3,9 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 2013
 VisualStudioVersion = 12.0.31101.0
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PaJaMa.ScreenCapture", "PaJaMa.ScreenCapture.csproj", "{D7E64861-9746-45C6-9996-996400B00F70}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PaJaMa.ScreenCapture", "ScreenCapture\PaJaMa.ScreenCapture.csproj", "{D7E64861-9746-45C6-9996-996400B00F70}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PaJaMa.Common", "..\Common\PaJaMa.Common.csproj", "{4C71ADA7-E306-467A-B014-9BD42287DCB1}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PaJaMa.Common", "Common\PaJaMa.Common.csproj", "{4C71ADA7-E306-467A-B014-9BD42287DCB1}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{623C8ABF-BBD5-4942-B941-74E36FA7F24D}"
 	ProjectSection(SolutionItems) = preProject

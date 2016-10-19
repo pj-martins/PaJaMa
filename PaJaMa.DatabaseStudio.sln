@@ -3,11 +3,11 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 2013
 VisualStudioVersion = 12.0.40629.0
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PaJaMa.DatabaseStudio", "PaJaMa.DatabaseStudio.csproj", "{820CB94A-0F66-44A4-ACAE-EEC7AE7D6BA3}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PaJaMa.DatabaseStudio", "DatabaseStudio\PaJaMa.DatabaseStudio.csproj", "{820CB94A-0F66-44A4-ACAE-EEC7AE7D6BA3}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PaJaMa.Common", "..\Common\PaJaMa.Common.csproj", "{4C71ADA7-E306-467A-B014-9BD42287DCB1}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PaJaMa.Common", "Common\PaJaMa.Common.csproj", "{4C71ADA7-E306-467A-B014-9BD42287DCB1}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PaJaMa.WinControls", "..\WinControls\PaJaMa.WinControls.csproj", "{BD3684C1-DD08-441F-9448-CA39006E113A}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PaJaMa.WinControls", "WinControls\PaJaMa.WinControls.csproj", "{BD3684C1-DD08-441F-9448-CA39006E113A}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{D3ED70C2-E548-4AC1-B63C-0CCD697CE73E}"
 EndProject

@@ -3,29 +3,29 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 14
 VisualStudioVersion = 14.0.25123.0
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PaJaMa.Common", "..\Common\PaJaMa.Common.csproj", "{4C71ADA7-E306-467A-B014-9BD42287DCB1}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PaJaMa.Common", "Common\PaJaMa.Common.csproj", "{4C71ADA7-E306-467A-B014-9BD42287DCB1}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PaJaMa.Recipes.Crawler", "Crawler\PaJaMa.Recipes.Crawler.csproj", "{DE57D4EA-72F6-4458-8A39-DFB27FC57D48}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PaJaMa.Recipes.Crawler", "Recipes\Crawler\PaJaMa.Recipes.Crawler.csproj", "{DE57D4EA-72F6-4458-8A39-DFB27FC57D48}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{958BCFC9-8620-4DB4-AB38-5369AB26F3A1}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PaJaMa.Data", "..\Data\PaJaMa.Data.csproj", "{DE4CF9B2-3751-4D1C-950D-01D210D17DDD}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PaJaMa.Data", "Data\PaJaMa.Data.csproj", "{DE4CF9B2-3751-4D1C-950D-01D210D17DDD}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PaJaMa.Web", "..\Web\PaJaMa.Web.csproj", "{11858057-9F8B-4CAA-B4D4-6D6C00EA4FBA}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PaJaMa.Web", "Web\PaJaMa.Web.csproj", "{11858057-9F8B-4CAA-B4D4-6D6C00EA4FBA}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PaJaMa.Recipes.Web.Api", "Web\Api\PaJaMa.Recipes.Web.Api.csproj", "{41DBE37B-675D-4A08-ACA5-1549F34B3B88}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PaJaMa.Recipes.Web.Api", "Recipes\Web\Api\PaJaMa.Recipes.Web.Api.csproj", "{41DBE37B-675D-4A08-ACA5-1549F34B3B88}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PaJaMa.Recipes.Web.Angular", "Web\Angular\PaJaMa.Recipes.Web.Angular.csproj", "{6EB6AFD6-F947-4180-AC24-F59964C2B32A}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PaJaMa.Recipes.Web.Angular", "Recipes\Web\Angular\PaJaMa.Recipes.Web.Angular.csproj", "{6EB6AFD6-F947-4180-AC24-F59964C2B32A}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PaJaMa.Recipes.Web.Angular2", "Web\Angular2\PaJaMa.Recipes.Web.Angular2.csproj", "{FD1B3EB5-4500-44C1-94D2-0778F94CA7D8}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PaJaMa.Recipes.Web.Angular2", "Recipes\Web\Angular2\PaJaMa.Recipes.Web.Angular2.csproj", "{FD1B3EB5-4500-44C1-94D2-0778F94CA7D8}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PaJaMa.Recipes.Model.Dto", "Model\Dto\PaJaMa.Recipes.Model.Dto.csproj", "{2635303C-3970-4107-BF69-DC9635F4575F}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PaJaMa.Recipes.Model.Dto", "Recipes\Model\Dto\PaJaMa.Recipes.Model.Dto.csproj", "{2635303C-3970-4107-BF69-DC9635F4575F}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PaJaMa.Recipes.Model", "Model\PaJaMa.Recipes.Model.csproj", "{3527E786-7F99-48D5-A514-0C2A2930DE55}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PaJaMa.Recipes.Model", "Recipes\Model\PaJaMa.Recipes.Model.csproj", "{3527E786-7F99-48D5-A514-0C2A2930DE55}"
 EndProject
-Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "PaJaMa.Recipes.Web.DotNetCore", "Web\DotNetCore\PaJaMa.Recipes.Web.DotNetCore.xproj", "{B7B28B6C-DF4F-45CA-85B2-E267E5249E13}"
+Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "PaJaMa.Recipes.Web.DotNetCore", "Recipes\Web\DotNetCore\PaJaMa.Recipes.Web.DotNetCore.xproj", "{B7B28B6C-DF4F-45CA-85B2-E267E5249E13}"
 EndProject
-Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "PaJaMa.Recipes.Web.Knockout", "Web\Knockout\PaJaMa.Recipes.Web.Knockout.xproj", "{5D07A490-F67B-4C61-A0A0-EACAAEDAA294}"
+Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "PaJaMa.Recipes.Web.Knockout", "Recipes\Web\Knockout\PaJaMa.Recipes.Web.Knockout.xproj", "{5D07A490-F67B-4C61-A0A0-EACAAEDAA294}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

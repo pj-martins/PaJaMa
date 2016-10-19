@@ -3,9 +3,9 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 14
 VisualStudioVersion = 14.0.25123.0
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PaJaMa.EncryptDecrypt", "PaJaMa.EncryptDecrypt.csproj", "{C2B10662-A641-46CB-B3B7-FD228265059B}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PaJaMa.EncryptDecrypt", "EncryptDecrypt\PaJaMa.EncryptDecrypt.csproj", "{C2B10662-A641-46CB-B3B7-FD228265059B}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PaJaMa.Common", "..\Common\PaJaMa.Common.csproj", "{4C71ADA7-E306-467A-B014-9BD42287DCB1}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PaJaMa.Common", "Common\PaJaMa.Common.csproj", "{4C71ADA7-E306-467A-B014-9BD42287DCB1}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

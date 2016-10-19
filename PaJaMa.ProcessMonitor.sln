@@ -3,11 +3,11 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 2013
 VisualStudioVersion = 12.0.31101.0
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PaJaMa.ProcessMonitor", "PaJaMa.ProcessMonitor.csproj", "{E853534B-198D-4F41-B475-78245EE81FC6}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PaJaMa.ProcessMonitor", "ProcessMonitor\PaJaMa.ProcessMonitor.csproj", "{E853534B-198D-4F41-B475-78245EE81FC6}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PaJaMa.Common", "..\Common\PaJaMa.Common.csproj", "{4C71ADA7-E306-467A-B014-9BD42287DCB1}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PaJaMa.Common", "Common\PaJaMa.Common.csproj", "{4C71ADA7-E306-467A-B014-9BD42287DCB1}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PaJaMa.WinControls", "..\WinControls\PaJaMa.WinControls.csproj", "{BD3684C1-DD08-441F-9448-CA39006E113A}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PaJaMa.WinControls", "WinControls\PaJaMa.WinControls.csproj", "{BD3684C1-DD08-441F-9448-CA39006E113A}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
