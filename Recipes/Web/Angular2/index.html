@@ -2,8 +2,9 @@
 <head>
     <title>Recipes</title>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link rel="stylesheet" href="styles.css">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="src/styles/styles.css">
     <script src="node_modules/core-js/client/shim.min.js"></script>
     <script src="node_modules/zone.js/dist/zone.js"></script>
     <script src="node_modules/reflect-metadata/Reflect.js"></script>
@@ -12,9 +13,9 @@
     <script>
       System.import('app').catch(function(err){ console.error(err); });
     </script>
+    <base href="/">
 </head>
 <body>
     <recipes-app>Loading...</recipes-app>
-    <base href="/">
 </body>
 </html>

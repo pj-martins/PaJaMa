@@ -30,7 +30,7 @@ namespace PaJaMa.Recipes.Model.Entities.Base
         public virtual float? Quantity { get; set; }
         public virtual bool IsOptional { get; set; }
     
-        public virtual IngredientMeasurement IngredientMeasurement { get; set; }
-        public virtual Recipe Recipe { get; set; }
+        public IngredientMeasurement IngredientMeasurement { get; set; }
+        public Recipe Recipe { get; set; }
     }
 }

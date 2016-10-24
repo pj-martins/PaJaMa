@@ -66,6 +66,7 @@ using PaJaMa.Recipes.Model.Dto;
 	public <#=code.Escape(container)#>Base()
         : base("name=<#=container.Name#>")
     {
+		Database.SetInitializer<<#=code.Escape(container)#>>(null);
 <#
 if (!loader.IsLazyLoadingEnabled(container))
 {
@@ -88,7 +89,7 @@ foreach (var entitySet in container.BaseEntitySets.OfType<EntitySet>())
 #>
 	}
 
-	protected override void createMaps(IMapperConfiguration cfg)
+	protected override void createMaps(IMapperConfigurationExpression cfg)
 	{
 <#
 	foreach (var entitySet in container.BaseEntitySets.OfType<EntitySet>())

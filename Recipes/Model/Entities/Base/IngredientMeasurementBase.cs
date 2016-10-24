@@ -44,10 +44,10 @@ namespace PaJaMa.Recipes.Model.Entities.Base
         public virtual float? SugarsPer { get; set; }
         public virtual float? ProteinPer { get; set; }
     
-        public virtual Ingredient Ingredient { get; set; }
-        public virtual Measurement Measurement { get; set; }
-        public virtual ICollection<IngredientMeasurementAlternate> FromIngredientMeasurementAlternates { get; set; }
-        public virtual ICollection<IngredientMeasurementAlternate> ToIngredientMeasurementAlternates { get; set; }
-        public virtual ICollection<RecipeIngredientMeasurement> RecipeIngredientMeasurements { get; set; }
+        public Ingredient Ingredient { get; set; }
+        public Measurement Measurement { get; set; }
+        public ICollection<IngredientMeasurementAlternate> FromIngredientMeasurementAlternates { get; set; }
+        public ICollection<IngredientMeasurementAlternate> ToIngredientMeasurementAlternates { get; set; }
+        public ICollection<RecipeIngredientMeasurement> RecipeIngredientMeasurements { get; set; }
     }
 }

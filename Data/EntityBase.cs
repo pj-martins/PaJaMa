@@ -28,8 +28,7 @@ namespace PaJaMa.Data
 			get { return (int)this.GetType().GetProperty(myKeyName).GetValue(this); }
 		}
 
-		public string ModifiedBy { get; set; }
-		public DateTime? ModifiedDT { get; set; }
+        public virtual List<ValidationError> Validate() { return new List<ValidationError>(); }
 
         public virtual void OnEntitySaved(DbContextBase context, IEntityDto dto) { }
 		public virtual IEntity CloneEntity(DbContextBase context)
@@ -59,14 +58,6 @@ namespace PaJaMa.Data
 
         public virtual void MapFromDto(DbContextBase context, IEntityDto dto)
         {
-            if (this.ID != 0)
-            {
-                string dateFormat = "MMddyyyyHHmmss";
-                if (dto.ModifiedDT.GetValueOrDefault().ToString(dateFormat) != this.ModifiedDT.GetValueOrDefault().ToString(dateFormat))
-                    throw new Exception("Item has been changed by " + this.ModifiedBy + " on " + this.ModifiedDT.GetValueOrDefault().ToString()
-                        + ". Please refresh the page.");
-            }
-
             var scalarProps = dto.GetType().GetProperties(BindingFlags.Public | BindingFlags.Instance)
                     .Where(p => p.PropertyType.GetInterface(typeof(IEntityDto).Name) == null
                         && !p.PropertyType.GetGenericArguments().Any(ga => ga.GetInterface(typeof(IEntityDto).Name) != null)
@@ -228,8 +219,5 @@ namespace PaJaMa.Data
     public abstract class EntityDtoBase : IEntityDto
     {
         public int ID { get; set; }
-
-        public string ModifiedBy { get; set; }
-        public DateTime? ModifiedDT { get; set; }
     }
 }

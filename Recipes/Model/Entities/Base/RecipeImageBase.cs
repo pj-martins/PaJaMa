@@ -29,7 +29,7 @@ namespace PaJaMa.Recipes.Model.Entities.Base
         public virtual string LocalImagePath { get; set; }
         public virtual int Sequence { get; set; }
     
-        public virtual Recipe Recipe { get; set; }
+        public Recipe Recipe { get; set; }
     
     	public override string ToString()
     	{

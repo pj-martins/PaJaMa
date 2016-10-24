@@ -117,7 +117,9 @@ namespace PaJaMa.Recipes.Web.Api.Repository
 				.Take(numberOfRecipes)
 				.Select(r => r.RecipeID).ToArray();
 
-			return context.Recipes.Where(r => ids.Contains(r.RecipeID)).ProjectTo<RecipeCoverDto>(context.MapperConfig);
+			return context.Recipes
+                .Where(r => ids.Contains(r.RecipeID))
+                .ProjectTo<RecipeCoverDto>(context.MapperConfig);
 		}
 	}
 }

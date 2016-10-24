@@ -6,12 +6,13 @@ using System.Threading.Tasks;
 
 namespace PaJaMa.Recipes.Model.Dto
 {
+    // flatter version for smaller json payload
 	public class RecipeCoverDto : PaJaMa.Data.EntityDtoBase
 	{
 		public string RecipeName { get; set; }
 		public float? Rating { get; set; }
 		public ICollection<string> Ingredients { get; set; }
-		public string ImageURL { get; set; }
+		public ICollection<string> ImageURLs { get; set; }
 		public string RecipeURL { get; set; }
 		public int? RecipeSourceID { get; set; }
 	}

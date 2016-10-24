@@ -31,7 +31,7 @@ namespace PaJaMa.Recipes.Model.Entities.Base
         public virtual int MeasurementID { get; set; }
         public virtual string MeasurementName { get; set; }
     
-        public virtual ICollection<IngredientMeasurement> IngredientMeasurements { get; set; }
+        public ICollection<IngredientMeasurement> IngredientMeasurements { get; set; }
     
     	public override string ToString()
     	{

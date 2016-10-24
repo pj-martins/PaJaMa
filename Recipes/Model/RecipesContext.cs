@@ -21,12 +21,12 @@ namespace PaJaMa.Recipes.Model
 		{
 		}
 
-        protected override void createMaps(IMapperConfiguration cfg)
+        protected override void createMaps(IMapperConfigurationExpression cfg)
         {
             base.createMaps(cfg);
             cfg.CreateMap<Recipe, RecipeCoverDto>()
                 .ForMember(x => x.ID, y => y.MapFrom(r => r.RecipeID))
-                .ForMember(x => x.ImageURL, y => y.MapFrom(r => r.RecipeImages.OrderByDescending(ri => ri.Sequence).Select(i => i.ImageURL).FirstOrDefault()))
+                .ForMember(x => x.ImageURLs, y => y.MapFrom(r => r.RecipeImages.OrderByDescending(ri => ri.Sequence).Select(i => i.ImageURL)))
                 .ForMember(x => x.Ingredients, y => y.MapFrom(r => r.RecipeIngredientMeasurements.Select(rim =>
                     rim.IngredientMeasurement.Ingredient.IngredientName)))
                 ;

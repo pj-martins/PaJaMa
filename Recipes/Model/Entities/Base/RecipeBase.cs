@@ -42,10 +42,10 @@ namespace PaJaMa.Recipes.Model.Entities.Base
         public virtual string RecipeURL { get; set; }
         public virtual int? RecipeSourceID { get; set; }
     
-        public virtual RecipeSource RecipeSource { get; set; }
-        public virtual ICollection<RecipeImage> RecipeImages { get; set; }
-        public virtual ICollection<RecipeIngredientMeasurement> RecipeIngredientMeasurements { get; set; }
-        public virtual ICollection<UserRecipe> UserRecipes { get; set; }
+        public RecipeSource RecipeSource { get; set; }
+        public ICollection<RecipeImage> RecipeImages { get; set; }
+        public ICollection<RecipeIngredientMeasurement> RecipeIngredientMeasurements { get; set; }
+        public ICollection<UserRecipe> UserRecipes { get; set; }
     
     	public override string ToString()
     	{

@@ -344,7 +344,7 @@ public class CodeStringGenerator
         return string.Format(
             CultureInfo.InvariantCulture,
             "{0} {1} {2} {{ {3}get; {4}set; }}",
-            AccessibilityAndVirtual(Accessibility.ForNavigationProperty(navProp)),
+            Accessibility.ForNavigationProperty(navProp),
             navProp.ToEndMember.RelationshipMultiplicity == RelationshipMultiplicity.Many ? ("ICollection<" + endType + ">") : endType,
             _code.Escape(navProp),
             _code.SpaceAfter(Accessibility.ForGetter(navProp)),

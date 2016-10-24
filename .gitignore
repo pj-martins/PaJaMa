@@ -61,3 +61,5 @@ Recipes/Web/Angular2/app/recipes/recipes.component.js
 Recipes/Web/Angular2/app/services/entityfactory.service.js
 Recipes/Web/DotNetCore/Data/Migrations/00000000000000_CreateIdentitySchema.cs
 Recipes/Web/DotNetCore/Data/Migrations/00000000000000_CreateIdentitySchema.Designer.cs
+Packages
+/.vs

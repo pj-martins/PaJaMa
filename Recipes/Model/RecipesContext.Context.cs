@@ -26,9 +26,10 @@ namespace PaJaMa.Recipes.Model
     	public RecipesContextBase()
             : base("name=RecipesContext")
         {
+    		Database.SetInitializer<RecipesContext>(null);
     	}
     
-    	protected override void createMaps(IMapperConfiguration cfg)
+    	protected override void createMaps(IMapperConfigurationExpression cfg)
     	{
     		Mappings.Add(typeof(Ingredient), cfg.CreateMap<Ingredient, IngredientDto>().ForMember(x => x.ID, y => y.MapFrom(e => e.IngredientID)));
     		Mappings.Add(typeof(IngredientMeasurement), cfg.CreateMap<IngredientMeasurement, IngredientMeasurementDto>().ForMember(x => x.ID, y => y.MapFrom(e => e.IngredientMeasurementID)));

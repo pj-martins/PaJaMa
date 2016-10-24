@@ -29,7 +29,7 @@ namespace PaJaMa.Recipes.Model.Entities.Base
         public virtual int ToIngredientMeasurementID { get; set; }
         public virtual float? Multiplier { get; set; }
     
-        public virtual IngredientMeasurement FromIngredientMeasurement { get; set; }
-        public virtual IngredientMeasurement ToIngredientMeasurement { get; set; }
+        public IngredientMeasurement FromIngredientMeasurement { get; set; }
+        public IngredientMeasurement ToIngredientMeasurement { get; set; }
     }
 }

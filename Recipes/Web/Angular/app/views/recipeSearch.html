@@ -71,7 +71,7 @@
                     <li ng-repeat="rec in searchResults" style="height:250px; cursor:pointer" ng-click="openRecipe(rec);">
                         <div tooltip-html-unsafe="{{rec.ingredients.join('<br />')}}" tooltip-placement="bottom">
                             <div class="thumbnailContainer imageContainer">
-                                <img class="image" ng-src="{{rec.imageURL}}" /><br />
+                                <img class="image" ng-src="{{rec.imageURLs[0]}}" /><br />
                             </div>
                             <div style="width:220px">{{rec.recipeName}}</div>
                             <ul class="ratingList">

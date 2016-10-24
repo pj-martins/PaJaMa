@@ -32,7 +32,7 @@ namespace PaJaMa.Recipes.Model.Entities.Base
         public virtual string UserName { get; set; }
         public virtual string Password { get; set; }
     
-        public virtual ICollection<UserRecipe> UserRecipes { get; set; }
+        public ICollection<UserRecipe> UserRecipes { get; set; }
     
     	public override string ToString()
     	{

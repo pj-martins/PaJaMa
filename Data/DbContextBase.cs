@@ -31,7 +31,7 @@ namespace PaJaMa.Data
             MapperConfig = new MapperConfiguration(createMaps);
         }
 
-        protected abstract void createMaps(IMapperConfiguration cfg);
+        protected abstract void createMaps(IMapperConfigurationExpression cfg);
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
@@ -51,11 +51,7 @@ namespace PaJaMa.Data
 			foreach (ObjectStateEntry entry in changedEntries)
 			{
 				IEntity entity = entry.Entity as IEntity;
-				if (entity != null)
-				{
-					entity.ModifiedBy = string.IsNullOrEmpty(this.ModifiedBy) ? "NOUSER" : this.ModifiedBy;
-					entity.ModifiedDT = DateTime.Now;
-				}
+                results.AddRange(entity.Validate());
 			}
 
 			if (results.Any())

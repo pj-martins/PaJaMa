@@ -32,8 +32,8 @@ namespace PaJaMa.Recipes.Model.Entities.Base
         public virtual string Notes { get; set; }
         public virtual bool AllowEdit { get; set; }
     
-        public virtual Recipe Recipe { get; set; }
-        public virtual User User { get; set; }
+        public Recipe Recipe { get; set; }
+        public User User { get; set; }
     
     	public override string ToString()
     	{
