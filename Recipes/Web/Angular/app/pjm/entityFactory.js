@@ -9,7 +9,7 @@
 			var url = '';
 			if (args && args.baseUrl)
 				url += args.baseUrl;
-			url += serviceBase + (args && args.dynamic ? 'Dynamic/' : '') + entityType + (args && args.includeCount ? '/entitiesOData' : '/entities');
+			url += serviceBase + entityType + (args && args.includeCount ? '/entitiesOData' : '/entities');
 			var firstIn = true;
 			
 			if (args && args.params) {
@@ -54,7 +54,7 @@
 			var url = '';
 			if (args && args.baseUrl)
 				url += args.baseUrl;
-			url += serviceBase + (args && args.dynamic ? 'Dynamic/' : '') + entityType + '/entity/' + id;
+			url += serviceBase + entityType + '/entity/' + id;
 			return url;
 		};
 
@@ -73,7 +73,7 @@
 			var url = '';
 			if (args && args.baseUrl)
 				url += args.baseUrl;
-			return $http.post(url + serviceBase + (args && args.dynamic ? 'Dynamic/' : '') + entityType + '/postEntity', entity).then(function (results) {
+			return $http.post(url + serviceBase + entityType + '/postEntity', entity).then(function (results) {
 				entity.id = results.data.id;
 				return results.data;
 			});
@@ -83,13 +83,13 @@
 			var url = '';
 			if (args && args.baseUrl)
 				url += args.baseUrl;
-			return $http.put(url + serviceBase + (args && args.dynamic ? 'Dynamic/' : '') + entityType + '/putEntity/' + entity.id, entity).then(function (status) {
+			return $http.put(url + serviceBase + entityType + '/putEntity/' + entity.id, entity).then(function (status) {
 				return status.data;
 			});
 		};
 
 		factory.deleteEntity = function (entityType, id, args) {
-			return $http.delete(serviceBase + (args && args.dynamic ? 'Dynamic/' : '') + entityType + '/deleteEntity/' + id).then(function (status) {
+			return $http.delete(serviceBase + entityType + '/deleteEntity/' + id).then(function (status) {
 				return status.data;
 			});
 		};

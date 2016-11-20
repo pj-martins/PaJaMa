@@ -21,9 +21,9 @@ namespace PaJaMa.Recipes.Model.Entities
             get { return RecipeSource == null ? string.Empty : RecipeSource.RecipeSourceName; }
         }
 
-        public override void OnEntitySaved(DbContextBase context, IEntityDto dto)
-        {
-            base.OnEntitySaved(context, dto);
+		public override void OnEntitySaved(DbContextBase context)
+		{
+            base.OnEntitySaved(context);
 
             var db = context as RecipesContext;
             var recSearch = db.RecipeSearches.FirstOrDefault(rs => rs.RecipeID == RecipeID);

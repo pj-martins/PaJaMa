@@ -1,5 +1,5 @@
 ﻿(function () {
-	var RecipeIngredientController = function ($scope, $http) {
+	var RecipeIngredientController = function ($scope, $http, recipeFactory) {
 		$scope.recipeIngredient.alternating = false;
 		$scope.recipeIngredient.originalQuantity = $scope.recipeIngredient.quantity;
 		$scope.recipeIngredient.include = !$scope.recipeIngredient.exclude;
@@ -13,13 +13,13 @@
 		};
 
 		$scope.updateQuantitiesNutrition = function () {
-			$scope.recipe.updateRecipeIngredientQuantities();
-			$scope.recipe.updateNutritionInfo();
+		    recipeFactory.updateRecipeIngredientQuantities($scope.recipe);
+		    recipeFactory.updateNutritionInfo($scope.recipe);
 		};
 
 		$scope.updateNutrition = function () {
 			$scope.recipeIngredient.exclude = !$scope.recipeIngredient.include;
-			$scope.recipe.updateNutritionInfo();
+			recipeFactory.updateNutritionInfo($scope.recipe);
 		};
 	};
 

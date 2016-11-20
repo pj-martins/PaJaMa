@@ -9,10 +9,11 @@
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>PaJaMa.Recipes.Model</RootNamespace>
     <AssemblyName>PaJaMa.Recipes.Model</AssemblyName>
-    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <NuGetPackageImportStamp>
     </NuGetPackageImportStamp>
+    <TargetFrameworkProfile />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -50,10 +51,6 @@
     <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="AutoMapper, Version=5.1.1.0, Culture=neutral, PublicKeyToken=be96cd2c38ef1005, processorArchitecture=MSIL">
-      <HintPath>..\..\packages\AutoMapper.5.1.1\lib\net45\AutoMapper.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
     <Reference Include="EntityFramework, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
       <HintPath>..\..\packages\EntityFramework.6.1.3\lib\net45\EntityFramework.dll</HintPath>
       <Private>True</Private>
@@ -163,10 +160,6 @@
     <ProjectReference Include="..\..\Data\PaJaMa.Data.csproj">
       <Project>{de4cf9b2-3751-4d1c-950d-01d210d17ddd}</Project>
       <Name>PaJaMa.Data</Name>
-    </ProjectReference>
-    <ProjectReference Include="Dto\PaJaMa.Recipes.Model.Dto.csproj">
-      <Project>{2635303c-3970-4107-bf69-dc9635f4575f}</Project>
-      <Name>PaJaMa.Recipes.Model.Dto</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>

@@ -1,7 +1,5 @@
-﻿using AutoMapper;
-using PaJaMa.Common;
+﻿using PaJaMa.Common;
 using PaJaMa.Data;
-using PaJaMa.Recipes.Model.Dto;
 using PaJaMa.Recipes.Model.Entities;
 using System;
 using System.Collections.Generic;
@@ -21,22 +19,7 @@ namespace PaJaMa.Recipes.Model
 		{
 		}
 
-        protected override void createMaps(IMapperConfigurationExpression cfg)
-        {
-            base.createMaps(cfg);
-            cfg.CreateMap<Recipe, RecipeCoverDto>()
-                .ForMember(x => x.ID, y => y.MapFrom(r => r.RecipeID))
-                .ForMember(x => x.ImageURLs, y => y.MapFrom(r => r.RecipeImages.OrderByDescending(ri => ri.Sequence).Select(i => i.ImageURL)))
-                .ForMember(x => x.Ingredients, y => y.MapFrom(r => r.RecipeIngredientMeasurements.Select(rim =>
-                    rim.IngredientMeasurement.Ingredient.IngredientName)))
-                ;
-
-            var mapping = Mappings[typeof(RecipeIngredientMeasurement)] as IMappingExpression<RecipeIngredientMeasurement, RecipeIngredientMeasurementDto>;
-            mapping.ForMember(ri => ri.Alternates, c => c.MapFrom(ri => from ria in ri.IngredientMeasurement.FromIngredientMeasurementAlternates
-                                                                        select ria));
-        }
-
-        protected override void OnModelCreating(DbModelBuilder modelBuilder)
+		protected override void OnModelCreating(DbModelBuilder modelBuilder)
 		{
 			base.OnModelCreating(modelBuilder);
 

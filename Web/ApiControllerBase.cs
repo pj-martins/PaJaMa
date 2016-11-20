@@ -1,5 +1,6 @@
 ﻿using Newtonsoft.Json.Linq;
 using PaJaMa.Data;
+using PaJaMa.Dto;
 using System;
 using System.Collections.Generic;
 using System.Data.Entity;
@@ -15,10 +16,10 @@ using System.Web.Http.OData.Query;
 
 namespace PaJaMa.Web
 {
-	public class ApiControllerBase<TDbContext, TEntity, TEntityDto> : ApiControllerBase
+	public class ApiControllerBase<TDtoMapper, TEntity, TEntityDto> : ApiControllerBase
 		where TEntity : class, IEntity
 		where TEntityDto : class, IEntityDto
-		where TDbContext : DbContextBase
+		where TDtoMapper : DtoMapperBase
 	{
 		public ApiControllerBase()
 			: base()
@@ -26,9 +27,9 @@ namespace PaJaMa.Web
 			repository = getNewRepository();
 		}
 
-		protected virtual Repository<TDbContext, TEntity, TEntityDto> getNewRepository()
+		protected virtual Repository<TDtoMapper, TEntity, TEntityDto> getNewRepository()
 		{
-			return new Repository<TDbContext, TEntity, TEntityDto>();
+			return new Repository<TDtoMapper, TEntity, TEntityDto>();
 		}
 
 		public int? GetUserId()

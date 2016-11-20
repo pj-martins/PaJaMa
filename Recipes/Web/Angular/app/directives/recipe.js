@@ -16,7 +16,7 @@
 				$scope.pdfIncludeRating = true;
 
 				$scope.emailOpen = false;
-				$scope.emailTo = 'pj_martins@hotmail.com';
+				$scope.emailTo = 'pj_martins@outlook.com';
 				$scope.emailSubject = 'test';
 				$scope.emailMessage = 'test';
 

@@ -1,6 +1,4 @@
-﻿using AutoMapper;
-using AutoMapper.Mappers;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Data.Entity;
@@ -19,24 +17,16 @@ namespace PaJaMa.Data
 	public abstract class DbContextBase : DbContext
 	{
 		public string ModifiedBy { get; set; }
-        public MapperConfiguration MapperConfig { get; private set; }
-        public Dictionary<Type, object> Mappings { get; private set; }
-
-        public List<Type> AllowedDynamicTypes { get; private set; }
-        public DbContextBase(string nameOrConnectionString)
+		public DbContextBase(string nameOrConnectionString)
 			: base(nameOrConnectionString)
 		{
-            Mappings = new Dictionary<Type, object>();
-            AllowedDynamicTypes = new List<Type>();
-            MapperConfig = new MapperConfiguration(createMaps);
-        }
 
-        protected abstract void createMaps(IMapperConfigurationExpression cfg);
+		}
 
-        protected override void OnModelCreating(DbModelBuilder modelBuilder)
-        {
-            modelBuilder.Conventions.Remove<PluralizingTableNameConvention>();
-        }
+		protected override void OnModelCreating(DbModelBuilder modelBuilder)
+		{
+			modelBuilder.Conventions.Remove<PluralizingTableNameConvention>();
+		}
 
 		public List<ObjectStateEntry> GetChangedEntries()
 		{
@@ -51,7 +41,7 @@ namespace PaJaMa.Data
 			foreach (ObjectStateEntry entry in changedEntries)
 			{
 				IEntity entity = entry.Entity as IEntity;
-                results.AddRange(entity.Validate());
+				results.AddRange(entity.Validate());
 			}
 
 			if (results.Any())
@@ -88,28 +78,28 @@ namespace PaJaMa.Data
 			return saved;
 		}
 
-        public virtual TEntity GetEntity<TEntity>(int id)
-            where TEntity : class, IEntity
-        {
-            // since we're using generics, we have to dynamically create our expression to filter by entity's key field name
-            var keyFieldName = typeof(TEntity).GetProperties().First(p => p.GetCustomAttributes(typeof(KeyAttribute)).Any()).Name;
+		public virtual TEntity GetEntity<TEntity>(int id)
+			where TEntity : class, IEntity
+		{
+			// since we're using generics, we have to dynamically create our expression to filter by entity's key field name
+			var keyFieldName = typeof(TEntity).GetProperties().First(p => p.GetCustomAttributes(typeof(KeyAttribute)).Any()).Name;
 
-            // specify the entity's table name to be queries against (... from {0})
-            var entityParam = Expression.Parameter(typeof(TEntity));
+			// specify the entity's table name to be queries against (... from {0})
+			var entityParam = Expression.Parameter(typeof(TEntity));
 
-            var lambda = Expression.Lambda<Func<TEntity, bool>>(
-                // specify the operator
-                Expression.Equal(
-                // specify field to query against, in this case the key field on the entity's attribute
-                Expression.Property(entityParam, keyFieldName),
-                // specify the value to query against
-                Expression.Constant(id)),
-                entityParam
-                );
+			var lambda = Expression.Lambda<Func<TEntity, bool>>(
+				// specify the operator
+				Expression.Equal(
+				// specify field to query against, in this case the key field on the entity's attribute
+				Expression.Property(entityParam, keyFieldName),
+				// specify the value to query against
+				Expression.Constant(id)),
+				entityParam
+				);
 
-            // run the query
-            var dbSet = Set<TEntity>().AsQueryable();
-            return dbSet.SingleOrDefault(lambda);
-        }
-    }
+			// run the query
+			var dbSet = Set<TEntity>().AsQueryable();
+			return dbSet.SingleOrDefault(lambda);
+		}
+	}
 }

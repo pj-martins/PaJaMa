@@ -19,13 +19,15 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PaJaMa.Recipes.Web.Angular"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PaJaMa.Recipes.Web.Angular2", "Recipes\Web\Angular2\PaJaMa.Recipes.Web.Angular2.csproj", "{FD1B3EB5-4500-44C1-94D2-0778F94CA7D8}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PaJaMa.Recipes.Model.Dto", "Recipes\Model\Dto\PaJaMa.Recipes.Model.Dto.csproj", "{2635303C-3970-4107-BF69-DC9635F4575F}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PaJaMa.Recipes.Model", "Recipes\Model\PaJaMa.Recipes.Model.csproj", "{3527E786-7F99-48D5-A514-0C2A2930DE55}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PaJaMa.Recipes.Web.Knockout", "Recipes\Web\Knockout\PaJaMa.Recipes.Web.Knockout.csproj", "{09073FC4-AA8E-4BB1-8845-67A976DDEF75}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PaJaMa.Recipes.Web.Mvc", "Recipes\Web\Mvc\PaJaMa.Recipes.Web.Mvc.csproj", "{09C4AA4A-F98E-4DBB-9D14-49E2D57C092C}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PaJaMa.Recipes.Dto", "Recipes\Dto\PaJaMa.Recipes.Dto.csproj", "{24447D8A-21FD-4799-A5E2-FBFAC6CA8243}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PaJaMa.Dto", "Dto\PaJaMa.Dto.csproj", "{92961B8C-2E52-460E-863D-ACC06AB7AC06}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -85,14 +87,6 @@ Global
 		{FD1B3EB5-4500-44C1-94D2-0778F94CA7D8}.Release|Any CPU.Build.0 = Release|Any CPU
 		{FD1B3EB5-4500-44C1-94D2-0778F94CA7D8}.Release|x86.ActiveCfg = Release|Any CPU
 		{FD1B3EB5-4500-44C1-94D2-0778F94CA7D8}.Release|x86.Build.0 = Release|Any CPU
-		{2635303C-3970-4107-BF69-DC9635F4575F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{2635303C-3970-4107-BF69-DC9635F4575F}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{2635303C-3970-4107-BF69-DC9635F4575F}.Debug|x86.ActiveCfg = Debug|Any CPU
-		{2635303C-3970-4107-BF69-DC9635F4575F}.Debug|x86.Build.0 = Debug|Any CPU
-		{2635303C-3970-4107-BF69-DC9635F4575F}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{2635303C-3970-4107-BF69-DC9635F4575F}.Release|Any CPU.Build.0 = Release|Any CPU
-		{2635303C-3970-4107-BF69-DC9635F4575F}.Release|x86.ActiveCfg = Release|Any CPU
-		{2635303C-3970-4107-BF69-DC9635F4575F}.Release|x86.Build.0 = Release|Any CPU
 		{3527E786-7F99-48D5-A514-0C2A2930DE55}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{3527E786-7F99-48D5-A514-0C2A2930DE55}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{3527E786-7F99-48D5-A514-0C2A2930DE55}.Debug|x86.ActiveCfg = Debug|Any CPU
@@ -117,6 +111,22 @@ Global
 		{09C4AA4A-F98E-4DBB-9D14-49E2D57C092C}.Release|Any CPU.Build.0 = Release|Any CPU
 		{09C4AA4A-F98E-4DBB-9D14-49E2D57C092C}.Release|x86.ActiveCfg = Release|Any CPU
 		{09C4AA4A-F98E-4DBB-9D14-49E2D57C092C}.Release|x86.Build.0 = Release|Any CPU
+		{24447D8A-21FD-4799-A5E2-FBFAC6CA8243}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{24447D8A-21FD-4799-A5E2-FBFAC6CA8243}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{24447D8A-21FD-4799-A5E2-FBFAC6CA8243}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{24447D8A-21FD-4799-A5E2-FBFAC6CA8243}.Debug|x86.Build.0 = Debug|Any CPU
+		{24447D8A-21FD-4799-A5E2-FBFAC6CA8243}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{24447D8A-21FD-4799-A5E2-FBFAC6CA8243}.Release|Any CPU.Build.0 = Release|Any CPU
+		{24447D8A-21FD-4799-A5E2-FBFAC6CA8243}.Release|x86.ActiveCfg = Release|Any CPU
+		{24447D8A-21FD-4799-A5E2-FBFAC6CA8243}.Release|x86.Build.0 = Release|Any CPU
+		{92961B8C-2E52-460E-863D-ACC06AB7AC06}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{92961B8C-2E52-460E-863D-ACC06AB7AC06}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{92961B8C-2E52-460E-863D-ACC06AB7AC06}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{92961B8C-2E52-460E-863D-ACC06AB7AC06}.Debug|x86.Build.0 = Debug|Any CPU
+		{92961B8C-2E52-460E-863D-ACC06AB7AC06}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{92961B8C-2E52-460E-863D-ACC06AB7AC06}.Release|Any CPU.Build.0 = Release|Any CPU
+		{92961B8C-2E52-460E-863D-ACC06AB7AC06}.Release|x86.ActiveCfg = Release|Any CPU
+		{92961B8C-2E52-460E-863D-ACC06AB7AC06}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

@@ -3,6 +3,7 @@ using AutoMapper.QueryableExtensions;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using PaJaMa.Data;
+using PaJaMa.Dto;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
@@ -17,12 +18,13 @@ using System.Web.Http.OData.Query;
 
 namespace PaJaMa.Web
 {
-	public class Repository<TDbContext, TEntity, TEntityDto> : IRepository
+	public class Repository<TDtoMapper, TEntity, TEntityDto> : IRepository
 		where TEntity : class, IEntity
 		where TEntityDto : class, IEntityDto
-		where TDbContext : DbContextBase
+		where TDtoMapper : DtoMapperBase
 	{
-		protected TDbContext context { get; private set; }
+		protected DbContextBase context { get; private set; }
+		protected TDtoMapper mapper { get; private set; }
 
         public Repository()
         {
@@ -31,7 +33,8 @@ namespace PaJaMa.Web
 
         private void createContext()
         {
-            context = Activator.CreateInstance<TDbContext>();
+			mapper = Activator.CreateInstance<TDtoMapper>();
+			context = mapper.GetDbContext();
             context.ModifiedBy = HttpContext.Current.Request.LogonUserIdentity.Name;
         }
 
@@ -46,7 +49,7 @@ namespace PaJaMa.Web
                 throw new UnauthorizedAccessException();
 
             var dbSet = context.Set<TEntity>().AsQueryable();
-            return dbSet.ProjectTo<TEntityDto>(context.MapperConfig);
+            return dbSet.ProjectTo<TEntityDto>(mapper.MapperConfig);
         }
 
         public virtual IQueryable<TEntityDto> GetEntitiesOData(System.Net.Http.HttpRequestMessage request)
@@ -74,8 +77,8 @@ namespace PaJaMa.Web
         public virtual TEntityDto GetEntity(int id)
         {
             var entity = getEntity(id);
-            var mapper = context.MapperConfig.CreateMapper();
-            var dto = mapper.Map<TEntity, TEntityDto>(entity);
+            var mapperInstance = mapper.MapperConfig.CreateMapper();
+            var dto = mapperInstance.Map<TEntity, TEntityDto>(entity);
 
             if (isUnauthorized(AuthorizationType.GetEntity, dto))
                 throw new UnauthorizedAccessException();
@@ -92,10 +95,10 @@ namespace PaJaMa.Web
             try
             {
                 entity = Activator.CreateInstance<TEntity>();
-                entity.MapFromDto(context, dto);
+				dto.MapToEntity(context, entity);
                 context.Set<TEntity>().Add(entity);
                 context.SaveChanges();
-                context.MapperConfig.CreateMapper().Map<TEntity, TEntityDto>(entity, dto);
+                mapper.MapperConfig.CreateMapper().Map<TEntity, TEntityDto>(entity, dto);
             }
             catch (Exception ex)
             {
@@ -124,9 +127,9 @@ namespace PaJaMa.Web
             try
             {
                 entity = getEntity(dto.ID);
-                entity.MapFromDto(context, dto);
+				dto.MapToEntity(context, entity);
                 context.SaveChanges();
-                context.MapperConfig.CreateMapper().Map<TEntity, TEntityDto>(entity, dto);
+                mapper.MapperConfig.CreateMapper().Map<TEntity, TEntityDto>(entity, dto);
             }
             catch (Exception ex)
             {

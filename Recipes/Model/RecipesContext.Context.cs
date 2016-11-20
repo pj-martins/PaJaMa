@@ -15,11 +15,8 @@ namespace PaJaMa.Recipes.Model
     using System.Data.Entity.Infrastructure;
     using System.Data.Entity.ModelConfiguration.Conventions;
     
-    using AutoMapper;
-    
     using PaJaMa.Data;
     using PaJaMa.Recipes.Model.Entities;
-    using PaJaMa.Recipes.Model.Dto;
         
     public partial class RecipesContextBase : DbContextBase
     {
@@ -28,22 +25,6 @@ namespace PaJaMa.Recipes.Model
         {
     		Database.SetInitializer<RecipesContext>(null);
     	}
-    
-    	protected override void createMaps(IMapperConfigurationExpression cfg)
-    	{
-    		Mappings.Add(typeof(Ingredient), cfg.CreateMap<Ingredient, IngredientDto>().ForMember(x => x.ID, y => y.MapFrom(e => e.IngredientID)));
-    		Mappings.Add(typeof(IngredientMeasurement), cfg.CreateMap<IngredientMeasurement, IngredientMeasurementDto>().ForMember(x => x.ID, y => y.MapFrom(e => e.IngredientMeasurementID)));
-    		Mappings.Add(typeof(IngredientMeasurementAlternate), cfg.CreateMap<IngredientMeasurementAlternate, IngredientMeasurementAlternateDto>().ForMember(x => x.ID, y => y.MapFrom(e => e.IngredientMeasurementAlternateID)));
-    		Mappings.Add(typeof(Measurement), cfg.CreateMap<Measurement, MeasurementDto>().ForMember(x => x.ID, y => y.MapFrom(e => e.MeasurementID)));
-    		Mappings.Add(typeof(Recipe), cfg.CreateMap<Recipe, RecipeDto>().ForMember(x => x.ID, y => y.MapFrom(e => e.RecipeID)));
-    		Mappings.Add(typeof(RecipeImage), cfg.CreateMap<RecipeImage, RecipeImageDto>().ForMember(x => x.ID, y => y.MapFrom(e => e.RecipeImageID)));
-    		Mappings.Add(typeof(RecipeIngredientMeasurement), cfg.CreateMap<RecipeIngredientMeasurement, RecipeIngredientMeasurementDto>().ForMember(x => x.ID, y => y.MapFrom(e => e.RecipeIngredientMeasurementID)));
-    		Mappings.Add(typeof(RecipeSource), cfg.CreateMap<RecipeSource, RecipeSourceDto>().ForMember(x => x.ID, y => y.MapFrom(e => e.RecipeSourceID)));
-    		Mappings.Add(typeof(User), cfg.CreateMap<User, UserDto>().ForMember(x => x.ID, y => y.MapFrom(e => e.UserID)));
-    		Mappings.Add(typeof(UserRecipe), cfg.CreateMap<UserRecipe, UserRecipeDto>().ForMember(x => x.ID, y => y.MapFrom(e => e.UserRecipeID)));
-    		Mappings.Add(typeof(RecipeSearch), cfg.CreateMap<RecipeSearch, RecipeSearchDto>().ForMember(x => x.ID, y => y.MapFrom(e => e.RecipeID)));
-    
-        }
     
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {

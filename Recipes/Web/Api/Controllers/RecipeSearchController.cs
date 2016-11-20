@@ -1,7 +1,7 @@
 ﻿using PaJaMa.Recipes.Web.Api.Repository;
 using PaJaMa.Recipes.Model;
 using PaJaMa.Recipes.Model.Entities;
-using PaJaMa.Recipes.Model.Dto;
+using PaJaMa.Recipes.Dto.Entities;
 using PaJaMa.Web;
 using System;
 using System.Linq;
@@ -10,15 +10,16 @@ using System.Net.Http;
 using System.Web.Http;
 using System.Web.Http.Cors;
 using System.Web.Http.OData;
+using PaJaMa.Recipes.Dto;
 
 namespace PaJaMa.Recipes.Web.Api.Controllers
 {
 #if DEBUG
     [System.Web.Http.Cors.EnableCors(origins: "*", headers: "*", methods: "*")]
 #endif
-    public class RecipeSearchController : ApiControllerBase<RecipesContext, Recipe, RecipeCoverDto>
+    public class RecipeSearchController : ApiControllerBase<RecipesDtoMapper, Recipe, RecipeCoverDto>
     {
-        protected override Repository<RecipesContext, Recipe, RecipeCoverDto> getNewRepository()
+        protected override Repository<RecipesDtoMapper, Recipe, RecipeCoverDto> getNewRepository()
         {
             return new RecipeSearchRepository();
         }

@@ -48,6 +48,10 @@
     <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="AutoMapper, Version=5.1.1.0, Culture=neutral, PublicKeyToken=be96cd2c38ef1005, processorArchitecture=MSIL">
+      <HintPath>..\..\..\packages\AutoMapper.5.1.1\lib\net45\AutoMapper.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.ComponentModel.DataAnnotations" />
     <Reference Include="System.Core" />
@@ -61,70 +65,11 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Classes\RecipeDtoHelper.cs" />
-    <Compile Include="Entities\Base64ImageDto.cs" />
-    <Compile Include="Entities\Base\IngredientDtoBase.cs">
-      <DependentUpon>_DtoBase.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Entities\Base\IngredientMeasurementAlternateDtoBase.cs">
-      <DependentUpon>_DtoBase.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Entities\Base\IngredientMeasurementDtoBase.cs">
-      <DependentUpon>_DtoBase.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Entities\Base\MeasurementDtoBase.cs">
-      <DependentUpon>_DtoBase.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Entities\Base\RecipeDtoBase.cs">
-      <DependentUpon>_DtoBase.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Entities\Base\RecipeImageDtoBase.cs">
-      <DependentUpon>_DtoBase.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Entities\Base\RecipeIngredientMeasurementDtoBase.cs">
-      <DependentUpon>_DtoBase.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Entities\Base\RecipeSearchDtoBase.cs">
-      <DependentUpon>_DtoBase.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Entities\Base\RecipeSourceDtoBase.cs">
-      <DependentUpon>_DtoBase.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Entities\Base\UserDtoBase.cs">
-      <DependentUpon>_DtoBase.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Entities\Base\UserRecipeDtoBase.cs">
-      <DependentUpon>_DtoBase.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Entities\Base\_DtoBase.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>_DtoBase.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Entities\IngredientDto.cs" />
-    <Compile Include="Entities\IngredientMeasurementAlternateDto.cs" />
-    <Compile Include="Entities\IngredientMeasurementDto.cs" />
-    <Compile Include="Entities\MeasurementDto.cs" />
-    <Compile Include="Entities\RecipeCoverDto.cs" />
-    <Compile Include="Entities\RecipeDto.cs" />
-    <Compile Include="Entities\RecipeImageDto.cs" />
-    <Compile Include="Entities\RecipeIngredientDto.cs" />
-    <Compile Include="Entities\RecipeIngredientMeasurementDto.cs" />
-    <Compile Include="Entities\RecipeSearchDto.cs" />
-    <Compile Include="Entities\RecipeSourceDto.cs" />
-    <Compile Include="Entities\UserDto.cs" />
-    <Compile Include="Entities\UserRecipeDto.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
     <Service Include="{3259AA49-8AA1-44D3-9025-A0B520596A8C}" />
     <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
-  </ItemGroup>
-  <ItemGroup>
-    <Content Include="Entities\Base\_DtoBase.tt">
-      <Generator>TextTemplatingFileGenerator</Generator>
-      <LastGenOutput>_DtoBase.cs</LastGenOutput>
-    </Content>
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\..\Common\PaJaMa.Common.csproj">
@@ -138,6 +83,7 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />
+    <None Include="packages.config" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

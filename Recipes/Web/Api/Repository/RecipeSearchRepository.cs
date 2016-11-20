@@ -1,7 +1,7 @@
 ﻿using AutoMapper.QueryableExtensions;
 using PaJaMa.Data;
 using PaJaMa.Web;
-using PaJaMa.Recipes.Model.Dto;
+using PaJaMa.Recipes.Dto.Entities;
 using PaJaMa.Recipes.Model.Entities;
 using System;
 using System.Collections.Generic;
@@ -11,10 +11,11 @@ using System.Data.Entity;
 using System.Text;
 using System.Data.SqlClient;
 using PaJaMa.Recipes.Model;
+using PaJaMa.Recipes.Dto;
 
 namespace PaJaMa.Recipes.Web.Api.Repository
 {
-	public class RecipeSearchRepository : Repository<RecipesContext, Recipe, RecipeCoverDto>
+	public class RecipeSearchRepository : Repository<RecipesDtoMapper, Recipe, RecipeCoverDto>
 	{
 		private string foodImagePath
 		{
@@ -100,26 +101,28 @@ namespace PaJaMa.Recipes.Web.Api.Repository
 			// we're doing two database hits, one to get the result count, a second to get the paged results. Since parameters have to be
 			// unique within each database hit, we need to retrieve a new set of parameters for each hit
 
+			var recipesContext = context as RecipesContext;
 			var qryParams = getQueryParameters(includes, excludes, rating, bookmarked, recipeSourceID, picturesOnly);
-			var qry = context.Recipes.SqlQuery(qryParams.Item1, qryParams.Item2);
+			var qry = recipesContext.Recipes.SqlQuery(qryParams.Item1, qryParams.Item2);
 			count = qry.Count();
 
 			qryParams = getQueryParameters(includes, excludes, rating, bookmarked, recipeSourceID, picturesOnly);
-			qry = context.Recipes.SqlQuery(qryParams.Item1, qryParams.Item2);
-			return qry.Skip((page - 1) * pageSize).Take(pageSize).AsQueryable().ProjectTo<RecipeCoverDto>(context.MapperConfig);
+			qry = recipesContext.Recipes.SqlQuery(qryParams.Item1, qryParams.Item2);
+			return qry.Skip((page - 1) * pageSize).Take(pageSize).AsQueryable().ProjectTo<RecipeCoverDto>(mapper.MapperConfig);
 		}
 
 		public IQueryable<RecipeCoverDto> GetRandomRecipes(int numberOfRecipes)
 		{
-			int[] ids = context.Recipes
+			var recipesContext = context as RecipesContext;
+			int[] ids = recipesContext.Recipes
 				.Where(r => r.Rating > 4 && r.RecipeImages.Any())
 				.OrderBy(r => Guid.NewGuid())
 				.Take(numberOfRecipes)
 				.Select(r => r.RecipeID).ToArray();
 
-			return context.Recipes
+			return recipesContext.Recipes
                 .Where(r => ids.Contains(r.RecipeID))
-                .ProjectTo<RecipeCoverDto>(context.MapperConfig);
+                .ProjectTo<RecipeCoverDto>(mapper.MapperConfig);
 		}
 	}
 }

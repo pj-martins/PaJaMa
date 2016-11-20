@@ -55,11 +55,8 @@ using System.Linq;
 <#
 }
 #>
-using AutoMapper;
-
 using PaJaMa.Data;
 using PaJaMa.Recipes.Model.Entities;
-using PaJaMa.Recipes.Model.Dto;
     
 <#=Accessibility.ForType(container)#> partial class <#=code.Escape(container)#>Base : DbContextBase
 {
@@ -88,19 +85,6 @@ foreach (var entitySet in container.BaseEntitySets.OfType<EntitySet>())
 }
 #>
 	}
-
-	protected override void createMaps(IMapperConfigurationExpression cfg)
-	{
-<#
-	foreach (var entitySet in container.BaseEntitySets.OfType<EntitySet>())
-    {
-#>
-		Mappings.Add(typeof(<#=typeMapper.GetTypeName(entitySet.ElementType)#>), cfg.CreateMap<<#=typeMapper.GetTypeName(entitySet.ElementType)#>, <#=typeMapper.GetTypeName(entitySet.ElementType)#>Dto>().ForMember(x => x.ID, y => y.MapFrom(e => e.<#=entitySet.ElementType.KeyMembers.First()#>)));
-<#
-    }
-#>
-
-    }
 
     protected override void OnModelCreating(DbModelBuilder modelBuilder)
     {

@@ -37,7 +37,7 @@
 				$('#loadingDiv').hide();
 			});
 
-			entityFactory.getEntities('RecipeSource', { baseUrl: appSettings.apiUrl, dynamic: true }).then(function (data) {
+			entityFactory.getEntities('recipeSource', { baseUrl: appSettings.apiUrl }).then(function (data) {
 				$scope.recipeSources = data.results;
 			}, function (data, status, headers, config) {
 				alert('error: ' + JSON.stringify(data));
