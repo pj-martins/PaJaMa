@@ -1,5 +1,4 @@
-﻿using AutoMapper.QueryableExtensions;
-using PaJaMa.Data;
+﻿using PaJaMa.Data;
 using PaJaMa.Web;
 using PaJaMa.Recipes.Dto.Entities;
 using PaJaMa.Recipes.Model.Entities;
@@ -20,6 +19,7 @@ namespace PaJaMa.Recipes.Web.Api.Repository
         // automapper generally does the includes automatically but not for sqlite
         protected override Recipe getEntity(int id)
         {
+			var context = mapper.GetDbContext();
             return (context as RecipesContext).Recipes
                 .Include("RecipeImages")
                 .Include("RecipeSource")

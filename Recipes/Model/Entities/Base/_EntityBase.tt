@@ -43,16 +43,6 @@ using System.ComponentModel.DataAnnotations;
     var complexProperties = typeMapper.GetComplexProperties(entity);
 	var navigationProperties = typeMapper.GetNavigationProperties(entity);
     
-	if (navigationProperties.Any())
-	{
-		foreach (var navprop in navigationProperties)
-		{
-#>
-	public virtual bool Save<#=code.Escape(navprop)#> { get { return false; } }
-<#
-		}
-	}
-
     if (propertiesWithDefaultValues.Any() || collectionNavigationProperties.Any() || complexProperties.Any())
     {
 #>

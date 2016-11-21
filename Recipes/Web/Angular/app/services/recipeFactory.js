@@ -15,101 +15,81 @@
 						ri.alternates.splice(0, 0, orig);
 						ri.activeAlternate = orig;
 					}
-
-					ri.friendlyQuantity = function () {
-						return quantityDisplayService.getFriendlyQuantity(this.quantity);
-					};
-					ri.getActiveIngredient = function () {
-						return this.activeAlternate == null ? this.ingredientMeasurement : this.activeAlternate.toIngredientMeasurement;
-					};
 				}
 
-				
+
 				currRecipe.originalNumberOfServings = currRecipe.numberOfServings;
 				factory.updateNutritionInfo(currRecipe);
 				currRecipe.images = [];
 			}
 
-			if (recipeId <= 0) {
-				currRecipe = {
-					recipeName: 'New Recipe',
-					numberOfServings: 4,
-					rating: 0,
-					userRating: 0,
-					recipeImages: [{ imageURL: appSettings.apiUrl + '/api/image/food.png' }]
-				};
-				initRecipe();
-				deferred.resolve(currRecipe);
-			}
-			else {
-			    entityFactory.getEntity('Recipe', recipeId, { baseUrl: appSettings.apiUrl })
-					.then(function (data) {
-						currRecipe = data;
-						initRecipe();
-						deferred.resolve(currRecipe);
-					},
-					function (data) {
-						deferred.reject(data);
-					});
-			}
+			entityFactory.getEntity('Recipe', recipeId, { baseUrl: appSettings.apiUrl })
+				.then(function (data) {
+					currRecipe = data;
+					initRecipe();
+					deferred.resolve(currRecipe);
+				},
+				function (data) {
+					deferred.reject(data);
+				});
 
 			return deferred.promise;
 		};
 
 		factory.updateNutritionInfo = function (recipe) {
-		    recipe.totalCalories = 0;
-		    recipe.totalCarbohydrates = 0;
-		    recipe.totalFat = 0;
-		    recipe.totalSaturatedFat = 0;
-		    recipe.totalProtein = 0;
-		    recipe.totalSugars = 0;
-		    for (var i = 0; i < recipe.recipeIngredientMeasurements.length; i++) {
-		        var ri = recipe.recipeIngredientMeasurements[i];
-		        if (!ri.exclude) {
-		            var activeIngr = ri.activeAlternate == null ? ri.ingredientMeasurement : ri.activeAlternate.toIngredientMeasurement;
-		            recipe.totalCalories += ri.quantity * activeIngr.caloriesPer;
-		            recipe.totalCarbohydrates += ri.quantity * activeIngr.carbohydratesPer;
-		            recipe.totalFat += ri.quantity * activeIngr.fatPer;
-		            recipe.totalSaturatedFat += ri.quantity * activeIngr.saturatedFatPer;
-		            recipe.totalProtein += ri.quantity * activeIngr.proteinPer;
-		            recipe.totalSugars += ri.quantity * activeIngr.sugarsPer;
-		        }
-		    }
-		    if (recipe.numberOfServings != 0) {
-		        recipe.totalCalories /= recipe.numberOfServings;
-		        recipe.totalCarbohydrates /= recipe.numberOfServings;
-		        recipe.totalFat /= recipe.numberOfServings;
-		        recipe.totalSaturatedFat /= recipe.numberOfServings;
-		        recipe.totalProtein /= recipe.numberOfServings;
-		        recipe.totalSugars /= recipe.numberOfServings;
-		    }
-		    recipe.totalCalories = Math.round(recipe.totalCalories);
-		    recipe.totalCarbohydrates = Math.round(recipe.totalCarbohydrates);
-		    recipe.totalFat = Math.round(recipe.totalFat);
-		    recipe.totalSaturatedFat = Math.round(recipe.totalSaturatedFat);
-		    recipe.totalProtein = Math.round(recipe.totalProtein);
-		    recipe.totalSugars = Math.round(recipe.totalSugars);
+			recipe.totalCalories = 0;
+			recipe.totalCarbohydrates = 0;
+			recipe.totalFat = 0;
+			recipe.totalSaturatedFat = 0;
+			recipe.totalProtein = 0;
+			recipe.totalSugars = 0;
+			for (var i = 0; i < recipe.recipeIngredientMeasurements.length; i++) {
+				var ri = recipe.recipeIngredientMeasurements[i];
+				if (!ri.exclude) {
+					var activeIngr = ri.activeAlternate == null ? ri.ingredientMeasurement : ri.activeAlternate.toIngredientMeasurement;
+					recipe.totalCalories += ri.quantity * activeIngr.caloriesPer;
+					recipe.totalCarbohydrates += ri.quantity * activeIngr.carbohydratesPer;
+					recipe.totalFat += ri.quantity * activeIngr.fatPer;
+					recipe.totalSaturatedFat += ri.quantity * activeIngr.saturatedFatPer;
+					recipe.totalProtein += ri.quantity * activeIngr.proteinPer;
+					recipe.totalSugars += ri.quantity * activeIngr.sugarsPer;
+				}
+			}
+			if (recipe.numberOfServings != 0) {
+				recipe.totalCalories /= recipe.numberOfServings;
+				recipe.totalCarbohydrates /= recipe.numberOfServings;
+				recipe.totalFat /= recipe.numberOfServings;
+				recipe.totalSaturatedFat /= recipe.numberOfServings;
+				recipe.totalProtein /= recipe.numberOfServings;
+				recipe.totalSugars /= recipe.numberOfServings;
+			}
+			recipe.totalCalories = Math.round(recipe.totalCalories);
+			recipe.totalCarbohydrates = Math.round(recipe.totalCarbohydrates);
+			recipe.totalFat = Math.round(recipe.totalFat);
+			recipe.totalSaturatedFat = Math.round(recipe.totalSaturatedFat);
+			recipe.totalProtein = Math.round(recipe.totalProtein);
+			recipe.totalSugars = Math.round(recipe.totalSugars);
 		};
 
 		factory.updateRecipeIngredientQuantities = function (recipe) {
-		    var fraction = recipe.numberOfServings / recipe.originalNumberOfServings;
-		    for (i = 0; i < recipe.recipeIngredientMeasurements.length; i++) {
-		        var ri = recipe.recipeIngredientMeasurements[i];
-		        if (ri.originalQuantity === undefined)
-		            return;
-		        ri.quantity = (ri.activeAlternate == null ? 1 : ri.activeAlternate.multiplier) * ri.originalQuantity * fraction;
-		    }
+			var fraction = recipe.numberOfServings / recipe.originalNumberOfServings;
+			for (i = 0; i < recipe.recipeIngredientMeasurements.length; i++) {
+				var ri = recipe.recipeIngredientMeasurements[i];
+				if (ri.originalQuantity === undefined)
+					return;
+				ri.quantity = (ri.activeAlternate == null ? 1 : ri.activeAlternate.multiplier) * ri.originalQuantity * fraction;
+			}
 		};
 
 		factory.setRating = function (recipe, rating) {
-		    if (recipe.userRating == rating)
-		        rating = 0;
-		    recipe.userRating = rating;
-		    return factory.saveRecipe(recipe);
+			if (recipe.userRating == rating)
+				rating = 0;
+			recipe.userRating = rating;
+			return factory.saveRecipe(recipe);
 		};
 
 		factory.saveRecipe = function (recipe) {
-		    return $http.post(appSettings.apiUrl + '/api/recipe', recipe);
+			return $http.post(appSettings.apiUrl + '/api/recipe', recipe);
 		};
 
 		return factory;

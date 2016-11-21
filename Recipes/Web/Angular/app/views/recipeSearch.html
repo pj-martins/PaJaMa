@@ -70,7 +70,7 @@
                 <div class="resultsText">{{resultsText}}</div>
                 <ul>
                     <li ng-repeat="rec in searchResults" style="height:250px; cursor:pointer" ng-click="openRecipe(rec);">
-                        <div tooltip-html-unsafe="{{rec.ingredients.join('<br />')}}" tooltip-placement="bottom">
+                        <div uib-tooltip-html="getIngredientList(rec)" tooltip-placement="bottom">
                             <div class="thumbnailContainer imageContainer">
                                 <img class="image" ng-src="{{rec.imageURLs[0]}}" /><br />
                             </div>

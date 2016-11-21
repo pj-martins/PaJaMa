@@ -101,7 +101,7 @@ namespace PaJaMa.Recipes.Web.Api.Repository
 			// we're doing two database hits, one to get the result count, a second to get the paged results. Since parameters have to be
 			// unique within each database hit, we need to retrieve a new set of parameters for each hit
 
-			var recipesContext = context as RecipesContext;
+			var recipesContext = mapper.GetDbContext() as RecipesContext;
 			var qryParams = getQueryParameters(includes, excludes, rating, bookmarked, recipeSourceID, picturesOnly);
 			var qry = recipesContext.Recipes.SqlQuery(qryParams.Item1, qryParams.Item2);
 			count = qry.Count();
@@ -113,7 +113,7 @@ namespace PaJaMa.Recipes.Web.Api.Repository
 
 		public IQueryable<RecipeCoverDto> GetRandomRecipes(int numberOfRecipes)
 		{
-			var recipesContext = context as RecipesContext;
+			var recipesContext = mapper.GetDbContext() as RecipesContext;
 			int[] ids = recipesContext.Recipes
 				.Where(r => r.Rating > 4 && r.RecipeImages.Any())
 				.OrderBy(r => Guid.NewGuid())

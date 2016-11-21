@@ -21,8 +21,6 @@ namespace PaJaMa.Recipes.Model.Entities.Base
         
     public abstract class UserRecipeBase : EntityBase
     {
-    	public virtual bool SaveRecipe { get { return false; } }
-    	public virtual bool SaveUser { get { return false; } }
         [Key]
         public virtual int UserRecipeID { get; set; }
         public virtual int UserID { get; set; }

@@ -21,10 +21,6 @@ namespace PaJaMa.Recipes.Model.Entities.Base
         
     public abstract class RecipeBase : EntityBase
     {
-    	public virtual bool SaveRecipeSource { get { return false; } }
-    	public virtual bool SaveRecipeImages { get { return false; } }
-    	public virtual bool SaveRecipeIngredientMeasurements { get { return false; } }
-    	public virtual bool SaveUserRecipes { get { return false; } }
         public RecipeBase()
         {
             this.RecipeImages = new HashSet<RecipeImage>();

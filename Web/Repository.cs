@@ -23,207 +23,212 @@ namespace PaJaMa.Web
 		where TEntityDto : class, IEntityDto
 		where TDtoMapper : DtoMapperBase
 	{
-		protected DbContextBase context { get; private set; }
 		protected TDtoMapper mapper { get; private set; }
 
-        public Repository()
-        {
-            createContext();
-        }
-
-        private void createContext()
-        {
+		public Repository()
+		{
 			mapper = Activator.CreateInstance<TDtoMapper>();
-			context = mapper.GetDbContext();
-            context.ModifiedBy = HttpContext.Current.Request.LogonUserIdentity.Name;
-        }
+		}
 
-        protected virtual bool isUnauthorized(AuthorizationType authorizationType, object source)
-        {
-            return false;
-        }
+		private DbContextBase createContext()
+		{
+			var context = mapper.GetDbContext();
+			context.ModifiedBy = HttpContext.Current.Request.LogonUserIdentity.Name;
+			return context;
+		}
 
-        public virtual IQueryable<TEntityDto> GetEntities()
-        {
-            if (isUnauthorized(AuthorizationType.GetEntities, null))
-                throw new UnauthorizedAccessException();
+		protected virtual bool isUnauthorized(AuthorizationType authorizationType, object source)
+		{
+			return false;
+		}
 
-            var dbSet = context.Set<TEntity>().AsQueryable();
-            return dbSet.ProjectTo<TEntityDto>(mapper.MapperConfig);
-        }
+		public virtual IQueryable<TEntityDto> GetEntities()
+		{
+			if (isUnauthorized(AuthorizationType.GetEntities, null))
+				throw new UnauthorizedAccessException();
 
-        public virtual IQueryable<TEntityDto> GetEntitiesOData(System.Net.Http.HttpRequestMessage request)
-        {
-            if (isUnauthorized(AuthorizationType.GetEntities, null))
-                throw new UnauthorizedAccessException();
+			var context = createContext();
+			var dbSet = context.Set<TEntity>().AsQueryable();
+			return dbSet.ProjectTo<TEntityDto>(mapper.MapperConfig);
+		}
 
-            var modelBuilder = new ODataConventionModelBuilder();
-            modelBuilder.EntitySet<TEntityDto>(typeof(TEntityDto).Name);
-            var castedOptions = new ODataQueryOptions<TEntityDto>(new ODataQueryContext(modelBuilder.GetEdmModel(), typeof(TEntityDto))
-                , request);
-            var entities = GetEntities() as IQueryable<TEntityDto>;
+		public virtual IQueryable<TEntityDto> GetEntitiesOData(System.Net.Http.HttpRequestMessage request)
+		{
+			if (isUnauthorized(AuthorizationType.GetEntities, null))
+				throw new UnauthorizedAccessException();
 
-            if (entities == null) return null;
+			var modelBuilder = new ODataConventionModelBuilder();
+			modelBuilder.EntitySet<TEntityDto>(typeof(TEntityDto).Name);
+			var castedOptions = new ODataQueryOptions<TEntityDto>(new ODataQueryContext(modelBuilder.GetEdmModel(), typeof(TEntityDto))
+				, request);
+			var entities = GetEntities() as IQueryable<TEntityDto>;
 
-            var filtered = castedOptions.ApplyTo(entities) as IQueryable<TEntityDto>;
-            return filtered;
-        }
+			if (entities == null) return null;
 
-        protected virtual TEntity getEntity(int id)
-        {
-            return context.GetEntity<TEntity>(id);
-        }
+			var filtered = castedOptions.ApplyTo(entities) as IQueryable<TEntityDto>;
+			return filtered;
+		}
 
-        public virtual TEntityDto GetEntity(int id)
-        {
-            var entity = getEntity(id);
-            var mapperInstance = mapper.MapperConfig.CreateMapper();
-            var dto = mapperInstance.Map<TEntity, TEntityDto>(entity);
+		protected virtual TEntity getEntity(int id)
+		{
+			var context = createContext();
+			return context.GetEntity<TEntity>(id);
+		}
 
-            if (isUnauthorized(AuthorizationType.GetEntity, dto))
-                throw new UnauthorizedAccessException();
+		public virtual TEntityDto GetEntity(int id)
+		{
+			var entity = getEntity(id);
+			var context = createContext();
+			var mapperInstance = mapper.MapperConfig.CreateMapper();
+			var dto = mapperInstance.Map<TEntity, TEntityDto>(entity);
 
-            return dto;
-        }
+			if (isUnauthorized(AuthorizationType.GetEntity, dto))
+				throw new UnauthorizedAccessException();
 
-        public virtual OperationResult InsertEntity(TEntityDto dto)
-        {
-            if (isUnauthorized(AuthorizationType.GetEntity, dto))
-                throw new UnauthorizedAccessException();
+			return dto;
+		}
 
-            TEntity entity = null;
-            try
-            {
-                entity = Activator.CreateInstance<TEntity>();
+		public virtual OperationResult InsertEntity(TEntityDto dto)
+		{
+			if (isUnauthorized(AuthorizationType.GetEntity, dto))
+				throw new UnauthorizedAccessException();
+
+			TEntity entity = null;
+			try
+			{
+				entity = Activator.CreateInstance<TEntity>();
+				var context = createContext();
 				dto.MapToEntity(context, entity);
-                context.Set<TEntity>().Add(entity);
-                context.SaveChanges();
-                mapper.MapperConfig.CreateMapper().Map<TEntity, TEntityDto>(entity, dto);
-            }
-            catch (Exception ex)
-            {
-                return new OperationResult()
-                {
-                    Exception = ex,
-                    Failed = true,
-                    EntityDto = dto,
-                    Entity = entity
-                };
-            }
+				context.Set<TEntity>().Add(entity);
+				context.SaveChanges();
+				mapper.MapperConfig.CreateMapper().Map<TEntity, TEntityDto>(entity, dto);
+			}
+			catch (Exception ex)
+			{
+				return new OperationResult()
+				{
+					Exception = ex,
+					Failed = true,
+					EntityDto = dto,
+					Entity = entity
+				};
+			}
 
-            return new OperationResult()
-            {
-                EntityDto = dto,
-                Entity = entity
-            };
-        }
+			return new OperationResult()
+			{
+				EntityDto = dto,
+				Entity = entity
+			};
+		}
 
-        public virtual OperationResult UpdateEntity(TEntityDto dto)
-        {
-            if (isUnauthorized(AuthorizationType.GetEntity, dto))
-                throw new UnauthorizedAccessException();
+		public virtual OperationResult UpdateEntity(TEntityDto dto)
+		{
+			if (isUnauthorized(AuthorizationType.GetEntity, dto))
+				throw new UnauthorizedAccessException();
 
-            TEntity entity = null;
-            try
-            {
-                entity = getEntity(dto.ID);
+			TEntity entity = null;
+			try
+			{
+				entity = getEntity(dto.ID);
+				var context = createContext();
 				dto.MapToEntity(context, entity);
-                context.SaveChanges();
-                mapper.MapperConfig.CreateMapper().Map<TEntity, TEntityDto>(entity, dto);
-            }
-            catch (Exception ex)
-            {
-                return new OperationResult()
-                {
-                    Exception = ex,
-                    Failed = true,
-                    EntityDto = dto,
-                    Entity = entity
-                };
-            }
+				context.SaveChanges();
+				mapper.MapperConfig.CreateMapper().Map<TEntity, TEntityDto>(entity, dto);
+			}
+			catch (Exception ex)
+			{
+				return new OperationResult()
+				{
+					Exception = ex,
+					Failed = true,
+					EntityDto = dto,
+					Entity = entity
+				};
+			}
 
-            return new OperationResult()
-            {
-                EntityDto = dto,
-                Entity = entity
-            };
-        }
+			return new OperationResult()
+			{
+				EntityDto = dto,
+				Entity = entity
+			};
+		}
 
-        public virtual OperationResult DeleteEntity(int id)
-        {
-            if (isUnauthorized(AuthorizationType.DeleteEntity, id))
-                throw new UnauthorizedAccessException();
+		public virtual OperationResult DeleteEntity(int id)
+		{
+			if (isUnauthorized(AuthorizationType.DeleteEntity, id))
+				throw new UnauthorizedAccessException();
 
-            try
-            {
-                var entity = getEntity(id);
-                if (entity != null)
-                {
-                    context.Set<TEntity>().Remove(entity);
-                    context.SaveChanges();
-                }
-            }
-            catch (Exception ex)
-            {
-                var currEx = ex;
-                while (currEx != null)
-                {
-                    if (currEx.Message.Contains("The DELETE statement conflicted with the REFERENCE constraint"))
-                    {
-                        return new OperationResult()
-                        {
-                            Exception = new Exception("Item is in use and cannot be deleted!"),
-                            Failed = true
-                        };
-                    }
-                    currEx = currEx.InnerException;
-                }
-                return new OperationResult()
-                {
-                    Exception = ex,
-                    Failed = true
-                };
-            }
+			try
+			{
+				var entity = getEntity(id);
+				if (entity != null)
+				{
+					var context = createContext();
+					context.Set<TEntity>().Remove(entity);
+					context.SaveChanges();
+				}
+			}
+			catch (Exception ex)
+			{
+				var currEx = ex;
+				while (currEx != null)
+				{
+					if (currEx.Message.Contains("The DELETE statement conflicted with the REFERENCE constraint"))
+					{
+						return new OperationResult()
+						{
+							Exception = new Exception("Item is in use and cannot be deleted!"),
+							Failed = true
+						};
+					}
+					currEx = currEx.InnerException;
+				}
+				return new OperationResult()
+				{
+					Exception = ex,
+					Failed = true
+				};
+			}
 
-            return new OperationResult();
-        }
+			return new OperationResult();
+		}
 
-        IQueryable<IEntityDto> IRepository.GetEntities()
-        {
-            return GetEntities();
-        }
-
-
-        IQueryable<IEntityDto> IRepository.GetEntitiesOData(System.Net.Http.HttpRequestMessage request)
-        {
-            return GetEntitiesOData(request);
-        }
+		IQueryable<IEntityDto> IRepository.GetEntities()
+		{
+			return GetEntities();
+		}
 
 
-        IEntityDto IRepository.GetEntity(int id)
-        {
-            return GetEntity(id);
-        }
+		IQueryable<IEntityDto> IRepository.GetEntitiesOData(System.Net.Http.HttpRequestMessage request)
+		{
+			return GetEntitiesOData(request);
+		}
 
 
-        OperationResult IRepository.InsertEntity(JObject dto)
-        {
-            return InsertEntity(dto.ToObject<TEntityDto>());
-        }
+		IEntityDto IRepository.GetEntity(int id)
+		{
+			return GetEntity(id);
+		}
 
-        OperationResult IRepository.UpdateEntity(JObject dto)
-        {
-            return UpdateEntity(dto.ToObject<TEntityDto>());
-        }
-    }
 
-    public interface IRepository
-    {
-        IQueryable<IEntityDto> GetEntities();
-        IQueryable<IEntityDto> GetEntitiesOData(System.Net.Http.HttpRequestMessage request);
-        IEntityDto GetEntity(int id);
-        OperationResult InsertEntity(JObject dto);
-        OperationResult UpdateEntity(JObject dto);
-        OperationResult DeleteEntity(int id);
-    }
+		OperationResult IRepository.InsertEntity(JObject dto)
+		{
+			return InsertEntity(dto.ToObject<TEntityDto>());
+		}
+
+		OperationResult IRepository.UpdateEntity(JObject dto)
+		{
+			return UpdateEntity(dto.ToObject<TEntityDto>());
+		}
+	}
+
+	public interface IRepository
+	{
+		IQueryable<IEntityDto> GetEntities();
+		IQueryable<IEntityDto> GetEntitiesOData(System.Net.Http.HttpRequestMessage request);
+		IEntityDto GetEntity(int id);
+		OperationResult InsertEntity(JObject dto);
+		OperationResult UpdateEntity(JObject dto);
+		OperationResult DeleteEntity(int id);
+	}
 }

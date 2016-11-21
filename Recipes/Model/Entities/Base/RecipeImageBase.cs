@@ -21,7 +21,6 @@ namespace PaJaMa.Recipes.Model.Entities.Base
         
     public abstract class RecipeImageBase : EntityBase
     {
-    	public virtual bool SaveRecipe { get { return false; } }
         [Key]
         public virtual int RecipeImageID { get; set; }
         public virtual int RecipeID { get; set; }

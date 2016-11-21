@@ -1,5 +1,5 @@
 ﻿(function () {
-	var recipe = function (recipeFactory, localStorageService, appSettings) {
+	var recipe = function (recipeFactory, localStorageService, appSettings, $http, pdfService, quantityDisplayService) {
 		return {
 			scope: { recipeId: '=', modal: '@' },
 			templateUrl: 'app/views/recipe.html',
@@ -9,6 +9,8 @@
 				$scope.editingNotes = false;
 				$scope.editingRecipe = false;
 				$scope.addingIngredient = false;
+				$scope.activeImageIndex = 0;
+				$scope.quantityDisplayService = quantityDisplayService;
 
 				$scope.pdfOpen = false;
 				$scope.pdfIncludePicture = true;
@@ -23,63 +25,67 @@
 				$scope.sources = null;
 				$scope.lockServings = false;
 
+				$scope.toggleServingsEdit = function (editing) {
+					if (!editing && $scope.recipe.NumberOfServings == null) return;
+					$scope.editingServings = editing;
+				};
+
+				$scope.toggleRecipeNameEdit = function (editing) {
+					$scope.editingRecipeName = editing;
+				};
+
+				$scope.isLoggedIn = function () {
+					return localStorageService.get('loginData') != null;
+				};
+
+				$scope.doneEditingNotes = function () {
+					$scope.postRecipe('Notes updated.');
+					$scope.editingNotes = false;
+				}
+
+				$scope.togglePdf = function () {
+					$scope.pdfOpen = !$scope.pdfOpen;
+				};
+
+				$scope.downloadPDF = function () {
+					$scope.pdfOpen = false;
+					if (!$scope.pdfIncludePicture) {
+						pdfService.downloadPDF($scope.recipe, null, null, $scope.pdfIncludeNutrition, $scope.pdfIncludeRating);
+					}
+					else {
+						$http.get(appSettings.apiUrl + '/api/image/getImage?imageURL=' + $scope.recipe.recipeImages[$scope.activeImageIndex].imageURL)
+						.success(function (data, status, headers, config) {
+							pdfService.downloadPDF($scope.recipe, data, headers('Content-Type'), $scope.pdfIncludeNutrition, $scope.pdfIncludeRating);
+						})
+						.error(function (data, status, headers, config) {
+							alert('error: \n' + JSON.stringify(data) + '\n' + JSON.stringify(status) + '\n' + JSON.stringify(headers) + '\n' + JSON.stringify(config));
+						});
+					}
+				};
+
+				$scope.sendEmail = function () {
+					$scope.emailOpen = false;
+					emailService.sendEmail($scope.recipe, { emailTo: $scope.emailTo, emailSubject: $scope.emailSubject, emailMessage: $scope.emailMessage });
+				}
+
+				$scope.removeIngredient = function (recipeIngredient) {
+					var index = $scope.recipe.RecipeIngredients.indexOf(recipeIngredient);
+					if (index != -1) {
+						$scope.recipe.RecipeIngredients.splice(index, 1);
+						$scope.updateNutritionInfo();
+					}
+				};
+
+				$scope.getActiveIngredient = function (recipeIngredient) {
+					return recipeIngredient.activeAlternate == null ? recipeIngredient.ingredientMeasurement : recipeIngredient.activeAlternate.toIngredientMeasurement;
+				};
+
+				$scope.permalink = function () {
+					window.open('#/recipe/' + $scope.recipe.id);
+				};
+
 				recipeFactory.getRecipe($scope.recipeId, $scope.modal).then(function (recipe) {
 					$scope.recipe = recipe;
-
-					$scope.toggleServingsEdit = function (editing) {
-						if (!editing && $scope.recipe.NumberOfServings == null) return;
-						$scope.editingServings = editing;
-					};
-
-					$scope.toggleRecipeNameEdit = function (editing) {
-						$scope.editingRecipeName = editing;
-					};
-
-					$scope.isLoggedIn = function () {
-						return localStorageService.get('loginData') != null;
-					};
-
-					$scope.doneEditingNotes = function () {
-						$scope.postRecipe('Notes updated.');
-						$scope.editingNotes = false;
-					}
-
-					$scope.togglePdf = function () {
-						$scope.pdfOpen = !$scope.pdfOpen;
-						alert($scope.pdfOpen);
-					};
-
-					$scope.downloadPDF = function () {
-						$scope.pdfOpen = false;
-						if (!$scope.pdfIncludePicture)
-							pdfService.downloadPDF($scope.recipe, null, $scope.pdfIncludeNutrition, $scope.pdfIncludeRating);
-						else {
-							$http.post(appSettings.apiUrl + '/api/image', { ImageURL: $scope.recipe.getActiveImageURL() })
-							.success(function (data, status, headers, config) {
-								pdfService.downloadPDF($scope.recipe, data, $scope.pdfIncludeNutrition, $scope.pdfIncludeRating);
-							})
-							.error(function (data, status, headers, config) {
-								alert('error: \n' + JSON.stringify(data) + '\n' + JSON.stringify(status) + '\n' + JSON.stringify(headers) + '\n' + JSON.stringify(config));
-							});
-						}
-					};
-
-					$scope.sendEmail = function () {
-						$scope.emailOpen = false;
-						emailService.sendEmail($scope.recipe, { emailTo: $scope.emailTo, emailSubject: $scope.emailSubject, emailMessage: $scope.emailMessage });
-					}
-
-					$scope.removeIngredient = function (recipeIngredient) {
-						var index = $scope.recipe.RecipeIngredients.indexOf(recipeIngredient);
-						if (index != -1) {
-							$scope.recipe.RecipeIngredients.splice(index, 1);
-							$scope.updateNutritionInfo();
-						}
-					};
-
-					$scope.permalink = function () {
-						$scope.recipe.permalink();
-					};
 				}, function (error) { alert(error.mesage); });
 			}
 		};

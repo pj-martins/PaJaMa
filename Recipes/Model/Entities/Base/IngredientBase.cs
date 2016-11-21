@@ -21,7 +21,6 @@ namespace PaJaMa.Recipes.Model.Entities.Base
         
     public abstract class IngredientBase : EntityBase
     {
-    	public virtual bool SaveIngredientMeasurements { get { return false; } }
         public IngredientBase()
         {
             this.IngredientMeasurements = new HashSet<IngredientMeasurement>();

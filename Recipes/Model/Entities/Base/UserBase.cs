@@ -21,7 +21,6 @@ namespace PaJaMa.Recipes.Model.Entities.Base
         
     public abstract class UserBase : EntityBase
     {
-    	public virtual bool SaveUserRecipes { get { return false; } }
         public UserBase()
         {
             this.UserRecipes = new HashSet<UserRecipe>();

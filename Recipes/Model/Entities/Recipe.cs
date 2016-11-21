@@ -14,8 +14,6 @@ namespace PaJaMa.Recipes.Model.Entities
 
     public class Recipe : RecipeBase
     {
-        public override bool SaveRecipeIngredientMeasurements { get { return true; } }
-        public override bool SaveRecipeImages { get { return true; } }
         public string RecipeSourceName
         {
             get { return RecipeSource == null ? string.Empty : RecipeSource.RecipeSourceName; }

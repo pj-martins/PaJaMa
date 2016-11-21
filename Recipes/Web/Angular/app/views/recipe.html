@@ -3,13 +3,13 @@
 		<div class="headerText">{{recipe.recipeName}}</div>
 	</div>
 	<div class="recipeImages">
-		<carousel interval="5000">
-			<slide ng-repeat="image in recipe.recipeImages" active="image.active">
+		<div uib-carousel interval="5000" active="activeImageIndex">
+			<div uib-slide ng-repeat="image in recipe.recipeImages" index="$index">
 				<div class="recipeImageContainer imageContainer">
 					<img class="image" ng-src="{{image.imageURL}}" />
 				</div>
-			</slide>
-		</carousel>
+			</div>
+		</div>
 	</div>
 	<div class="recipeDetails">
 		<div class="actionButtons" ng-show="editingRecipe">
@@ -17,12 +17,12 @@
 			<button ng-click="saveRecipe()">Save</button>
 		</div>
 		<div class="actionButtons" ng-show="!editingRecipe">
-			<button ng-click="permalink()" style="width:150px" ng-show="modal">Permalink</button>
-			<div dropdown is-open="pdfOpen">
-				<button type="button" class="dropdown-toggle" dropdown-toggle style="width:150px">
+			<button ng-click="permalink()" ng-show="modal">Permalink</button>
+			<div uib-dropdown is-open="pdfOpen">
+				<button type="button" class="dropdown-toggle" uib-dropdown-toggle ng-disabled="disabled">
 					Download PDF
 				</button>
-				<ul class="dropdown-menu pdf" role="menu" ng-click="$event.stopPropagation()">
+				<ul class="dropdown-menu pdf" role="menu">
 					<li>
 						<div class="pdfProperties">
 							<input type="checkbox" ng-model="pdfIncludePicture" />Include Picture<br />
@@ -33,11 +33,11 @@
 					</li>
 				</ul>
 			</div>
-			<div dropdown is-open="emailOpen">
-				<button type="button" class="dropdown-toggle" dropdown-toggle style="width:150px">
+			<div uib-dropdown is-open="emailOpen">
+				<button type="button" class="dropdown-toggle" uib-dropdown-toggle>
 					Send Email
 				</button>
-				<ul class="dropdown-menu email" role="menu" ng-click="$event.stopPropagation()">
+				<ul class="dropdown-menu email" role="menu">
 					<li>
 						<div class="emailProperties">
 							<div style="width: 50px">To:</div>
@@ -99,8 +99,8 @@
 	<div class="recipeIngredients">
 		<div ng-repeat="recipeIngredient in recipe.recipeIngredientMeasurements" ng-controller="RecipeIngredientController">
 			<div ng-class="recipeIngredient.alternates.length > 0 ? 'clickable' : ''" ng-click="recipeIngredient.alternates.length > 0 ? pickAlternate() : null">
-				<input type="checkbox" ng-model="recipeIngredient.include" ng-change="updateNutrition()" /> {{recipeIngredient.friendlyQuantity()}} {{recipeIngredient.getActiveIngredient().measurement.measurementName}}
-				<span ng-show="!recipeIngredient.alternating">{{recipeIngredient.getActiveIngredient().ingredient.ingredientName}}</span>
+				<input type="checkbox" ng-model="recipeIngredient.include" ng-change="updateNutrition()" /> {{quantityDisplayService.getFriendlyQuantity(recipeIngredient.quantity)}} {{getActiveIngredient(recipeIngredient).measurement.measurementName}}
+				<span ng-show="!recipeIngredient.alternating">{{getActiveIngredient(recipeIngredient).ingredient.ingredientName}}</span>
 				<select ng-show="recipeIngredient.alternating" ng-model="recipeIngredient.activeAlternate" ng-options="ing as ing.toIngredientMeasurement.ingredient.ingredientName for ing in recipeIngredient.alternates track by ing.id" ng-blur="hideAlternate()" ng-change="updateQuantitiesNutrition()" class="alternateSelect"></select>
 				<a ng-show="editingRecipe" ng-click="removeIngredient(recipeIngredient)">Remove</a>
 			</div>

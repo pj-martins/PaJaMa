@@ -1,5 +1,5 @@
 ﻿(function () {
-	angular.module('recipeSearch', ['ngRoute', 'mgcrea.ngStrap', 'ui.bootstrap.carousel', 'ui.bootstrap.tpls', 'ui.bootstrap.tooltip',
+	angular.module('recipeSearch', ['ngRoute', 'ngAnimate', 'ui.bootstrap', 'ui.bootstrap.tpls',
 		'infinite-scroll', 'LocalStorageModule', 'pjm'])
 
 		.config(function ($httpProvider, $routeProvider) {

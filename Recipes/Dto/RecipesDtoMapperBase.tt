@@ -58,10 +58,11 @@ using System.Linq;
 using AutoMapper;
 
 using PaJaMa.Dto;
+using PaJaMa.Recipes.Model;
 using PaJaMa.Recipes.Model.Entities;
 using PaJaMa.Recipes.Dto.Entities;
     
-<#=Accessibility.ForType(container)#> abstract class RecipesDtoMapperBase : DtoMapperBase
+<#=Accessibility.ForType(container)#> abstract class <#=code.Escape(container).Replace("Context", "")#>DtoMapperBase : DtoMapperBase
 {
 	protected override void createMaps(IMapperConfigurationExpression cfg)
 	{

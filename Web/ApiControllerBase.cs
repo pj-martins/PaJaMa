@@ -54,7 +54,7 @@ namespace PaJaMa.Web
 		{
 			var entities = repository.GetEntities();
 			var response = Request.CreateResponse(HttpStatusCode.OK, entities);
-            return response;
+			return response;
 		}
 
 		// when we use odata filter, the count from entities will return the count of all entries prefiltered thus the following method
@@ -67,73 +67,73 @@ namespace PaJaMa.Web
 				 Request.ODataProperties().TotalCount);
 		}
 
-        [HttpGet]
-        public virtual HttpResponseMessage Entity(int id)
-        {
-            try
-            {
-                var entity = repository.GetEntity(id);
-                return Request.CreateResponse(HttpStatusCode.OK, entity);
-            }
-            catch (UnauthorizedAccessException)
-            {
-                return Request.CreateResponse(HttpStatusCode.Unauthorized);
-            }
-        }
+		[HttpGet]
+		public virtual HttpResponseMessage Entity(int id)
+		{
+			try
+			{
+				var entity = repository.GetEntity(id);
+				return Request.CreateResponse(HttpStatusCode.OK, entity);
+			}
+			catch (UnauthorizedAccessException)
+			{
+				return Request.CreateResponse(HttpStatusCode.Unauthorized);
+			}
+		}
 
-        [HttpPost]
-        public virtual HttpResponseMessage PostEntity([FromBody]JObject dto)
-        {
-            try
-            {
-                var result = repository.InsertEntity(dto);
-                if (result.Failed)
-                    return Request.CreateErrorResponse(HttpStatusCode.InternalServerError, result.GetExceptionText());
+		[HttpPost]
+		public virtual HttpResponseMessage PostEntity([FromBody]JObject dto)
+		{
+			try
+			{
+				var result = repository.InsertEntity(dto);
+				if (result.Failed)
+					return Request.CreateErrorResponse(HttpStatusCode.InternalServerError, result.GetExceptionText());
 
-                var response = Request.CreateResponse(HttpStatusCode.Created, result.EntityDto);
-                string uri = Url.Link("DefaultApi", new { ID = result.EntityDto.ID });
-                if (uri != null)
-                    response.Headers.Location = new Uri(uri);
-                return response;
-            }
-            catch (UnauthorizedAccessException)
-            {
-                return Request.CreateResponse(HttpStatusCode.Unauthorized);
-            }
-        }
+				var response = Request.CreateResponse(HttpStatusCode.Created, result.EntityDto);
+				string uri = Url.Link("DefaultApi", new { ID = result.EntityDto.ID });
+				if (uri != null)
+					response.Headers.Location = new Uri(uri);
+				return response;
+			}
+			catch (UnauthorizedAccessException)
+			{
+				return Request.CreateResponse(HttpStatusCode.Unauthorized);
+			}
+		}
 
-        [HttpPut]
-        public virtual HttpResponseMessage PutEntity(int id, [FromBody]JObject dto)
-        {
-            try
-            {
-                var result = repository.UpdateEntity(dto);
-                if (result.Failed)
-                    return Request.CreateErrorResponse(HttpStatusCode.InternalServerError, result.GetExceptionText());
-                return Request.CreateResponse(HttpStatusCode.Accepted, result.EntityDto);
-            }
-            catch (UnauthorizedAccessException)
-            {
-                return Request.CreateResponse(HttpStatusCode.Unauthorized);
-            }
-        }
+		[HttpPut]
+		public virtual HttpResponseMessage PutEntity(int id, [FromBody]JObject dto)
+		{
+			try
+			{
+				var result = repository.UpdateEntity(dto);
+				if (result.Failed)
+					return Request.CreateErrorResponse(HttpStatusCode.InternalServerError, result.GetExceptionText());
+				return Request.CreateResponse(HttpStatusCode.Accepted, result.EntityDto);
+			}
+			catch (UnauthorizedAccessException)
+			{
+				return Request.CreateResponse(HttpStatusCode.Unauthorized);
+			}
+		}
 
-        [HttpDelete]
-        public virtual HttpResponseMessage DeleteEntity(int id)
-        {
-            try
-            {
-                var result = repository.DeleteEntity(id);
+		[HttpDelete]
+		public virtual HttpResponseMessage DeleteEntity(int id)
+		{
+			try
+			{
+				var result = repository.DeleteEntity(id);
 
-                if (result.Failed)
-                    return Request.CreateErrorResponse(HttpStatusCode.InternalServerError, result.GetExceptionText());
+				if (result.Failed)
+					return Request.CreateErrorResponse(HttpStatusCode.InternalServerError, result.GetExceptionText());
 
-                return Request.CreateResponse(HttpStatusCode.OK);
-            }
-            catch (UnauthorizedAccessException)
-            {
-                return Request.CreateResponse(HttpStatusCode.Unauthorized);
-            }
-        }
-    }
+				return Request.CreateResponse(HttpStatusCode.OK);
+			}
+			catch (UnauthorizedAccessException)
+			{
+				return Request.CreateResponse(HttpStatusCode.Unauthorized);
+			}
+		}
+	}
 }

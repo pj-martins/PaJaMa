@@ -1,5 +1,5 @@
 ﻿(function () {
-	var RecipeSearchController = function ($scope, $http, $modal, $sce, localStorageService, appSettings, templateFactory, entityFactory) {
+	var RecipeSearchController = function ($scope, $http, $uibModal, $sce, localStorageService, appSettings, templateFactory, entityFactory) {
 		$scope.keyword = "";
 		$scope.rating = 0;
 		$scope.bookmarked = false;
@@ -15,12 +15,12 @@
 		$scope.recipeSources = [];
 
 		$scope.gridKeywords = {
-		    columns: [
+			columns: [
                 { fieldName: 'include', width: 30, caption: '', template: templateFactory.getIncludeTemplate() },
                 { fieldName: 'keyword' },
                 { fieldName: 'remove', caption: '', template: templateFactory.getRemoveTemplate(), width: 30 }
-		    ],
-		    data: []
+			],
+			data: []
 		};
 
 		$scope.init = function () {
@@ -63,7 +63,7 @@
 		};
 
 		$scope.removeRow = function (index) {
-		    $scope.gridKeywords.data.splice(index, 1);
+			$scope.gridKeywords.data.splice(index, 1);
 			$scope.autoSearch();
 		};
 
@@ -90,6 +90,13 @@
 		$scope.autoSearch = function () {
 			// we could fire off a search each time a search parameter changes, for testing purposes we'll disable for now
 			// $scope.startSearch($scope.page)
+		}
+
+		var ingredientLists = { };
+		$scope.getIngredientList = function (recipe) {
+			if (!ingredientLists[recipe.id])
+				ingredientLists[recipe.id] = $sce.trustAsHtml(recipe.ingredients.join('<br />'));
+			return ingredientLists[recipe.id];
 		}
 
 		$scope.clearScreen = function () {
@@ -200,10 +207,11 @@
 		};
 
 		$scope.openRecipe = function (recipe) {
-			$scope.recipe = recipe;
-			$modal({
-				template: 'app/views/modalRecipe.html',
-				scope: $scope
+			$uibModal.open({
+				templateUrl: 'app/views/modalRecipe.html',
+				controller: function ($scope) {
+					$scope.recipe = recipe;
+				}
 			});
 		};
 

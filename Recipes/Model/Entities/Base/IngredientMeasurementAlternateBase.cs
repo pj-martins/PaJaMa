@@ -21,8 +21,6 @@ namespace PaJaMa.Recipes.Model.Entities.Base
         
     public abstract class IngredientMeasurementAlternateBase : EntityBase
     {
-    	public virtual bool SaveFromIngredientMeasurement { get { return false; } }
-    	public virtual bool SaveToIngredientMeasurement { get { return false; } }
         [Key]
         public virtual int IngredientMeasurementAlternateID { get; set; }
         public virtual int FromIngredientMeasurementID { get; set; }

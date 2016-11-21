@@ -76,3 +76,7 @@ a {
 	opacity: 0.5;
 	filter: alpha(opacity=50);
 }
+
+.modal-dialog {
+	width: 900px !important;
+}

@@ -18,6 +18,7 @@ namespace PaJaMa.Recipes.Dto
     using AutoMapper;
     
     using PaJaMa.Dto;
+    using PaJaMa.Recipes.Model;
     using PaJaMa.Recipes.Model.Entities;
     using PaJaMa.Recipes.Dto.Entities;
         
