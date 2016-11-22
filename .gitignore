@@ -71,3 +71,10 @@ Packages
 /Recipes/Web/Angular2/src/app/shared/services/api.service.js
 /Recipes/Web/Angular2/src/app/shared/template.js
 /Recipes/Web/Angular2/modelapi.js
+/Recipes/Web/Angular2/src/app/shared/services/data.service.js
+/Recipes/Web/Angular2/src/app/shared/constants/appsettings.js
+/Recipes/Web/Angular2/src/app/recipes/recipes.component.js
+/Recipes/Web/Angular2/src/app/main.js
+/Recipes/Web/Angular2/src/app/app.routing.js
+/Recipes/Web/Angular2/src/app/app.module.js
+/Recipes/Web/Angular2/src/app/app.component.js
