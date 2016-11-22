@@ -2,12 +2,17 @@
 
 import { IRecipeSource, IRecipeCover } from '../dto/interfaces';
 import { Recipe } from '../dto/entities';
+import { Http } from '@angular/http';
 import { Injectable } from '@angular/core';
 import { DataService, Items, GetArguments } from './data.service';
 import { Observable } from 'rxjs/Rx';
 
 @Injectable()
 export class ApiService extends DataService {
+	constructor(protected http: Http) {
+		super(http);
+	}
+
 	getRecipeSources(args?: GetArguments): Observable<Items<IRecipeSource>> {
 		return super.getEntities<IRecipeSource>(`recipeSource`, args);
 	}

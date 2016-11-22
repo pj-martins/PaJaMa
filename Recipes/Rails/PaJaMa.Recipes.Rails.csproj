@@ -36,9 +36,17 @@
     <StartupObject />
   </PropertyGroup>
   <ItemGroup>
+    <None Include="app\controllers\api\api_controller.rb" />
     <None Include="app\controllers\application_controller.rb" />
+    <None Include="app\controllers\api\v1\recipes_controller.rb" />
     <None Include="app\helpers\application_helper.rb" />
     <None Include="app\mailers\.gitkeep" />
+    <None Include="app\models\measurement.rb" />
+    <None Include="app\models\ingredient_measurement.rb" />
+    <None Include="app\models\recipe_source.rb" />
+    <None Include="app\models\recipe_image.rb" />
+    <None Include="app\models\recipe_ingredient_measurement.rb" />
+    <None Include="app\models\recipe.rb" />
     <None Include="app\views\layouts\application.html.erb" />
     <None Include="config.ru" />
     <None Include="config\application.rb" />
@@ -78,6 +86,7 @@
     <Content Include="app\assets\images\rails.png" />
     <Content Include="app\assets\javascripts\application.js" />
     <Content Include="app\assets\stylesheets\application.css" />
+    <None Include="app\models\ingredient.rb" />
     <Content Include="public\404.html" />
     <Content Include="public\422.html" />
     <Content Include="public\500.html" />
@@ -86,7 +95,6 @@
     <Content Include="public\robots.txt" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="app\models\" />
     <Folder Include="tmp\cache\assets\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

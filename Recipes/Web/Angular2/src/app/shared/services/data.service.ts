@@ -9,7 +9,7 @@ import { EntityBase } from '../dto/entity-base';
 @Injectable()
 export abstract class DataService {
 
-	constructor(private http: Http) { }
+	constructor(protected http: Http) { }
 
 	post<TObject>(url: string, body: TObject = null): Observable<TObject> {
 		return this.http.post(AppSettings.API_ENDPOINT + url, body)

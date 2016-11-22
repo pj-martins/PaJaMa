@@ -5,6 +5,6 @@
 #   gem 'sqlite3'
 development:
   adapter: sqlite3
-  database: /../../model/recipes.db
+  database: ../Model/recipes.db
   pool: 5
   timeout: 5000

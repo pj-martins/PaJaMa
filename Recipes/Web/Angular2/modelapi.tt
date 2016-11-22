@@ -254,12 +254,17 @@ public class GenerateHelper
 
 	private void generateApiService(List<string> classes)
 	{
-		var sb = new StringBuilder(@"import { Injectable } from '@angular/core';
+		var sb = new StringBuilder(@"import { Http } from '@angular/http';
+import { Injectable } from '@angular/core';
 import { DataService, Items, GetArguments } from './data.service';
 import { Observable } from 'rxjs/Rx';
 
 @Injectable()
 export class ApiService extends DataService {
+	constructor(protected http: Http) {
+		super(http);
+	}
+
 ");
 		List<string> interfaces = new List<string>();
 
