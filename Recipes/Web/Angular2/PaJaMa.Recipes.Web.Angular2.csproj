@@ -47,11 +47,16 @@
     <Content Include="index.html" />
     <Content Include="src\app\app.component.html" />
     <Content Include="src\app\recipes\recipes.component.html" />
+    <Content Include="modelapi.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>modelapi.ts</LastGenOutput>
+    </Content>
     <Content Include="src\styles\styles.css" />
     <Content Include="systemjs.config.js" />
   </ItemGroup>
   <ItemGroup>
     <Service Include="{4A0DDDB5-7A95-4FBF-97CC-616D07737A77}" />
+    <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="tsconfig.json" />
@@ -65,10 +70,18 @@
     <TypeScriptCompile Include="src\app\app.routing.ts" />
     <TypeScriptCompile Include="src\app\shared\constants\appsettings.ts" />
     <TypeScriptCompile Include="src\app\main.ts" />
-    <TypeScriptCompile Include="src\app\recipes\recipe.ts" />
-    <TypeScriptCompile Include="src\app\recipes\recipe.service.ts" />
     <TypeScriptCompile Include="src\app\recipes\recipes.component.ts" />
+    <TypeScriptCompile Include="src\app\shared\dto\entities.ts" />
+    <TypeScriptCompile Include="src\app\shared\dto\entity-base.ts" />
+    <TypeScriptCompile Include="src\app\shared\dto\enums.ts" />
+    <TypeScriptCompile Include="src\app\shared\dto\interfaces.ts" />
+    <TypeScriptCompile Include="src\app\shared\services\api.service.ts" />
     <TypeScriptCompile Include="src\app\shared\services\data.service.ts" />
+    <TypeScriptCompile Include="modelapi.ts">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>modelapi.tt</DependentUpon>
+    </TypeScriptCompile>
   </ItemGroup>
   <ItemGroup>
     <Content Include="typings.json" />

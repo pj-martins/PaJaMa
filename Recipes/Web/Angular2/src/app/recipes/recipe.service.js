@@ -15,9 +15,8 @@ var RecipeService = (function () {
         this.dataService = dataService;
     }
     RecipeService.prototype.getRandomRecipes = function () {
-        var args = new data_service_1.Arguments();
-        args.parameters = new Array();
-        args.parameters.push(new data_service_1.Parameter("random", "20"));
+        var args = new data_service_1.GetArguments();
+        args.params.random = 20;
         return this.dataService.getEntities('RecipeSearch', args);
     };
     RecipeService = __decorate([

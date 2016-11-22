@@ -54,7 +54,8 @@
           <Property Name="Inactive" Type="bit" Nullable="false" />
           <Property Name="RecipeURL" Type="nvarchar" MaxLength="255" />
           <Property Name="RecipeSourceID" Type="int" />
-        </EntityType>
+					<Property Name="RecipeType" Type="int" Nullable="false" DefaultValue="0" />
+				</EntityType>
         <EntityType Name="RecipeImage">
           <Key>
             <PropertyRef Name="RecipeImageID" />
@@ -351,6 +352,7 @@
           <NavigationProperty Name="RecipeImages" Relationship="Self.FK_RecipeImage_Recipe" FromRole="Recipe" ToRole="RecipeImage" />
           <NavigationProperty Name="RecipeIngredientMeasurements" Relationship="Self.FK_RecipeIngredient_Recipe" FromRole="Recipe" ToRole="RecipeIngredientMeasurement" />
           <NavigationProperty Name="UserRecipes" Relationship="Self.FK_UserRecipe_Recipe" FromRole="Recipe" ToRole="UserRecipe" />
+          <Property Name="RecipeType" Type="PaJaMa.Recipes.Model.RecipeType" Nullable="false" />
         </EntityType>
         <EntityType Name="RecipeImage">
           <Key>
@@ -589,6 +591,7 @@
           <Property Name="RecipeName" Type="String" Nullable="false" MaxLength="255" FixedLength="false" Unicode="true" />
           <Property Name="Ingredients" Type="String" Nullable="false" MaxLength="5000" FixedLength="false" Unicode="false" />
         </EntityType>
+        <EnumType Name="RecipeType" a:ExternalTypeName="PaJaMa.Recipes.Model.RecipeType" xmlns:a="http://schemas.microsoft.com/ado/2006/04/codegeneration" />
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -639,6 +642,7 @@
           <EntitySetMapping Name="Recipes">
             <EntityTypeMapping TypeName="PaJaMa.Recipes.Model.Recipe">
               <MappingFragment StoreEntitySet="Recipe">
+                <ScalarProperty Name="RecipeType" ColumnName="RecipeType" />
                 <ScalarProperty Name="RecipeID" ColumnName="RecipeID" />
                 <ScalarProperty Name="RecipeName" ColumnName="RecipeName" />
                 <ScalarProperty Name="Directions" ColumnName="Directions" />

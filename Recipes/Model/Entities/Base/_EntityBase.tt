@@ -99,7 +99,7 @@ using System.ComponentModel.DataAnnotations;
 			if (edmProperty.IsEnumType)
 			{
 #>
-	public string <#=edmProperty.Name#>String {	get { return EnumHelper.GetEnumString(<#=edmProperty.Name#>); } }
+	public string <#=edmProperty.Name#>String { get { return EnumHelper.GetEnumDisplay<<#=edmProperty.TypeUsage#>>(<#=edmProperty.Name#>); } }
 <#
 			}
         }

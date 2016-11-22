@@ -12,5 +12,5 @@ namespace PaJaMa.Recipes.Web.Api.Controllers
 #if DEBUG
 	[System.Web.Http.Cors.EnableCors(origins: "*", headers: "*", methods: "*")]
 #endif
-	public class RecipeSourceController : ApiControllerBase<RecipesDtoMapper, RecipeSource, RecipeSourceDto> { }
+	public class RecipeSourceController : ApiGetControllerBase<RecipesDtoMapper, RecipeSource, RecipeSourceDto> { }
 }

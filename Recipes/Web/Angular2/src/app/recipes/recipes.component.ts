@@ -1,6 +1,6 @@
 ﻿import { Component, OnInit } from '@angular/core';
-import { RecipeService } from './recipe.service';
-import { Recipe } from './recipe';
+import { ApiService } from '../shared/services/api.service';
+import { Recipe } from '../shared/dto/entities';
 
 @Component({
     moduleId: module.id,
@@ -10,22 +10,23 @@ import { Recipe } from './recipe';
 export class RecipesComponent implements OnInit {
     recipes: Array<Recipe>;
 
-    constructor(private recipeService: RecipeService) { }
+	constructor(private apiService: ApiService) { }
 
-    ngOnInit() {
-        this.recipeService.getRandomRecipes().subscribe(x => {
-            this.recipes = x.Entities
-            this.recipes.sort((a, b) => {
-                if (a.RecipeName > b.RecipeName) {
-                    return 1;
-                }
+	ngOnInit() {
+		//this.apiService.getRecipeSearchs()
+  //      this.recipeService.getRandomRecipes().subscribe(x => {
+  //          this.recipes = x.results
+  //          this.recipes.sort((a, b) => {
+  //              if (a.recipeName > b.RecipeName) {
+  //                  return 1;
+  //              }
 
-                if (a.RecipeName < b.RecipeName) {
-                    return -1;
-                }
+  //              if (a.RecipeName < b.RecipeName) {
+  //                  return -1;
+  //              }
 
-                return 0;
-            });
-        });
+  //              return 0;
+  //          });
+  //      });
     }
 }

@@ -1,16 +1,9 @@
-﻿using AutoMapper;
-using AutoMapper.QueryableExtensions;
-using Newtonsoft.Json;
+﻿using AutoMapper.QueryableExtensions;
 using Newtonsoft.Json.Linq;
 using PaJaMa.Data;
 using PaJaMa.Dto;
 using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
-using System.Data.Entity;
 using System.Linq;
-using System.Linq.Expressions;
-using System.Reflection;
 using System.Web;
 using System.Web.Http.OData;
 using System.Web.Http.OData.Builder;
@@ -220,15 +213,5 @@ namespace PaJaMa.Web
 		{
 			return UpdateEntity(dto.ToObject<TEntityDto>());
 		}
-	}
-
-	public interface IRepository
-	{
-		IQueryable<IEntityDto> GetEntities();
-		IQueryable<IEntityDto> GetEntitiesOData(System.Net.Http.HttpRequestMessage request);
-		IEntityDto GetEntity(int id);
-		OperationResult InsertEntity(JObject dto);
-		OperationResult UpdateEntity(JObject dto);
-		OperationResult DeleteEntity(int id);
 	}
 }

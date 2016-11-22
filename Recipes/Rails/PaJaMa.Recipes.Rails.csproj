@@ -1,0 +1,100 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="14.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{84FF538B-36E3-48E2-B622-A0F70A6FE4CF}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>Rails</RootNamespace>
+    <AssemblyName>Rails</AssemblyName>
+    <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup>
+    <StartupObject />
+  </PropertyGroup>
+  <ItemGroup>
+    <None Include="app\controllers\application_controller.rb" />
+    <None Include="app\helpers\application_helper.rb" />
+    <None Include="app\mailers\.gitkeep" />
+    <None Include="app\views\layouts\application.html.erb" />
+    <None Include="config.ru" />
+    <None Include="config\application.rb" />
+    <None Include="config\boot.rb" />
+    <None Include="config\database.yml" />
+    <None Include="config\environment.rb" />
+    <None Include="config\environments\development.rb" />
+    <None Include="config\environments\production.rb" />
+    <None Include="config\environments\test.rb" />
+    <None Include="config\initializers\backtrace_silencers.rb" />
+    <None Include="config\initializers\inflections.rb" />
+    <None Include="config\initializers\mime_types.rb" />
+    <None Include="config\initializers\secret_token.rb" />
+    <None Include="config\initializers\session_store.rb" />
+    <None Include="config\initializers\wrap_parameters.rb" />
+    <None Include="config\locales\en.yml" />
+    <None Include="config\routes.rb" />
+    <None Include="doc\README_FOR_APP" />
+    <None Include="Gemfile" />
+    <None Include="lib\assets\.gitkeep" />
+    <None Include="lib\tasks\.gitkeep" />
+    <None Include="log\.gitkeep" />
+    <None Include="Rakefile" />
+    <None Include="README.rdoc" />
+    <None Include="script\rails" />
+    <None Include="test\fixtures\.gitkeep" />
+    <None Include="test\functional\.gitkeep" />
+    <None Include="test\integration\.gitkeep" />
+    <None Include="test\performance\browsing_test.rb" />
+    <None Include="test\test_helper.rb" />
+    <None Include="test\unit\.gitkeep" />
+    <None Include="vendor\assets\javascripts\.gitkeep" />
+    <None Include="vendor\assets\stylesheets\.gitkeep" />
+    <None Include="vendor\plugins\.gitkeep" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="app\assets\images\rails.png" />
+    <Content Include="app\assets\javascripts\application.js" />
+    <Content Include="app\assets\stylesheets\application.css" />
+    <Content Include="public\404.html" />
+    <Content Include="public\422.html" />
+    <Content Include="public\500.html" />
+    <Content Include="public\favicon.ico" />
+    <Content Include="public\index.html" />
+    <Content Include="public\robots.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="app\models\" />
+    <Folder Include="tmp\cache\assets\" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

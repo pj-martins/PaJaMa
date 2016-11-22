@@ -37,6 +37,8 @@ namespace PaJaMa.Recipes.Model.Entities.Base
         public virtual bool Inactive { get; set; }
         public virtual string RecipeURL { get; set; }
         public virtual int? RecipeSourceID { get; set; }
+        public virtual PaJaMa.Recipes.Model.RecipeType RecipeType { get; set; }
+    	public string RecipeTypeString { get { return EnumHelper.GetEnumDisplay<PaJaMa.Recipes.Model.RecipeType>(RecipeType); } }
     
         public RecipeSource RecipeSource { get; set; }
         public ICollection<RecipeImage> RecipeImages { get; set; }

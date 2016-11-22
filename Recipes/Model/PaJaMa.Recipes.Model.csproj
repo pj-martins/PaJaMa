@@ -84,6 +84,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Enums.cs" />
     <Compile Include="Entities\Base\IngredientBase.cs">
       <DependentUpon>_EntityBase.tt</DependentUpon>
     </Compile>

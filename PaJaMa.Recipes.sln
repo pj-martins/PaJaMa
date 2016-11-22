@@ -29,6 +29,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PaJaMa.Recipes.Dto", "Recip
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PaJaMa.Dto", "Dto\PaJaMa.Dto.csproj", "{92961B8C-2E52-460E-863D-ACC06AB7AC06}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PaJaMa.Recipes.Rails", "Recipes\Rails\PaJaMa.Recipes.Rails.csproj", "{84FF538B-36E3-48E2-B622-A0F70A6FE4CF}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -127,6 +129,14 @@ Global
 		{92961B8C-2E52-460E-863D-ACC06AB7AC06}.Release|Any CPU.Build.0 = Release|Any CPU
 		{92961B8C-2E52-460E-863D-ACC06AB7AC06}.Release|x86.ActiveCfg = Release|Any CPU
 		{92961B8C-2E52-460E-863D-ACC06AB7AC06}.Release|x86.Build.0 = Release|Any CPU
+		{84FF538B-36E3-48E2-B622-A0F70A6FE4CF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{84FF538B-36E3-48E2-B622-A0F70A6FE4CF}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{84FF538B-36E3-48E2-B622-A0F70A6FE4CF}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{84FF538B-36E3-48E2-B622-A0F70A6FE4CF}.Debug|x86.Build.0 = Debug|Any CPU
+		{84FF538B-36E3-48E2-B622-A0F70A6FE4CF}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{84FF538B-36E3-48E2-B622-A0F70A6FE4CF}.Release|Any CPU.Build.0 = Release|Any CPU
+		{84FF538B-36E3-48E2-B622-A0F70A6FE4CF}.Release|x86.ActiveCfg = Release|Any CPU
+		{84FF538B-36E3-48E2-B622-A0F70A6FE4CF}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

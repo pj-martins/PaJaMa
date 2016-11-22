@@ -1,104 +1,151 @@
 ﻿import { Injectable } from '@angular/core';
 import { Http, Response } from '@angular/http';
-import { Observable } from 'rxjs/Observable';
+import { Observable } from 'rxjs/Rx';
 import 'rxjs/add/operator/map';
+import 'rxjs/add/operator/catch';
 import { AppSettings } from '../constants/appsettings';
+import { EntityBase } from '../dto/entity-base';
 
 @Injectable()
-export class DataService {
-    constructor(private http: Http) { }
+export abstract class DataService {
 
-    buildGetEntitiesUrl<TEntity>(entityType: string, args: Arguments): string {
-        let url = '';
-        if (args && args.baseUrl)
-            url += args.baseUrl;
-        url += AppSettings.API_ENDPOINT + entityType + (args && args.includeCount ? '/entitiesWithCount' : '/entities');
-        let firstIn = true;
-        if (args && args.parameters) {
-            for (let p of args.parameters) {
-                url += (firstIn ? '?' : '&') + p.name + '=' + p.value;
-                firstIn = false;
-            }
+	constructor(private http: Http) { }
 
-        }
+	post<TObject>(url: string, body: TObject = null): Observable<TObject> {
+		return this.http.post(AppSettings.API_ENDPOINT + url, body)
+			.map((res: Response) => {
+				if (!res.text())
+					return null;
+				return res.json();
+			})
+			.catch(this.handleError);
+	}
 
-        if (args && args.filter) {
-            url += (firstIn ? '?' : '&') + '$filter=' + args.filter;
-            firstIn = false;
-        }
+	put<TObject>(url: string, body: TObject): Observable<TObject> {
+		return this.http.put(AppSettings.API_ENDPOINT + url, body)
+			.map((res: Response) => {
+				if (!res.text())
+					return null;
+				return res.json();
+			})
+			.catch(this.handleError);
+	}
 
-        if (args && args.pageNumber && args.pageNumber > 0 && args.pageSize && args.pageSize > 0) {
-            url += (firstIn ? '?' : '&') + '$top=' + args.pageSize + '&$skip=' + ((args.pageNumber - 1) * args.pageSize);
-            firstIn = false;
-        }
+	delete(url: string): Observable<boolean> {
+		return this.http.delete(AppSettings.API_ENDPOINT + url + `/deleteEntity`)
+			.map((res: Response) => {
+				if (!res.text())
+					return null;
+				return res.json();
+			})
+			.catch(this.handleError);
+	}
 
-        if (args && args.orderBy)
-            url += (firstIn ? '?' : '&') + '$orderby=' + args.orderBy;
+	getItems<TObject>(url: string): Observable<Items<TObject>> {
+		return this.http.get(AppSettings.API_ENDPOINT + url)
+			.map((res: Response) => {
+				let results = new Items<TObject>();
+				results.results = res.json();
+				results.totalRecords = +res.headers.get('X-InlineCount');
+				return results;
+			})
+			.catch(this.handleError);
+	}
 
-        return url;
-    }
+	getItem<TObject>(url: string): Observable<TObject> {
+		return this.http.get(AppSettings.API_ENDPOINT + url)
+			.map((res: Response) => {
+				return res.json();
+			})
+			.catch(this.handleError);
+	}
 
-    getEntities<TEntity>(entityType: string, args: Arguments): Observable<Entities<TEntity>> {
-        let url = this.buildGetEntitiesUrl<TEntity>(entityType, args);
-        return this.http.get(url).map((res) => {
-            let entities = new Entities<TEntity>();
-            entities.Entities = res.json();
-            entities.TotalResults = parseInt(res.headers.get("X-InlineCount"));
-            return entities;
-        });
-    }
+	private getEntitiesUrl(entityType: string, odata: boolean, args?: GetArguments): string {
+		let url = entityType + (odata ? '/entitiesOData' : '/entities');
+		if (args) {
+			let firstIn = true;
+			if (args.params) {
+				for (var p in args.params) {
+					url += (firstIn ? '?' : '&') + p + '=' + args.params[p];
+					firstIn = false;
+				}
+			}
 
-    //factory.buildGetEntityUrl = function (entityType, id, args) {
-    //    var url = '';
-    //    if (args && args.baseUrl)
-    //        url += args.baseUrl;
-    //    url += serviceBase + entityType + '/entity/' + id;
-    //    return url;
-    //};
+			if (args.filter) {
+				url += (firstIn ? '?' : '&') + '$filter=' + args.filter;
+				firstIn = false;
+			}
 
-    //factory.getEntity = function (entityType, id, args) {
-    //    var url = factory.buildGetEntityUrl(entityType, id, args);
-    //    return $http.get(url).then(function (response) {
-    //        return response.data;
-    //    });
-    //};
+			if (args.pageSize) {
+				if (!args.pageNumber)
+					args.pageNumber = 1;
+				url += (firstIn ? '?' : '&') + '$top=' + args.pageSize + '&$skip=' + ((args.pageNumber - 1) * args.pageSize);
+				firstIn = false;
+			}
 
-    //factory.newEntity = function () {
-    //    return $q.when({ id: 0 });
-    //};
+			if (args.orderBy) {
+				url += (firstIn ? '?' : '&') + '$orderby=' + args.orderBy;
+				firstIn = false;
+			}
+			if (odata)
+				url += (firstIn ? '?' : '&') + '$inlinecount=allpages';
+		}
+		return url;
+	}
 
-    //factory.insertEntity = function (entityType, entity) {
-    //    return $http.post(serviceBase + entityType + '/postEntity', entity).then(function (results) {
-    //        entity.id = results.data.id;
-    //        return results.data;
-    //    });
-    //};
+	getEntitiesOData<TEntity>(entityType: string, args?: GetArguments): Observable<Items<TEntity>> {
+		return this.getItems<TEntity>(this.getEntitiesUrl(entityType, true, args));
+	}
 
-    //factory.updateEntity = function (entityType, entity) {
-    //    return $http.put(serviceBase + entityType + '/putEntity/' + entity.id, entity).then(function (status) {
-    //        return status.data;
-    //    });
-    //};
+	getEntities<TEntity>(entityType: string, args?: GetArguments): Observable<Items<TEntity>> {
+		return this.getItems<TEntity>(this.getEntitiesUrl(entityType, false, args));
+	}
 
-    //factory.deleteEntity = function (entityType, id) {
-    //    return $http.delete(serviceBase + entityType + '/deleteEntity/' + id).then(function (status) {
-    //        return status.data;
-    //    });
-    //};
+	getEntity<TEntity>(entityType: string, id: number): Observable<TEntity> {
+		return this.getItem<TEntity>(`${entityType}/entity/${id}`);
+	}
+
+	deleteEntity(entityType: string, id: number): Observable<boolean> {
+		return this.delete(`${entityType}/deleteEntity/${id}`);
+	}
+
+	insertEntity<TEntity>(entityType: string, entity: TEntity) {
+		return this.post<TEntity>(entityType + `/postEntity`, entity);
+	}
+	
+	updateEntity<TEntity>(entityType: string, id: number, entity: TEntity) {
+		return this.put<TEntity>(entityType + `/putEntity/${id}`, entity);
+	}
+
+	private handleError(error: any) {
+		let errMessage = 'Error occured!';
+		if (error) {
+			if (!error.exceptionMessage && !error.message && error._body) {
+				try {
+					let parsed = JSON.parse(error._body);
+					if (parsed.exceptionMessage || parsed.message)
+						error = parsed;
+				}
+				catch (e) {
+					// not valid JSON
+				}
+			}
+			errMessage = error.exceptionMessage || error.message || error._body || error;
+		}
+		console.error(errMessage);
+		return Observable.throw(errMessage);
+	}
 }
-export class Parameter {
-    constructor(public name: string, public value: string) { }
+
+export class Items<TObject> {
+	results: TObject[];
+	totalRecords: number;
 }
-export class Arguments {
-    parameters: Array<Parameter>;
-    filter: string;
-    baseUrl: string;
-    includeCount: boolean;
-    pageNumber: number;
-    pageSize: number;
-    orderBy: string;
-}
-export class Entities<TEntity> {
-    Entities: Array<TEntity>;
-    TotalResults: number;
+
+export class GetArguments {
+	pageSize: number;
+	pageNumber: number;
+	params: any = {};
+	filter: string;
+	orderBy: string;
 }

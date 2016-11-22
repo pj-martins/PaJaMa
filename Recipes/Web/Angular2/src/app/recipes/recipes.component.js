@@ -9,25 +9,25 @@ var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
 var core_1 = require('@angular/core');
-var recipe_service_1 = require('./recipe.service');
+var api_service_1 = require('../shared/services/api.service');
 var RecipesComponent = (function () {
-    function RecipesComponent(recipeService) {
-        this.recipeService = recipeService;
+    function RecipesComponent(apiService) {
+        this.apiService = apiService;
     }
     RecipesComponent.prototype.ngOnInit = function () {
-        var _this = this;
-        this.recipeService.getRandomRecipes().subscribe(function (x) {
-            _this.recipes = x.Entities;
-            _this.recipes.sort(function (a, b) {
-                if (a.RecipeName > b.RecipeName) {
-                    return 1;
-                }
-                if (a.RecipeName < b.RecipeName) {
-                    return -1;
-                }
-                return 0;
-            });
-        });
+        //this.apiService.getRecipeSearchs()
+        //      this.recipeService.getRandomRecipes().subscribe(x => {
+        //          this.recipes = x.results
+        //          this.recipes.sort((a, b) => {
+        //              if (a.recipeName > b.RecipeName) {
+        //                  return 1;
+        //              }
+        //              if (a.RecipeName < b.RecipeName) {
+        //                  return -1;
+        //              }
+        //              return 0;
+        //          });
+        //      });
     };
     RecipesComponent = __decorate([
         core_1.Component({
@@ -35,7 +35,7 @@ var RecipesComponent = (function () {
             selector: 'recipes',
             templateUrl: 'recipes.component.html'
         }), 
-        __metadata('design:paramtypes', [recipe_service_1.RecipeService])
+        __metadata('design:paramtypes', [api_service_1.ApiService])
     ], RecipesComponent);
     return RecipesComponent;
 }());

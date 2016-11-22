@@ -17,7 +17,7 @@ namespace PaJaMa.Recipes.Web.Api.Controllers
 #if DEBUG
     [System.Web.Http.Cors.EnableCors(origins: "*", headers: "*", methods: "*")]
 #endif
-    public class RecipeSearchController : ApiControllerBase<RecipesDtoMapper, Recipe, RecipeCoverDto>
+    public class RecipeSearchController : ApiGetControllerBase<RecipesDtoMapper, Recipe, RecipeCoverDto>
     {
         protected override Repository<RecipesDtoMapper, Recipe, RecipeCoverDto> getNewRepository()
         {
@@ -26,7 +26,7 @@ namespace PaJaMa.Recipes.Web.Api.Controllers
 
         [HttpGet]
         [EnableQuery]
-        public HttpResponseMessage Entities(string includes, string excludes = null, float? rating = null, bool bookmarked = false,
+        public HttpResponseMessage SearchRecipes(string includes = null, string excludes = null, float? rating = null, bool bookmarked = false,
             int? recipeSourceID = null, bool picturesOnly = false, int page = 1, int pageSize = 20)
         {
             var recipeRepository = repository as RecipeSearchRepository;
@@ -40,7 +40,7 @@ namespace PaJaMa.Recipes.Web.Api.Controllers
 
         [HttpGet]
         [EnableQuery]
-        public HttpResponseMessage Entities(int random)
+        public HttpResponseMessage GetRandomRecipes(int random)
         {
             var recipeRepository = repository as RecipeSearchRepository;
             return Request.CreateResponse(HttpStatusCode.OK, recipeRepository.GetRandomRecipes(random));

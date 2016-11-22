@@ -4,8 +4,7 @@ import { BrowserModule } from '@angular/platform-browser';
 import { FormsModule } from '@angular/forms';
 import { AppComponent } from './app.component';
 import { RecipesComponent } from './recipes/recipes.component';
-import { RecipeService } from './recipes/recipe.service';
-import { DataService } from './shared/services/data.service';
+import { ApiService } from './shared/services/api.service';
 import { RouterModule } from '@angular/router';
 import { routing } from './app.routing';
 
@@ -15,7 +14,7 @@ import { routing } from './app.routing';
         FormsModule,
         HttpModule,
         routing],
-    providers: [RecipeService, DataService],
+	providers: [ApiService],
     declarations: [AppComponent, RecipesComponent],
     bootstrap: [AppComponent]
 })

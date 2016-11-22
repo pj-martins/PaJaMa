@@ -22,6 +22,8 @@ namespace PaJaMa.Recipes.Dto.Entities.Base
         public virtual Nullable<float> Rating { get; set; }
         public virtual bool Inactive { get; set; }
         public virtual string RecipeURL { get; set; }
+        public virtual PaJaMa.Recipes.Model.RecipeType RecipeType { get; set; }
+    	public string RecipeTypeString { get { return EnumHelper.GetEnumDisplay<PaJaMa.Recipes.Model.RecipeType>(RecipeType); } }
     	
     	// must be overridden to be exposed
         // public virtual RecipeSourceDto RecipeSource { get; set; }
