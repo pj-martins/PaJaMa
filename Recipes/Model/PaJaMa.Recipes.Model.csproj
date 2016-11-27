@@ -106,9 +106,6 @@
     <Compile Include="Entities\Base\RecipeIngredientMeasurementBase.cs">
       <DependentUpon>_EntityBase.tt</DependentUpon>
     </Compile>
-    <Compile Include="Entities\Base\RecipeSearchBase.cs">
-      <DependentUpon>_EntityBase.tt</DependentUpon>
-    </Compile>
     <Compile Include="Entities\Base\RecipeSourceBase.cs">
       <DependentUpon>_EntityBase.tt</DependentUpon>
     </Compile>
@@ -130,7 +127,6 @@
     <Compile Include="Entities\Recipe.cs" />
     <Compile Include="Entities\RecipeImage.cs" />
     <Compile Include="Entities\RecipeIngredientMeasurement.cs" />
-    <Compile Include="Entities\RecipeSearch.cs" />
     <Compile Include="RecipesContext.Context.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>

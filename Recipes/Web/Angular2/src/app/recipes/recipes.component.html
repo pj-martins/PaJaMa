@@ -1,4 +1,48 @@
-﻿{{totalResults}}
-<div *ngFor="let recipe of recipes">
-    <img [src]="recipe.imageURLs[0]" /> {{recipe.recipeName}}
+﻿<div class="row">
+	<div class="col-md-1">
+		Include:
+	</div>
+	<div class="col-md-8">
+		<multi-select-textbox [items]="includes" [dataSource]="getIngredients" [displayMember]="'ingredientName'" [valueMember]="'ingredientName'" [minLength]="3"></multi-select-textbox>
+	</div>
 </div>
+<div class="row">
+	<div class="col-md-1">
+		Exclude:
+	</div>
+	<div class="col-md-8">
+		<multi-select-textbox [items]="excludes" [dataSource]="getIngredients" [displayMember]="'ingredientName'" [valueMember]="'ingredientName'" [minLength]="3"></multi-select-textbox>
+	</div>
+</div>
+<div class="row">
+	<div class="col-md-1">
+		Source:
+	</div>
+	<div class="col-md-4">
+		<typeahead [dataSource]="recipeSources" [(ngModel)]="recipeSourceID" [displayMember]="'recipeSourceName'" [valueMember]="'id'"></typeahead>
+	</div>
+</div>
+<div class="row">
+	<div class="col-md-1">
+		Rating:
+	</div>
+	<div class="col-md-10">
+		<ul class="rating-list">
+			<li *ngFor="let rat of [0.5,1,1.5,2,2.5,3,3.5,4,4.5,5]" class="rating-item">
+				<img *ngIf="rat <= rating" (click)="rating = (rating == rat ? 0 : rat)" [src]="(rat * 10) % 10 == 5 ? 'src/img/starleft.png' : 'src/img/starright.png'" />
+				<img *ngIf="rat > rating" (click)="rating = (rating == rat ? 0 : rat)" [src]="(rat * 10) % 10 == 5 ? 'src/img/staremptyleft.png' : 'src/img/staremptyright.png'" />
+			</li>
+		</ul>
+	</div>
+</div>
+<div class="row">
+	<div class="col-md-12 pull-right">
+		<button class="btn btn-primary" (click)="search()">Search</button>
+	</div>
+</div>
+<br /><br /><br />
+{{totalResults}}
+<div *ngFor="let recipe of recipes">
+	<img [src]="recipe.imageURLs[0]" /> {{recipe.recipeName}}
+</div>
+

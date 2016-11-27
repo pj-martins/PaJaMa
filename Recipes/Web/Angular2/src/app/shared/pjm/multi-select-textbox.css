@@ -1,0 +1,35 @@
+﻿.multi-select-textbox-container {
+	padding: 2px 4px;
+	width: 100%;
+	font-size: 14px;
+	border: 1px solid #ccc;
+	border-radius: 4px;
+	white-space: nowrap;
+}
+
+.multi-select-textbox-remove, .multi-select-textbox-add {
+	cursor: pointer;
+}
+
+.multi-select-textbox-add {
+	position: absolute;
+	right: 0;
+	margin-top: 8px;
+	margin-right: 22px;
+}
+
+.multi-select-textbox-item {
+	background-color: #ddd;
+	border-radius: 4px;
+	padding: 4px 10px;
+	margin-right: 1px;
+	float: left;
+}
+
+.multi-select-textbox-input-container >>> input {
+	margin: 3px;
+	border: none;
+	outline: none;
+	background-color: transparent;
+	width: 100%;
+}

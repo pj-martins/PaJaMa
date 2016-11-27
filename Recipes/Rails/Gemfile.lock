@@ -37,6 +37,11 @@ GEM
       coffee-script-source
       execjs
     coffee-script-source (1.10.0)
+    draper (2.1.0)
+      actionpack (>= 3.0)
+      activemodel (>= 3.0)
+      activesupport (>= 3.0)
+      request_store (~> 1.0)
     erubis (2.7.0)
     execjs (2.7.0)
     hike (1.2.3)
@@ -77,6 +82,7 @@ GEM
     rake (11.3.0)
     rdoc (3.12.2)
       json (~> 1.4)
+    request_store (1.3.1)
     sass (3.4.22)
     sass-rails (3.2.6)
       railties (~> 3.2.0)
@@ -102,8 +108,12 @@ PLATFORMS
 
 DEPENDENCIES
   coffee-rails (~> 3.2.1)
+  draper (~> 2.1)
   jquery-rails
   rails (= 3.2.19)
   sass-rails (~> 3.2.3)
   sqlite3
   uglifier (>= 1.0.3)
+
+BUNDLED WITH
+   1.13.6

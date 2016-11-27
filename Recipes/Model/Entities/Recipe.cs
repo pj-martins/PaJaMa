@@ -18,25 +18,5 @@ namespace PaJaMa.Recipes.Model.Entities
         {
             get { return RecipeSource == null ? string.Empty : RecipeSource.RecipeSourceName; }
         }
-
-		public override void OnEntitySaved(DbContextBase context)
-		{
-            base.OnEntitySaved(context);
-
-            var db = context as RecipesContext;
-            var recSearch = db.RecipeSearches.FirstOrDefault(rs => rs.RecipeID == RecipeID);
-            if (recSearch == null)
-            {
-                recSearch = new RecipeSearch();
-                recSearch.RecipeID = RecipeID;
-                db.RecipeSearches.Add(recSearch);
-            }
-            recSearch.RecipeName = RecipeName;
-            recSearch.Ingredients = string.Join(" ", RecipeIngredientMeasurements.Select(ri =>
-                ri.IngredientMeasurement.Ingredient.IngredientName).ToArray());
-            if (recSearch.Ingredients.Length > 5000)
-                recSearch.Ingredients = recSearch.Ingredients.Substring(0, 5000);
-            db.SaveChanges();
-        }
     }
 }

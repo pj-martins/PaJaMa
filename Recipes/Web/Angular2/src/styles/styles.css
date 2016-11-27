@@ -1,1 +1,10 @@
-﻿
+﻿.rating-list {
+	padding: 0px;
+	list-style-type: none;
+}
+
+.rating-item {
+	display: inline;
+	float: left;
+	cursor: pointer;
+}

@@ -25,7 +25,6 @@
         <AssociationConnector Association="PaJaMa.Recipes.Model.FK_RecipeIngredient_Recipe" ManuallyRouted="false" />
         <AssociationConnector Association="PaJaMa.Recipes.Model.FK_UserRecipe_Recipe" ManuallyRouted="false" />
         <AssociationConnector Association="PaJaMa.Recipes.Model.FK_UserRecipe_User" ManuallyRouted="false" />
-        <EntityTypeShape EntityType="PaJaMa.Recipes.Model.RecipeSearch" Width="1.5" PointX="7.375" PointY="0.75" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

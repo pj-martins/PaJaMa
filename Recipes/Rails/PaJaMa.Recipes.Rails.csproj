@@ -37,8 +37,12 @@
   </PropertyGroup>
   <ItemGroup>
     <None Include="app\controllers\api\api_controller.rb" />
+    <None Include="app\controllers\api\v1\lookups_controller.rb" />
+    <None Include="app\controllers\api\v1\recipe_controller.rb" />
     <None Include="app\controllers\application_controller.rb" />
     <None Include="app\controllers\api\v1\recipes_controller.rb" />
+    <None Include="app\controllers\recipes_controller.rb" />
+    <None Include="app\decorators\recipe_decorator.rb" />
     <None Include="app\helpers\application_helper.rb" />
     <None Include="app\mailers\.gitkeep" />
     <None Include="app\models\measurement.rb" />
@@ -48,6 +52,7 @@
     <None Include="app\models\recipe_ingredient_measurement.rb" />
     <None Include="app\models\recipe.rb" />
     <None Include="app\views\layouts\application.html.erb" />
+    <None Include="app\views\recipes\_recipe.html.erb" />
     <None Include="config.ru" />
     <None Include="config\application.rb" />
     <None Include="config\boot.rb" />
@@ -84,9 +89,15 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="app\assets\images\rails.png" />
+    <Content Include="app\assets\images\staremptyleft.png" />
+    <Content Include="app\assets\images\staremptyright.png" />
+    <Content Include="app\assets\images\starleft.png" />
+    <Content Include="app\assets\images\starright.png" />
     <Content Include="app\assets\javascripts\application.js" />
     <Content Include="app\assets\stylesheets\application.css" />
     <None Include="app\models\ingredient.rb" />
+    <None Include="app\views\recipes\index.html.erb" />
+    <Content Include="app\assets\stylesheets\recipe.css" />
     <Content Include="public\404.html" />
     <Content Include="public\422.html" />
     <Content Include="public\500.html" />
@@ -95,7 +106,11 @@
     <Content Include="public\robots.txt" />
   </ItemGroup>
   <ItemGroup>
+    <Folder Include="bin\" />
     <Folder Include="tmp\cache\assets\" />
+  </ItemGroup>
+  <ItemGroup>
+    <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

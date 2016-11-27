@@ -1,0 +1,53 @@
+.check-list {
+    position: relative;
+    min-width: 60px;
+}
+
+.check-list-item {
+    cursor: pointer;
+}
+
+.check-list-item-all {
+    font-style: italic;
+}
+
+.check-list-check {
+    margin-right: 5px;
+}
+
+.check-list-button {
+    width: 100%;
+    background: white !important;
+    font: inherit;
+    border: 1px solid grey;
+    min-height: 26px;
+}
+
+
+.check-list-button-formcontrol {
+    border: 0px !important;
+    margin-top: -2px !important;
+}
+
+.check-list-dropdown {
+    z-index: 1;
+    position: absolute;
+    border: 1px solid;
+    background-color: white;
+    border-color: grey;
+    padding: 5px;
+    min-width: 100%;
+    white-space: nowrap;
+    overflow-x: hidden;
+    overflow-y: auto;
+    max-height: 600px;
+}
+
+.glyphicon-none:before {
+    content: "\2122";
+    color: transparent !important;
+}
+
+.drop-down-image {
+    margin-top: 2px;
+}

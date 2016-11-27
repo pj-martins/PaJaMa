@@ -32,7 +32,8 @@ namespace PaJaMa.Web
 
 		protected virtual bool isUnauthorized(AuthorizationType authorizationType, object source)
 		{
-			return false;
+			// by default we'll only alow gets, override the repository if you want to do inserts, updates, deletes
+			return (int)authorizationType > (int)AuthorizationType.GetEntity;
 		}
 
 		public virtual IQueryable<TEntityDto> GetEntities()

@@ -7,7 +7,8 @@ class Recipe < ActiveRecord::Base
 	has_one :RecipeSource, :foreign_key => :RecipeSourceID, :primary_key => :RecipeSourceID
 
 	def self.get_random(random)
-		return Recipe.limit(random).order("RANDOM()")
+		# only find recipes with images
+		return Recipe.where("Rating >= ?", 4).joins(:RecipeImages).limit(random).order("RANDOM()")
 	end
 
 	def self.search_recipes(params) #includes, excludes, rating, bookmarked, recipe_source_id, pictures_only, page, page_size)
@@ -28,4 +29,8 @@ class Recipe < ActiveRecord::Base
 
 		return curr.limit(params[:pageSize].to_f).offset((params[:page].to_f - 1) * params[:pageSize].to_f)
     end
+
+	def self.get_recipe(recipe_id)
+		return Recipe.find(recipe_id)
+	end
 end

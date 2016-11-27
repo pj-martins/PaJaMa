@@ -22,7 +22,7 @@
 					:only => :IngredientMeasurement
 				}
 			},
-			:only => [:RecipeName]})
+			:only => [:RecipeName, :RecipeID]})
   end
 =begin
   def recipe

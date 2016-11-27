@@ -1,6 +1,6 @@
 // !!!! DO NOT MAKE CHANGES IN HERE HERE THEY WILL GET OVERWRITTEN WHEN TEMPLATE GETS GENERATED !!!!
 
-import { IRecipeSource, IRecipeCover } from '../dto/interfaces';
+import { IRecipeSource, IIngredient, IRecipeCover } from '../dto/interfaces';
 import { Recipe } from '../dto/entities';
 import { Http } from '@angular/http';
 import { Injectable } from '@angular/core';
@@ -21,6 +21,15 @@ export class ApiService extends DataService {
 	}
 	getRecipeSource(id: number): Observable<IRecipeSource> {
 		return super.getEntity<IRecipeSource>(`recipeSource`, id);
+	}
+	getIngredients(args?: GetArguments): Observable<Items<IIngredient>> {
+		return super.getEntities<IIngredient>(`ingredient`, args);
+	}
+	getIngredientsOData(args?: GetArguments): Observable<Items<IIngredient>> {
+		return super.getEntitiesOData<IIngredient>(`ingredient`, args);
+	}
+	getIngredient(id: number): Observable<IIngredient> {
+		return super.getEntity<IIngredient>(`ingredient`, id);
 	}
 	insertRecipe(dto: Recipe): Observable<Recipe> {
 		return super.insertEntity<Recipe>(`recipe`, dto);

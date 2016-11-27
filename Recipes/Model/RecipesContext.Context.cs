@@ -41,6 +41,5 @@ namespace PaJaMa.Recipes.Model
         public virtual DbSet<RecipeSource> RecipeSources { get; set; }
         public virtual DbSet<User> Users { get; set; }
         public virtual DbSet<UserRecipe> UserRecipes { get; set; }
-        public virtual DbSet<RecipeSearch> RecipeSearches { get; set; }
     }
 }

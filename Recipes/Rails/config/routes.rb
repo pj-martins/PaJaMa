@@ -1,6 +1,7 @@
 Rails.application.routes.draw do
 scope '/api' do
     scope '/v1' do
+	  get '/recipe/:id' => 'api/v1/recipe#index'
       scope '/recipes' do
         get '/' => 'api/v1/recipes#index'
 		scope '/search' do
@@ -22,6 +23,10 @@ scope '/api' do
         end
 =end
       end
+	  scope '/recipeSources' do
+		get '/' => 'api/v1/lookups#recipe_sources'
+	  end
     end
   end
+  resources :recipes, only: [:index]
 end 

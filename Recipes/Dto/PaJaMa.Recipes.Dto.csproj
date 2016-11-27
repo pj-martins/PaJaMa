@@ -86,9 +86,6 @@
     <Compile Include="Entities\Base\RecipeIngredientMeasurementDtoBase.cs">
       <DependentUpon>_DtoBase.tt</DependentUpon>
     </Compile>
-    <Compile Include="Entities\Base\RecipeSearchDtoBase.cs">
-      <DependentUpon>_DtoBase.tt</DependentUpon>
-    </Compile>
     <Compile Include="Entities\Base\RecipeSourceDtoBase.cs">
       <DependentUpon>_DtoBase.tt</DependentUpon>
     </Compile>
@@ -112,7 +109,6 @@
     <Compile Include="Entities\RecipeImageDto.cs" />
     <Compile Include="Entities\RecipeIngredientDto.cs" />
     <Compile Include="Entities\RecipeIngredientMeasurementDto.cs" />
-    <Compile Include="Entities\RecipeSearchDto.cs" />
     <Compile Include="Entities\RecipeSourceDto.cs" />
     <Compile Include="Entities\UserDto.cs" />
     <Compile Include="Entities\UserRecipeDto.cs" />

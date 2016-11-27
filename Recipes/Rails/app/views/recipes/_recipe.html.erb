@@ -1,0 +1,28 @@
+﻿<div class="row">
+	<div class="col-md-3 recipe-cover-thumbnail">
+		<img src="<%= recipe.cover_image_url %>" width="250" />
+	</div>
+	<div class="col-md-6">
+		<strong><%= recipe.RecipeName %></strong><br />
+		<ul class="rating-list">
+			<% [0.5,1,1.5,2,2.5,3,3.5,4,4.5,5].each do |rat| %>
+			<li class="rating-item">
+				<% if rat <= recipe.Rating %>
+				<img src="<%= image_path((rat * 10) % 10 == 5 ? 'starleft.png' : 'starright.png')%>" />
+				<% else %>
+				<img src="<%= image_path((rat * 10) % 10 == 5 ? 'staremptyleft.png' : 'staremptyright.png')%>" />
+				<% end %>
+			</li>
+			<% end %>
+		</ul>
+		<br />
+		<br />
+		<% recipe.RecipeIngredientMeasurements.take(9).each do |rim|%>
+		<%= rim.IngredientMeasurement.Ingredient.IngredientName %><br />
+		<% end %>
+		<% if recipe.RecipeIngredientMeasurements.length > 9 %>
+		...
+		<% end %>
+	</div>
+</div>
+<br /><br />

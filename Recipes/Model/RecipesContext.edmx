@@ -76,14 +76,6 @@
           <Property Name="Quantity" Type="real" />
           <Property Name="IsOptional" Type="bit" Nullable="false" />
         </EntityType>
-        <EntityType Name="RecipeSearch">
-          <Key>
-            <PropertyRef Name="RecipeID" />
-          </Key>
-          <Property Name="RecipeID" Type="int" Nullable="false" />
-          <Property Name="RecipeName" Type="nvarchar" MaxLength="255" Nullable="false" />
-          <Property Name="Ingredients" Type="varchar" MaxLength="5000" Nullable="false" />
-        </EntityType>
         <EntityType Name="RecipeSource">
           <Key>
             <PropertyRef Name="RecipeSourceID" />
@@ -241,7 +233,6 @@
           <EntitySet Name="Recipe" EntityType="Self.Recipe" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="RecipeImage" EntityType="Self.RecipeImage" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="RecipeIngredientMeasurement" EntityType="Self.RecipeIngredientMeasurement" Schema="dbo" store:Type="Tables" />
-          <EntitySet Name="RecipeSearch" EntityType="Self.RecipeSearch" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="RecipeSource" EntityType="Self.RecipeSource" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="User" EntityType="Self.User" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="UserRecipe" EntityType="Self.UserRecipe" Schema="dbo" store:Type="Tables" />
@@ -581,16 +572,7 @@
             <End Role="User" EntitySet="Users" />
             <End Role="UserRecipe" EntitySet="UserRecipes" />
           </AssociationSet>
-          <EntitySet Name="RecipeSearches" EntityType="PaJaMa.Recipes.Model.RecipeSearch" />
         </EntityContainer>
-        <EntityType Name="RecipeSearch">
-          <Key>
-            <PropertyRef Name="RecipeID" />
-          </Key>
-          <Property Name="RecipeID" Type="Int32" Nullable="false" />
-          <Property Name="RecipeName" Type="String" Nullable="false" MaxLength="255" FixedLength="false" Unicode="true" />
-          <Property Name="Ingredients" Type="String" Nullable="false" MaxLength="5000" FixedLength="false" Unicode="false" />
-        </EntityType>
         <EnumType Name="RecipeType" a:ExternalTypeName="PaJaMa.Recipes.Model.RecipeType" xmlns:a="http://schemas.microsoft.com/ado/2006/04/codegeneration" />
       </Schema>
     </edmx:ConceptualModels>
@@ -703,15 +685,6 @@
                 <ScalarProperty Name="Rating" ColumnName="Rating" />
                 <ScalarProperty Name="Notes" ColumnName="Notes" />
                 <ScalarProperty Name="AllowEdit" ColumnName="AllowEdit" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="RecipeSearches">
-            <EntityTypeMapping TypeName="PaJaMa.Recipes.Model.RecipeSearch">
-              <MappingFragment StoreEntitySet="RecipeSearch">
-                <ScalarProperty Name="Ingredients" ColumnName="Ingredients" />
-                <ScalarProperty Name="RecipeName" ColumnName="RecipeName" />
-                <ScalarProperty Name="RecipeID" ColumnName="RecipeID" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

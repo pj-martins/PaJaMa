@@ -36,7 +36,6 @@ namespace PaJaMa.Recipes.Dto
     		Mappings.Add(typeof(RecipeSource), cfg.CreateMap<RecipeSource, RecipeSourceDto>().ForMember(x => x.ID, y => y.MapFrom(e => e.RecipeSourceID)));
     		Mappings.Add(typeof(User), cfg.CreateMap<User, UserDto>().ForMember(x => x.ID, y => y.MapFrom(e => e.UserID)));
     		Mappings.Add(typeof(UserRecipe), cfg.CreateMap<UserRecipe, UserRecipeDto>().ForMember(x => x.ID, y => y.MapFrom(e => e.UserRecipeID)));
-    		Mappings.Add(typeof(RecipeSearch), cfg.CreateMap<RecipeSearch, RecipeSearchDto>().ForMember(x => x.ID, y => y.MapFrom(e => e.RecipeID)));
     
         }
     }
