@@ -29,4 +29,5 @@ scope '/api' do
     end
   end
   resources :recipes, only: [:index]
+  post 'recipes', action: :search, controller: 'recipes'
 end 

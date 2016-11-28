@@ -4,7 +4,8 @@
   end
 
   def search
-	render json: self.jsonify(Recipe.search_recipes(params))
+	render json: self.jsonify(Recipe.search_recipes(params[:includes], params[:excludes], params[:rating], params[:bookmarked], 
+		params[:recipe_source_id], params[:pictures_only], params[:page], params[:page_size]))
   end
 
   def jsonify(recipes)

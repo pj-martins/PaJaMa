@@ -1,1 +1,1 @@
-﻿const API_URL = 'http://localhost:50554/api';
+﻿const API_URL = 'http://localhost:3000/api/v1';

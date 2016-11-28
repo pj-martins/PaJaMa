@@ -47,6 +47,7 @@
     <None Include="app\mailers\.gitkeep" />
     <None Include="app\models\measurement.rb" />
     <None Include="app\models\ingredient_measurement.rb" />
+    <None Include="app\models\recipe_search_parameter.rb" />
     <None Include="app\models\recipe_source.rb" />
     <None Include="app\models\recipe_image.rb" />
     <None Include="app\models\recipe_ingredient_measurement.rb" />

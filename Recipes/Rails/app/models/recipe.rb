@@ -11,23 +11,35 @@ class Recipe < ActiveRecord::Base
 		return Recipe.where("Rating >= ?", 4).joins(:RecipeImages).limit(random).order("RANDOM()")
 	end
 
-	def self.search_recipes(params) #includes, excludes, rating, bookmarked, recipe_source_id, pictures_only, page, page_size)
-		params[:page] ||= 1
-		params[:pageSize] ||= 20
+	def self.search_recipes(includes = nil, excludes = nil, rating = nil, bookmarked = nil, recipe_source_id = nil, pictures_only = false, page = 1, page_size = 20)
+		page ||= 1
+		page_size ||= 20
         curr = Recipe;
-		if (params[:recipeSourceID])
-			curr = curr.where(RecipeSourceID: params[:recipeSourceID].to_f)
+		if (recipe_source_id)
+			curr = curr.where(RecipeSourceID: recipe_source_id.to_f)
 		end
 
-		if (params[:rating])
-			curr = curr.where("Rating >= ?", params[:rating].to_f)
+		if (rating)
+			curr = curr.where("Rating >= ?", rating.to_f)
 		end
 
-		if (params[:includes])
-
+		if (includes)
+			parts = includes.split(';')
+			include_ids = nil;
+			for ing in parts
+				curr_ids = RecipeIngredientMeasurement.joins(:IngredientMeasurement => :Ingredient).where("IngredientName like '%#{ing}%'").pluck(:RecipeID)
+				if include_ids === nil
+					include_ids = curr_ids
+				else
+					logger.debug "include: #{include_ids}"
+					logger.debug "curr: #{curr_ids}"
+					include_ids &= curr_ids
+				end
+			end
+			curr = curr.where(RecipeID: include_ids)
 		end
 
-		return curr.limit(params[:pageSize].to_f).offset((params[:page].to_f - 1) * params[:pageSize].to_f)
+		return curr.limit(page_size.to_f).offset((page.to_f - 1) * page_size.to_f)
     end
 
 	def self.get_recipe(recipe_id)

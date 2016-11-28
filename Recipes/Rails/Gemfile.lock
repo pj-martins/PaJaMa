@@ -72,6 +72,9 @@ GEM
       activesupport (= 3.2.19)
       bundler (~> 1.0)
       railties (= 3.2.19)
+    rails-api (0.4.0)
+      actionpack (>= 3.2.11)
+      railties (>= 3.2.11)
     railties (3.2.19)
       actionpack (= 3.2.19)
       activesupport (= 3.2.19)
@@ -111,6 +114,7 @@ DEPENDENCIES
   draper (~> 2.1)
   jquery-rails
   rails (= 3.2.19)
+  rails-api
   sass-rails (~> 3.2.3)
   sqlite3
   uglifier (>= 1.0.3)
