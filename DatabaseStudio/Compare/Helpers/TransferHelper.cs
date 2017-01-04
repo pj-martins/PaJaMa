@@ -86,7 +86,7 @@ namespace PaJaMa.DatabaseStudio.Compare.Helpers
 										}
 
 										copy.BulkCopyTimeout = 600;
-										copy.BatchSize = 5000;
+										copy.BatchSize = table.TransferBatchSize == 0 ? TableWorkspace.DEFAULT_BATCH_SIZE : table.TransferBatchSize;
 										copy.NotifyAfter = 500;
 										copy.SqlRowsCopied += delegate(object sender, SqlRowsCopiedEventArgs e)
 										{

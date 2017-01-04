@@ -71,7 +71,7 @@ namespace PaJaMa.DatabaseStudio.Compare
 			string toDatabase = string.Empty;
 
 			var worker = new BackgroundWorker();
-			worker.DoWork += delegate(object sender2, DoWorkEventArgs e2)
+			worker.DoWork += delegate (object sender2, DoWorkEventArgs e2)
 				{
 					_differencedTabs = new List<TabPage>();
 					try
@@ -161,7 +161,7 @@ namespace PaJaMa.DatabaseStudio.Compare
 			if (reinit)
 			{
 				var worker = new BackgroundWorker();
-				worker.DoWork += delegate(object sender2, DoWorkEventArgs e2)
+				worker.DoWork += delegate (object sender2, DoWorkEventArgs e2)
 				{
 					_compareHelper.Init(worker);
 				};
@@ -308,7 +308,7 @@ namespace PaJaMa.DatabaseStudio.Compare
 			var worker = new BackgroundWorker();
 			worker.WorkerReportsProgress = true;
 			worker.WorkerSupportsCancellation = true;
-			worker.DoWork += delegate(object sender2, DoWorkEventArgs e2)
+			worker.DoWork += delegate (object sender2, DoWorkEventArgs e2)
 			{
 				success = SynchronizationHelper.Synchronize(_compareHelper, workspaces, dataSpaces, truncDelete, worker);
 			};
@@ -341,6 +341,9 @@ namespace PaJaMa.DatabaseStudio.Compare
 
 		private void grid_CurrentCellDirtyStateChanged(object sender, EventArgs e)
 		{
+			if ((sender as DataGridView).CurrentCell != null && (sender as DataGridView).CurrentCell.OwningColumn == TransferBatchSize)
+				return;
+
 			setTabText();
 		}
 
@@ -365,8 +368,13 @@ namespace PaJaMa.DatabaseStudio.Compare
 
 		private void gridTables_CellValueChanged(object sender, DataGridViewCellEventArgs e)
 		{
+			if (gridTables.Columns[e.ColumnIndex] == TransferBatchSize)
+				return;
+
 			if (gridTables.Columns[e.ColumnIndex] == TargetTable)
 				gridTables_SelectionChanged(sender, e);
+
+			TransferBatchSize.Visible = gridTables.DataSource != null && (gridTables.DataSource as BindingList<TableWorkspace>).Any(tw => tw.SelectTableForData);
 		}
 
 		private void btnRemoveSourceConnString_Click(object sender, EventArgs e)
@@ -809,6 +817,7 @@ namespace PaJaMa.DatabaseStudio.Compare
 								tw.KeepIdentity = stw.KeepIdentity;
 								tw.RemoveAddKeys = stw.RemoveAddKeys;
 								tw.RemoveAddIndexes = stw.RemoveAddIndexes;
+								tw.TransferBatchSize = stw.TransferBatchSize;
 							}
 						}
 
@@ -833,6 +842,8 @@ namespace PaJaMa.DatabaseStudio.Compare
 							if (dw != null)
 								dw.Select = true;
 						}
+
+						TransferBatchSize.Visible = workspaces.SelectedTableWorkspaces.Any(tw => tw.SelectTableForData);
 					}
 				}
 			}
@@ -849,11 +860,11 @@ namespace PaJaMa.DatabaseStudio.Compare
 			var differences = new List<DataDifference>();
 			var prog = new PaJaMa.WinControls.WinProgressBox();
 			var dataHelper = new DataHelper();
-			prog.Cancel += delegate(object sender2, EventArgs e2)
+			prog.Cancel += delegate (object sender2, EventArgs e2)
 			{
 				dataHelper.Cancel();
 			};
-			bw.DoWork += delegate(object sender2, DoWorkEventArgs e2)
+			bw.DoWork += delegate (object sender2, DoWorkEventArgs e2)
 			{
 				foreach (var tw in tws)
 				{
@@ -871,6 +882,36 @@ namespace PaJaMa.DatabaseStudio.Compare
 			{
 				var row = gridTables.Rows.OfType<DataGridViewRow>().First(r => r.DataBoundItem.Equals(diff.TableWorkspace));
 				row.Cells[DataDetails.Name].Value = string.Format("{0}/{1}/{2}", diff.Differences, diff.SourceOnly, diff.TargetOnly);
+			}
+		}
+
+		private void gridTables_EditingControlShowing(object sender, DataGridViewEditingControlShowingEventArgs e)
+		{
+			if (gridTables.CurrentCell.OwningColumn != TransferBatchSize) return;
+
+			var tws = gridTables.Rows[gridTables.CurrentCell.RowIndex].DataBoundItem as TableWorkspace;
+			e.Control.Visible = tws.SelectTableForData;
+		}
+
+		private void mnuMain_Opening(object sender, CancelEventArgs e)
+		{
+			var allRowsDataSelected = gridTables.SelectedRows.OfType<DataGridViewRow>().Any()
+				&& gridTables.SelectedRows.OfType<DataGridViewRow>().All(dgv => (dgv.DataBoundItem as TableWorkspace).SelectTableForData);
+
+			setBatchSizeToolStripMenuItem.Visible = allRowsDataSelected;
+		}
+
+		private void setBatchSizeToolStripMenuItem_Click(object sender, EventArgs e)
+		{
+			var result = PaJaMa.WinControls.NumericInputBox.Show("Enter batch size", "Batch Size", TableWorkspace.DEFAULT_BATCH_SIZE);
+			if (result.Result == DialogResult.OK)
+			{
+				foreach (DataGridViewRow row in gridTables.SelectedRows)
+				{
+					var tw = row.DataBoundItem as TableWorkspace;
+					tw.TransferBatchSize = (int)result.Value;
+				}
+				gridTables.Refresh();
 			}
 		}
 	}

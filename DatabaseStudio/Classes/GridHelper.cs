@@ -50,6 +50,8 @@ namespace PaJaMa.DatabaseStudio.Classes
 			var grid = sender as DataGridView;
 			if (grid.IsCurrentCellDirty)
 			{
+				if (grid.CurrentCell is DataGridViewTextBoxCell) return;
+
 				grid.CommitEdit(DataGridViewDataErrorContexts.Commit);
 				grid.CancelEdit();
 			}

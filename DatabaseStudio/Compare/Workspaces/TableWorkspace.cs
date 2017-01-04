@@ -14,6 +14,7 @@ namespace PaJaMa.DatabaseStudio.Compare.Workspaces
 {
 	public class TableWorkspace : WorkspaceWithSourceBase
 	{
+		public const int DEFAULT_BATCH_SIZE = 5000;
 		private CompareHelper _compareHelper;
 
 		public Table SourceTable { get { return SourceObject as Table; } }
@@ -38,6 +39,8 @@ namespace PaJaMa.DatabaseStudio.Compare.Workspaces
 				_selectTableForData = value;
 				if (!_selectTableForData)
 					_keepIdentity = _removeAddKeys = false;
+				else if (TransferBatchSize == 0)
+					TransferBatchSize = DEFAULT_BATCH_SIZE;
 				if (TargetObject == null)
 					Select = true;
 			}
@@ -103,6 +106,7 @@ namespace PaJaMa.DatabaseStudio.Compare.Workspaces
 		}
 
 		public bool RemoveAddIndexes { get; set; }
+		public int TransferBatchSize { get; set; }
 
 		public DataTableWithSchema ComparedData { get; set; }
 
@@ -129,6 +133,7 @@ namespace PaJaMa.DatabaseStudio.Compare.Workspaces
 		public bool KeepIdentity { get; set; }
 		public bool RemoveAddKeys { get; set; }
 		public bool RemoveAddIndexes { get; set; }
+		public int TransferBatchSize { get; set; }
 		public List<SerializableSynchronizationItem> SynchronizationItems { get; set; }
 
 		public static SerializableTableWorkspace GetFromTableWorkspace(TableWorkspace ws)
@@ -144,6 +149,7 @@ namespace PaJaMa.DatabaseStudio.Compare.Workspaces
 				KeepIdentity = ws.KeepIdentity,
 				RemoveAddKeys = ws.RemoveAddKeys,
 				RemoveAddIndexes = ws.RemoveAddIndexes,
+				TransferBatchSize = ws.TransferBatchSize,
 				SynchronizationItems = ws.SynchronizationItems.Select(si =>
 					new SerializableSynchronizationItem()
 					{
