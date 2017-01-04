@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace PaJaMa.DatabaseStudio.Properties {
+namespace PaJaMa.Reminder.Properties {
     using System;
     
     
@@ -39,7 +39,7 @@ namespace PaJaMa.DatabaseStudio.Properties {
         internal static global::System.Resources.ResourceManager ResourceManager {
             get {
                 if (object.ReferenceEquals(resourceMan, null)) {
-                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("PaJaMa.DatabaseStudio.Properties.Resources", typeof(Resources).Assembly);
+                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("PaJaMa.Reminder.Properties.Resources", typeof(Resources).Assembly);
                     resourceMan = temp;
                 }
                 return resourceMan;
@@ -57,16 +57,6 @@ namespace PaJaMa.DatabaseStudio.Properties {
             }
             set {
                 resourceCulture = value;
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized resource of type System.Byte[].
-        /// </summary>
-        internal static byte[] System_Data_SQLite {
-            get {
-                object obj = ResourceManager.GetObject("System_Data_SQLite", resourceCulture);
-                return ((byte[])(obj));
             }
         }
     }
