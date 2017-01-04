@@ -71,6 +71,9 @@ namespace PaJaMa.ScreenCapture
 			else if (e.KeyCode == Keys.Escape && _overlays.Any())
 			{
 				closeAll();
+
+				_downX = null;
+				_downY = null;
 			}
 		}
 
