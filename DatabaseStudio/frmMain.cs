@@ -44,6 +44,8 @@ namespace PaJaMa.DatabaseStudio
 
 		private void frmMain_FormClosing(object sender, FormClosingEventArgs e)
 		{
+			if (this.WindowState == FormWindowState.Minimized) return;
+
 			var settings = Properties.Settings.Default;
 			settings.Left = this.DesktopLocation.X;
 			settings.Top = this.DesktopLocation.Y;
