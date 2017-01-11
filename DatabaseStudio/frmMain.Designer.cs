@@ -38,11 +38,14 @@
 			this.ucQuery1 = new PaJaMa.DatabaseStudio.Query.ucQuery();
 			this.ucDataGenerate1 = new PaJaMa.DatabaseStudio.DataGenerate.ucDataGenerate();
 			this.ucSearch1 = new PaJaMa.DatabaseStudio.Search.ucSearch();
+			this.tabMonitor = new System.Windows.Forms.TabPage();
+			this.ucMonitor = new PaJaMa.DatabaseStudio.Monitor.ucMonitor();
 			this.tabMain.SuspendLayout();
 			this.tabCompare.SuspendLayout();
 			this.tabQuery.SuspendLayout();
 			this.tabDataGenerate.SuspendLayout();
 			this.tabSearch.SuspendLayout();
+			this.tabMonitor.SuspendLayout();
 			this.SuspendLayout();
 			// 
 			// tabMain
@@ -52,6 +55,7 @@
 			this.tabMain.Controls.Add(this.tabQuery);
 			this.tabMain.Controls.Add(this.tabDataGenerate);
 			this.tabMain.Controls.Add(this.tabSearch);
+			this.tabMain.Controls.Add(this.tabMonitor);
 			this.tabMain.Dock = System.Windows.Forms.DockStyle.Fill;
 			this.tabMain.Location = new System.Drawing.Point(0, 0);
 			this.tabMain.Name = "tabMain";
@@ -137,6 +141,25 @@
 			this.ucSearch1.Size = new System.Drawing.Size(881, 524);
 			this.ucSearch1.TabIndex = 0;
 			// 
+			// tabMonitor
+			// 
+			this.tabMonitor.Controls.Add(this.ucMonitor);
+			this.tabMonitor.Location = new System.Drawing.Point(4, 4);
+			this.tabMonitor.Name = "tabMonitor";
+			this.tabMonitor.Padding = new System.Windows.Forms.Padding(3);
+			this.tabMonitor.Size = new System.Drawing.Size(887, 530);
+			this.tabMonitor.TabIndex = 4;
+			this.tabMonitor.Text = "Monitor";
+			this.tabMonitor.UseVisualStyleBackColor = true;
+			// 
+			// ucMonitor
+			// 
+			this.ucMonitor.Dock = System.Windows.Forms.DockStyle.Fill;
+			this.ucMonitor.Location = new System.Drawing.Point(3, 3);
+			this.ucMonitor.Name = "ucMonitor";
+			this.ucMonitor.Size = new System.Drawing.Size(881, 524);
+			this.ucMonitor.TabIndex = 0;
+			// 
 			// frmMain
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -154,6 +177,7 @@
 			this.tabQuery.ResumeLayout(false);
 			this.tabDataGenerate.ResumeLayout(false);
 			this.tabSearch.ResumeLayout(false);
+			this.tabMonitor.ResumeLayout(false);
 			this.ResumeLayout(false);
 
 		}
@@ -169,6 +193,7 @@
 		private DataGenerate.ucDataGenerate ucDataGenerate1;
 		private System.Windows.Forms.TabPage tabSearch;
 		private Search.ucSearch ucSearch1;
-
+		private System.Windows.Forms.TabPage tabMonitor;
+		private Monitor.ucMonitor ucMonitor;
 	}
 }

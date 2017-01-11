@@ -188,7 +188,6 @@
     <Compile Include="DatabaseObjects\ForeignKey.cs" />
     <Compile Include="DatabaseObjects\Index.cs" />
     <Compile Include="DatabaseObjects\KeyConstraint.cs" />
-    <Compile Include="Compare\Classes\ObjectType.cs" />
     <Compile Include="DatabaseObjects\Permission.cs" />
     <Compile Include="DatabaseObjects\RoutineSynonym.cs" />
     <Compile Include="DatabaseObjects\Schema.cs" />
@@ -279,6 +278,14 @@
     </Compile>
     <Compile Include="DataGenerate\Helper\GeneratorHelper.cs" />
     <Compile Include="Classes\IDatabase.cs" />
+    <Compile Include="Monitor\RawTraceReader.cs" />
+    <Compile Include="Monitor\TraceSettings.cs" />
+    <Compile Include="Monitor\ucMonitor.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Monitor\ucMonitor.Designer.cs">
+      <DependentUpon>ucMonitor.cs</DependentUpon>
+    </Compile>
     <Compile Include="Query\Classes\ExternalTypes.cs" />
     <Compile Include="Query\Classes\SchemaHelper.cs" />
     <Compile Include="Query\ucQueryOutput.cs">
@@ -344,6 +351,9 @@
     <EmbeddedResource Include="frmMain.resx">
       <DependentUpon>frmMain.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="Monitor\ucMonitor.resx">
+      <DependentUpon>ucMonitor.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Query\ucQueryOutput.resx">
       <DependentUpon>ucQueryOutput.cs</DependentUpon>
     </EmbeddedResource>
@@ -366,6 +376,7 @@
     <EmbeddedResource Include="Search\ucSearch.resx">
       <DependentUpon>ucSearch.cs</DependentUpon>
     </EmbeddedResource>
+    <None Include="Monitor\expressprofilersource.zip" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>

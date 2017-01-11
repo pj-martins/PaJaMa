@@ -250,5 +250,29 @@ namespace PaJaMa.DatabaseStudio.Properties {
                 this["LastQueryUseDummyDA"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("")]
+        public string MonitorConnectionStrings {
+            get {
+                return ((string)(this["MonitorConnectionStrings"]));
+            }
+            set {
+                this["MonitorConnectionStrings"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("")]
+        public string LastMonitorConnectionString {
+            get {
+                return ((string)(this["LastMonitorConnectionString"]));
+            }
+            set {
+                this["LastMonitorConnectionString"] = value;
+            }
+        }
     }
 }
