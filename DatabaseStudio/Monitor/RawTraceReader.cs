@@ -1092,71 +1092,71 @@ order by trace_column_id
          */
 
 		public string TextData { get { return GetString(ProfilerEventColumns.TextData); } }
-		//public byte[] BinaryData { get { return GetByte(ProfilerEventColumns.BinaryData); } }
-		//public int DatabaseID { get { return GetInt(ProfilerEventColumns.DatabaseID); } }
-		//public long TransactionID { get { return GetLong(ProfilerEventColumns.TransactionID); } }
-		//public int LineNumber { get { return GetInt(ProfilerEventColumns.LineNumber); } }
-		//public string NTUserName { get { return GetString(ProfilerEventColumns.NTUserName); } }
-		//public string NTDomainName { get { return GetString(ProfilerEventColumns.NTDomainName); } }
-		//public string HostName { get { return GetString(ProfilerEventColumns.HostName); } }
-		//public int ClientProcessID { get { return GetInt(ProfilerEventColumns.ClientProcessID); } }
+		public byte[] BinaryData { get { return GetByte(ProfilerEventColumns.BinaryData); } }
+		public int DatabaseID { get { return GetInt(ProfilerEventColumns.DatabaseID); } }
+		public long TransactionID { get { return GetLong(ProfilerEventColumns.TransactionID); } }
+		public int LineNumber { get { return GetInt(ProfilerEventColumns.LineNumber); } }
+		public string NTUserName { get { return GetString(ProfilerEventColumns.NTUserName); } }
+		public string NTDomainName { get { return GetString(ProfilerEventColumns.NTDomainName); } }
+		public string HostName { get { return GetString(ProfilerEventColumns.HostName); } }
+		public int ClientProcessID { get { return GetInt(ProfilerEventColumns.ClientProcessID); } }
 		public string ApplicationName { get { return GetString(ProfilerEventColumns.ApplicationName); } }
 		public string LoginName { get { return GetString(ProfilerEventColumns.LoginName); } }
-		//public int SPID { get { return GetInt(ProfilerEventColumns.SPID); } }
-		//public long Duration { get { return GetLong(ProfilerEventColumns.Duration); } }
+		public int SPID { get { return GetInt(ProfilerEventColumns.SPID); } }
+		public long Duration { get { return GetLong(ProfilerEventColumns.Duration); } }
 		public DateTime StartTime { get { return GetDateTime(ProfilerEventColumns.StartTime); } }
 		public DateTime EndTime { get { return GetDateTime(ProfilerEventColumns.EndTime); } }
-		//public long Reads { get { return GetLong(ProfilerEventColumns.Reads); } }
-		//public long Writes { get { return GetLong(ProfilerEventColumns.Writes); } }
-		//public int CPU { get { return GetInt(ProfilerEventColumns.CPU); } }
-		//public long Permissions { get { return GetLong(ProfilerEventColumns.Permissions); } }
-		//public int Severity { get { return GetInt(ProfilerEventColumns.Severity); } }
-		//public int EventSubClass { get { return GetInt(ProfilerEventColumns.EventSubClass); } }
-		//public int ObjectID { get { return GetInt(ProfilerEventColumns.ObjectID); } }
-		//public int Success { get { return GetInt(ProfilerEventColumns.Success); } }
-		//public int IndexID { get { return GetInt(ProfilerEventColumns.IndexID); } }
-		//public int IntegerData { get { return GetInt(ProfilerEventColumns.IntegerData); } }
-		//public string ServerName { get { return GetString(ProfilerEventColumns.ServerName); } }
+		public long Reads { get { return GetLong(ProfilerEventColumns.Reads); } }
+		public long Writes { get { return GetLong(ProfilerEventColumns.Writes); } }
+		public int CPU { get { return GetInt(ProfilerEventColumns.CPU); } }
+		public long Permissions { get { return GetLong(ProfilerEventColumns.Permissions); } }
+		public int Severity { get { return GetInt(ProfilerEventColumns.Severity); } }
+		public int EventSubClass { get { return GetInt(ProfilerEventColumns.EventSubClass); } }
+		public int ObjectID { get { return GetInt(ProfilerEventColumns.ObjectID); } }
+		public int Success { get { return GetInt(ProfilerEventColumns.Success); } }
+		public int IndexID { get { return GetInt(ProfilerEventColumns.IndexID); } }
+		public int IntegerData { get { return GetInt(ProfilerEventColumns.IntegerData); } }
+		public string ServerName { get { return GetString(ProfilerEventColumns.ServerName); } }
 		[Browsable(false)]
 		public int EventClass { get { return GetInt(ProfilerEventColumns.EventClass); } }
-		//public int ObjectType { get { return GetInt(ProfilerEventColumns.ObjectType); } }
-		//public int NestLevel { get { return GetInt(ProfilerEventColumns.NestLevel); } }
-		//public int State { get { return GetInt(ProfilerEventColumns.State); } }
-		//public int Error { get { return GetInt(ProfilerEventColumns.Error); } }
-		//public int Mode { get { return GetInt(ProfilerEventColumns.Mode); } }
-		//public int Handle { get { return GetInt(ProfilerEventColumns.Handle); } }
-		//public string ObjectName { get { return GetString(ProfilerEventColumns.ObjectName); } }
-		//public string DatabaseName { get { return GetString(ProfilerEventColumns.DatabaseName); } }
-		//public string FileName { get { return GetString(ProfilerEventColumns.FileName); } }
-		//public string OwnerName { get { return GetString(ProfilerEventColumns.OwnerName); } }
-		//public string RoleName { get { return GetString(ProfilerEventColumns.RoleName); } }
-		//public string TargetUserName { get { return GetString(ProfilerEventColumns.TargetUserName); } }
-		//public string DBUserName { get { return GetString(ProfilerEventColumns.DBUserName); } }
-		//public byte[] LoginSid { get { return GetByte(ProfilerEventColumns.LoginSid); } }
-		//public string TargetLoginName { get { return GetString(ProfilerEventColumns.TargetLoginName); } }
-		//public byte[] TargetLoginSid { get { return GetByte(ProfilerEventColumns.TargetLoginSid); } }
-		//public int ColumnPermissions { get { return GetInt(ProfilerEventColumns.ColumnPermissions); } }
-		//public string LinkedServerName { get { return GetString(ProfilerEventColumns.LinkedServerName); } }
-		//public string ProviderName { get { return GetString(ProfilerEventColumns.ProviderName); } }
-		//public string MethodName { get { return GetString(ProfilerEventColumns.MethodName); } }
-		//public long RowCounts { get { return GetLong(ProfilerEventColumns.RowCounts); } }
-		//public int RequestID { get { return GetInt(ProfilerEventColumns.RequestID); } }
-		//public long XactSequence { get { return GetLong(ProfilerEventColumns.XactSequence); } }
-		//public long EventSequence { get { return GetLong(ProfilerEventColumns.EventSequence); } }
-		//public long BigintData1 { get { return GetLong(ProfilerEventColumns.BigintData1); } }
-		//public long BigintData2 { get { return GetLong(ProfilerEventColumns.BigintData2); } }
-		//public Guid GUID { get { return GetGuid(ProfilerEventColumns.GUID); } }
-		//public int IntegerData2 { get { return GetInt(ProfilerEventColumns.IntegerData2); } }
-		//public long ObjectID2 { get { return GetLong(ProfilerEventColumns.ObjectID2); } }
-		//public int Type { get { return GetInt(ProfilerEventColumns.Type); } }
-		//public int OwnerID { get { return GetInt(ProfilerEventColumns.OwnerID); } }
-		//public string ParentName { get { return GetString(ProfilerEventColumns.ParentName); } }
-		//public int IsSystem { get { return GetInt(ProfilerEventColumns.IsSystem); } }
-		//public int Offset { get { return GetInt(ProfilerEventColumns.Offset); } }
-		//public int SourceDatabaseID { get { return GetInt(ProfilerEventColumns.SourceDatabaseID); } }
-		//public byte[] SqlHandle { get { return GetByte(ProfilerEventColumns.SqlHandle); } }
-		//public string SessionLoginName { get { return GetString(ProfilerEventColumns.SessionLoginName); } }
-		//public byte[] PlanHandle { get { return GetByte(ProfilerEventColumns.PlanHandle); } }
+		public int ObjectType { get { return GetInt(ProfilerEventColumns.ObjectType); } }
+		public int NestLevel { get { return GetInt(ProfilerEventColumns.NestLevel); } }
+		public int State { get { return GetInt(ProfilerEventColumns.State); } }
+		public int Error { get { return GetInt(ProfilerEventColumns.Error); } }
+		public int Mode { get { return GetInt(ProfilerEventColumns.Mode); } }
+		public int Handle { get { return GetInt(ProfilerEventColumns.Handle); } }
+		public string ObjectName { get { return GetString(ProfilerEventColumns.ObjectName); } }
+		public string DatabaseName { get { return GetString(ProfilerEventColumns.DatabaseName); } }
+		public string FileName { get { return GetString(ProfilerEventColumns.FileName); } }
+		public string OwnerName { get { return GetString(ProfilerEventColumns.OwnerName); } }
+		public string RoleName { get { return GetString(ProfilerEventColumns.RoleName); } }
+		public string TargetUserName { get { return GetString(ProfilerEventColumns.TargetUserName); } }
+		public string DBUserName { get { return GetString(ProfilerEventColumns.DBUserName); } }
+		public byte[] LoginSid { get { return GetByte(ProfilerEventColumns.LoginSid); } }
+		public string TargetLoginName { get { return GetString(ProfilerEventColumns.TargetLoginName); } }
+		public byte[] TargetLoginSid { get { return GetByte(ProfilerEventColumns.TargetLoginSid); } }
+		public int ColumnPermissions { get { return GetInt(ProfilerEventColumns.ColumnPermissions); } }
+		public string LinkedServerName { get { return GetString(ProfilerEventColumns.LinkedServerName); } }
+		public string ProviderName { get { return GetString(ProfilerEventColumns.ProviderName); } }
+		public string MethodName { get { return GetString(ProfilerEventColumns.MethodName); } }
+		public long RowCounts { get { return GetLong(ProfilerEventColumns.RowCounts); } }
+		public int RequestID { get { return GetInt(ProfilerEventColumns.RequestID); } }
+		public long XactSequence { get { return GetLong(ProfilerEventColumns.XactSequence); } }
+		public long EventSequence { get { return GetLong(ProfilerEventColumns.EventSequence); } }
+		public long BigintData1 { get { return GetLong(ProfilerEventColumns.BigintData1); } }
+		public long BigintData2 { get { return GetLong(ProfilerEventColumns.BigintData2); } }
+		public Guid GUID { get { return GetGuid(ProfilerEventColumns.GUID); } }
+		public int IntegerData2 { get { return GetInt(ProfilerEventColumns.IntegerData2); } }
+		public long ObjectID2 { get { return GetLong(ProfilerEventColumns.ObjectID2); } }
+		public int Type { get { return GetInt(ProfilerEventColumns.Type); } }
+		public int OwnerID { get { return GetInt(ProfilerEventColumns.OwnerID); } }
+		public string ParentName { get { return GetString(ProfilerEventColumns.ParentName); } }
+		public int IsSystem { get { return GetInt(ProfilerEventColumns.IsSystem); } }
+		public int Offset { get { return GetInt(ProfilerEventColumns.Offset); } }
+		public int SourceDatabaseID { get { return GetInt(ProfilerEventColumns.SourceDatabaseID); } }
+		public byte[] SqlHandle { get { return GetByte(ProfilerEventColumns.SqlHandle); } }
+		public string SessionLoginName { get { return GetString(ProfilerEventColumns.SessionLoginName); } }
+		public byte[] PlanHandle { get { return GetByte(ProfilerEventColumns.PlanHandle); } }
 	}
 	// ReSharper restore InconsistentNaming
 	// ReSharper restore UnusedMember.Global
@@ -1169,7 +1169,7 @@ order by trace_column_id
 		private readonly byte[] m_B8 = new byte[8];
 		private readonly byte[] m_B2 = new byte[2];
 		private readonly byte[] m_B4 = new byte[4];
-		private readonly SqlConnection m_Conn;
+		private readonly SqlConnection _connection;
 		private int m_TraceId;
 		public int TraceId
 		{
@@ -1196,9 +1196,10 @@ order by trace_column_id
 			m_LastRead = false;
 		}
 
-		public RawTraceReader(SqlConnection con)
+		public RawTraceReader(string connectionString)
 		{
-			m_Conn = con;
+			_connection = new SqlConnection(connectionString);
+			_connection.Open();
 			SetEventDelegate evtInt = SetIntColumn;
 			SetEventDelegate evtLong = SetLongColumn;
 			SetEventDelegate evtString = SetStringColumn;
@@ -1373,7 +1374,7 @@ order by trace_column_id
 
 		public void SetEvent(int eventId, params int[] columns)
 		{
-			SqlCommand cmd = new SqlCommand { Connection = m_Conn, CommandText = "sp_trace_setevent", CommandType = CommandType.StoredProcedure };
+			SqlCommand cmd = new SqlCommand { Connection = _connection, CommandText = "sp_trace_setevent", CommandType = CommandType.StoredProcedure };
 			cmd.Parameters.Add("@traceid", SqlDbType.Int).Value = m_TraceId;
 			cmd.Parameters.Add("@eventid", SqlDbType.Int).Value = eventId;
 			SqlParameter p = cmd.Parameters.Add("@columnid", SqlDbType.Int);
@@ -1389,7 +1390,7 @@ order by trace_column_id
 		public void SetFilter(int columnId, int logicalOperator, int comparisonOperator, long? value)
 		// ReSharper restore UnusedMember.Global
 		{
-			SqlCommand cmd = new SqlCommand { Connection = m_Conn, CommandText = "sp_trace_setfilter", CommandType = CommandType.StoredProcedure };
+			SqlCommand cmd = new SqlCommand { Connection = _connection, CommandText = "sp_trace_setfilter", CommandType = CommandType.StoredProcedure };
 			cmd.Parameters.Add("@traceid", SqlDbType.Int).Value = m_TraceId;
 			cmd.Parameters.Add("@columnid", SqlDbType.Int).Value = columnId;
 			cmd.Parameters.Add("@logical_operator", SqlDbType.Int).Value = logicalOperator;
@@ -1452,7 +1453,7 @@ order by trace_column_id
 
 		public void SetFilter(int columnId, int logicalOperator, int comparisonOperator, string value)
 		{
-			SqlCommand cmd = new SqlCommand { Connection = m_Conn, CommandText = "sp_trace_setfilter", CommandType = CommandType.StoredProcedure };
+			SqlCommand cmd = new SqlCommand { Connection = _connection, CommandText = "sp_trace_setfilter", CommandType = CommandType.StoredProcedure };
 			cmd.Parameters.Add("@traceid", SqlDbType.Int).Value = m_TraceId;
 			cmd.Parameters.Add("@columnid", SqlDbType.Int).Value = columnId;
 			cmd.Parameters.Add("@logical_operator", SqlDbType.Int).Value = logicalOperator;
@@ -1471,7 +1472,7 @@ order by trace_column_id
 
 		public void CreateTrace()
 		{
-			SqlCommand cmd = new SqlCommand { Connection = m_Conn, CommandText = "sp_trace_create", CommandType = CommandType.StoredProcedure };
+			SqlCommand cmd = new SqlCommand { Connection = _connection, CommandText = "sp_trace_create", CommandType = CommandType.StoredProcedure };
 			cmd.Parameters.Add("@traceid", SqlDbType.Int).Direction = ParameterDirection.Output;
 			cmd.Parameters.Add("@options", SqlDbType.Int).Value = 1;
 			cmd.Parameters.Add("@trace_file", SqlDbType.NVarChar, 245).Value = DBNull.Value;
@@ -1492,26 +1493,28 @@ order by trace_column_id
 			cmd.ExecuteNonQuery();
 		}
 
-		public void CloseTrace(SqlConnection con)
+		public void StopTrace()
 		{
-			ControlTrace(con, 2);
-		}
-
-		public void StopTrace(SqlConnection con)
-		{
-			ControlTrace(con, 0);
+			using (var conn = new SqlConnection(_connection.ConnectionString))
+			{
+				conn.Open();
+				ControlTrace(conn, 0);
+				ControlTrace(conn, 2);
+				conn.Close();
+			}
+			_connection.Close();
 		}
 
 		public void StartTrace()
 		{
-			ControlTrace(m_Conn, 1);
+			ControlTrace(_connection, 1);
 			GetReader();
 			Read();
 		}
 
 		private void GetReader()
 		{
-			SqlCommand cmd = new SqlCommand { Connection = m_Conn, CommandText = "sp_trace_getdata", CommandType = CommandType.StoredProcedure, CommandTimeout = 0 };
+			SqlCommand cmd = new SqlCommand { Connection = _connection, CommandText = "sp_trace_getdata", CommandType = CommandType.StoredProcedure, CommandTimeout = 0 };
 			cmd.Parameters.Add("@traceid", SqlDbType.Int).Value = m_TraceId;
 			cmd.Parameters.Add("@records", SqlDbType.Int).Value = 0;
 			m_Reader = cmd.ExecuteReader(CommandBehavior.SingleResult);

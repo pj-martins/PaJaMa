@@ -278,6 +278,12 @@
     </Compile>
     <Compile Include="DataGenerate\Helper\GeneratorHelper.cs" />
     <Compile Include="Classes\IDatabase.cs" />
+    <Compile Include="Monitor\frmQueryText.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Monitor\frmQueryText.Designer.cs">
+      <DependentUpon>frmQueryText.cs</DependentUpon>
+    </Compile>
     <Compile Include="Monitor\RawTraceReader.cs" />
     <Compile Include="Monitor\TraceSettings.cs" />
     <Compile Include="Monitor\ucMonitor.cs">
@@ -350,6 +356,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="frmMain.resx">
       <DependentUpon>frmMain.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Monitor\frmQueryText.resx">
+      <DependentUpon>frmQueryText.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Monitor\ucMonitor.resx">
       <DependentUpon>ucMonitor.cs</DependentUpon>

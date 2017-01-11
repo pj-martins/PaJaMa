@@ -29,8 +29,8 @@
 		private void InitializeComponent()
 		{
 			this.components = new System.ComponentModel.Container();
+			PaJaMa.WinControls.CheckBoxProperties checkBoxProperties3 = new PaJaMa.WinControls.CheckBoxProperties();
 			PaJaMa.WinControls.CheckBoxProperties checkBoxProperties1 = new PaJaMa.WinControls.CheckBoxProperties();
-			PaJaMa.WinControls.CheckBoxProperties checkBoxProperties2 = new PaJaMa.WinControls.CheckBoxProperties();
 			this.panel1 = new System.Windows.Forms.Panel();
 			this.btnRemoveConnString = new System.Windows.Forms.Button();
 			this.cboDatabase = new System.Windows.Forms.ComboBox();
@@ -39,18 +39,19 @@
 			this.label1 = new System.Windows.Forms.Label();
 			this.cboConnectionString = new System.Windows.Forms.ComboBox();
 			this.gridResults = new System.Windows.Forms.DataGridView();
+			this.timer1 = new System.Windows.Forms.Timer(this.components);
+			this.panel2 = new System.Windows.Forms.Panel();
+			this.chkLogin = new PaJaMa.WinControls.CheckBoxComboBox();
+			this.chkApplication = new PaJaMa.WinControls.CheckBoxComboBox();
+			this.label3 = new System.Windows.Forms.Label();
+			this.label2 = new System.Windows.Forms.Label();
+			this.btnClear = new System.Windows.Forms.Button();
 			this.colTextData = new System.Windows.Forms.DataGridViewTextBoxColumn();
 			this.colApplicationName = new System.Windows.Forms.DataGridViewTextBoxColumn();
 			this.colLoginName = new System.Windows.Forms.DataGridViewTextBoxColumn();
 			this.colStart = new System.Windows.Forms.DataGridViewTextBoxColumn();
 			this.colEnd = new System.Windows.Forms.DataGridViewTextBoxColumn();
-			this.timer1 = new System.Windows.Forms.Timer(this.components);
-			this.panel2 = new System.Windows.Forms.Panel();
-			this.label3 = new System.Windows.Forms.Label();
-			this.label2 = new System.Windows.Forms.Label();
-			this.btnClear = new System.Windows.Forms.Button();
-			this.chkLogin = new PaJaMa.WinControls.CheckBoxComboBox();
-			this.chkApplication = new PaJaMa.WinControls.CheckBoxComboBox();
+			this.colHost = new System.Windows.Forms.DataGridViewTextBoxColumn();
 			this.panel1.SuspendLayout();
 			((System.ComponentModel.ISupportInitialize)(this.gridResults)).BeginInit();
 			this.panel2.SuspendLayout();
@@ -144,13 +145,86 @@
             this.colApplicationName,
             this.colLoginName,
             this.colStart,
-            this.colEnd});
+            this.colEnd,
+            this.colHost});
 			this.gridResults.Dock = System.Windows.Forms.DockStyle.Fill;
 			this.gridResults.Location = new System.Drawing.Point(0, 47);
 			this.gridResults.Name = "gridResults";
 			this.gridResults.ReadOnly = true;
 			this.gridResults.Size = new System.Drawing.Size(898, 479);
 			this.gridResults.TabIndex = 15;
+			this.gridResults.CellDoubleClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.gridResults_CellDoubleClick);
+			// 
+			// timer1
+			// 
+			this.timer1.Interval = 250;
+			this.timer1.Tick += new System.EventHandler(this.timer1_Tick);
+			// 
+			// panel2
+			// 
+			this.panel2.Controls.Add(this.chkLogin);
+			this.panel2.Controls.Add(this.chkApplication);
+			this.panel2.Controls.Add(this.label3);
+			this.panel2.Controls.Add(this.label2);
+			this.panel2.Controls.Add(this.btnClear);
+			this.panel2.Dock = System.Windows.Forms.DockStyle.Bottom;
+			this.panel2.Location = new System.Drawing.Point(0, 526);
+			this.panel2.Name = "panel2";
+			this.panel2.Size = new System.Drawing.Size(898, 38);
+			this.panel2.TabIndex = 16;
+			// 
+			// chkLogin
+			// 
+			checkBoxProperties3.ForeColor = System.Drawing.SystemColors.ControlText;
+			this.chkLogin.CheckBoxProperties = checkBoxProperties3;
+			this.chkLogin.DisplayMemberSingleItem = "";
+			this.chkLogin.FormattingEnabled = true;
+			this.chkLogin.Location = new System.Drawing.Point(433, 9);
+			this.chkLogin.Name = "chkLogin";
+			this.chkLogin.Size = new System.Drawing.Size(240, 21);
+			this.chkLogin.TabIndex = 18;
+			this.chkLogin.CheckBoxCheckedChanged += new System.EventHandler(this.chkLogin_CheckBoxCheckedChanged);
+			// 
+			// chkApplication
+			// 
+			checkBoxProperties1.ForeColor = System.Drawing.SystemColors.ControlText;
+			this.chkApplication.CheckBoxProperties = checkBoxProperties1;
+			this.chkApplication.DisplayMemberSingleItem = "";
+			this.chkApplication.FormattingEnabled = true;
+			this.chkApplication.Location = new System.Drawing.Point(73, 9);
+			this.chkApplication.Name = "chkApplication";
+			this.chkApplication.Size = new System.Drawing.Size(240, 21);
+			this.chkApplication.TabIndex = 17;
+			this.chkApplication.CheckBoxCheckedChanged += new System.EventHandler(this.chkApplication_CheckBoxCheckedChanged);
+			// 
+			// label3
+			// 
+			this.label3.AutoSize = true;
+			this.label3.Location = new System.Drawing.Point(394, 12);
+			this.label3.Name = "label3";
+			this.label3.Size = new System.Drawing.Size(33, 13);
+			this.label3.TabIndex = 15;
+			this.label3.Text = "Login";
+			// 
+			// label2
+			// 
+			this.label2.AutoSize = true;
+			this.label2.Location = new System.Drawing.Point(8, 12);
+			this.label2.Name = "label2";
+			this.label2.Size = new System.Drawing.Size(59, 13);
+			this.label2.TabIndex = 13;
+			this.label2.Text = "Application";
+			// 
+			// btnClear
+			// 
+			this.btnClear.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+			this.btnClear.Location = new System.Drawing.Point(804, 7);
+			this.btnClear.Name = "btnClear";
+			this.btnClear.Size = new System.Drawing.Size(86, 23);
+			this.btnClear.TabIndex = 12;
+			this.btnClear.Text = "Clear";
+			this.btnClear.UseVisualStyleBackColor = true;
+			this.btnClear.Click += new System.EventHandler(this.btnClear_Click);
 			// 
 			// colTextData
 			// 
@@ -192,76 +266,13 @@
 			this.colEnd.ReadOnly = true;
 			this.colEnd.Width = 200;
 			// 
-			// timer1
+			// colHost
 			// 
-			this.timer1.Interval = 250;
-			this.timer1.Tick += new System.EventHandler(this.timer1_Tick);
-			// 
-			// panel2
-			// 
-			this.panel2.Controls.Add(this.chkLogin);
-			this.panel2.Controls.Add(this.chkApplication);
-			this.panel2.Controls.Add(this.label3);
-			this.panel2.Controls.Add(this.label2);
-			this.panel2.Controls.Add(this.btnClear);
-			this.panel2.Dock = System.Windows.Forms.DockStyle.Bottom;
-			this.panel2.Location = new System.Drawing.Point(0, 526);
-			this.panel2.Name = "panel2";
-			this.panel2.Size = new System.Drawing.Size(898, 38);
-			this.panel2.TabIndex = 16;
-			// 
-			// label3
-			// 
-			this.label3.AutoSize = true;
-			this.label3.Location = new System.Drawing.Point(394, 12);
-			this.label3.Name = "label3";
-			this.label3.Size = new System.Drawing.Size(33, 13);
-			this.label3.TabIndex = 15;
-			this.label3.Text = "Login";
-			// 
-			// label2
-			// 
-			this.label2.AutoSize = true;
-			this.label2.Location = new System.Drawing.Point(8, 12);
-			this.label2.Name = "label2";
-			this.label2.Size = new System.Drawing.Size(59, 13);
-			this.label2.TabIndex = 13;
-			this.label2.Text = "Application";
-			// 
-			// btnClear
-			// 
-			this.btnClear.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-			this.btnClear.Location = new System.Drawing.Point(804, 7);
-			this.btnClear.Name = "btnClear";
-			this.btnClear.Size = new System.Drawing.Size(86, 23);
-			this.btnClear.TabIndex = 12;
-			this.btnClear.Text = "Clear";
-			this.btnClear.UseVisualStyleBackColor = true;
-			this.btnClear.Click += new System.EventHandler(this.btnClear_Click);
-			// 
-			// chkLogin
-			// 
-			checkBoxProperties1.ForeColor = System.Drawing.SystemColors.ControlText;
-			this.chkLogin.CheckBoxProperties = checkBoxProperties1;
-			this.chkLogin.DisplayMemberSingleItem = "";
-			this.chkLogin.FormattingEnabled = true;
-			this.chkLogin.Location = new System.Drawing.Point(433, 9);
-			this.chkLogin.Name = "chkLogin";
-			this.chkLogin.Size = new System.Drawing.Size(240, 21);
-			this.chkLogin.TabIndex = 18;
-			this.chkLogin.CheckBoxCheckedChanged += new System.EventHandler(this.chkLogin_CheckBoxCheckedChanged);
-			// 
-			// chkApplication
-			// 
-			checkBoxProperties2.ForeColor = System.Drawing.SystemColors.ControlText;
-			this.chkApplication.CheckBoxProperties = checkBoxProperties2;
-			this.chkApplication.DisplayMemberSingleItem = "";
-			this.chkApplication.FormattingEnabled = true;
-			this.chkApplication.Location = new System.Drawing.Point(73, 9);
-			this.chkApplication.Name = "chkApplication";
-			this.chkApplication.Size = new System.Drawing.Size(240, 21);
-			this.chkApplication.TabIndex = 17;
-			this.chkApplication.CheckBoxCheckedChanged += new System.EventHandler(this.chkApplication_CheckBoxCheckedChanged);
+			this.colHost.DataPropertyName = "HostName";
+			this.colHost.HeaderText = "Host";
+			this.colHost.Name = "colHost";
+			this.colHost.ReadOnly = true;
+			this.colHost.Width = 200;
 			// 
 			// ucMonitor
 			// 
@@ -293,16 +304,17 @@
 		private System.Windows.Forms.ComboBox cboConnectionString;
 		private System.Windows.Forms.DataGridView gridResults;
 		private System.Windows.Forms.Timer timer1;
-		private System.Windows.Forms.DataGridViewTextBoxColumn colTextData;
-		private System.Windows.Forms.DataGridViewTextBoxColumn colApplicationName;
-		private System.Windows.Forms.DataGridViewTextBoxColumn colLoginName;
-		private System.Windows.Forms.DataGridViewTextBoxColumn colStart;
-		private System.Windows.Forms.DataGridViewTextBoxColumn colEnd;
 		private System.Windows.Forms.Panel panel2;
 		private System.Windows.Forms.Button btnClear;
 		private System.Windows.Forms.Label label3;
 		private System.Windows.Forms.Label label2;
 		private WinControls.CheckBoxComboBox chkApplication;
 		private WinControls.CheckBoxComboBox chkLogin;
+		private System.Windows.Forms.DataGridViewTextBoxColumn colTextData;
+		private System.Windows.Forms.DataGridViewTextBoxColumn colApplicationName;
+		private System.Windows.Forms.DataGridViewTextBoxColumn colLoginName;
+		private System.Windows.Forms.DataGridViewTextBoxColumn colStart;
+		private System.Windows.Forms.DataGridViewTextBoxColumn colEnd;
+		private System.Windows.Forms.DataGridViewTextBoxColumn colHost;
 	}
 }
