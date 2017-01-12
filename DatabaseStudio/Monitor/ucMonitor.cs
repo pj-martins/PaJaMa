@@ -141,18 +141,18 @@ namespace PaJaMa.DatabaseStudio.Monitor
 				}
 				//if (m_currentsettings.EventsColumns.RPCCompleted)
 				{
-					//m_Rdr.SetEvent(ProfilerEvents.StoredProcedures.RPCCompleted,
-					//			   ProfilerEventColumns.TextData, ProfilerEventColumns.LoginName,
-					//			   ProfilerEventColumns.CPU, ProfilerEventColumns.Reads,
-					//			   ProfilerEventColumns.Writes, ProfilerEventColumns.Duration,
-					//			   ProfilerEventColumns.SPID
-					//			   , ProfilerEventColumns.StartTime, ProfilerEventColumns.EndTime
-					//			   , ProfilerEventColumns.DatabaseName
-					//			   , ProfilerEventColumns.ObjectName
-					//			   , ProfilerEventColumns.ApplicationName
-					//			   , ProfilerEventColumns.HostName
+					_reader.SetEvent(ProfilerEvents.StoredProcedures.RPCCompleted,
+								   ProfilerEventColumns.TextData, ProfilerEventColumns.LoginName,
+								   ProfilerEventColumns.CPU, ProfilerEventColumns.Reads,
+								   ProfilerEventColumns.Writes, ProfilerEventColumns.Duration,
+								   ProfilerEventColumns.SPID
+								   , ProfilerEventColumns.StartTime, ProfilerEventColumns.EndTime
+								   , ProfilerEventColumns.DatabaseName
+								   , ProfilerEventColumns.ObjectName
+								   , ProfilerEventColumns.ApplicationName
+								   , ProfilerEventColumns.HostName
 
-					//	);
+						);
 				}
 				//if (m_currentsettings.EventsColumns.SPStmtCompleted)
 				{
@@ -423,7 +423,7 @@ namespace PaJaMa.DatabaseStudio.Monitor
 
 		private void NewEventArrived(ProfilerEvent evt, bool last)
 		{
-			string caption = getEventCaption(evt);
+			if (string.IsNullOrEmpty(evt.TextData)) return;
 			_events.Add(evt);
 			addFilterEvent(evt);
 			checkFilterBoxItems();
