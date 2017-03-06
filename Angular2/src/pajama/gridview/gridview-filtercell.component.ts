@@ -74,6 +74,7 @@ export class GridViewFilterCellComponent implements OnInit {
 		else {
 			this.fireFilter();
 		}
+		this.parentGridView.saveGridState();
 	}
 
 	private fireFilter() {

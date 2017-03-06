@@ -28,6 +28,7 @@ export class GridViewHeaderCellComponent {
 	@Input() parentGridView: GridView;
 	@Input() columnIndex: number;
 	@Output() sortChanged = new EventEmitter<DataColumn>();
+	@Output() widthChanged = new EventEmitter<DataColumn>();
 	@Output() columnOrderChanged = new EventEmitter<ColumnOrder>();
 
 	constructor(private elementRef: ElementRef, private zone: NgZone) { }
@@ -76,6 +77,9 @@ export class GridViewHeaderCellComponent {
 	private _currEvt;
 	private _lockedColumns: Array<LockedColumn> = [];
 	private _parentTH: any;
+
+	// we could set the column widths directly but that will cause grid to redraw which would
+	// be expensive, so we'll wait until after
 	protected startResize(evt) {
 		if (this.elementRef.nativeElement.parentElement.nextElementSibling == null)
 			return;
@@ -102,15 +106,32 @@ export class GridViewHeaderCellComponent {
 		window.onmouseup = () => this.endResize();
 	}
 
+	// TODO: test test test
 	protected endResize() {
-		console.log('done');
 		window.onmousemove = this._origMove;
 		window.onmouseup = this._origUp;
 		this._currEvt = null;
 		this._origMove = null;
 		this._origUp = null;
+		if (this._resized) {
+			this._resized = false;
+			for (let col of this.parentGridView.columns) {
+				if (col.getIdentifier() == this.elementRef.nativeElement.firstElementChild.id)
+					col.width = this._parentTH.offsetWidth.toString() + 'px';
+				else {
+					for (let l of this._lockedColumns) {
+						if (col.getIdentifier() == l.parentTH.children[0].children[0].id) {
+							col.width = l.originalWidth.toString() + 'px';
+						}
+					}
+				}
+			}
+			if (this.parentGridView.saveGridStateToStorage)
+				this.parentGridView.saveGridState();
+		}
 	}
 
+	private _resized = false;
 	private resize(event) {
 		if (this._currEvt) {
 			let currX = event.clientX;
@@ -120,6 +141,7 @@ export class GridViewHeaderCellComponent {
 				locked.parentTH.width = locked.originalWidth;
 			}
 			this._currEvt = event;
+			this._resized = true;
 		}
 		else {
 			this.endResize();
@@ -128,14 +150,17 @@ export class GridViewHeaderCellComponent {
 
 	private COLUMN_ID = "column_id";
 	protected dragOver(event) {
+		if (!this.parentGridView.allowColumnOrdering) return;
 		event.preventDefault();
 	}
 
 	protected dragStart(event) {
+		if (!this.parentGridView.allowColumnOrdering) return;
 		event.dataTransfer.setData(this.COLUMN_ID, event.currentTarget.id);
 	}
 
 	protected drop(event) {
+		if (!this.parentGridView.allowColumnOrdering) return;
 		let id = event.dataTransfer.getData(this.COLUMN_ID);
 		this.columnOrderChanged.emit(new ColumnOrder(id, event.currentTarget.id));
 	}

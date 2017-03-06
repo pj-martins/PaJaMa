@@ -62,7 +62,7 @@ import { ParserService } from '../services/parser.service';
             <template ngFor let-row [ngForOf]="displayData" let-i="index">
                 <tr [hidden]='grid.loading' *ngIf='!grid.rowTemplate' [ngClass]="(grid.getRowClass ? grid.getRowClass(row) : '') + (i % 2 != 0 ? ' gridview-alternate-row' : '') + (grid.selectMode > 0 ? ' selectable-row' : '') + (selectedKeys[row[grid.keyFieldName]] ? ' selected-row' : '')" (click)='rowClick(row)'>
                     <td *ngIf='grid.detailGridView && !grid.detailGridView.hideExpandButton' style='width:39px'><button class="glyphicon glyphicon-small {{detailGridViewComponents[row[grid.keyFieldName]] && detailGridViewComponents[row[grid.keyFieldName]].isExpanded() ? 'glyphicon-minus' : 'glyphicon-plus'}}" (click)='expandCollapse(row[grid.keyFieldName])'></button></td>
-                    <td *ngFor="let col of grid.columns | orderBy:['columnIndex']" [hidden]='!(!grid.rowTemplate && (col.visible || col.visible === undefined))' [style.width]="col.width" [ngClass]="col.getRowCellClass ? col.getRowCellClass(row) : (col.disableWrapping ? 'no-wrap' : '')">
+                    <td *ngFor="let col of grid.columns | orderBy:['columnIndex']" [hidden]='!(!grid.rowTemplate && (col.visible || col.visible === undefined))' [ngClass]="col.getRowCellClass ? col.getRowCellClass(row) : (col.disableWrapping ? 'no-wrap' : '')">
 						<gridview-cell [column]="col" [row]="row" [parentGridViewComponent]="self" [parentGridView]="grid"></gridview-cell>
 					</td>
                 </tr>
@@ -78,7 +78,7 @@ import { ParserService } from '../services/parser.service';
         <tfoot *ngIf='grid.showFooter'>
             <tr>
                 <td *ngIf='grid.detailGridView' style='width:39px'></td>
-                <td *ngFor="let col of grid.columns | orderBy:['columnIndex']" [hidden]='!(col.visible || col.visible === undefined)' [style.width]="col.width" grid-view-footer-cell='col'></td>
+                <td *ngFor="let col of grid.columns | orderBy:['columnIndex']" [hidden]='!(col.visible || col.visible === undefined)' grid-view-footer-cell='col'></td>
             </tr>
         </tfoot>
     </table>
@@ -240,6 +240,7 @@ export class GridViewComponent {
 	protected toggleFilter() {
 		this.grid.filterVisible = !this.grid.filterVisible;
 		this.filterChanged.emit(null);
+		this.grid.saveGridState();
 	}
 
 	protected rowClick(row) {
@@ -269,6 +270,8 @@ export class GridViewComponent {
 			this.sortChanged.emit(column);
 
 		this.resetData();
+		if (this.grid.saveGridStateToStorage)
+			this.grid.saveGridState();
 	}
 
 	private getSortedData(data: Array<any>): Array<any> {
@@ -307,8 +310,8 @@ export class GridViewComponent {
 						return s;
 				}
 
-				if (aval) aval = aval.toLowerCase();
-				if (bval) bval = bval.toLowerCase();
+				if (aval && typeof aval == "string") aval = aval.toLowerCase();
+				if (bval && typeof bval == "string") bval = bval.toLowerCase();
 
 				if (aval == bval)
 					continue;
@@ -443,6 +446,8 @@ export class GridViewComponent {
 	handlePageChanged(pageNumber: any) {
 		if (this.pageChanged)
 			this.pageChanged.emit(pageNumber);
+		if (this.grid.saveGridStateToStorage)
+			this.grid.saveGridState();
 	}
 
 	columnOrderChanged(columnOrder: ColumnOrder) {
@@ -491,5 +496,7 @@ export class GridViewComponent {
 		}
 
 		this.grid.columns = sortedColumns;
+		if (this.grid.saveGridStateToStorage)
+			this.grid.saveGridState();
 	}
 }

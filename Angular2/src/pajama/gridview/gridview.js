@@ -17,6 +17,9 @@ var GridView = (function () {
         this.customProps = {};
         this.customEvents = {};
         this.showNoResults = true;
+        this.allowColumnOrdering = false;
+        this.saveGridStateToStorage = false;
+        this._stateLoaded = false;
     }
     GridView.prototype.getDataColumns = function () {
         var cols = [];
@@ -63,10 +66,70 @@ var GridView = (function () {
         set: function (data) {
             this._data = data;
             this.refreshData();
+            // TODO: is this the best place? this assumes grid properties are completely set when the data is populated
+            // which is most likely a bad assumption. Might have to call this explicitly where grid is used
+            this.loadGridState();
         },
         enumerable: true,
         configurable: true
     });
+    // TODO: where should this be called from?
+    GridView.prototype.loadGridState = function () {
+        if (this._stateLoaded || !this.saveGridStateToStorage)
+            return;
+        this._stateLoaded = true;
+        var stateString = localStorage.getItem(this.name);
+        if (stateString) {
+            var state = JSON.parse(stateString);
+            this.currentPage = state.currentPage;
+            this.pageSize = state.pageSize;
+            this.filterVisible = state.filterVisible;
+            for (var _i = 0, _a = this.columns; _i < _a.length; _i++) {
+                var col = _a[_i];
+                for (var _b = 0, _c = state.gridColumnStates; _b < _c.length; _b++) {
+                    var colState = _c[_b];
+                    if (col.getIdentifier() != colState.identifier)
+                        continue;
+                    col.columnIndex = colState.columnIndex;
+                    col.width = colState.width;
+                    col.visible = colState.visible;
+                    if (col instanceof DataColumn) {
+                        var cd = col;
+                        cd.sortDirection = colState.sortDirection;
+                        cd.sortIndex = colState.sortIndex;
+                        cd.filterValue = colState.filterValue;
+                    }
+                }
+            }
+        }
+    };
+    GridView.prototype.saveGridState = function () {
+        if (!this.name)
+            throw 'Grid name required to save to local storage';
+        if (!this.saveGridStateToStorage)
+            return;
+        var state = new GridState();
+        state.currentPage = this.currentPage;
+        state.pageSize = this.pageSize;
+        state.filterVisible = this.filterVisible;
+        for (var _i = 0, _a = this.columns; _i < _a.length; _i++) {
+            var col = _a[_i];
+            var colState = new GridColumnState();
+            colState.identifier = col.getIdentifier();
+            colState.columnIndex = col.columnIndex;
+            colState.width = col.width;
+            colState.visible = col.visible;
+            if (col instanceof DataColumn) {
+                var cd = col;
+                colState.sortDirection = cd.sortDirection;
+                colState.sortIndex = cd.sortIndex;
+                colState.filterValue = cd.filterValue;
+            }
+            state.gridColumnStates.push(colState);
+        }
+        // TODO: is grid name too generic?
+        localStorage.setItem(this.name, JSON.stringify(state));
+    };
     return GridView;
 }());
 exports.GridView = GridView;
@@ -285,4 +348,18 @@ var GridViewTemplate = (function () {
     return GridViewTemplate;
 }());
 exports.GridViewTemplate = GridViewTemplate;
+// don't want to clutter storage with unneccessary info
+var GridState = (function () {
+    function GridState() {
+        this.gridColumnStates = [];
+    }
+    return GridState;
+}());
+exports.GridState = GridState;
+var GridColumnState = (function () {
+    function GridColumnState() {
+    }
+    return GridColumnState;
+}());
+exports.GridColumnState = GridColumnState;
 //# sourceMappingURL=gridview.js.map

@@ -25,6 +25,8 @@ export class GridView {
 	disableFilterRow: boolean;
 	loading: boolean;
 	showNoResults: boolean = true;
+	allowColumnOrdering = false;
+	saveGridStateToStorage = false;
 	name: string;
 
 	getRowClass: (row: any) => string;
@@ -73,10 +75,73 @@ export class GridView {
 	set data(data: Array<any>) {
 		this._data = data;
 		this.refreshData();
+
+		// TODO: is this the best place? this assumes grid properties are completely set when the data is populated
+		// which is most likely a bad assumption. Might have to call this explicitly where grid is used
+		this.loadGridState();
 	}
 
 	get data(): Array<any> {
 		return this._data;
+	}
+
+	private _stateLoaded = false;
+	// TODO: where should this be called from?
+	loadGridState() {
+		if (this._stateLoaded || !this.saveGridStateToStorage) return;
+		this._stateLoaded = true;
+		let stateString = localStorage.getItem(this.name);
+		if (stateString) {
+			let state = <GridState>JSON.parse(stateString);
+			this.currentPage = state.currentPage;
+			this.pageSize = state.pageSize;
+			this.filterVisible = state.filterVisible;
+
+			for (let col of this.columns) {
+				for (let colState of state.gridColumnStates) {
+					if (col.getIdentifier() != colState.identifier) continue;
+					col.columnIndex = colState.columnIndex;
+					col.width = colState.width;
+					col.visible = colState.visible;
+					if (col instanceof DataColumn) {
+						let cd = <DataColumn>col;
+						cd.sortDirection = colState.sortDirection;
+						cd.sortIndex = colState.sortIndex;
+						cd.filterValue = colState.filterValue;
+					}
+				}
+			}
+		}
+	}
+
+	saveGridState() {
+		if (!this.name)
+			throw 'Grid name required to save to local storage';
+
+		if (!this.saveGridStateToStorage) return;
+
+		let state = new GridState();
+		state.currentPage = this.currentPage;
+		state.pageSize = this.pageSize;
+		state.filterVisible = this.filterVisible;
+
+		for (let col of this.columns) {
+			let colState = new GridColumnState();
+			colState.identifier = col.getIdentifier();
+			colState.columnIndex = col.columnIndex;
+			colState.width = col.width;
+			colState.visible = col.visible;
+			if (col instanceof DataColumn) {
+				let cd = <DataColumn>col;
+				colState.sortDirection = cd.sortDirection;
+				colState.sortIndex = cd.sortIndex;
+				colState.filterValue = cd.filterValue;
+			}
+			state.gridColumnStates.push(colState);
+		}
+
+		// TODO: is grid name too generic?
+		localStorage.setItem(this.name, JSON.stringify(state));
 	}
 }
 export enum SortDirection {
@@ -201,6 +266,9 @@ export class ButtonColumn extends DataColumn {
 export class EditColumn extends DataColumn {
 	editType = EditColumn.TEXT;
 	class: string;
+	max: number;
+	min: number;
+
 	ngModelChange = new EventEmitter<any>();
 	static readonly TEXT: string = "text";
 	static readonly TEXTAREA: string = "textarea";
@@ -245,4 +313,21 @@ export class DetailGridView extends GridView {
 }
 export class GridViewTemplate {
 	constructor(public template: string, public imports?: Array<any>, public declarations?: Array<any>, public styleUrls?: Array<string>) { }
+}
+
+// don't want to clutter storage with unneccessary info
+export class GridState {
+	gridColumnStates: Array<GridColumnState> = [];
+	currentPage: number;
+	pageSize: number;
+	filterVisible: boolean;
+}
+export class GridColumnState {
+	identifier: string;
+	width: string;
+	sortDirection: SortDirection;
+	sortIndex: number;
+	columnIndex: number;
+	filterValue: any;
+	visible: boolean;
 }

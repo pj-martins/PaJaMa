@@ -31,14 +31,14 @@ import { ParserService } from '../services/parser.service';
 	</div>
 	<div *ngIf="column.editType" [ngSwitch]="column.editType">
 		<div *ngSwitchCase="'textarea'">
-			<textarea [style.width]="column.width" class="{{column.class}}" (ngModelChange)="column.ngModelChange.emit(row)" [(ngModel)]="row[column.fieldName]"></textarea>
+			<textarea [style.width]="column.width" class="{{column.class}}" (ngModelChange)="column.ngModelChange.emit(row)" [(ngModel)]="row[column.fieldName]" [minlength]="column.min" [maxlength]="column.max"></textarea>
 		</div>
 		<div *ngSwitchCase="'checkbox'">
 			<input type="checkbox" [style.width]="column.width" class="{{column.class}}" (ngModelChange)="column.ngModelChange.emit(row)" [(ngModel)]="row[column.fieldName]" />
 		</div>
 		<!-- for some reason below can't handle checkbox -->
 		<div *ngSwitchDefault>
-			<input type="{{column.editType}}" [style.width]="column.width" class="{{column.class}}" (ngModelChange)="column.ngModelChange.emit(row)" [(ngModel)]="row[column.fieldName]" />
+			<input type="{{column.editType}}" [style.width]="column.width" class="{{column.class}}" (ngModelChange)="column.ngModelChange.emit(row)" [(ngModel)]="row[column.fieldName]" [min]="column.min" [max]="column.max" [minlength]="column.min" [maxlength]="column.max" />
 		</div>
 	</div>
 	<div *ngIf="column.checkList">

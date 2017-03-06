@@ -25,6 +25,9 @@ export class GridViewBasicDemoComponent implements OnInit {
 	private initGrid() {
 		this.gridDemo = new GridView();
 		this.gridDemo.filterVisible = true;
+		this.gridDemo.allowColumnOrdering = true;
+		this.gridDemo.saveGridStateToStorage = true;
+		this.gridDemo.name = "gridDemo";
 
 		let custCol = new DataColumn("customer.customerName");
 		custCol.filterMode = FilterMode.DistinctList;

@@ -15,9 +15,11 @@ var GridViewHeaderCellComponent = (function () {
         this.elementRef = elementRef;
         this.zone = zone;
         this.sortChanged = new core_1.EventEmitter();
+        this.widthChanged = new core_1.EventEmitter();
         this.columnOrderChanged = new core_1.EventEmitter();
         this.sortDirection = gridview_1.SortDirection;
         this._lockedColumns = [];
+        this._resized = false;
         this.COLUMN_ID = "column_id";
     }
     GridViewHeaderCellComponent.prototype.setSort = function (column, event) {
@@ -56,6 +58,8 @@ var GridViewHeaderCellComponent = (function () {
         if (this.sortChanged)
             this.sortChanged.emit(column);
     };
+    // we could set the column widths directly but that will cause grid to redraw which would
+    // be expensive, so we'll wait until after
     GridViewHeaderCellComponent.prototype.startResize = function (evt) {
         var _this = this;
         if (this.elementRef.nativeElement.parentElement.nextElementSibling == null)
@@ -79,13 +83,31 @@ var GridViewHeaderCellComponent = (function () {
         window.onmousemove = function () { return _this.resize(event); };
         window.onmouseup = function () { return _this.endResize(); };
     };
+    // TODO: test test test
     GridViewHeaderCellComponent.prototype.endResize = function () {
-        console.log('done');
         window.onmousemove = this._origMove;
         window.onmouseup = this._origUp;
         this._currEvt = null;
         this._origMove = null;
         this._origUp = null;
+        if (this._resized) {
+            this._resized = false;
+            for (var _i = 0, _a = this.parentGridView.columns; _i < _a.length; _i++) {
+                var col = _a[_i];
+                if (col.getIdentifier() == this.elementRef.nativeElement.firstElementChild.id)
+                    col.width = this._parentTH.offsetWidth.toString() + 'px';
+                else {
+                    for (var _b = 0, _c = this._lockedColumns; _b < _c.length; _b++) {
+                        var l = _c[_b];
+                        if (col.getIdentifier() == l.parentTH.children[0].children[0].id) {
+                            col.width = l.originalWidth.toString() + 'px';
+                        }
+                    }
+                }
+            }
+            if (this.parentGridView.saveGridStateToStorage)
+                this.parentGridView.saveGridState();
+        }
     };
     GridViewHeaderCellComponent.prototype.resize = function (event) {
         if (this._currEvt) {
@@ -97,18 +119,25 @@ var GridViewHeaderCellComponent = (function () {
                 locked.parentTH.width = locked.originalWidth;
             }
             this._currEvt = event;
+            this._resized = true;
         }
         else {
             this.endResize();
         }
     };
     GridViewHeaderCellComponent.prototype.dragOver = function (event) {
+        if (!this.parentGridView.allowColumnOrdering)
+            return;
         event.preventDefault();
     };
     GridViewHeaderCellComponent.prototype.dragStart = function (event) {
+        if (!this.parentGridView.allowColumnOrdering)
+            return;
         event.dataTransfer.setData(this.COLUMN_ID, event.currentTarget.id);
     };
     GridViewHeaderCellComponent.prototype.drop = function (event) {
+        if (!this.parentGridView.allowColumnOrdering)
+            return;
         var id = event.dataTransfer.getData(this.COLUMN_ID);
         this.columnOrderChanged.emit(new ColumnOrder(id, event.currentTarget.id));
     };
@@ -128,6 +157,10 @@ var GridViewHeaderCellComponent = (function () {
         core_1.Output(), 
         __metadata('design:type', Object)
     ], GridViewHeaderCellComponent.prototype, "sortChanged", void 0);
+    __decorate([
+        core_1.Output(), 
+        __metadata('design:type', Object)
+    ], GridViewHeaderCellComponent.prototype, "widthChanged", void 0);
     __decorate([
         core_1.Output(), 
         __metadata('design:type', Object)

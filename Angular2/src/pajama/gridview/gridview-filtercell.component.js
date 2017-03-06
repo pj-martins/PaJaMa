@@ -59,6 +59,7 @@ var GridViewFilterCellComponent = (function () {
         else {
             this.fireFilter();
         }
+        this.parentGridView.saveGridState();
     };
     GridViewFilterCellComponent.prototype.fireFilter = function () {
         this.parentGridView.currentPage = 1;
