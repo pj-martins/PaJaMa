@@ -258,6 +258,8 @@ namespace PaJaMa.DatabaseStudio.Monitor
 
 				_reader.SetFilter(ProfilerEventColumns.ApplicationName, LogicalOperators.AND, ComparisonOperators.NotLike,
 								"PaJaMa Database Studio");
+				_reader.SetFilter(ProfilerEventColumns.TextData, LogicalOperators.AND, ComparisonOperators.NotEqual,
+					"exec sp_reset_connection");
 				_eventQueue.Clear();
 				startProfilerThread();
 				timer1.Enabled = true;

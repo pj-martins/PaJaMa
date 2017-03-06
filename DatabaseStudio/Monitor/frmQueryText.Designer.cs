@@ -41,6 +41,7 @@
 			this.txtQuery.ScrollBars = System.Windows.Forms.ScrollBars.Both;
 			this.txtQuery.Size = new System.Drawing.Size(1008, 741);
 			this.txtQuery.TabIndex = 0;
+			this.txtQuery.KeyDown += new System.Windows.Forms.KeyEventHandler(this.txtQuery_KeyDown);
 			// 
 			// frmQueryText
 			// 

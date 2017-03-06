@@ -1,0 +1,64 @@
+﻿.typeahead-popup {
+	position: absolute;
+	top: 100%;
+	z-index: 1000;
+	float: left;
+	min-width: 160px;
+	padding: 5px 0;
+	margin: 2px 0 0;
+	font-size: 14px;
+	text-align: left;
+	background-color: #fff;
+	-webkit-background-clip: padding-box;
+	background-clip: padding-box;
+	border: 1px solid rgba(0,0,0,.15);
+	border-radius: 4px;
+	-webkit-box-shadow: 0 6px 12px rgba(0,0,0,.175);
+	box-shadow: 0 6px 12px rgba(0,0,0,.175);
+	overflow-x: hidden;
+	overflow-y: auto;
+	max-height: 600px;
+	white-space: nowrap;
+}
+
+.typeahead-item {
+	padding-left: 15px;
+	padding-top: 4px;
+	padding-bottom: 4px;
+	padding-right: 15px;
+}
+
+.typeahead-item-selected {
+	background-color: #337ab7;
+	color: #fff;
+	cursor: pointer;
+	outline: 0;
+}
+
+.typeahead-container {
+	white-space: nowrap;
+}
+
+.typeahead-input-container {
+	width: 100%;
+	display: inline-block;
+}
+
+.typeahead-button-container {
+	margin-left: -40px;
+	display: inline;
+}
+
+
+.typeahead-button {
+	margin-top: 2px;
+	border: 0px;
+	vertical-align: top;
+	height: 28px;
+	width: 35px;
+	background-color: rgba(255, 255, 255, 0.5);
+}
+
+.typeahead-error {
+	color:red;
+}

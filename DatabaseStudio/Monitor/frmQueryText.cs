@@ -16,5 +16,11 @@ namespace PaJaMa.DatabaseStudio.Monitor
 		{
 			InitializeComponent();
 		}
+
+		private void txtQuery_KeyDown(object sender, KeyEventArgs e)
+		{
+			if (e.Control && e.KeyCode == Keys.A)
+				txtQuery.SelectAll();
+		}
 	}
 }

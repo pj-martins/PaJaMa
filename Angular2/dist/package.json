@@ -1,0 +1,29 @@
+{
+  "version": "1.0.0",
+  "name": "pajama",
+  "private": true,
+  "devDependencies": {
+    "@types/node": "^6.0.46",
+    "@types/core-js": "^0.9.35"
+  },
+	"dependencies": {
+		"@angular/common": "~2.4.4",
+		"@angular/compiler": "~2.4.4",
+		"@angular/core": "~2.4.4",
+		"@angular/forms": "~2.4.4",
+		"@angular/http": "~2.4.4",
+		"@angular/platform-browser": "~2.4.4",
+		"@angular/platform-browser-dynamic": "~2.4.4",
+		"@angular/router": "~3.4.0",
+		"@angular/upgrade": "~2.4.4",
+		"angular-in-memory-web-api": "~0.1.16",
+		"core-js": "^2.4.1",
+		"moment": "^2.17.1",
+		"pajama": "^0.1.4",
+		"reflect-metadata": "^0.1.8",
+		"rxjs": "5.0.1",
+		"systemjs": "^0.19.42",
+		"systemjs-plugin-css": "^0.1.32",
+		"zone.js": "^0.7.4"
+	}
+}

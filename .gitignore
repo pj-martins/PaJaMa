@@ -59,3 +59,4 @@ Packages
 /Recipes/Web/Angular2/src/**/*.js
 *.gitkeep
 /Recipes/Web/Angular2/modelapi.js
+/Angular2/.vs/config
