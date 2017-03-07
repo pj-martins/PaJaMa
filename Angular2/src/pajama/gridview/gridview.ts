@@ -26,6 +26,7 @@ export class GridView {
 	loading: boolean;
 	showNoResults: boolean = true;
 	allowColumnOrdering = false;
+	allowColumnCustomization = false;
 	saveGridStateToStorage = false;
 	name: string;
 

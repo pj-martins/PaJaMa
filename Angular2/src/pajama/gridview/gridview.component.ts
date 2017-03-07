@@ -2,7 +2,6 @@
 import { GridView, DataColumn, LinkColumn, FilterMode, SortDirection, PagingType, FieldType, SelectMode, ColumnBase } from './gridview';
 import { DetailGridViewComponent } from './detail-gridview.component';
 import { GridViewPagerComponent } from './gridview-pager.component';
-import { ColumnOrder } from './gridview-headercell.component';
 import { ParserService } from '../services/parser.service';
 
 @Component({
@@ -21,7 +20,7 @@ import { ParserService } from '../services/parser.service';
                 <th *ngIf='grid.detailGridView && !grid.detailGridView.hideExpandButton' style='width:39px'></th>
                 <th *ngIf='grid.allowRowSelect' style='width:1%'></th>
                 <th *ngFor="let col of grid.columns | orderBy:['columnIndex'];let i = index" [hidden]='!col.visible' [style.width]="col.width">
-                    <gridview-headercell (columnOrderChanged)='columnOrderChanged($event)' (sortChanged)='handleSortChanged($event)' [columnIndex]='i' [column]='col' [parentGridView]="grid"></gridview-headercell>
+                    <gridview-headercell (sortChanged)='handleSortChanged($event)' [columnIndex]='i' [column]='col' [parentGridView]="grid"></gridview-headercell>
                 </th>
             </tr>
             <tr [hidden]='!(hasFilterRow() && grid.filterVisible)'>
@@ -82,7 +81,12 @@ import { ParserService } from '../services/parser.service';
             </tr>
         </tfoot>
     </table>
-    <gridview-pager [parentGridView]='grid' [parentGridViewComponent]="self" (pageChanging)='handlePageChanging()' (pageChanged)='handlePageChanged($event)'></gridview-pager>
+	<div class='pull-left'>
+		&nbsp;&nbsp;&nbsp;<gridview-pager [parentGridView]='grid' [parentGridViewComponent]="self" (pageChanging)='handlePageChanging()' (pageChanged)='handlePageChanged($event)'></gridview-pager>
+	</div>
+	<div class='pull-right'>
+		&nbsp;&nbsp;&nbsp;Settings
+	</div>
 </div>`
 })
 export class GridViewComponent {
@@ -446,56 +450,6 @@ export class GridViewComponent {
 	handlePageChanged(pageNumber: any) {
 		if (this.pageChanged)
 			this.pageChanged.emit(pageNumber);
-		if (this.grid.saveGridStateToStorage)
-			this.grid.saveGridState();
-	}
-
-	columnOrderChanged(columnOrder: ColumnOrder) {
-		let sourceCol: ColumnBase;
-		let targetCol: ColumnBase;
-
-		for (let col of this.grid.columns) {
-			if (col.getIdentifier() == columnOrder.sourceIdentifier) {
-				sourceCol = col;
-				break;
-			}
-		}
-
-		for (let col of this.grid.columns) {
-			if (col.getIdentifier() == columnOrder.targetIdentifier) {
-				targetCol = col;
-				break;
-			}
-		}
-
-		if (!sourceCol) throw columnOrder.sourceIdentifier + " not found!";
-		if (!targetCol) throw columnOrder.targetIdentifier + " not found!";
-
-		let targetIndex = targetCol.columnIndex;
-		if (sourceCol.columnIndex <= targetCol.columnIndex) {
-			for (let col of this.grid.columns) {
-				if (col.getIdentifier() == sourceCol.getIdentifier()) continue;
-				if (col.columnIndex > sourceCol.columnIndex && col.columnIndex <= targetCol.columnIndex)
-					col.columnIndex--;
-			}
-		}
-		else {
-			for (let col of this.grid.columns) {
-				if (col.getIdentifier() == sourceCol.getIdentifier()) continue;
-				if (col.columnIndex < sourceCol.columnIndex && col.columnIndex >= targetCol.columnIndex)
-					col.columnIndex++;
-			}
-		}
-		sourceCol.columnIndex = targetIndex;
-
-		// THIS SEEMS HACKISH! IN ORDER FOR THE COMPONENT TO REDRAW, IT NEEDS TO DETECT
-		// A CHANGE TO THE COLUMNS VARIABLE ITSELF RATHER THAN WHAT'S IN THE COLLECTION
-		let sortedColumns: Array<ColumnBase> = [];
-		for (let c of this.grid.columns) {
-			sortedColumns.push(c);
-		}
-
-		this.grid.columns = sortedColumns;
 		if (this.grid.saveGridStateToStorage)
 			this.grid.saveGridState();
 	}

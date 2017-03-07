@@ -137,7 +137,7 @@ namespace PaJaMa.DatabaseStudio.Compare.Classes
 			{
 				def = GetDefaultScript();
 
-				if (!databaseObject.IsNullable && string.IsNullOrEmpty(def) && databaseObject.DataType != "timestamp")
+				if (!databaseObject.IsNullable && !databaseObject.IsIdentity && string.IsNullOrEmpty(def) && databaseObject.DataType != "timestamp")
 				{
 					// added columns to existing tables must have default so we must add a temporary one for now
 					var sqlDbType = (System.Data.SqlDbType)Enum.Parse(typeof(System.Data.SqlDbType), 

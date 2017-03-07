@@ -1,5 +1,5 @@
 ﻿import { Component, Input, Output, EventEmitter, ElementRef, NgZone } from '@angular/core';
-import { GridView, DataColumn, FieldType, SortDirection } from './gridview';
+import { GridView, DataColumn, FieldType, SortDirection, ColumnBase } from './gridview';
 import { GridViewComponent } from './gridview.component';
 import { PipesModule } from '../pipes/pipes.module';
 import { ParserService } from '../services/parser.service';
@@ -29,7 +29,6 @@ export class GridViewHeaderCellComponent {
 	@Input() columnIndex: number;
 	@Output() sortChanged = new EventEmitter<DataColumn>();
 	@Output() widthChanged = new EventEmitter<DataColumn>();
-	@Output() columnOrderChanged = new EventEmitter<ColumnOrder>();
 
 	constructor(private elementRef: ElementRef, private zone: NgZone) { }
 
@@ -91,12 +90,29 @@ export class GridViewHeaderCellComponent {
 		this._lockedColumns = [];
 		this._parentTH = this.elementRef.nativeElement.parentElement;
 		var next = this._parentTH.nextElementSibling;
-		while (next != null && next.nextElementSibling != null) {
-			this._lockedColumns.push(new LockedColumn(next, next.offsetWidth));
-			next = next.nextElementSibling;
+		while (next != null) {
+			if (next.nextElementSibling == null) {
+				// this is our floater
+				if (next.style.width != "") {
+					// this is a scenario (should be the only scenario) where a column's order was previously changed
+					// then it was dragged to become the last, if this is the case we need to lock other columns and clear
+					// this one out so it can float
+					let tempPrev = next.previousElementSibling;
+					while (tempPrev != null) {
+						tempPrev.style.width = tempPrev.offsetWidth + 'px';
+						tempPrev = tempPrev.previousElementSibling;
+					}
+				}
+				next.style.width = "";
+				break;
+			}
+			else {
+				this._lockedColumns.push(new LockedColumn(next, next.offsetWidth));
+				next = next.nextElementSibling;
+			}
 		}
 
-		var prev = this._parentTH.previousElementSibling;
+		let prev = this._parentTH.previousElementSibling;
 		while (prev != null) {
 			this._lockedColumns.push(new LockedColumn(prev, prev.offsetWidth));
 			prev = prev.previousElementSibling;
@@ -162,14 +178,60 @@ export class GridViewHeaderCellComponent {
 	protected drop(event) {
 		if (!this.parentGridView.allowColumnOrdering) return;
 		let id = event.dataTransfer.getData(this.COLUMN_ID);
-		this.columnOrderChanged.emit(new ColumnOrder(id, event.currentTarget.id));
+		this.changeColumnOrder(id, event.currentTarget.id);
+	}
+
+	private changeColumnOrder(sourceIdentifier: string, targetIdentifier: string) {
+		let sourceCol: ColumnBase;
+		let targetCol: ColumnBase;
+
+		for (let col of this.parentGridView.columns) {
+			if (col.getIdentifier() == sourceIdentifier) {
+				sourceCol = col;
+				break;
+			}
+		}
+
+		for (let col of this.parentGridView.columns) {
+			if (col.getIdentifier() == targetIdentifier) {
+				targetCol = col;
+				break;
+			}
+		}
+
+		if (!sourceCol) throw sourceIdentifier + " not found!";
+		if (!targetCol) throw targetIdentifier + " not found!";
+
+		let targetIndex = targetCol.columnIndex;
+		if (sourceCol.columnIndex <= targetCol.columnIndex) {
+			for (let col of this.parentGridView.columns) {
+				if (col.getIdentifier() == sourceCol.getIdentifier()) continue;
+				if (col.columnIndex > sourceCol.columnIndex && col.columnIndex <= targetCol.columnIndex)
+					col.columnIndex--;
+			}
+		}
+		else {
+			for (let col of this.parentGridView.columns) {
+				if (col.getIdentifier() == sourceCol.getIdentifier()) continue;
+				if (col.columnIndex < sourceCol.columnIndex && col.columnIndex >= targetCol.columnIndex)
+					col.columnIndex++;
+			}
+		}
+		sourceCol.columnIndex = targetIndex;
+
+		// THIS SEEMS HACKISH! IN ORDER FOR THE COMPONENT TO REDRAW, IT NEEDS TO DETECT
+		// A CHANGE TO THE COLUMNS VARIABLE ITSELF RATHER THAN WHAT'S IN THE COLLECTION
+		let sortedColumns: Array<ColumnBase> = [];
+		for (let c of this.parentGridView.columns) {
+			sortedColumns.push(c);
+		}
+
+		this.parentGridView.columns = sortedColumns;
+		if (this.parentGridView.saveGridStateToStorage)
+			this.parentGridView.saveGridState();
 	}
 }
 
 class LockedColumn {
 	constructor(public parentTH: any, public originalWidth: any) { }
-}
-
-export class ColumnOrder {
-	constructor(public sourceIdentifier: string, public targetIdentifier: string) { }
 }

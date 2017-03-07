@@ -39,7 +39,7 @@ export class DataService {
 			.catch(this.handleError);
 	}
 
-	getItems<TObject>(url: string, args: GetArguments): Observable<Items<TObject>> {
+	getItems<TObject>(url: string, args?: ODataArguments): Observable<Items<TObject>> {
 		if (args) {
 			let firstIn = true;
 			if (args.params) {
@@ -56,6 +56,11 @@ export class DataService {
 
 			if (args.select && args.select.length > 0) {
 				url += (firstIn ? '?' : '&') + "$select=" + args.select.join(",");
+				firstIn = false;
+			}
+
+			if (args.expand && args.expand.length > 0) {
+				url += (firstIn ? '?' : '&') + "$expand=" + args.expand.join(",");
 				firstIn = false;
 			}
 
@@ -128,13 +133,14 @@ export class Items<TObject> {
 	totalRecords: number;
 }
 
-export class GetArguments {
+export class ODataArguments {
 	pageSize: number;
 	pageNumber: number;
 	params: { [paramName: string]: string } = {};
 	filter: FilterBase;
 	orderBy: Array<OrderBy> = [];
 	select: Array<string> = [];
+	expand: Array<string> = [];
 	includeCount: boolean;
 }
 

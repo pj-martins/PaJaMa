@@ -18,6 +18,7 @@ var GridView = (function () {
         this.customEvents = {};
         this.showNoResults = true;
         this.allowColumnOrdering = false;
+        this.allowColumnCustomization = false;
         this.saveGridStateToStorage = false;
         this._stateLoaded = false;
     }

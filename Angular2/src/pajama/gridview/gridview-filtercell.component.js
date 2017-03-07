@@ -29,7 +29,8 @@ var GridViewFilterCellComponent = (function () {
                     copy.push(ci);
                 }
             }
-            this.column.filterValue = copy;
+            if (!this.column.filterValue)
+                this.column.filterValue = copy;
             this.column.filterOptionsChanged.subscribe(function () {
                 _this.checklistItems = _this.column.filterOptions;
                 var copy2 = [];

@@ -112,6 +112,7 @@
     <TypeScriptCompile Include="pajama\gridview\gridview-filtercell.component.ts" />
     <TypeScriptCompile Include="pajama\gridview\gridview-headercell.component.ts" />
     <TypeScriptCompile Include="pajama\gridview\gridview-pager.component.ts" />
+    <TypeScriptCompile Include="pajama\gridview\gridview-settings.component.ts" />
     <TypeScriptCompile Include="pajama\gridview\gridview.component.ts" />
     <TypeScriptCompile Include="pajama\gridview\gridview.filtercell.ts" />
     <TypeScriptCompile Include="pajama\gridview\gridview.module.ts" />

@@ -42,7 +42,8 @@ export class GridViewFilterCellComponent implements OnInit {
 					copy.push(ci);
 				}
 			}
-			this.column.filterValue = copy;
+			if (!this.column.filterValue)
+				this.column.filterValue = copy;
 			this.column.filterOptionsChanged.subscribe(() => {
 				this.checklistItems = this.column.filterOptions;
 				let copy2 = [];

@@ -22,6 +22,7 @@ var GridViewBasicDemoComponent = (function () {
         this.gridDemo.filterVisible = true;
         this.gridDemo.allowColumnOrdering = true;
         this.gridDemo.saveGridStateToStorage = true;
+        this.gridDemo.allowColumnCustomization = true;
         this.gridDemo.name = "gridDemo";
         var custCol = new gridview_1.DataColumn("customer.customerName");
         custCol.filterMode = gridview_1.FilterMode.DistinctList;

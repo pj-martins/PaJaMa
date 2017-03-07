@@ -67,6 +67,10 @@ var DataService = (function () {
                 url += (firstIn ? '?' : '&') + "$select=" + args.select.join(",");
                 firstIn = false;
             }
+            if (args.expand && args.expand.length > 0) {
+                url += (firstIn ? '?' : '&') + "$expand=" + args.expand.join(",");
+                firstIn = false;
+            }
             if (args.pageSize && args.pageSize > 0) {
                 if (!args.pageNumber)
                     args.pageNumber = 1;
@@ -139,15 +143,16 @@ var Items = (function () {
     return Items;
 }());
 exports.Items = Items;
-var GetArguments = (function () {
-    function GetArguments() {
+var ODataArguments = (function () {
+    function ODataArguments() {
         this.params = {};
         this.orderBy = [];
         this.select = [];
+        this.expand = [];
     }
-    return GetArguments;
+    return ODataArguments;
 }());
-exports.GetArguments = GetArguments;
+exports.ODataArguments = ODataArguments;
 (function (SortDirection) {
     SortDirection[SortDirection["Asc"] = 0] = "Asc";
     SortDirection[SortDirection["Desc"] = 1] = "Desc";

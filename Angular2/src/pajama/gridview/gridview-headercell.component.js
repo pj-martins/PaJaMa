@@ -16,7 +16,6 @@ var GridViewHeaderCellComponent = (function () {
         this.zone = zone;
         this.sortChanged = new core_1.EventEmitter();
         this.widthChanged = new core_1.EventEmitter();
-        this.columnOrderChanged = new core_1.EventEmitter();
         this.sortDirection = gridview_1.SortDirection;
         this._lockedColumns = [];
         this._resized = false;
@@ -71,9 +70,26 @@ var GridViewHeaderCellComponent = (function () {
         this._lockedColumns = [];
         this._parentTH = this.elementRef.nativeElement.parentElement;
         var next = this._parentTH.nextElementSibling;
-        while (next != null && next.nextElementSibling != null) {
-            this._lockedColumns.push(new LockedColumn(next, next.offsetWidth));
-            next = next.nextElementSibling;
+        while (next != null) {
+            if (next.nextElementSibling == null) {
+                // this is our floater
+                if (next.style.width != "") {
+                    // this is a scenario (should be the only scenario) where a column's order was previously changed
+                    // then it was dragged to become the last, if this is the case we need to lock other columns and clear
+                    // this one out so it can float
+                    var tempPrev = next.previousElementSibling;
+                    while (tempPrev != null) {
+                        tempPrev.style.width = tempPrev.offsetWidth + 'px';
+                        tempPrev = tempPrev.previousElementSibling;
+                    }
+                }
+                next.style.width = "";
+                break;
+            }
+            else {
+                this._lockedColumns.push(new LockedColumn(next, next.offsetWidth));
+                next = next.nextElementSibling;
+            }
         }
         var prev = this._parentTH.previousElementSibling;
         while (prev != null) {
@@ -139,7 +155,59 @@ var GridViewHeaderCellComponent = (function () {
         if (!this.parentGridView.allowColumnOrdering)
             return;
         var id = event.dataTransfer.getData(this.COLUMN_ID);
-        this.columnOrderChanged.emit(new ColumnOrder(id, event.currentTarget.id));
+        this.changeColumnOrder(id, event.currentTarget.id);
+    };
+    GridViewHeaderCellComponent.prototype.changeColumnOrder = function (sourceIdentifier, targetIdentifier) {
+        var sourceCol;
+        var targetCol;
+        for (var _i = 0, _a = this.parentGridView.columns; _i < _a.length; _i++) {
+            var col = _a[_i];
+            if (col.getIdentifier() == sourceIdentifier) {
+                sourceCol = col;
+                break;
+            }
+        }
+        for (var _b = 0, _c = this.parentGridView.columns; _b < _c.length; _b++) {
+            var col = _c[_b];
+            if (col.getIdentifier() == targetIdentifier) {
+                targetCol = col;
+                break;
+            }
+        }
+        if (!sourceCol)
+            throw sourceIdentifier + " not found!";
+        if (!targetCol)
+            throw targetIdentifier + " not found!";
+        var targetIndex = targetCol.columnIndex;
+        if (sourceCol.columnIndex <= targetCol.columnIndex) {
+            for (var _d = 0, _e = this.parentGridView.columns; _d < _e.length; _d++) {
+                var col = _e[_d];
+                if (col.getIdentifier() == sourceCol.getIdentifier())
+                    continue;
+                if (col.columnIndex > sourceCol.columnIndex && col.columnIndex <= targetCol.columnIndex)
+                    col.columnIndex--;
+            }
+        }
+        else {
+            for (var _f = 0, _g = this.parentGridView.columns; _f < _g.length; _f++) {
+                var col = _g[_f];
+                if (col.getIdentifier() == sourceCol.getIdentifier())
+                    continue;
+                if (col.columnIndex < sourceCol.columnIndex && col.columnIndex >= targetCol.columnIndex)
+                    col.columnIndex++;
+            }
+        }
+        sourceCol.columnIndex = targetIndex;
+        // THIS SEEMS HACKISH! IN ORDER FOR THE COMPONENT TO REDRAW, IT NEEDS TO DETECT
+        // A CHANGE TO THE COLUMNS VARIABLE ITSELF RATHER THAN WHAT'S IN THE COLLECTION
+        var sortedColumns = [];
+        for (var _h = 0, _j = this.parentGridView.columns; _h < _j.length; _h++) {
+            var c = _j[_h];
+            sortedColumns.push(c);
+        }
+        this.parentGridView.columns = sortedColumns;
+        if (this.parentGridView.saveGridStateToStorage)
+            this.parentGridView.saveGridState();
     };
     __decorate([
         core_1.Input(), 
@@ -161,10 +229,6 @@ var GridViewHeaderCellComponent = (function () {
         core_1.Output(), 
         __metadata('design:type', Object)
     ], GridViewHeaderCellComponent.prototype, "widthChanged", void 0);
-    __decorate([
-        core_1.Output(), 
-        __metadata('design:type', Object)
-    ], GridViewHeaderCellComponent.prototype, "columnOrderChanged", void 0);
     GridViewHeaderCellComponent = __decorate([
         core_1.Component({
             moduleId: module.id,
@@ -184,12 +248,4 @@ var LockedColumn = (function () {
     }
     return LockedColumn;
 }());
-var ColumnOrder = (function () {
-    function ColumnOrder(sourceIdentifier, targetIdentifier) {
-        this.sourceIdentifier = sourceIdentifier;
-        this.targetIdentifier = targetIdentifier;
-    }
-    return ColumnOrder;
-}());
-exports.ColumnOrder = ColumnOrder;
 //# sourceMappingURL=gridview-headercell.component.js.map
