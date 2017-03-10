@@ -1,10 +1,12 @@
 ﻿.multi-textbox-container {
-	padding: 2px 4px;
+	padding: 2px 2px;
 	width: 100%;
 	font-size: 14px;
 	border: 1px solid #ccc;
 	border-radius: 4px;
 	white-space: nowrap;
+	position: relative;
+	overflow: hidden;
 }
 
 .multi-textbox-remove, .multi-textbox-add {
@@ -15,7 +17,7 @@
 	position: absolute;
 	right: 0;
 	margin-top: 8px;
-	margin-right: 22px;
+	margin-right: 8px;
 }
 
 .multi-textbox-item {
@@ -26,7 +28,7 @@
 	float: left;
 }
 
-.multi-textbox-textbox >>> input {
+.multi-textbox-textbox input {
 	margin: 3px;
 	border: none;
 	outline: none;
