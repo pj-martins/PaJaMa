@@ -7,7 +7,7 @@ import { TypeaheadComponent } from './typeahead.component';
 	moduleId: module.id,
 	selector: 'multi-typeahead',
 	template: `<div class='multi-textbox-container'>
-	<div class='multi-textbox-item-container'>
+	<div class='multi-textbox-item-container' *ngIf='!items || !dataSource || items.length < dataSource.length'>
 		<div *ngFor='let item of items || []'>
 			<div class='multi-textbox-item'>
 				{{item}}
