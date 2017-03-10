@@ -7,10 +7,10 @@ import { AppComponent } from './app.component';
 import { GridViewModule } from '../pajama/gridview/gridview.module';
 import { CheckListModule } from '../pajama/checklist/checklist.module';
 import { OverlayModule } from '../pajama/overlay/overlay.module';
-import { TypeAheadModule } from '../pajama/typeahead/typeahead.module';
+import { TypeaheadModule } from '../pajama/typeahead/typeahead.module';
 import { PipesModule } from '../pajama/pipes/pipes.module';
 import { routing } from './app.routing';
-import { GridViewBasicDemoComponent } from './gridview/gridviewbasicdemo.component';
+import { DemoComponent } from './demo/demo.component';
 
 @NgModule({
 	imports: [
@@ -19,7 +19,7 @@ import { GridViewBasicDemoComponent } from './gridview/gridviewbasicdemo.compone
 		HttpModule,
 		GridViewModule,
 		OverlayModule,
-		TypeAheadModule,
+		TypeaheadModule,
 		PipesModule,
 		CheckListModule,
 		routing
@@ -27,7 +27,7 @@ import { GridViewBasicDemoComponent } from './gridview/gridviewbasicdemo.compone
 	providers: [ParserService],
 	declarations: [
 		AppComponent,
-		GridViewBasicDemoComponent
+		DemoComponent
 	],
 	bootstrap: [AppComponent]
 })

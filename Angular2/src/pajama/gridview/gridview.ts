@@ -1,5 +1,6 @@
 ﻿import { EventEmitter } from '@angular/core';
 import { ParserService } from '../services/parser.service';
+import { OrderByPipe } from '../pipes/order-by.pipe';
 import { PipeTransform } from '@angular/core';
 
 export class GridView {
@@ -42,7 +43,7 @@ export class GridView {
 		return cols;
 	}
 
-	private getDistinctValues(column: DataColumn): any[] {
+	getDistinctValues(column: DataColumn): any[] {
 		if (!column.fieldName) return null;
 		if (!this._data) return null;
 
@@ -87,31 +88,23 @@ export class GridView {
 	}
 
 	private _stateLoaded = false;
+	private _defaultState: GridState;
 	// TODO: where should this be called from?
 	loadGridState() {
 		if (this._stateLoaded || !this.saveGridStateToStorage) return;
+		if (!this._defaultState) {
+			let orderedCols = new OrderByPipe().transform(this.columns, ['columnIndex']);
+			for (let i = 0; i < orderedCols.length; i++) {
+				orderedCols[i].columnIndex = i;
+			}
+			this._defaultState = this.getGridState();
+		}
+
 		this._stateLoaded = true;
 		let stateString = localStorage.getItem(this.name);
 		if (stateString) {
 			let state = <GridState>JSON.parse(stateString);
-			this.currentPage = state.currentPage;
-			this.pageSize = state.pageSize;
-			this.filterVisible = state.filterVisible;
-
-			for (let col of this.columns) {
-				for (let colState of state.gridColumnStates) {
-					if (col.getIdentifier() != colState.identifier) continue;
-					col.columnIndex = colState.columnIndex;
-					col.width = colState.width;
-					col.visible = colState.visible;
-					if (col instanceof DataColumn) {
-						let cd = <DataColumn>col;
-						cd.sortDirection = colState.sortDirection;
-						cd.sortIndex = colState.sortIndex;
-						cd.filterValue = colState.filterValue;
-					}
-				}
-			}
+			this.setGridState(state);
 		}
 	}
 
@@ -121,6 +114,29 @@ export class GridView {
 
 		if (!this.saveGridStateToStorage) return;
 
+		let state = this.getGridState();
+		// TODO: is grid name too generic?
+		localStorage.setItem(this.name, JSON.stringify(state));
+	}
+
+	resetGridState() {
+		if (this._defaultState) {
+			this.setGridState(this._defaultState);
+			localStorage.removeItem(this.name);
+
+			// THIS SEEMS HACKISH! IN ORDER FOR THE COMPONENT TO REDRAW, IT NEEDS TO DETECT
+			// A CHANGE TO THE COLUMNS VARIABLE ITSELF RATHER THAN WHAT'S IN THE COLLECTION
+			let copies: Array<ColumnBase> = [];
+			for (let c of this.columns) {
+				copies.push(c);
+			}
+
+			this.columns = copies;
+			this.refreshData();
+		}
+	}
+
+	private getGridState(): GridState {
 		let state = new GridState();
 		state.currentPage = this.currentPage;
 		state.pageSize = this.pageSize;
@@ -141,8 +157,28 @@ export class GridView {
 			state.gridColumnStates.push(colState);
 		}
 
-		// TODO: is grid name too generic?
-		localStorage.setItem(this.name, JSON.stringify(state));
+		return state;
+	}
+
+	private setGridState(state: GridState) {
+		this.currentPage = state.currentPage;
+		this.pageSize = state.pageSize;
+		this.filterVisible = state.filterVisible;
+
+		for (let col of this.columns) {
+			for (let colState of state.gridColumnStates) {
+				if (col.getIdentifier() != colState.identifier) continue;
+				col.columnIndex = colState.columnIndex;
+				col.width = colState.width;
+				col.visible = colState.visible;
+				if (col instanceof DataColumn) {
+					let cd = <DataColumn>col;
+					cd.sortDirection = colState.sortDirection;
+					cd.sortIndex = colState.sortIndex;
+					cd.filterValue = colState.filterValue;
+				}
+			}
+		}
 	}
 }
 export enum SortDirection {
@@ -177,10 +213,13 @@ export class ColumnBase {
 	allowSizing: boolean;
 	getRowCellClass: (row: any) => string;
 	dataChanged = new EventEmitter<any[]>();
+	customProps: { [name: string]: any; } = {};
 
 	constructor(public caption?: string) { }
 
 	getIdentifier(): string {
+		if (!this.name)
+			this.name = Math.floor((1 + Math.random()) * 0x10000).toString();
 		return this.name;
 	}
 }
@@ -197,7 +236,7 @@ export class DataColumn extends ColumnBase {
 	filterDelayMilliseconds = 0;
 	sortDirection: SortDirection = SortDirection.None;
 	customSort: (obj1: any, obj2: any) => number;
-	
+
 	private _filterOptions: any[];
 	get filterOptions(): any[] {
 		return this._filterOptions;

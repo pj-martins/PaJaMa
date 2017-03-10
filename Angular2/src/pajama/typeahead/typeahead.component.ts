@@ -15,9 +15,9 @@ export const CUSTOM_INPUT_CONTROL_VALUE_ACCESSOR: any = {
 	moduleId: module.id,
 	selector: 'typeahead',
 	template: `
-		<div class='typeahead-container' [hidden]='isForMulti'>
+		<div class='typeahead-container'>
 			<div class='typeahead-input-container'>
-				<input type='text' [(ngModel)]='textValue' (keyup)='valueChanged($event)' (keydown)='keydown($event)' class='form-control text_id_{{uniqueId}}' />
+				<input type='text' [(ngModel)]='textValue' (keyup)='valueChanged($event)' (keydown)='keydown($event)' class='text_id_{{uniqueId}}' />
 			</div>
 			<div class='typeahead-button-container' *ngIf='!dataSourceFunction && !hideButton'>
 				<button class='btn btn-default glyphicon glyphicon-chevron-down typeahead-button button_id_{{uniqueId}}' tabindex='-1' (click)='openByButton()' (keydown)='keydown($event)'></button>
@@ -88,9 +88,6 @@ export class TypeaheadComponent implements ControlValueAccessor, OnInit {
 
 	@Input()
 	hideButton = false;
-
-	@Input()
-	isForMulti = false;
 
 	@Output()
 	itemSelected = new EventEmitter<any>();
@@ -353,11 +350,17 @@ export class TypeaheadComponent implements ControlValueAccessor, OnInit {
 		else if (!this.textValue && this.displayMember && !this.valueMember) {
 			this.textValue = this.displayMember ? this.parserService.getObjectValue(this.displayMember, this.innerValue) : this.innerValue;
 		}
-		else if (!this.textValue && this.displayMember && this.valueMember && this.items && this.items.length > 0) {
+		else if (!this.textValue && this.items && this.items.length > 0) {
 			for (let item of this.items) {
-				let val = this.parserService.getObjectValue(this.valueMember, item);
-				if (val == this.innerValue) {
-					this.textValue = this.parserService.getObjectValue(this.displayMember, item);
+				if (this.displayMember && this.valueMember) {
+					let val = this.parserService.getObjectValue(this.valueMember, item);
+					if (val == this.innerValue) {
+						this.textValue = this.parserService.getObjectValue(this.displayMember, item);
+						break;
+					}
+				}
+				else if (item == this.innerValue) {
+					this.textValue = item;
 					break;
 				}
 			}

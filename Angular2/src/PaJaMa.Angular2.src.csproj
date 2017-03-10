@@ -68,12 +68,18 @@
     <Reference Include="System.EnterpriseServices" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="app\styles.css" />
     <Content Include="events.js" />
     <Content Include="index.html" />
     <Content Include="packages.config" />
     <Content Include="package.json" />
     <Content Include="pajama\checklist\checklist.css" />
+    <Content Include="pajama\gridview\gridview-filtercell.css" />
+    <Content Include="pajama\gridview\gridview-settings.css" />
+    <Content Include="pajama\gridview\gridview-pager.css" />
+    <Content Include="pajama\gridview\gridview-headercell.css" />
     <Content Include="pajama\gridview\gridview.css" />
+    <Content Include="pajama\multi-textbox\multi-textbox.css" />
     <Content Include="pajama\overlay\overlay.css" />
     <Content Include="pajama\package.json" />
     <Content Include="pajama\typeahead\typeahead.css" />
@@ -100,7 +106,7 @@
     <TypeScriptCompile Include="app\app.module.ts" />
     <TypeScriptCompile Include="app\app.routing.ts" />
     <TypeScriptCompile Include="app\classes\classes.ts" />
-    <TypeScriptCompile Include="app\gridview\gridviewbasicdemo.component.ts" />
+    <TypeScriptCompile Include="app\demo\demo.component.ts" />
     <TypeScriptCompile Include="app\main.ts" />
     <TypeScriptCompile Include="app\polyfills.browser.ts" />
     <TypeScriptCompile Include="app\vendor.ts" />
@@ -109,16 +115,18 @@
     <TypeScriptCompile Include="pajama\gridview\detail-gridview.component.ts" />
     <TypeScriptCompile Include="pajama\gridview\gridview-cell-template.component.ts" />
     <TypeScriptCompile Include="pajama\gridview\gridview-cell.component.ts" />
+    <TypeScriptCompile Include="pajama\gridview\gridview-filtercell-template.component.ts" />
     <TypeScriptCompile Include="pajama\gridview\gridview-filtercell.component.ts" />
     <TypeScriptCompile Include="pajama\gridview\gridview-headercell.component.ts" />
     <TypeScriptCompile Include="pajama\gridview\gridview-pager.component.ts" />
     <TypeScriptCompile Include="pajama\gridview\gridview-settings.component.ts" />
     <TypeScriptCompile Include="pajama\gridview\gridview.component.ts" />
-    <TypeScriptCompile Include="pajama\gridview\gridview.filtercell.ts" />
     <TypeScriptCompile Include="pajama\gridview\gridview.module.ts" />
     <TypeScriptCompile Include="pajama\gridview\gridview.rowtemplate.ts" />
     <TypeScriptCompile Include="pajama\gridview\gridview.ts" />
     <TypeScriptCompile Include="pajama\gridview\template.builder.ts" />
+    <TypeScriptCompile Include="pajama\multi-textbox\multi-textbox.component.ts" />
+    <TypeScriptCompile Include="pajama\multi-textbox\multi-textbox.module.ts" />
     <TypeScriptCompile Include="pajama\overlay\overlay.component.ts" />
     <TypeScriptCompile Include="pajama\overlay\overlay.module.ts" />
     <TypeScriptCompile Include="pajama\pajama.module.ts" />

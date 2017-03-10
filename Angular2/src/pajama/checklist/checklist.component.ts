@@ -12,7 +12,7 @@ export class CheckListItem {
 	template: `
     <div class='check-list check-list-container form-control id_{{uniqueId}}'>
 		<div class='check-list-input-container'>
-			<button (click)='dropdownVisible = !dropdownVisible' class="check-list-input">
+			<button (click)='dropdownVisible = !dropdownVisible' class="check-list-input" [style.text-align]="showMultiplesEllipses ? 'center' : ''">
 				{{selectedText ? selectedText : '&nbsp;'}}
 			</button>
 		</div>
@@ -39,6 +39,7 @@ export class CheckListComponent implements OnInit {
 	@Input() showFilterIcon = false;
 	@Input() disableAll = false;
 	@Output() selectionChanged = new EventEmitter<any>();
+	@Input() showMultiplesEllipses = false;
 
 	protected displayItems: Array<CheckListItem> = [];
 	protected allSelected = false;
@@ -107,8 +108,12 @@ export class CheckListComponent implements OnInit {
 				}
 			}
 
-			for (let i = 0; i < this.selectedItems.length; i++) {
-				this.selectedText += (i == 0 ? "" : ", ") + (this.displayMember ? this.selectedItems[i][this.displayMember] : this.selectedItems[i]);
+			if (this.showMultiplesEllipses && this.selectedItems.length > 1)
+				this.selectedText = "(...)";
+			else {
+				for (let i = 0; i < this.selectedItems.length; i++) {
+					this.selectedText += (i == 0 ? "" : ", ") + (this.displayMember ? this.selectedItems[i][this.displayMember] : this.selectedItems[i]);
+				}
 			}
 		}
 	}

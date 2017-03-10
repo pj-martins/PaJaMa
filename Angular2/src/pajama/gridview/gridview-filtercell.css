@@ -1,0 +1,30 @@
+/*.filter-control {
+	display: block;
+	width: 100%;
+	height: 29px;
+	padding: 3px 3px;
+	line-height: 1.42857143;
+	border: 1px solid #ccc;
+}
+
+.filter-check-list .form-control {
+	height: 29px;
+}
+
+.filter-check-list .check-list-container {
+	padding-right: 0px !important;
+}
+
+.filter-check-list .check-list-button {
+	height: 22px !important;
+	width: 30px !important;
+}
+
+.filter-check-list .check-list-input {
+	min-height: 10px !important;
+	height: 22px;
+}*/
+
+.gridview-filtercell {
+	user-select: none;
+}

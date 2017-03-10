@@ -6,17 +6,19 @@ import { CheckListModule } from '../checklist/checklist.module';
 @Component({
 	moduleId: module.id,
 	selector: 'gridview-filtercell',
-	styleUrls: ['gridview.css'],
+	styleUrls: ['gridview-filtercell.css'],
 	template: `
-<div *ngIf='column.filterTemplate'>
-
-</div>
-<div *ngIf='!column.filterTemplate' [ngSwitch]='column.filterMode == filterMode.DistinctList || column.filterMode == filterMode.DynamicList || column.filterOptions'>
-	<div *ngSwitchCase='true'>
-		<check-list name='filtcheck' [ngStyle]="{'maxWidth': column.width || (parentWidth + 'px')}" [showFilterIcon]='true' [items]='checklistItems' [selectedItems]='column.filterValue' (selectionChanged)='filterChanged()'  class='filter-check-list'></check-list>
+<div class='gridview-filtercell'>
+	<div *ngIf='column.filterTemplate'>
+		<gridview-filtercell-template [parentGridViewFilterCellComponent]="self" [column]="column"></gridview-filtercell-template>
 	</div>
-	<div *ngSwitchDefault>
-		<input type='text' [(ngModel)]='column.filterValue' (ngModelChange)='filterChanged()' class='form-control filter-control' />
+	<div *ngIf='!column.filterTemplate' [ngSwitch]='column.filterMode == filterMode.DistinctList || column.filterMode == filterMode.DynamicList || column.filterOptions'>
+		<div *ngSwitchCase='true'>
+			<check-list name='filtcheck' [showMultiplesEllipses]='true' [showFilterIcon]='true' [items]='checklistItems' [selectedItems]='column.filterValue' (selectionChanged)='filterChanged()'  class='filter-check-list'></check-list>
+		</div>
+		<div *ngSwitchDefault>
+			<input type='text' [(ngModel)]='column.filterValue' (ngModelChange)='filterChanged()' class='form-control filter-control' />
+		</div>
 	</div>
 </div>
 `
@@ -26,10 +28,11 @@ export class GridViewFilterCellComponent implements OnInit {
 	@Input() parentGridView: GridView
 	@Input() parentGridViewComponent: GridViewComponent;
 
+	protected self = this;
 	protected checklistItems = [];
 	protected filterMode = FilterMode;
 
-	constructor(private elementRef: ElementRef) { }
+	constructor(protected elementRef: ElementRef) { }
 
 	protected parentWidth = 0;
 
@@ -44,15 +47,16 @@ export class GridViewFilterCellComponent implements OnInit {
 			}
 			if (!this.column.filterValue)
 				this.column.filterValue = copy;
+
 			this.column.filterOptionsChanged.subscribe(() => {
 				this.checklistItems = this.column.filterOptions;
-				let copy2 = [];
-				if (this.checklistItems) {
-					for (let ci of this.checklistItems) {
-						copy2.push(ci);
+					let copy2 = [];
+					if (this.checklistItems) {
+						for (let ci of this.checklistItems) {
+							copy2.push(ci);
+						}
 					}
-				}
-				this.column.filterValue = copy2;
+					this.column.filterValue = copy2;
 			});
 
 			if (!this.column.width)

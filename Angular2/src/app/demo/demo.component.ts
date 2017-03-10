@@ -1,5 +1,7 @@
 ﻿import { Component, OnInit } from '@angular/core';
-import { GridView, DataColumn, FilterMode, FieldType, SortDirection } from '../../pajama/gridview/gridview';
+import { GridView, DataColumn, FilterMode, FieldType, SortDirection, GridViewTemplate } from '../../pajama/gridview/gridview';
+import { TypeaheadModule } from '../../pajama/typeahead/typeahead.module';
+import { MultiTextboxModule } from '../../pajama/multi-textbox/multi-textbox.module';
 import { Event } from '../classes/classes';
 
 declare var EVENTS: Array<Event>;
@@ -11,8 +13,9 @@ declare var EVENTS: Array<Event>;
 <gridview [grid]='gridDemo' (pageChanged)='pageChanged()'></gridview>
 `
 })
-export class GridViewBasicDemoComponent implements OnInit {
+export class DemoComponent implements OnInit {
 	protected gridDemo: GridView;
+	private _coordinatorColumn: DataColumn;
 
 	constructor() {
 		this.initGrid();
@@ -20,6 +23,7 @@ export class GridViewBasicDemoComponent implements OnInit {
 
 	ngOnInit() {
 		this.gridDemo.data = EVENTS;
+		this._coordinatorColumn.customProps["coordinators"] = this.gridDemo.getDistinctValues(this._coordinatorColumn);
 	}
 
 	private initGrid() {
@@ -48,22 +52,37 @@ export class GridViewBasicDemoComponent implements OnInit {
 		endCol.width = "110px";
 		this.gridDemo.columns.push(endCol);
 
-		let coordinatorCol = new DataColumn("coordinator");
-		coordinatorCol.filterMode = FilterMode.DistinctList;
-		coordinatorCol.sortable = true;
-		this.gridDemo.columns.push(coordinatorCol);
+		this._coordinatorColumn = new DataColumn("coordinator");
+
+		this._coordinatorColumn.filterMode = FilterMode.Equals;
+		this._coordinatorColumn.filterTemplate = new GridViewTemplate(`
+<typeahead [(ngModel)]='column.filterValue' [dataSource]='column.customProps.coordinators'
+	 (itemSelected)="parentGridViewFilterCellComponent.filterChanged()"
+	 (ngModelChange)="parentGridViewFilterCellComponent.filterChanged()">
+</typeahead>`, [TypeaheadModule]);
+		this._coordinatorColumn.sortable = true;
+		this._coordinatorColumn.allowSizing = true;
+		this.gridDemo.columns.push(this._coordinatorColumn);
 
 		let phoneNumberCol = new DataColumn("phoneNumber");
-		phoneNumberCol.width = "180px";
+		phoneNumberCol.width = "160px";
 		this.gridDemo.columns.push(phoneNumberCol);
 
 		let evtTypeCol = new DataColumn("hallEventType.eventTypeName", "Event Type");
-		evtTypeCol.filterMode = FilterMode.Contains;
+		evtTypeCol.filterMode = FilterMode.DynamicList;
+		evtTypeCol.filterValue = [];
+		evtTypeCol.filterTemplate = new GridViewTemplate(`
+<multi-textbox [items]='column.filterValue' (itemsChanged)="parentGridViewFilterCellComponent.filterChanged()"></multi-textbox>
+`, [MultiTextboxModule]);
 		evtTypeCol.allowSizing = true;
 		this.gridDemo.columns.push(evtTypeCol);
 
 		let requestedByCol = new DataColumn("requestedBy");
 		requestedByCol.filterMode = FilterMode.DistinctList;
+		requestedByCol.filterValue = [];
+		requestedByCol.filterTemplate = new GridViewTemplate(`
+<multi-typeahead [items]='column.filterValue' (itemsChanged)="parentGridViewFilterCellComponent.filterChanged()" [dataSource]='column.filterOptions'></multi-typeahead>
+`, [TypeaheadModule]);
 		requestedByCol.sortable = true;
 		this.gridDemo.columns.push(requestedByCol);
 	}

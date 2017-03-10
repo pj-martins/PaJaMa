@@ -3,12 +3,14 @@ import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { TypeaheadComponent } from './typeahead.component';
 import { MultiTypeaheadComponent } from './multi-typeahead.component';
+import { MultiTextboxModule } from '../multi-textbox/multi-textbox.module';
 import { ParserService } from '../services/parser.service';
 
 @NgModule({
 	imports: [
 		CommonModule,
-		FormsModule
+		FormsModule,
+		MultiTextboxModule
 	],
 	providers: [ParserService],
 	declarations: [
@@ -20,4 +22,4 @@ import { ParserService } from '../services/parser.service';
 		MultiTypeaheadComponent
 	]
 })
-export class TypeAheadModule { }
+export class TypeaheadModule { }

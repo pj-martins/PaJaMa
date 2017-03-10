@@ -7,7 +7,7 @@ import { ParserService } from '../services/parser.service';
 @Component({
 	moduleId: module.id,
 	selector: 'gridview-headercell',
-	styleUrls: ['gridview.css'],
+	styleUrls: ['gridview-headercell.css'],
 	template: `
 <div class='sort-header' (click)='setSort(column, $event)' [id]='column.getIdentifier()' draggable="true" (dragover)="dragOver($event)" (dragstart)="dragStart($event)" (drop)="drop($event)">
 	<div class='header-caption' [style.width]="(column.fieldName || column.sortField) && column.sortable ? '' : '100%'">
@@ -142,14 +142,17 @@ export class GridViewHeaderCellComponent {
 					}
 				}
 			}
+
 			if (this.parentGridView.saveGridStateToStorage)
 				this.parentGridView.saveGridState();
+
+			this.widthChanged.emit(this.column)
 		}
 	}
 
 	private _resized = false;
 	private resize(event) {
-		if (this._currEvt) {
+		if (this._currEvt && event.buttons == 1) {
 			let currX = event.clientX;
 			let delta = event.clientX - this._currEvt.clientX;
 			this._parentTH.style.width = (this._parentTH.offsetWidth + delta).toString() + 'px';
@@ -164,7 +167,8 @@ export class GridViewHeaderCellComponent {
 		}
 	}
 
-	private COLUMN_ID = "column_id";
+	// IE has to be 'text' for some reason
+	private COLUMN_ID = "text";
 	protected dragOver(event) {
 		if (!this.parentGridView.allowColumnOrdering) return;
 		event.preventDefault();

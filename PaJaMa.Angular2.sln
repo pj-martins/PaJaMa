@@ -3,11 +3,11 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 14
 VisualStudioVersion = 14.0.25420.1
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PaJaMa.Angular2.src", "src\PaJaMa.Angular2.src.csproj", "{AABCD132-4DA3-4B53-BBC3-4EC0868ABE3C}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PaJaMa.Angular2.src", "Angular2\src\PaJaMa.Angular2.src.csproj", "{AABCD132-4DA3-4B53-BBC3-4EC0868ABE3C}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PaJaMa.Angular2.dist", "dist\PaJaMa.Angular2.dist.csproj", "{F9735434-0799-4866-A2AA-E6AC435D2095}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PaJaMa.Angular2.dist", "Angular2\dist\PaJaMa.Angular2.dist.csproj", "{F9735434-0799-4866-A2AA-E6AC435D2095}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PaJaMa.Angular2.Deploy", "Deploy\PaJaMa.Angular2.Deploy.csproj", "{8E9FB998-C51E-4516-AC5D-CB745A109391}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PaJaMa.Angular2.Deploy", "Angular2\Deploy\PaJaMa.Angular2.Deploy.csproj", "{8E9FB998-C51E-4516-AC5D-CB745A109391}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

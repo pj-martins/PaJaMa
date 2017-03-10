@@ -23,26 +23,25 @@
 
 	// packages tells the System loader how to load when no filename and/or no extension
 	var packages = {
-		'app': { main: 'main.js?v=' + JS_CONFIG_VERSION, defaultExtension: 'js' },
+		'app': { main: 'main.js', defaultExtension: 'js' },
 		'rxjs': { defaultExtension: 'js' },
 		'moment': { main: 'moment.min.js', defaultExtension: 'js' },
-		'pajama': { defaultExtension: 'js?v=' + JS_CONFIG_VERSION }
+		'pajama': { defaultExtension: 'js' }
 	};
 
 	var config = {
 		map: map,
-		packages: packages,
-		meta: {
-			'*.css': { loader: 'css' }
-		}
+		packages: packages
 	}
 
 	if (global.filterSystemConfig) { global.filterSystemConfig(config); }
 
-	//SystemJS.resolve = function (key, valu) {
-	//	alert(key);
-	//	alert(valu);
-	//}
-
 	SystemJS.config(config);
+
+	var systemLocate = System.locate;
+	SystemJS.locate = function (load) {
+		return Promise.resolve(systemLocate.call(this, load)).then(function (address) {
+			return address + '?v=' + dt.getTime();
+		});
+	}
 })(this);

@@ -10,7 +10,7 @@ import { ParserService } from '../services/parser.service';
 	styleUrls: ['gridview.css'],
 	template: `
 <div *ngIf="column.template">
-	<gridview-cell-template [column]="col" [row]="row" [parentGridViewComponent]="self" [parentGridView]="grid"></gridview-cell-template>
+	<gridview-cell-template [column]="column" [row]="row" [parentGridViewComponent]="parentGridViewComponent" [parentGridView]="parentGridView"></gridview-cell-template>
 </div>
 <div *ngIf="!column.template && column.fieldType == fieldType.Date">
 	<div [innerHTML]="parserService.getObjectValue(column.fieldName, row) == null ? '' : parserService.getObjectValue(column.fieldName, row) | moment:(column.format ? column.format : 'MM/DD/YYYY')"></div>
@@ -44,12 +44,13 @@ import { ParserService } from '../services/parser.service';
 	<div *ngIf="column.checkList">
 		<div [style.width]="column.width" style='word-break: break-word'><check-list [items]='column.items' [selectedItems]='row[column.fieldName]' [displayMember]="column.displayMember"></check-list></div>
 	</div>
+<!-- TODO:
 	<div *ngIf="column.typeahead">
-		<!-- TODO: single -->
 		<div *ngIf="column.multi">
 			<div [style.width]="column.width"><multi-typeahead (ngModelChange)='column.ngModelChange.emit(row)' [dataSource]='column.dataSource' [(ngModel)]='row[column.fieldName]'></multi-typeahead></div>
 		</div>
 	</div>
+-->
 	<div *ngIf="!column.url && !column.click && !column.editType && !column.checkList && !column.typeahead">
 		<div [innerHTML]="parserService.getObjectValue(column.fieldName, row) == null ? '' : getObjectValue()"></div>
 	</div>

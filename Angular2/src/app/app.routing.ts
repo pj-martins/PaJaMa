@@ -1,11 +1,11 @@
 ﻿import { ModuleWithProviders } from '@angular/core';
 import { Routes, RouterModule, RouterOutletMap } from '@angular/router';
-import { GridViewBasicDemoComponent } from './gridview/gridviewbasicdemo.component';
+import { DemoComponent } from './demo/demo.component';
 
 const appRoutes: Routes = [
 	{
 		path: '',
-		component: GridViewBasicDemoComponent
+		component: DemoComponent
 	}
 ];
 

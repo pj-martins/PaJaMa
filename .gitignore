@@ -60,3 +60,7 @@ Packages
 *.gitkeep
 /Recipes/Web/Angular2/modelapi.js
 /Angular2/.vs/config
+/Angular2/src/app/**/*.js
+/Angular2/src/app/**/*.js.map
+/Angular2/src/pajama/**/*.js
+/Angular2/src/pajama/**/*.js.map

@@ -81,11 +81,13 @@ import { ParserService } from '../services/parser.service';
             </tr>
         </tfoot>
     </table>
-	<div class='pull-left'>
-		&nbsp;&nbsp;&nbsp;<gridview-pager [parentGridView]='grid' [parentGridViewComponent]="self" (pageChanging)='handlePageChanging()' (pageChanged)='handlePageChanged($event)'></gridview-pager>
-	</div>
-	<div class='pull-right'>
-		&nbsp;&nbsp;&nbsp;Settings
+	<div class='row'>
+		<div class='pull-left'>
+			<gridview-pager [parentGridView]='grid' [parentGridViewComponent]="self" (pageChanging)='handlePageChanging()' (pageChanged)='handlePageChanged($event)'></gridview-pager>
+		</div>
+		<div class='pull-right gridview-settings'>
+			<gridview-settings [parentGridView]='grid'></gridview-settings>
+		</div>
 	</div>
 </div>`
 })
@@ -394,7 +396,7 @@ export class GridViewComponent {
 					case FilterMode.DistinctList:
 					case FilterMode.DynamicList:
 						if (col.filterValue instanceof Array) {
-							if (!itemVal || col.filterValue.indexOf(itemVal) == -1) {
+							if (col.filterValue.length > 0 && (!itemVal || col.filterValue.indexOf(itemVal) == -1)) {
 								return false;
 							}
 						}
