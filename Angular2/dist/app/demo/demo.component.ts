@@ -1,7 +1,7 @@
-﻿import { Component, OnInit } from '@angular/core';
-import { GridView, DataColumn, FilterMode, FieldType, SortDirection, GridViewTemplate } from '../../pajama/gridview/gridview';
-import { TypeaheadModule } from '../../pajama/typeahead/typeahead.module';
-import { MultiTextboxModule } from '../../pajama/multi-textbox/multi-textbox.module';
+import { Component, OnInit } from '@angular/core';
+import { GridView, DataColumn, FilterMode, FieldType, SortDirection, GridViewTemplate } from 'pajama/gridview/gridview';
+import { TypeaheadModule } from 'pajama/typeahead/typeahead.module';
+import { MultiTextboxModule } from 'pajama/multi-textbox/multi-textbox.module';
 import { Event } from '../classes/classes';
 
 declare var EVENTS: Array<Event>;

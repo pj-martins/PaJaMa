@@ -37,7 +37,7 @@ namespace PaJaMa.Angular2.Deploy
 				jsText = jsText.Replace(phoneMatch.Groups[1].Value, randNum.ToString());
 			}
 			*/
-			// new NPMPackage().Generate();
+			new NPMPackage().Generate();
 		}
 	}
 }

@@ -77,10 +77,6 @@ export class GridView {
 	set data(data: Array<any>) {
 		this._data = data;
 		this.refreshData();
-
-		// TODO: is this the best place? this assumes grid properties are completely set when the data is populated
-		// which is most likely a bad assumption. Might have to call this explicitly where grid is used
-		this.loadGridState();
 	}
 
 	get data(): Array<any> {

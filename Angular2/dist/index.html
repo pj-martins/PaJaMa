@@ -1,0 +1,29 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+	<base href="">
+	<title>PaJaMa Angular 2</title>
+	<meta charset="utf-8">
+	<meta name="description" content="PaJaMa Angular 2">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+
+	<link href="node_modules/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet" />
+	<link href="app/styles.css" rel="stylesheet" />
+
+	<script src="node_modules/core-js/client/shim.js"></script>
+	<script src="node_modules/zone.js/dist/zone.js"></script>
+	<script src="node_modules/reflect-metadata/Reflect.js"></script>
+	<script src="node_modules/systemjs/dist/system.src.js"></script>
+	<script src="systemjs.config.js"></script>
+	<script src="events.js"></script>
+	<script>
+		SystemJS.import('app').catch(function (err) { console.error(err); });
+		//SystemJS.import('*.css!').catch(function (err) { console.error(err); });
+	</script>
+</head>
+<body>
+	<app-container>
+		Loading...
+	</app-container>
+</body>
+</html>

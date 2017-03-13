@@ -5,7 +5,7 @@
 
 	// map tells the System loader where to look for things
 	var map = {
-		'app': 'src/app', // 'dist',
+		'app': 'app', // 'dist',
 		'rxjs': 'node_modules/rxjs',
 		'@angular/core': 'node_modules/@angular/core/bundles/core.umd.js',
 		'@angular/http': 'node_modules/@angular/http/bundles/http.umd.js',

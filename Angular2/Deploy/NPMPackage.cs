@@ -13,8 +13,26 @@ namespace PaJaMa.Angular2.Deploy
 	{
 		private StringBuilder _sbUnsupportedTypes = new StringBuilder();
 
+		private void recursivelyCopy(DirectoryInfo srcDir, DirectoryInfo destDir)
+		{
+			if (!destDir.Exists) destDir.Create();
+			foreach (var finf in srcDir.GetFiles("*.ts").Union(srcDir.GetFiles("*.css")))
+			{
+				string srcFileText = File.ReadAllText(finf.FullName);
+				srcFileText = srcFileText.Replace("../../pajama", "pajama").Replace("../pajama", "pajama");
+				File.WriteAllText(finf.FullName.Replace(srcDir.FullName, destDir.FullName), srcFileText);
+			}
+
+			foreach (var dinf in srcDir.GetDirectories())
+			{
+				recursivelyCopy(dinf, new DirectoryInfo(Path.Combine(destDir.FullName, dinf.Name)));
+			}
+		}
+
 		public void Generate()
 		{
+			int minorVersion = 0;
+
 			var sbUnsupportedTypes = new StringBuilder();
 
 			var srcDir = Path.GetFullPath(@"..\..\..\src\pajama\");
@@ -33,6 +51,15 @@ namespace PaJaMa.Angular2.Deploy
 
 				if (file.EndsWith(".css") || file.EndsWith("package.json"))
 				{
+					if (file.EndsWith("package.json"))
+					{
+						string json = File.ReadAllText(file);
+						Match m = Regex.Match(json, "\"version\": \"(.*?)\\.(.*?)\\.(.*?)\"");
+						minorVersion = Convert.ToInt16(m.Groups[3].Value) + 1;
+						json = json.Replace(m.Groups[0].Value, m.Groups[0].Value.Replace($"{m.Groups[1].Value}.{m.Groups[2].Value}.{m.Groups[3].Value}",
+							$"{m.Groups[1].Value}.{m.Groups[2].Value}.{minorVersion}"));
+						File.WriteAllText(file, json);
+					}
 					File.Copy(file, file.Replace(srcDir, targetDir));
 					continue;
 				}
@@ -87,14 +114,25 @@ namespace PaJaMa.Angular2.Deploy
 				Console.Write("\r\nUnsupported Types:\r\n" + _sbUnsupportedTypes.ToString());
 			}
 
-			Console.WriteLine("publish?");
-			string rtv = Console.ReadLine();
-			if (rtv.ToLower().StartsWith("y"))
-			{
-				var fullPath = new FileInfo("NPMPublish.bat").FullName;
-				Directory.SetCurrentDirectory(new DirectoryInfo(targetDir).Parent.FullName);
-				Process.Start(fullPath).WaitForExit();
-			}
+			Directory.SetCurrentDirectory(new DirectoryInfo(srcDir).Parent.FullName);
+			Process.Start(new ProcessStartInfo("npm", "publish pajama")).WaitForExit();
+
+			var distFile = Path.GetFullPath(@"..\dist\package.json");
+			string distJson = File.ReadAllText(distFile);
+			Match mDist = Regex.Match(distJson, "\"pajama\": \"(.*?)\\.(.*?)\\.(.*?)\"");
+
+			distJson = distJson.Replace(mDist.Groups[0].Value, mDist.Groups[0].Value.Replace($"{mDist.Groups[1].Value}.{mDist.Groups[2].Value}.{mDist.Groups[3].Value}",
+							$"{mDist.Groups[1].Value}.{mDist.Groups[2].Value}.{minorVersion}"));
+			File.WriteAllText(distFile, distJson);
+
+			Directory.SetCurrentDirectory(new FileInfo(distFile).Directory.FullName);
+			string nodeModulesDirectory = "node_modules\\pajama";
+			if (Directory.Exists(nodeModulesDirectory))
+				Directory.Delete(nodeModulesDirectory, true);
+			Process.Start(new ProcessStartInfo("npm", "install")).WaitForExit();
+
+			recursivelyCopy(new DirectoryInfo(Path.GetFullPath("..\\src\\app")), new DirectoryInfo(Path.GetFullPath("..\\dist\\app")));
+
 		}
 
 		private void createBody(string bodyText, StringBuilder sb)
