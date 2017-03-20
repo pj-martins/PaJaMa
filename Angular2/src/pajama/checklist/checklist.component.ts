@@ -10,11 +10,12 @@ export class CheckListItem {
 	moduleId: module.id,
 	selector: 'check-list',
 	template: `
-    <div class='check-list check-list-container form-control id_{{uniqueId}}'>
+    <div class='check-list check-list-container id_{{uniqueId}}'>
 		<div class='check-list-input-container'>
-			<button (click)='dropdownVisible = !dropdownVisible' class="check-list-input" [style.text-align]="showMultiplesEllipses ? 'center' : ''">
+			<!--<button (click)='dropdownVisible = !dropdownVisible' class="check-list-input" [style.text-align]="showMultiplesEllipses ? 'center' : ''">
 				{{selectedText ? selectedText : '&nbsp;'}}
-			</button>
+			</button>-->
+			<input type='text' (click)='dropdownVisible = !dropdownVisible' [(ngModel)]='selectedText' [style.text-align]="showMultiplesEllipses ? 'center' : ''" readonly />
 		</div>
 		<div class='check-list-button-container'>
 			<button (click)='dropdownVisible = !dropdownVisible' class="check-list-button">
@@ -52,7 +53,7 @@ export class CheckListComponent implements OnInit {
 		return this._value;
 	}
 	set selectedItems(v: any) {
-		this._value = v;
+		this._value = v || [];
 		this.updateSelection(true);
 	}
 
@@ -158,6 +159,8 @@ export class CheckListComponent implements OnInit {
 	private updateSelectedCollection(items: CheckListItem[]) {
 		for (let item of items) {
 			let existingIndex = -1;
+			if (!this.selectedItems)
+				throw "selectedItems cannot be null or undefined initially";
 			for (let i = 0; i < this.selectedItems.length; i++) {
 				if (this.equals(this.selectedItems[i], item.item)) {
 					existingIndex = i;

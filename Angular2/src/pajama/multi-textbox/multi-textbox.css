@@ -1,37 +1,62 @@
 ﻿.multi-textbox-container {
-	padding: 2px 2px;
-	width: 100%;
+	/*padding: 2px 2px;
 	font-size: 14px;
 	border: 1px solid #ccc;
 	border-radius: 4px;
 	white-space: nowrap;
 	position: relative;
-	overflow: hidden;
+	overflow: hidden;*/
+	position: relative;
+	width: 100%;
+	white-space: nowrap;
+	max-width: inherit;
+	display: inline-block;
 }
 
 .multi-textbox-remove, .multi-textbox-add {
 	cursor: pointer;
 }
 
-.multi-textbox-add {
-	position: absolute;
-	right: 0;
-	margin-top: 8px;
-	margin-right: 8px;
+.multi-textbox-button-container {
+	margin-left: -35px;
+	display: inline;
 }
+
+.multi-textbox-button {
+	border: 0px;
+	vertical-align: top;
+	margin-top: 1px;
+	height: 22px;
+	width: 30px;
+	background-color: rgba(255, 255, 255, 0.5);
+}
+
 
 .multi-textbox-item {
 	background-color: #ddd;
-	border-radius: 4px;
-	padding: 4px 10px;
-	margin-right: 1px;
+	border-radius: 2px;
+	padding: 2px 6px;
+	margin-top: 1px;
+	margin-left: 1px;
 	float: left;
 }
 
-.multi-textbox-textbox input {
-	margin: 3px;
+.multi-textbox-item-container {
+	/*margin-left: -35px;
+	display: inline;*/
+	position: absolute;
+}
+
+.multi-textbox-input-container {
+	width: 100%;
+	display: inline-block;
+}
+
+	.multi-textbox-input-container input {
+		width: 100%;
+		/*margin: 3px;
 	border: none;
 	outline: none;
 	background-color: transparent;
-	width: 100%;
-}
+	width: 100%;*/
+	}

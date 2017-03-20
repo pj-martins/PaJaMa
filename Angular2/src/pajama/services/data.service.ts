@@ -39,7 +39,30 @@ export class DataService {
 			.catch(this.handleError);
 	}
 
-	getItems<TObject>(url: string, args?: ODataArguments): Observable<Items<TObject>> {
+	getItems<TObject>(url: string, args?: GetArguments): Observable<Items<TObject>> {
+		if (args) {
+			let firstIn = true;
+			if (args.params) {
+				for (let p in args.params) {
+					url += (firstIn ? '?' : '&') + p + '=' + args.params[p];
+					firstIn = false;
+				}
+			}
+		}
+
+		return this.http.get(url)
+			.map((res: Response) => {
+				let results = new Items<TObject>();
+				results.results = res.json();
+				let inlineCount = res.headers.get('X-InlineCount');
+				if (inlineCount)
+					results.totalRecords = +inlineCount;
+				return results;
+			})
+			.catch(this.handleError);
+	}
+
+	getItemsOData<TObject>(url: string, args?: ODataArguments): Observable<Items<TObject>> {
 		if (args) {
 			let firstIn = true;
 			if (args.params) {
@@ -93,7 +116,9 @@ export class DataService {
 				}
 				else {
 					results.results = res.json();
-					results.totalRecords = +res.headers.get('X-InlineCount');
+					let inlineCount = res.headers.get('X-InlineCount');
+					if (inlineCount)
+						results.totalRecords = +inlineCount;
 				}
 				return results;
 			})
@@ -133,10 +158,13 @@ export class Items<TObject> {
 	totalRecords: number;
 }
 
-export class ODataArguments {
+export class GetArguments {
+	params: { [paramName: string]: string } = {};
+}
+
+export class ODataArguments extends GetArguments {
 	pageSize: number;
 	pageNumber: number;
-	params: { [paramName: string]: string } = {};
 	filter: FilterBase;
 	orderBy: Array<OrderBy> = [];
 	select: Array<string> = [];

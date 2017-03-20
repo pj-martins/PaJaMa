@@ -8,9 +8,12 @@ import { GridViewModule } from '../pajama/gridview/gridview.module';
 import { CheckListModule } from '../pajama/checklist/checklist.module';
 import { OverlayModule } from '../pajama/overlay/overlay.module';
 import { TypeaheadModule } from '../pajama/typeahead/typeahead.module';
+import { DateTimePickerModule } from '../pajama/datetime-picker/datetime-picker.module';
+import { MultiTextboxModule } from '../pajama/multi-textbox/multi-textbox.module';
 import { PipesModule } from '../pajama/pipes/pipes.module';
 import { routing } from './app.routing';
-import { DemoComponent } from './demo/demo.component';
+import { DemoGridComponent } from './demo/demo-grid.component';
+import { DemoEditorsComponent } from './demo/demo-editors.component';
 
 @NgModule({
 	imports: [
@@ -22,12 +25,15 @@ import { DemoComponent } from './demo/demo.component';
 		TypeaheadModule,
 		PipesModule,
 		CheckListModule,
+		DateTimePickerModule,
+		MultiTextboxModule,
 		routing
 	],
 	providers: [ParserService],
 	declarations: [
 		AppComponent,
-		DemoComponent
+		DemoGridComponent,
+		DemoEditorsComponent
 	],
 	bootstrap: [AppComponent]
 })

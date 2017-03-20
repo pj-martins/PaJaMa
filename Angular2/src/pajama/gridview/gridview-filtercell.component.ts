@@ -14,10 +14,10 @@ import { CheckListModule } from '../checklist/checklist.module';
 	</div>
 	<div *ngIf='!column.filterTemplate' [ngSwitch]='column.filterMode == filterMode.DistinctList || column.filterMode == filterMode.DynamicList || column.filterOptions'>
 		<div *ngSwitchCase='true'>
-			<check-list name='filtcheck' [showMultiplesEllipses]='true' [showFilterIcon]='true' [items]='checklistItems' [selectedItems]='column.filterValue' (selectionChanged)='filterChanged()'  class='filter-check-list'></check-list>
+			<check-list name='filtcheck' [showFilterIcon]='true' [items]='checklistItems' [selectedItems]='column.filterValue' (selectionChanged)='filterChanged()'  class='filter-check-list'></check-list>
 		</div>
 		<div *ngSwitchDefault>
-			<input type='text' [(ngModel)]='column.filterValue' (ngModelChange)='filterChanged()' class='form-control filter-control' />
+			<input type='text' [(ngModel)]='column.filterValue' (ngModelChange)='filterChanged()' class="filtercell-textbox" />
 		</div>
 	</div>
 </div>

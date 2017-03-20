@@ -105,10 +105,10 @@ export class GridView {
 	}
 
 	saveGridState() {
+		if (!this.saveGridStateToStorage) return;
+
 		if (!this.name)
 			throw 'Grid name required to save to local storage';
-
-		if (!this.saveGridStateToStorage) return;
 
 		let state = this.getGridState();
 		// TODO: is grid name too generic?
@@ -148,7 +148,11 @@ export class GridView {
 				let cd = <DataColumn>col;
 				colState.sortDirection = cd.sortDirection;
 				colState.sortIndex = cd.sortIndex;
-				colState.filterValue = cd.filterValue;
+				// all selected
+				if (cd.filterValue instanceof Array && cd.filterOptions && cd.filterValue.length >= cd.filterOptions.length)
+					colState.filterValue = null;
+				else
+					colState.filterValue = cd.filterValue;
 			}
 			state.gridColumnStates.push(colState);
 		}
@@ -171,7 +175,12 @@ export class GridView {
 					let cd = <DataColumn>col;
 					cd.sortDirection = colState.sortDirection;
 					cd.sortIndex = colState.sortIndex;
-					cd.filterValue = colState.filterValue;
+					if (colState.filterValue instanceof Array) {
+						if (colState.filterValue.length > 0)
+							cd.filterValue = colState.filterValue;
+					}
+					else if (colState.filterValue)
+						cd.filterValue = colState.filterValue;
 				}
 			}
 		}

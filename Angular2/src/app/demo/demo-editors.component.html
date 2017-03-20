@@ -1,0 +1,70 @@
+﻿<div class="row">
+	<div class="col-md-1">Basic:</div>
+	<div class="col-md-3">
+		<datetime-picker [(ngModel)]='selectedDateTime'></datetime-picker>
+	</div>
+</div>
+<br />
+<div class="row">
+	<div class="col-md-1">Advanced:</div>
+	<div class="col-md-3">
+		<datetime-picker 
+			placeholder="Advanced"
+			[(ngModel)]='selectedDateTime' 
+			[hideDate]="hideDate" 
+			[dateFormat]="((!hideDate ? 'MM/DD/YYYY ' : '') + (!hideTime ? 'h:mm A' : '')).trim()" 
+			[hideTime]="hideTime"
+			[selectOnCalendarClick]="selectOnCalendarClick"
+			[minDate]="minDate"
+			[maxDate]="maxDate"
+			[minuteStep]="minuteStep"
+		>	
+		</datetime-picker>
+	</div>
+</div>
+<br />
+<div class="row">
+	<div class="col-md-1"></div>
+	<div class="col-md-3">
+		<input type="checkbox" [(ngModel)]="hideDate" />&nbsp;Hide Date
+		<br />
+		<input type="checkbox" [(ngModel)]="hideTime" />&nbsp;Hide Time
+		<br />
+		<input type="checkbox" [(ngModel)]="selectOnCalendarClick" />&nbsp;Select On Calendar Click
+		<br />
+		Min: <datetime-picker [(ngModel)]="minDate" [hideTime]="true"></datetime-picker>
+		<br />
+		Max: <datetime-picker [(ngModel)]="maxDate" [hideTime]="true"></datetime-picker>
+		<br />
+		Minute Step: <input type="number" [(ngModel)]="minuteStep" />
+	</div>
+</div>
+<br />
+Value: {{demoDateTime}}
+<br /><br /><br />
+<hr />
+<div class="row">
+	<div class="col-md-1">Basic:</div>
+	<div class="col-md-3">
+		<multi-textbox [items]="multiTextboxItems"></multi-textbox>
+	</div>
+</div>
+
+<br /><br /><br />
+<hr />
+<div class="row">
+	<div class="col-md-1">Basic:</div>
+	<div class="col-md-3">
+		<typeahead [dataSource]="dataSource" [(ngModel)]="selectedText"></typeahead>
+	</div>
+</div>
+
+
+<br /><br /><br />
+<hr />
+<div class="row">
+	<div class="col-md-1">Basic:</div>
+	<div class="col-md-3">
+		<multi-typeahead [dataSource]="dataSource" [items]="multiTypeaheadItems"></multi-typeahead>
+	</div>
+</div>

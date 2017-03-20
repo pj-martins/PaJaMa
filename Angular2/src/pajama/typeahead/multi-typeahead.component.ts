@@ -1,25 +1,14 @@
-﻿import { Component, Input, ViewChild } from '@angular/core'
-import { MultiTextboxComponent } from '../multi-textbox/multi-textbox.component';
+﻿import { Component, Input, ViewChild, ElementRef } from '@angular/core'
+import { MultiTextboxComponent, PRE_INPUT, POST_INPUT } from '../multi-textbox/multi-textbox.component';
 import { TypeaheadComponent } from './typeahead.component';
 
-// RESEMGLES MULTI TEXTBOX, WATCH CHANGES IN BOTH
 @Component({
 	moduleId: module.id,
 	selector: 'multi-typeahead',
-	template: `<div class='multi-textbox-container'>
-	<div class='multi-textbox-item-container' *ngIf='!items || !dataSource || items.length < dataSource.length'>
-		<div *ngFor='let item of items || []'>
-			<div class='multi-textbox-item'>
-				{{item}}
-				<div class='glyphicon glyphicon-remove multi-textbox-remove' (click)='removeItem(item)'></div>
-			</div>
-		</div>
-	</div>
-	<div class='multi-textbox-textbox'>
-		<typeahead #childTypeahead (keydown)="keyDown($event)" (keypress)="keyPress($event)" [dataSource]='dataSource' [displayMember]='displayMember' [valueMember]='valueMember' [minLength]='minLength' [(ngModel)]='currText' (itemSelected)='itemSelected($event)'></typeahead>
-	</div>
-	<div class='glyphicon glyphicon-plus multi-textbox-add' [style.display]="currText ? 'inline-block' : 'none'" (click)='addItem()'></div>
-</div>`,
+	template: PRE_INPUT +
+	 `<typeahead #childTypeahead (keydown)="keyDown($event, true)" [padLeft]="paddingLeft" [dataSource]='dataSource' [displayMember]='displayMember' 
+			[valueMember]='valueMember' [minLength]='minLength' [(ngModel)]='currText' (itemSelected)='itemSelected($event)'></typeahead>`
+	 + POST_INPUT,
 	styleUrls: ['../multi-textbox/multi-textbox.css', 'typeahead.css']
 })
 export class MultiTypeaheadComponent extends MultiTextboxComponent {
@@ -27,6 +16,10 @@ export class MultiTypeaheadComponent extends MultiTextboxComponent {
 
 	@Input()
 	minLength = 1;
+
+	constructor(protected elementRef: ElementRef) {
+		super(elementRef);
+	}
 
 	@Input()
 	get dataSource(): any {
@@ -42,6 +35,7 @@ export class MultiTypeaheadComponent extends MultiTextboxComponent {
 			window.setTimeout(() =>
 				this.currText = "", 10);
 			this.itemsChanged.emit(null);
+			this.resize();
 		}
 	}
 }

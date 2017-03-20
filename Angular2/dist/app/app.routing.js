@@ -1,10 +1,16 @@
 "use strict";
-var router_1 = require('@angular/router');
-var demo_component_1 = require('./demo/demo.component');
+Object.defineProperty(exports, "__esModule", { value: true });
+var router_1 = require("@angular/router");
+var demo_grid_component_1 = require("./demo/demo-grid.component");
+var demo_editors_component_1 = require("./demo/demo-editors.component");
 var appRoutes = [
     {
+        path: 'grid',
+        component: demo_grid_component_1.DemoGridComponent
+    },
+    {
         path: '',
-        component: demo_component_1.DemoComponent
+        component: demo_editors_component_1.DemoEditorsComponent
     }
 ];
 exports.routing = router_1.RouterModule.forRoot(appRoutes, { useHash: true });

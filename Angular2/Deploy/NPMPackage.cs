@@ -68,6 +68,9 @@ namespace PaJaMa.Angular2.Deploy
 				File.Copy(fileWithoutExtension + ".js", targetFileWithoutExtension + ".js", true);
 				File.Copy(fileWithoutExtension + ".js.map", targetFileWithoutExtension + ".js.map", true);
 
+				// TEMP
+				File.Copy(fileWithoutExtension + ".ts", targetFileWithoutExtension + ".ts", true);
+
 
 				string tsInputText = File.ReadAllText(file);
 
@@ -79,14 +82,26 @@ namespace PaJaMa.Angular2.Deploy
 					sb.AppendLine(import.Groups[0].Value.Trim());
 				}
 
-				var exportClasses = Regex.Matches(tsInputText, "export(.*?) (class|interface) (.*?) (.*?){", RegexOptions.Multiline);
+				var exportMatches = Regex.Matches(tsInputText, "export {.*?} from .*", RegexOptions.Multiline);
+				foreach (Match export in exportMatches)
+				{
+					sb.AppendLine(export.Groups[0].Value.Trim());
+				}
+
+				var exportClasses = Regex.Matches(tsInputText, "(export)?(.*?) (class|interface) (.*?) (.*?){", RegexOptions.Multiline);
 
 				foreach (Match cls in exportClasses)
 				{
-					var classNameWith = cls.Groups[3].Value.Trim() + " " + cls.Groups[4].Value.Trim();
+					var classNameWith = cls.Groups[4].Value.Trim() + " " + cls.Groups[5].Value.Trim();
 
 					sb.AppendLine();
-					sb.AppendLine($"export declare{cls.Groups[1].Value} {cls.Groups[2].Value} {classNameWith} {{");
+					var prepend = cls.Groups[2].Value;
+					if (!string.IsNullOrEmpty(prepend) && !prepend.StartsWith(" "))
+						prepend = " " + prepend;
+					var preDeclare = cls.Groups[1].Value.Trim();
+					if (!string.IsNullOrEmpty(preDeclare))
+						preDeclare += " ";
+					sb.AppendLine($"{preDeclare}declare{prepend} {cls.Groups[3].Value} {classNameWith} {{");
 
 					var body = Regex.Match(tsInputText, $"{cls.Groups[0].Value}(.*?)\r\n}}", RegexOptions.Singleline).Groups[1].Value;
 					body = Regex.Replace(Regex.Replace(body, "@Input\\(\\) ?", ""), "@Output\\(\\) ?", "");
@@ -105,7 +120,7 @@ namespace PaJaMa.Angular2.Deploy
 
 				if (exportClasses.Count > 0 || exportEnums.Count > 0)
 				{
-					File.WriteAllText(targetFileWithoutExtension + ".d.ts", sb.ToString());
+					// File.WriteAllText(targetFileWithoutExtension + ".d.ts", sb.ToString());
 				}
 			}
 
@@ -114,9 +129,10 @@ namespace PaJaMa.Angular2.Deploy
 				Console.Write("\r\nUnsupported Types:\r\n" + _sbUnsupportedTypes.ToString());
 			}
 
-			Directory.SetCurrentDirectory(new DirectoryInfo(srcDir).Parent.FullName);
+			Directory.SetCurrentDirectory(new DirectoryInfo(targetDir).Parent.FullName);
 			Process.Start(new ProcessStartInfo("npm", "publish pajama")).WaitForExit();
 
+			Directory.SetCurrentDirectory(new DirectoryInfo(srcDir).Parent.FullName);
 			var distFile = Path.GetFullPath(@"..\dist\package.json");
 			string distJson = File.ReadAllText(distFile);
 			Match mDist = Regex.Match(distJson, "\"pajama\": \"(.*?)\\.(.*?)\\.(.*?)\"");
@@ -180,11 +196,21 @@ namespace PaJaMa.Angular2.Deploy
 				if (!string.IsNullOrEmpty(paramString))
 					paramString += ", ";
 				var curr = Regex.Replace(a, "(public|private|protected) ", "");
+				string field = a;
+				bool hasDefault = false;
 				if (curr.Contains("="))
+				{
 					curr = curr.Substring(0, curr.IndexOf("="));
-				paramString += curr.Trim();
-				if (constructorFields != null && !a.StartsWith("private"))
-					constructorFields.Add(curr.Trim());
+					field = a.Substring(0, a.IndexOf("="));
+					hasDefault = true;
+				}
+
+				if (!hasDefault || curr.Contains("?:"))
+					paramString += curr.Trim();
+				else if (hasDefault)
+					paramString += curr.Replace(":", "?:").Trim();
+				if (constructorFields != null && !field.Trim().StartsWith("private"))
+					constructorFields.Add(field.Replace("public ", "").Trim());
 			}
 			return paramString;
 		}

@@ -13,16 +13,16 @@ var core_1 = require("@angular/core");
 var gridview_1 = require("pajama/gridview/gridview");
 var typeahead_module_1 = require("pajama/typeahead/typeahead.module");
 var multi_textbox_module_1 = require("pajama/multi-textbox/multi-textbox.module");
-var DemoComponent = (function () {
-    function DemoComponent() {
+var DemoGridComponent = (function () {
+    function DemoGridComponent() {
         this.initGrid();
     }
-    DemoComponent.prototype.ngOnInit = function () {
+    DemoGridComponent.prototype.ngOnInit = function () {
         console.log('demo');
         this.gridDemo.data = EVENTS;
         this._coordinatorColumn.customProps["coordinators"] = this.gridDemo.getDistinctValues(this._coordinatorColumn);
     };
-    DemoComponent.prototype.initGrid = function () {
+    DemoGridComponent.prototype.initGrid = function () {
         this.gridDemo = new gridview_1.GridView();
         this.gridDemo.filterVisible = true;
         this.gridDemo.allowColumnOrdering = true;
@@ -67,17 +67,17 @@ var DemoComponent = (function () {
         this.gridDemo.columns.push(requestedByCol);
         this.gridDemo.loadGridState();
     };
-    DemoComponent.prototype.pageChanged = function () {
+    DemoGridComponent.prototype.pageChanged = function () {
     };
-    return DemoComponent;
+    return DemoGridComponent;
 }());
-DemoComponent = __decorate([
+DemoGridComponent = __decorate([
     core_1.Component({
         moduleId: module.id,
-        selector: 'gridview-basic',
+        selector: 'demo-grid',
         template: "\n<gridview [grid]='gridDemo' (pageChanged)='pageChanged()'></gridview>\n"
     }),
     __metadata("design:paramtypes", [])
-], DemoComponent);
-exports.DemoComponent = DemoComponent;
-//# sourceMappingURL=demo.component.js.map
+], DemoGridComponent);
+exports.DemoGridComponent = DemoGridComponent;
+//# sourceMappingURL=demo-grid.component.js.map

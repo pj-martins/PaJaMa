@@ -25,7 +25,7 @@
     <UseGlobalApplicationHostFile />
     <NuGetPackageImportStamp>
     </NuGetPackageImportStamp>
-    <TypeScriptToolsVersion>2.0</TypeScriptToolsVersion>
+    <TypeScriptToolsVersion>2.2</TypeScriptToolsVersion>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -68,12 +68,14 @@
     <Reference Include="System.EnterpriseServices" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="app\demo\demo-editors.component.html" />
     <Content Include="app\styles.css" />
     <Content Include="events.js" />
     <Content Include="index.html" />
     <Content Include="packages.config" />
     <Content Include="package.json" />
     <Content Include="pajama\checklist\checklist.css" />
+    <Content Include="pajama\datetime-picker\datetime-picker.css" />
     <Content Include="pajama\gridview\gridview-filtercell.css" />
     <Content Include="pajama\gridview\gridview-settings.css" />
     <Content Include="pajama\gridview\gridview-pager.css" />
@@ -106,12 +108,15 @@
     <TypeScriptCompile Include="app\app.module.ts" />
     <TypeScriptCompile Include="app\app.routing.ts" />
     <TypeScriptCompile Include="app\classes\classes.ts" />
-    <TypeScriptCompile Include="app\demo\demo.component.ts" />
+    <TypeScriptCompile Include="app\demo\demo-editors.component.ts" />
+    <TypeScriptCompile Include="app\demo\demo-grid.component.ts" />
     <TypeScriptCompile Include="app\main.ts" />
     <TypeScriptCompile Include="app\polyfills.browser.ts" />
     <TypeScriptCompile Include="app\vendor.ts" />
     <TypeScriptCompile Include="pajama\checklist\checklist.component.ts" />
     <TypeScriptCompile Include="pajama\checklist\checklist.module.ts" />
+    <TypeScriptCompile Include="pajama\datetime-picker\datetime-picker.component.ts" />
+    <TypeScriptCompile Include="pajama\datetime-picker\datetime-picker.module.ts" />
     <TypeScriptCompile Include="pajama\gridview\detail-gridview.component.ts" />
     <TypeScriptCompile Include="pajama\gridview\gridview-cell-template.component.ts" />
     <TypeScriptCompile Include="pajama\gridview\gridview-cell.component.ts" />
@@ -129,7 +134,7 @@
     <TypeScriptCompile Include="pajama\multi-textbox\multi-textbox.module.ts" />
     <TypeScriptCompile Include="pajama\overlay\overlay.component.ts" />
     <TypeScriptCompile Include="pajama\overlay\overlay.module.ts" />
-    <TypeScriptCompile Include="pajama\pajama.module.ts" />
+    <TypeScriptCompile Include="pajama\index.ts" />
     <TypeScriptCompile Include="pajama\pipes\enum-to-list.pipe.ts" />
     <TypeScriptCompile Include="pajama\pipes\moment.pipe.ts" />
     <TypeScriptCompile Include="pajama\pipes\order-by.pipe.ts" />

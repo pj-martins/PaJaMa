@@ -1,0 +1,151 @@
+﻿.datetime-picker input::-webkit-outer-spin-button,
+.datetime-picker input::-webkit-inner-spin-button {
+	-webkit-appearance: none;
+	margin: 0;
+}
+
+.datetime-picker input, .datetime-picker select {
+}
+
+
+.datetime-picker-input-container {
+	position: relative;
+}
+
+.datetime-picker-input-container input {
+	width: 100%;
+}
+
+.datetime-picker-clickable {
+	cursor: pointer;
+}
+
+.datetime-picker-calendar-icon {
+	position: absolute;
+	right: 5px;
+	top: 5px;
+}
+
+.datetime-picker-dropdown {
+	z-index: 1;
+	position: absolute;
+	border: 1px solid;
+	background-color: #F8F8FF;
+	border-color: grey;
+	padding: 10px;
+	width: 100%;
+	max-width: 300px;
+}
+
+.datetime-picker-date-panel {
+	display: inline-block;
+}
+
+.datetime-picker-timeonly-dropdown {
+	width: initial !important;
+}
+
+.datetime-picker-container input, .datetime-picker-container select {
+	width: 100%;
+}
+
+.datetime-picker-controls-panel {
+	margin-bottom: 4px;
+}
+
+.datetime-picker-clear-right {
+	padding-right: 0px;
+}
+
+.datetime-picker-top-spinner, .datetime-picker-bottom-spinner {
+	font-size: 11px;
+	position: absolute;
+}
+
+.datetime-picker-top-spinner {
+	margin-top: 1px;
+}
+
+.datetime-picker-bottom-spinner {
+	margin-top: 12px;
+}
+
+.datetime-picker-date-panel .datetime-picker-top-spinner, 
+.datetime-picker-date-panel .datetime-picker-bottom-spinner {
+	right: 0px;
+}
+
+.datetime-picker-inner {
+	background-color: white;
+}
+
+.datetime-picker-inner .row {
+	margin: 0px;
+}
+
+.datetime-picker-calendar-header {
+	text-align: center;
+	color: white;
+	font-weight: bold;
+}
+
+.datetime-picker-calendar-day {
+	text-align: right;
+	padding-right:10px;
+}
+
+.datetime-picker-calendar-day:hover {
+	background-color: #d9edf7;
+}
+
+.datetime-picker-calendar-table {
+	width: 100%;
+}
+
+.datetime-picker-calendar-header-row {
+	background-color: #337ab7;
+}
+
+.datetime-picker-disabled {
+	cursor: not-allowed;
+	color: gray;
+}
+
+.datetime-picker-disabled:hover {
+	background-color:inherit;
+}
+
+.datetime-picker-selected {
+	background-color: #bce8f1;
+	font-weight: bold;
+}
+.calendar-day:hover {
+	background-color: #d9edf7;
+}
+
+.datetime-picker-time-panel input, .datetime-picker-time-panel select {
+	display: inline-block;
+	margin-left: 14px;
+	height: 24px;
+}
+
+.datetime-picker-time-panel select {
+	width: 55px;
+}
+
+.datetime-picker-time-panel input {
+	width: 30px;
+	text-align: right;
+	padding-right: 5px;
+}
+
+.datetime-picker-time-panel {
+	text-align: right;
+	display: inline-block;
+	margin-top: 8px;
+}
+
+.datetime-picker-buttons-panel {
+	margin-top: 10px;
+	text-align: right;
+}
