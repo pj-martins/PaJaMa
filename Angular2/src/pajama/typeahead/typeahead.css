@@ -14,9 +14,7 @@
 }
 
 .typeahead-popup {
-	position: absolute;
-	/*top: 100%;*/
-	z-index: 1000;
+	/*position: absolute;
 	float: left;
 	min-width: 160px;
 	padding: 5px 0;
@@ -33,7 +31,20 @@
 	overflow-x: hidden;
 	overflow-y: auto;
 	max-height: 600px;
+	white-space: nowrap;*/
+	z-index: 100;
+	position: absolute;
+	border: 1px solid;
+	background-color: white;
+	border-color: grey;
+	padding: 5px;
+	min-width: 160px;
+	padding: 5px 0;
+	margin: 2px 0 0;
 	white-space: nowrap;
+	overflow-x: hidden;
+	overflow-y: auto;
+	max-height: 600px;
 }
 
 .typeahead-item {
@@ -105,7 +116,7 @@
 }
 
 .multi-textbox-item-container {
-	z-index: 2000;
+	z-index:2;
 }
 
 .multi-textbox-button-container {

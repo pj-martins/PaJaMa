@@ -8,26 +8,26 @@ export class CheckListItem {
 
 @Component({
 	moduleId: module.id,
-	selector: 'check-list',
+	selector: 'checklist',
 	template: `
-    <div class='check-list check-list-container id_{{uniqueId}}'>
-		<div class='check-list-input-container'>
-			<!--<button (click)='dropdownVisible = !dropdownVisible' class="check-list-input" [style.text-align]="showMultiplesEllipses ? 'center' : ''">
+    <div class='checklist checklist-container id_{{uniqueId}}'>
+		<div class='checklist-input-container'>
+			<!--<button (click)='dropdownVisible = !dropdownVisible' class="checklist-input" [style.text-align]="showMultiplesEllipses ? 'center' : ''">
 				{{selectedText ? selectedText : '&nbsp;'}}
 			</button>-->
 			<input type='text' (click)='dropdownVisible = !dropdownVisible' [(ngModel)]='selectedText' [style.text-align]="showMultiplesEllipses ? 'center' : ''" readonly />
 		</div>
-		<div class='check-list-button-container'>
-			<button (click)='dropdownVisible = !dropdownVisible' class="check-list-button">
+		<div class='checklist-button-container'>
+			<button (click)='dropdownVisible = !dropdownVisible' class="checklist-button">
 				<div class="drop-down-image glyphicon {{ allSelected || !showFilterIcon ? 'glyphicon-chevron-down' : 'glyphicon-filter'}}"></div>
 			</button>
 		</div>
-        <div class='check-list-dropdown' [hidden]='!dropdownVisible'>
-            <div *ngIf='!disableAll' (click)='selectAll()' class='check-list-item check-list-item-all id_{{uniqueId}}'>
-                <div class="check-list-check glyphicon {{ allSelected ? 'glyphicon-ok' : 'glyphicon-none'}}"></div>(Select All)</div>
-                <div *ngFor='let item of displayItems' (click)='selectItem(item)' class='check-list id_{{uniqueId}}'>
-                <div class='check-list-item id_{{uniqueId}}'>
-                    <div class="check-list-check glyphicon {{ item.selected ? 'glyphicon-ok' : 'glyphicon-none'}}"></div>{{displayMember ? item.item[displayMember] : item.item}}
+        <div class='checklist-dropdown' [hidden]='!dropdownVisible'>
+            <div *ngIf='!disableAll' (click)='selectAll()' class='checklist-item checklist-item-all id_{{uniqueId}}'>
+                <div class="checklist-check glyphicon {{ allSelected ? 'glyphicon-ok' : 'glyphicon-none'}}"></div>(Select All)</div>
+                <div *ngFor='let item of displayItems' (click)='selectItem(item)' class='checklist id_{{uniqueId}}'>
+                <div class='checklist-item id_{{uniqueId}}'>
+                    <div class="checklist-check glyphicon {{ item.selected ? 'glyphicon-ok' : 'glyphicon-none'}}"></div>{{displayMember ? item.item[displayMember] : item.item}}
                 </div>
             </div>
         </div>

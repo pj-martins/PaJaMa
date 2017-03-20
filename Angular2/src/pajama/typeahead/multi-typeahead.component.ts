@@ -6,7 +6,7 @@ import { TypeaheadComponent } from './typeahead.component';
 	moduleId: module.id,
 	selector: 'multi-typeahead',
 	template: PRE_INPUT +
-	 `<typeahead #childTypeahead (keydown)="keyDown($event, true)" [padLeft]="paddingLeft" [dataSource]='dataSource' [displayMember]='displayMember' 
+	 `<typeahead #childTypeahead (keydown)="keyDown($event, true)" [padLeft]="paddingLeft" [dataSource]='dataSource' (focus)='resize()' [displayMember]='displayMember' 
 			[valueMember]='valueMember' [minLength]='minLength' [(ngModel)]='currText' (itemSelected)='itemSelected($event)'></typeahead>`
 	 + POST_INPUT,
 	styleUrls: ['../multi-textbox/multi-textbox.css', 'typeahead.css']

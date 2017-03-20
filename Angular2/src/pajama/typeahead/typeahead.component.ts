@@ -17,19 +17,19 @@ export const CUSTOM_INPUT_CONTROL_VALUE_ACCESSOR: any = {
 	template: `
 		<div class='typeahead-container'>
 			<div class='typeahead-input-container'>
-				<input type='text' [(ngModel)]='textValue' (keyup)='valueChanged($event)' [style.padding-left]='padLeft' (keydown)='keydown($event)' class='text_id_{{uniqueId}}' />
+				<input type='text' [(ngModel)]='textValue' (keyup)='valueChanged($event)' (focus)='focus.emit(null)' [style.padding-left]='padLeft' (keydown)='keydown($event)' class='text_id_{{uniqueId}}' />
 			</div>
 			<div class='typeahead-button-container' *ngIf='!dataSourceFunction && !hideButton'>
 				<button class='glyphicon glyphicon-chevron-down typeahead-button button_id_{{uniqueId}}' (click)='openByButton()' (keydown)='keydown($event)' tabindex="-1"></button>
 			</div>
 		</div>
-		<ul [hidden]='!dropdownVisible' class='typeahead-popup' tabindex="-1">
-			<li *ngFor='let item of items; let i = index' [hidden]='itemHidden(item)'>
+		<div [hidden]='!dropdownVisible' class='typeahead-popup'>
+			<div *ngFor='let item of items; let i = index' [hidden]='itemHidden(item)'>
 				<div class='typeahead-item' class="typeahead-item {{activeIndex == i ? 'typeahead-item-selected' : ''}}" (mouseover)='hovered(i)' (click)='selectItem(item)'>
 					<div [innerHtml]='itemDisplay(item)'></div>
 				</div>
-			</li>
-        </ul>
+			</div>
+        </div>
 		<strong [hidden]='!typeaheadError' class='typeahead-error'>
 			Invalid selection, please select item from list.
 		</strong>
@@ -47,6 +47,8 @@ export class TypeaheadComponent implements ControlValueAccessor, OnInit {
 
 	dataSourceFunction: (partial: string) => any;
 	private _dataSource: any;
+
+	@Output() focus = new EventEmitter<any>();
 
 	// specifically for multi typeahead
 	@Input() padLeft: string;
