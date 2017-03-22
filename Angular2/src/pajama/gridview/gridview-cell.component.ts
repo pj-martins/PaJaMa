@@ -47,7 +47,7 @@ import { ParserService } from '../services/parser.service';
 <!-- TODO:
 	<div *ngIf="column.typeahead">
 		<div *ngIf="column.multi">
-			<div [style.width]="column.width"><multi-typeahead (ngModelChange)='column.ngModelChange.emit(row)' [dataSource]='column.dataSource' [(ngModel)]='row[column.fieldName]'></multi-typeahead></div>
+			<div [style.width]="column.width"><multi-typeahead (ngModelChange)='column.ngModelChange.emit(row)' [items]='column.dataSource' [(ngModel)]='row[column.fieldName]'></multi-typeahead></div>
 		</div>
 	</div>
 -->

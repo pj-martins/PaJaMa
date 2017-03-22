@@ -330,7 +330,7 @@ export class TypeaheadColumn extends DataColumn {
 	// TODO: what else should be exposed?
 	get typeahead() { return true; }
 	ngModelChange = new EventEmitter<any>();
-	dataSource: any;
+	items: any;
 	multi: true;
 }
 export class ColumnPipe {

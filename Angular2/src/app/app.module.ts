@@ -10,6 +10,7 @@ import { OverlayModule } from '../pajama/overlay/overlay.module';
 import { TypeaheadModule } from '../pajama/typeahead/typeahead.module';
 import { DateTimePickerModule } from '../pajama/datetime-picker/datetime-picker.module';
 import { MultiTextboxModule } from '../pajama/multi-textbox/multi-textbox.module';
+import { ExpandCollapseModule } from '../pajama/expand-collapse/expand-collapse.module';
 import { PipesModule } from '../pajama/pipes/pipes.module';
 import { routing } from './app.routing';
 import { DemoGridComponent } from './demo/demo-grid.component';
@@ -27,6 +28,7 @@ import { DemoEditorsComponent } from './demo/demo-editors.component';
 		CheckListModule,
 		DateTimePickerModule,
 		MultiTextboxModule,
+		ExpandCollapseModule,
 		routing
 	],
 	providers: [ParserService],

@@ -1,3 +1,17 @@
 ﻿body {
 	margin: 20px;
 }
+
+.expand {
+	height: 0px;
+	overflow: hidden;
+	transition: height 0.5s;
+}
+
+.hidden-checkbox:checked ~ .expand {
+	height: 300px;
+}
+
+.hidden-checkbox {
+	display: none;
+}

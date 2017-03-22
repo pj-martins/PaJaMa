@@ -1,0 +1,42 @@
+.expand {
+	height: 0px;
+	overflow: hidden;
+	transition: height 0.5s;
+	margin-bottom: 0px;
+}
+
+.hidden-checkbox:checked ~ .expand {
+	margin-bottom: 30px;
+}
+
+.hidden-checkbox {
+	display: none;
+}
+
+.header-panel {
+	box-shadow: 0 2px 4px 0 rgba(0,0,0,0.16),0 2px 10px 0 rgba(0,0,0,0.12);
+	background-color: #f1f1f1;
+	padding: 6px 8px;
+	border-radius: 4px;
+	margin-bottom: 20px;
+}
+
+	.header-panel * {
+		display: inline-block;
+	}
+
+	.header-panel button {
+		float: right;
+		border: none;
+		background-color:transparent;
+		margin-top: -1px;
+	}
+
+.expand-collapse {
+	width: 100%;
+}
+
+.content {
+	margin-left: 8px;
+	margin-right: 8px;
+}

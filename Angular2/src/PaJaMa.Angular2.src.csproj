@@ -74,6 +74,7 @@
     <Content Include="index.html" />
     <Content Include="packages.config" />
     <Content Include="package.json" />
+    <Content Include="pajama\expand-collapse\expand-collapse.css" />
     <Content Include="pajama\checklist\checklist.css" />
     <Content Include="pajama\datetime-picker\datetime-picker.css" />
     <Content Include="pajama\gridview\gridview-filtercell.css" />
@@ -113,6 +114,8 @@
     <TypeScriptCompile Include="app\main.ts" />
     <TypeScriptCompile Include="app\polyfills.browser.ts" />
     <TypeScriptCompile Include="app\vendor.ts" />
+    <TypeScriptCompile Include="pajama\expand-collapse\expand-collapse.component.ts" />
+    <TypeScriptCompile Include="pajama\expand-collapse\expand-collapse.module.ts" />
     <TypeScriptCompile Include="pajama\checklist\checklist.component.ts" />
     <TypeScriptCompile Include="pajama\checklist\checklist.module.ts" />
     <TypeScriptCompile Include="pajama\datetime-picker\datetime-picker.component.ts" />
