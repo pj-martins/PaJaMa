@@ -9,9 +9,9 @@ import { Component, Input } from '@angular/core';
 		<strong>{{headerText}} </strong>
 		<button (click)="hidden = !hidden"><span class="glyphicon {{hidden ? 'glyphicon-plus' : 'glyphicon-minus'}}"></span></button>
 	</div>
-	<input type="checkbox" [checked]="!hidden" class="hidden-checkbox">
-	<div class="expand content" [style.max-height]="maxHeight">
+	<div class="content {{hidden ? 'content-collapsed' : 'content-expanded'}}">
 		<ng-content></ng-content>
+		<br /><br />
 	</div>
 </div>
 `,
@@ -20,5 +20,4 @@ import { Component, Input } from '@angular/core';
 export class ExpandCollapseComponent {
 	@Input() hidden = false;
 	@Input() headerText: string;
-	protected maxHeight = '10000px';
 }

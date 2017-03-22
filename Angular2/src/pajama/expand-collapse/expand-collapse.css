@@ -1,16 +1,17 @@
-.expand {
-	height: 0px;
+.content-collapsed {
+	/* TODO: */
+	/*
+	height: auto;
+	transition: max-height 2s;
+	max-height:0px;*/
 	overflow: hidden;
-	transition: height 0.5s;
-	margin-bottom: 0px;
+	height: 0px;
 }
 
-.hidden-checkbox:checked ~ .expand {
-	margin-bottom: 30px;
-}
-
-.hidden-checkbox {
-	display: none;
+.content-expanded {
+	/*transition: max-height 2s;
+	max-height: 2000px;*/
+	height: 100%;
 }
 
 .header-panel {
@@ -33,7 +34,6 @@
 	}
 
 .expand-collapse {
-	width: 100%;
 }
 
 .content {

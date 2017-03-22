@@ -48,28 +48,24 @@
 			<multi-textbox [items]="multiTextboxItems"></multi-textbox>
 		</div>
 	</div>
-
-	<br /><br /><br />
-	<hr />
+</expand-collapse>
+<expand-collapse headerText="Check List">
 	<div class="row">
 		<div class="col-md-1">Basic:</div>
 		<div class="col-md-3">
 			<checklist [items]="dataSource"></checklist>
 		</div>
 	</div>
-
-	<br /><br /><br />
-	<hr />
+</expand-collapse>
+<expand-collapse headerText="Type Ahead">
 	<div class="row">
 		<div class="col-md-1">Basic:</div>
 		<div class="col-md-3">
 			<typeahead [dataSource]="dataSource" [(ngModel)]="selectedText"></typeahead>
 		</div>
 	</div>
-
-
-	<br /><br /><br />
-	<hr />
+</expand-collapse>
+<expand-collapse headerText="Multi Type Ahead">
 	<div class="row">
 		<div class="col-md-1">Basic:</div>
 		<div class="col-md-3">
