@@ -70,6 +70,7 @@
   <ItemGroup>
     <Content Include="app\demo\demo-editors.component.html" />
     <Content Include="app\styles.css" />
+    <Content Include="rooms.js" />
     <Content Include="events.js" />
     <Content Include="index.html" />
     <Content Include="packages.config" />

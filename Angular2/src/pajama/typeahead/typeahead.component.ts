@@ -142,8 +142,8 @@ export class TypeaheadComponent implements ControlValueAccessor, OnInit {
 		};
 	}
 
-	textValue: string;
-	selectItem(item: any) {
+	protected textValue: string;
+	protected selectItem(item: any) {
 		this.typeaheadError = false;
 		this.textValue = this.displayMember ? this.parserService.getObjectValue(this.displayMember, item) : item;
 		this.value = this.valueMember ? this.parserService.getObjectValue(this.valueMember, item) : item;
@@ -152,11 +152,11 @@ export class TypeaheadComponent implements ControlValueAccessor, OnInit {
 		this.itemSelected.emit(this.innerValue);
 	}
 
-	activateItem(index: number) {
+	protected activateItem(index: number) {
 		this.activeIndex = index;
 	}
 
-	openByButton() {
+	protected openByButton() {
 		this.dropdownVisible = !this.dropdownVisible;
 		this.isOpenByButton = this.dropdownVisible;
 		if (this.isOpenByButton && this.activeIndex < 0 && this.textValue) {
@@ -182,7 +182,7 @@ export class TypeaheadComponent implements ControlValueAccessor, OnInit {
 		return indices;
 	}
 
-	valueChanged(event: any) {
+	protected valueChanged(event: any) {
 		let charCode = event.which || event.keyCode;
 		// which other char codes?
 		if ((charCode >= 48 && charCode <= 90) || (charCode >= 96 && charCode <= 111) || (charCode >= 186 && charCode <= 222) || charCode == 8) {
@@ -229,7 +229,7 @@ export class TypeaheadComponent implements ControlValueAccessor, OnInit {
 		}
 	}
 
-	processSelection(charCode) {
+	protected processSelection(charCode) {
 		if (this.activeIndex >= 0) {
 			this.selectItem(this.items[this.activeIndex]);
 			if (charCode == 13)
@@ -244,7 +244,7 @@ export class TypeaheadComponent implements ControlValueAccessor, OnInit {
 		}
 	}
 
-	keydown(event: any) {
+	protected keydown(event: any) {
 		this.typeaheadError = false;
 		let charCode = event.which || event.keyCode;
 		switch (charCode) {
@@ -303,7 +303,7 @@ export class TypeaheadComponent implements ControlValueAccessor, OnInit {
 		}
 	}
 
-	itemHidden(item: any): boolean {
+	protected itemHidden(item: any): boolean {
 		if (this.isOpenByButton) return false;
 		return this.getTextMatchIndex(item) < 0;
 	}
@@ -319,7 +319,7 @@ export class TypeaheadComponent implements ControlValueAccessor, OnInit {
 		return -1;
 	}
 
-	itemDisplay(item) {
+	protected itemDisplay(item) {
 		let objValue = this.displayMember ? this.parserService.getObjectValue(this.displayMember, item) : item;
 		let matchIndex = this.getTextMatchIndex(item);
 		if (matchIndex >= 0) {
@@ -330,7 +330,7 @@ export class TypeaheadComponent implements ControlValueAccessor, OnInit {
 		return objValue;
 	}
 
-	hovered(index) {
+	protected hovered(index) {
 		this.activeIndex = index;
 	}
 
@@ -346,7 +346,7 @@ export class TypeaheadComponent implements ControlValueAccessor, OnInit {
 		}
 	}
 
-	setText() {
+	protected setText() {
 		if (this.innerValue === undefined || this.innerValue === null || this.innerValue === '') {
 			this.textValue = '';
 		}
