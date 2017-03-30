@@ -3,10 +3,10 @@
 }
 
 .datetime-picker-calendar-icon {
-	/*position: absolute;
+	position: absolute;
 	right: 5px;
-	top: 5px;*/
-	right: 18px;
+	top: 5px;
+	/*right: 18px;*/
 }
 
 .datetime-picker-dropdown {

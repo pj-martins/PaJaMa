@@ -1,12 +1,20 @@
-﻿import { Directive, ViewContainerRef, OnInit, ComponentFactoryResolver, TemplateRef, Input, Output, ComponentRef, ElementRef, EventEmitter } from '@angular/core';
+﻿import { Directive, ViewContainerRef, OnInit, ComponentFactoryResolver, TemplateRef, Input, Output, ComponentRef, ElementRef, EventEmitter, OnChanges, forwardRef } from '@angular/core';
+import { Validator, AbstractControl, NG_VALIDATORS } from '@angular/forms';
 import { DateTimePickerComponent } from './datetime-picker.component';
 import * as moment from 'moment'
 
+export const MAX_MIN_VALIDATOR: any = {
+	provide: NG_VALIDATORS,
+	useExisting: forwardRef(() => DateTimePickerDirective),
+	multi: true
+};
+
 @Directive({
 	selector: '[dateTimePicker][ngModel]',
-	host: { '(blur)': 'blurEditor()', '(keyup)': 'keyup($event)' }
+	host: { '(blur)': 'blurEditor()', '(keyup)': 'keyup($event)' },
+	providers: [MAX_MIN_VALIDATOR]
 })
-export class DateTimePickerDirective implements OnInit {
+export class DateTimePickerDirective implements OnInit, OnChanges, Validator {
 	private _component: ComponentRef<DateTimePickerComponent>;
 	private _initialColor: string;
 
@@ -79,12 +87,13 @@ export class DateTimePickerDirective implements OnInit {
 		this._component.instance.dateChanged.subscribe(d => {
 			this.elementRef.nativeElement.style.color = this.elementRef.nativeElement.style.backgroundColor || "white";
 			this.ngModelChange.emit(d);
-			this.formatDate(d);
+			//this.formatDate(d);
 		});
 		this._initialColor = this.elementRef.nativeElement.style.color;
 		// UGLY, this fires before the initial value
 		// blank it first so we can format the text without flickering unformatted
 		this.elementRef.nativeElement.style.color = this.elementRef.nativeElement.style.backgroundColor || "white";
+		this.elementRef.nativeElement.style.width = "100%";
 	}
 
 	ngOnInit() {
@@ -97,11 +106,8 @@ export class DateTimePickerDirective implements OnInit {
 			this.dateFormat = this.dateFormat.trim();
 		}
 
-		// UGLY, this fires before the initial value
-		window.setTimeout(() => {
-			this._component.instance.writeValue(this.ngModel);
-			this.formatDate(this.ngModel);
-		}, 10);
+		this._component.instance.writeValue(this.ngModel);
+		//this.formatDate(this.ngModel);
 	}
 
 	protected blurEditor() {
@@ -118,7 +124,7 @@ export class DateTimePickerDirective implements OnInit {
 				valid = !isNaN(date.getTime());
 				if (!valid) {
 					this.ngModel = null;
-					this.formatDate(this.ngModel);
+					//this.formatDate(this.ngModel);
 					return;
 				}
 			}
@@ -128,7 +134,12 @@ export class DateTimePickerDirective implements OnInit {
 		}
 	}
 
-
+	ngOnChanges(changes) {
+		// user is typing
+		if (this.elementRef.nativeElement == document.activeElement) return;
+		this.elementRef.nativeElement.style.color = this.elementRef.nativeElement.style.backgroundColor || "white";
+		this.formatDate(this.ngModel);
+	}
 
 	protected keyup(event: any) {
 		let charCode = event.which || event.keyCode;
@@ -147,7 +158,32 @@ export class DateTimePickerDirective implements OnInit {
 		window.setTimeout(() => {
 			this.elementRef.nativeElement.value = formattedDate;
 			this.elementRef.nativeElement.style.color = this._initialColor;
-		}, 10);
+		}, 50);
 	}
 
+	validate(c: AbstractControl) {
+		// user is typing
+		if (this.elementRef.nativeElement == document.activeElement) return null;
+
+		if (c.value && this.maxDate) {
+			let dt = new Date(c.value);
+			if (!isNaN(dt.getTime()) && dt > this.maxDate) {
+				return {
+					max: true
+				};
+			}
+		}
+
+		if (c.value && this.minDate) {
+			let dt = new Date(c.value);
+			if (!isNaN(dt.getTime()) && dt < this.minDate) {
+				return {
+					min: true
+				};
+			}
+		}
+
+
+		return null;
+	}
 }

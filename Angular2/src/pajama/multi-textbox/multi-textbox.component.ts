@@ -6,7 +6,7 @@ export const MULTITEXTBOX_TEMPLATE = `
 			<div class="glyphicon glyphicon-plus"></div>
 		</button>
 	</div>
-	<div class='multi-textbox-item-container'>
+	<div class='multi-textbox-item-container' [style.padding-left]="(originalPaddingLeft <= 0 ? 0 : originalPaddingLeft - 1) + 'px'">
 		<div *ngFor='let item of items || []' class='multi-textbox-item'>
 			{{getObjectValue(item)}}
 			<div class='glyphicon glyphicon-remove multi-textbox-remove' (click)='removeItem(item)'></div>
@@ -36,21 +36,15 @@ export class MultiTextboxComponent implements OnInit {
 	currText: string;
 
 	constructor(protected elementRef: ElementRef) {
-		
 	}
 
 	ngOnInit() {
 	}
 
-	private _originalPaddingLeft: number = 0;
+	originalPaddingLeft = -999;
 	private _paddingLeft: number = 0;
-
 	get paddingLeft() {
-		return this._paddingLeft;
-	}
-	set paddingLeft(p: number) {
-		this._originalPaddingLeft = p;
-		this._paddingLeft = p;
+		return this._paddingLeft + this.originalPaddingLeft;
 	}
 
 	resize() {
@@ -59,7 +53,7 @@ export class MultiTextboxComponent implements OnInit {
 		for (let item of items) {
 			totWidth += item.offsetWidth + 1;
 		}
-		this._paddingLeft = this._originalPaddingLeft + totWidth;
+		this._paddingLeft = totWidth;
 		this.paddingChanged.emit(this._paddingLeft);
 	}
 
@@ -74,7 +68,7 @@ export class MultiTextboxComponent implements OnInit {
 		this.resize();
 	}
 
-	protected itemsAreEqual(item1: any, item2: any) : boolean {
+	protected itemsAreEqual(item1: any, item2: any): boolean {
 		return item1 == item2;
 	}
 

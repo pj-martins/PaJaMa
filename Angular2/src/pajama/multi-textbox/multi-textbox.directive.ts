@@ -44,7 +44,6 @@ export class MultiTextboxDirective implements OnInit {
 	}
 
 	ngOnInit() {
-		this._component.instance.paddingLeft = this.elementRef.nativeElement.style.paddingLeft;
 		this._component.instance.paddingChanged.subscribe(p => {
 			this.elementRef.nativeElement.style.paddingLeft = this._component.instance.paddingLeft + 'px';
 		});

@@ -1,4 +1,4 @@
-﻿import { Component, Input } from '@angular/core';
+﻿import { Component, Input, OnInit } from '@angular/core';
 import { FormControl } from '@angular/forms';
 
 @Component({
@@ -11,18 +11,20 @@ import { FormControl } from '@angular/forms';
 	[minDate]="minBeginDate" [maxDate]="maxDate"></datetime-picker>-->
 <input type="text" dateTimePicker [(ngModel)]="beginDate" />
 {{beginDate}}
-{{beginDate.getTime ? beginDate.getTime() : 0}}
 <!--</form>-->
 `
 })
-export class SandboxComponent {
+export class SandboxComponent implements OnInit {
 	protected numericValue: number;
 
 	protected minBeginDate = new Date(2010, 1, 1);
 	protected maxDate = new Date(2020, 1, 1);
-	protected beginDate = new Date();
+	protected beginDate: Date = new Date();
 	constructor() {
 		
 	}
 
+	ngOnInit() {
+		window.setTimeout(() => this.beginDate = new Date(), 3000);
+	}
 }

@@ -68,13 +68,23 @@ export class MultiTypeaheadDirective implements OnInit {
 	}
 
 	ngOnInit() {
-		this._component.instance.paddingLeft = this.elementRef.nativeElement.style.paddingLeft;
 		this._component.instance.paddingChanged.subscribe(p => {
+			if (this._component.instance.originalPaddingLeft == -999) {
+				let padding = window.getComputedStyle(this.elementRef.nativeElement, null).getPropertyValue('padding-left');
+				if (padding) {
+					this._component.instance.originalPaddingLeft = parseInt(padding.replace('px', ''));
+					if (isNaN(this._component.instance.originalPaddingLeft))
+						this._component.instance.originalPaddingLeft = 0;
+				}
+				else {
+					this._component.instance.originalPaddingLeft = 0;
+				}
+			}
 			this.elementRef.nativeElement.style.paddingLeft = this._component.instance.paddingLeft + 'px';
 		});
 		window.setTimeout(() => {
 			this._component.instance.resize();
-		}, 10);
+		}, 100);
 	}
 
 	protected keydown(event: any) {

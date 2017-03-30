@@ -1,4 +1,4 @@
-﻿import { Directive, ViewContainerRef, ComponentFactoryResolver, TemplateRef, Input, Output, OnInit, ComponentRef, ElementRef, EventEmitter } from '@angular/core';
+﻿import { Directive, ViewContainerRef, ComponentFactoryResolver, TemplateRef, Input, Output, OnInit, ComponentRef, ElementRef, EventEmitter, OnChanges } from '@angular/core';
 import { TypeaheadComponent } from './typeahead.component';
 import { ParserService } from '../services/parser.service';
 import * as moment from 'moment'
@@ -7,7 +7,7 @@ import * as moment from 'moment'
 	selector: '[typeahead][ngModel]',
 	host: { '(keydown)': 'keydown($event)', '(keyup)': 'keyup($event)' }
 })
-export class TypeaheadDirective implements OnInit {
+export class TypeaheadDirective implements OnInit, OnChanges {
 	private _component: ComponentRef<TypeaheadComponent>;
 	private valueWritten = false;
 
@@ -97,21 +97,16 @@ export class TypeaheadDirective implements OnInit {
 		this._component.instance.typeahead.itemSelected.subscribe(v => {
 			this.elementRef.nativeElement.style.color = this.elementRef.nativeElement.style.backgroundColor || "white";
 			this.ngModelChange.emit(v);
-			this.setText(v);
+			//this.setText(v);
 		});
 		this._initialColor = this.elementRef.nativeElement.style.color;
-		// UGLY, this fires before the initial value
-		// blank it first so we can format the text without flickering unformatted
-		this.elementRef.nativeElement.style.color = this.elementRef.nativeElement.style.backgroundColor || "white";
 	}
 
 	ngOnInit() {
 		// UGLY, this fires before the initial value
-		window.setTimeout(() => {
-			this._component.instance.typeahead.writeValue(this.ngModel);
-			this.setText(this.ngModel);
-			this.valueWritten = true;
-		}, 10);
+		this._component.instance.typeahead.writeValue(this.ngModel);
+		//this.setText(this.ngModel);
+		this.valueWritten = true;
 	}
 
 	protected keydown(event: any) {
@@ -121,6 +116,13 @@ export class TypeaheadDirective implements OnInit {
 	protected keyup(event: any) {
 		this._component.instance.typeahead.textValue = this.elementRef.nativeElement.value;
 		this._component.instance.typeahead.keyup(event);
+	}
+
+	ngOnChanges(changes) {
+		// user is typing
+		if (this.elementRef.nativeElement == document.activeElement) return;
+		this.elementRef.nativeElement.style.color = this.elementRef.nativeElement.style.backgroundColor || "white";
+		this.setText(this.ngModel);
 	}
 
 	private setText(v: any) {
@@ -149,6 +151,6 @@ export class TypeaheadDirective implements OnInit {
 		window.setTimeout(() => {
 			this.elementRef.nativeElement.value = textValue;
 			this.elementRef.nativeElement.style.color = this._initialColor;
-		}, 10);
+		}, 50);
 	}
 }
