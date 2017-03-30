@@ -42,7 +42,7 @@ import { ParserService } from '../services/parser.service';
 		</div>
 	</div>
 	<div *ngIf="column.checkList">
-		<div [style.width]="column.width" style='word-break: break-word'><checklist [items]='column.items' [selectedItems]='row[column.fieldName]' [displayMember]="column.displayMember"></checklist></div>
+		<div [style.width]="column.width" style='word-break: break-word'><input type="text" [dataSource]='column.items' [checkList]='row[column.fieldName]' [displayMember]="column.displayMember" /></div>
 	</div>
 <!-- TODO:
 	<div *ngIf="column.typeahead">

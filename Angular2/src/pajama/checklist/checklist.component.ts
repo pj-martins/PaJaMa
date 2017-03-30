@@ -10,16 +10,9 @@ export class CheckListItem {
 	moduleId: module.id,
 	selector: 'checklist',
 	template: `
-    <div class='checklist checklist-container id_{{uniqueId}}'>
-		<div class='checklist-input-container'>
-			<!--<button (click)='dropdownVisible = !dropdownVisible' class="checklist-input" [style.text-align]="showMultiplesEllipses ? 'center' : ''">
-				{{selectedText ? selectedText : '&nbsp;'}}
-			</button>-->
-			<input type='text' (click)='dropdownVisible = !dropdownVisible' [(ngModel)]='selectedText' [style.text-align]="showMultiplesEllipses ? 'center' : ''" readonly />
-		</div>
-		<div class='checklist-button-container'>
-			<button (click)='dropdownVisible = !dropdownVisible' class="checklist-button">
-				<div class="drop-down-image glyphicon {{ allSelected || !showFilterIcon ? 'glyphicon-chevron-down' : 'glyphicon-filter'}}"></div>
+		<div class='checklist-button-container id_{{uniqueId}}'>
+			<button (click)='dropdownVisible = !dropdownVisible' class="checklist-button id_{{uniqueId}}">
+				<div class="drop-down-image glyphicon id_{{uniqueId}} {{ allSelected || !showFilterIcon ? 'glyphicon-chevron-down' : 'glyphicon-filter'}}"></div>
 			</button>
 		</div>
         <div class='checklist-dropdown' [hidden]='!dropdownVisible'>
@@ -31,16 +24,15 @@ export class CheckListItem {
                 </div>
             </div>
         </div>
-    </div>
 `,
 	styleUrls: ['checklist.css']
 })
 export class CheckListComponent implements OnInit {
-	@Input() displayMember: string;
-	@Input() showFilterIcon = false;
-	@Input() disableAll = false;
-	@Output() selectionChanged = new EventEmitter<any>();
-	@Input() showMultiplesEllipses = false;
+	displayMember: string;
+	showFilterIcon = false;
+	disableAll = false;
+	selectionChanged = new EventEmitter<any>();
+	showMultiplesEllipses = false;
 
 	protected displayItems: Array<CheckListItem> = [];
 	protected allSelected = false;
@@ -48,7 +40,6 @@ export class CheckListComponent implements OnInit {
 	constructor(private zone: NgZone) { }
 
 	private _value: Array<any> = [];
-	@Input()
 	get selectedItems(): any {
 		return this._value;
 	}
@@ -58,22 +49,21 @@ export class CheckListComponent implements OnInit {
 	}
 
 
-	private _items: Array<any> = [];
-	@Input()
-	get items(): Array<any> {
-		return this._items;
+	private _dataSource: Array<any> = [];
+	get dataSource(): Array<any> {
+		return this._dataSource;
 	}
-	set items(v: Array<any>) {
-		this._items = v || [];
+	set dataSource(v: Array<any>) {
+		this._dataSource = v || [];
 		this.displayItems = [];
-		for (let i of this._items) {
+		for (let i of this._dataSource) {
 			this.displayItems.push(new CheckListItem(i));
 		}
 		this.updateSelection(true);
 	}
 
-	protected selectedText: string;
-	protected dropdownVisible: boolean;
+	selectedText: string;
+	dropdownVisible: boolean;
 	private currentonclick: any;
 	protected uniqueId = Math.floor((1 + Math.random()) * 0x10000).toString();
 
@@ -103,8 +93,8 @@ export class CheckListComponent implements OnInit {
 
 		// TODO: validate all is in items
 		if (this.selectedItems) {
-			if (this.items) {
-				if (this.selectedItems.length >= this.items.length) {
+			if (this.dataSource) {
+				if (this.selectedItems.length >= this.dataSource.length) {
 					return;
 				}
 			}

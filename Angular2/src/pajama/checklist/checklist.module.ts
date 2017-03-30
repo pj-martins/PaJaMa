@@ -2,6 +2,7 @@
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { CheckListComponent } from './checklist.component';
+import { CheckListDirective } from './checklist.directive';
 
 @NgModule({
     imports: [
@@ -9,10 +10,15 @@ import { CheckListComponent } from './checklist.component';
         FormsModule
     ],
     declarations: [
-		CheckListComponent
+		CheckListComponent,
+		CheckListDirective
     ],
     exports: [
+		CheckListComponent,
+		CheckListDirective
+	],
+	entryComponents: [
 		CheckListComponent
-    ]
+	]
 })
 export class CheckListModule { }

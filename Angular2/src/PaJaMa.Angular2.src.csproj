@@ -117,6 +117,7 @@
     <TypeScriptCompile Include="app\sandbox\even-validator.component.ts" />
     <TypeScriptCompile Include="app\sandbox\sandbox.component.ts" />
     <TypeScriptCompile Include="app\vendor.ts" />
+    <TypeScriptCompile Include="pajama\checklist\checklist.directive.ts" />
     <TypeScriptCompile Include="pajama\datetime-picker\datetime-picker.directive.ts" />
     <TypeScriptCompile Include="pajama\expand-collapse\expand-collapse.component.ts" />
     <TypeScriptCompile Include="pajama\expand-collapse\expand-collapse.module.ts" />
