@@ -1,0 +1,30 @@
+.grid-pagination, .grid-pagination .pagination {
+	margin: 0px;
+	margin-left: 20px;
+	margin-bottom: 15px;
+	font-size: 14px;
+	color: #428bca;
+}
+
+.pagination {
+	display: inline-block;
+	padding-left: 0;
+	margin-left: 0px !important;
+	border-radius: 4px;
+	cursor: pointer;
+}
+
+	.pagination > li {
+		position: relative;
+		float: left;
+		padding: 6px 12px;
+		margin-left: -1px;
+		color: #337ab7;
+		background-color: #fff;
+		border: 1px solid #ddd;
+	}
+
+.pagination-selected {
+	color: #fff !important;
+	background-color: #337ab7 !important;
+}

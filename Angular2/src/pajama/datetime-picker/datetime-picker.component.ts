@@ -1,28 +1,24 @@
-﻿import { Component, Input, Output, EventEmitter, OnInit, forwardRef, NgZone } from '@angular/core';
-import { NG_VALUE_ACCESSOR, ControlValueAccessor } from '@angular/forms';
+﻿import { Component, Input, Output, EventEmitter, OnInit, forwardRef, NgZone, Directive, Attribute } from '@angular/core';
+import { NG_VALUE_ACCESSOR, ControlValueAccessor, AbstractControl, NG_VALIDATORS, Validator, FormControl } from '@angular/forms';
 import * as moment from 'moment'
 
-const noop = () => {
-};
+//const noop = () => {
+//};
 
-export const CUSTOM_INPUT_CONTROL_VALUE_ACCESSOR: any = {
-	provide: NG_VALUE_ACCESSOR,
-	useExisting: forwardRef(() => DateTimePickerComponent),
-	multi: true
-};
+//export const CUSTOM_INPUT_CONTROL_VALUE_ACCESSOR: any = {
+//	provide: NG_VALUE_ACCESSOR,
+//	useExisting: forwardRef(() => DateTimePickerComponent),
+//	multi: true
+//};
 
 @Component({
 	moduleId: module.id,
 	selector: 'datetime-picker',
-	template: `<div class="datetime-picker id_{{uniqueId}}">
-	<div class="datetime-picker-input-container id_{{uniqueId}}">
-		<input type="text" name="{{name}}" placeholder="{{placeholder}}" [(ngModel)]="formattedDate" (ngModelChange)="inputChanged=true" (blur)="blurEditor()" [required]="required" />
-		<div class="glyphicon glyphicon-calendar datetime-picker-clickable datetime-picker-calendar-icon" (click)="dropdownVisible=!dropdownVisible"></div>
-	</div>
+	template: `<div class="glyphicon glyphicon-calendar datetime-picker-clickable datetime-picker-calendar-icon id_{{uniqueId}}" (click)="dropdownVisible=!dropdownVisible"></div>
 	<div class="datetime-picker-dropdown {{hideDate ? 'datetime-picker-timeonly-dropdown' : ''}} id_{{uniqueId}}" *ngIf="dropdownVisible">
 		<div class="datetime-picker-container id_{{uniqueId}}">
 			<div class="datetime-picker-controls-panel row" *ngIf="!hideDate">
-				<div class="col-md-4 datetime-picker-clear-right">
+				<div class="col-md-4 datetime-picker-clear-right  datetime-picker-month-year-panel">
 					<select [(ngModel)]="selectedMonth" (change)="refreshCalendarDates()">
 						<option *ngFor="let mo of months" [ngValue]="mo.number">{{mo.name.substring(0, 3)}}</option>
 					</select>
@@ -87,41 +83,34 @@ export const CUSTOM_INPUT_CONTROL_VALUE_ACCESSOR: any = {
 				</div>
 			</div>
 		</div>
-	</div>
-</div>`,
-	providers: [CUSTOM_INPUT_CONTROL_VALUE_ACCESSOR],
+	</div>`,
 	styleUrls: ['datetime-picker.css']
 })
-export class DateTimePickerComponent implements ControlValueAccessor, OnInit {
+export class DateTimePickerComponent implements OnInit { // implements ControlValueAccessor, OnInit {
 
-	@Input() name: string;
-	@Input() placeholder: string;
 	@Input() hideDate: boolean;
 	@Input() hideTime: boolean;
-	@Input() selectOnCalendarClick: boolean;
-	@Input() minDate: Date;
-	@Input() maxDate: Date;
-	@Input() minuteStep: number;
-	@Input() required: boolean;
+	selectOnCalendarClick: boolean;
+	minDate: Date;
+	maxDate: Date;
+	minuteStep: number;
 
-	private _dateFormat: string;
-	@Input()
-	get dateFormat(): string {
-		return this._dateFormat;
+	dateChanged = new EventEmitter<Date>();
+
+	private _lock = false;
+	private _innerValue: Date;
+	private get innerValue(): Date {
+		return this._innerValue;
 	}
-	set dateFormat(f: string) {
-		this._dateFormat = f;
-		this.formatDate();
+	private set innerValue(v: Date) {
+		this._innerValue = v;
+		if (!this._lock)
+			this.dateChanged.emit(v);
 	}
 
-
-	private innerValue: Date;
-	private onTouchedCallback: () => void = noop;
-	private onChangeCallback: (_: any) => void = noop;
 	private selectedDate: Date;
 	private currentonclick: any;
 
-	protected formattedDate: string;
 	protected dayNames = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
 	protected weekNumbers = [0, 1, 2, 3, 4, 5];
 	protected months = [
@@ -145,22 +134,12 @@ export class DateTimePickerComponent implements ControlValueAccessor, OnInit {
 	protected selectedHour: number;
 	protected selectedMinute: string;
 	protected selectedAMPM: string;
-	protected dropdownVisible: boolean;
-	protected inputChanged: boolean;
+	protected dropdownVisible: boolean = false;
 	protected uniqueId = Math.floor((1 + Math.random()) * 0x10000).toString();
 
 	constructor(private zone: NgZone) { }
 
 	ngOnInit() {
-		if (!this.dateFormat) {
-			this.dateFormat = "";
-			if (!this.hideDate)
-				this.dateFormat = "MM/DD/YYYY";
-			if (!this.hideTime)
-				this.dateFormat += " h:mm A";
-			this.dateFormat = this.dateFormat.trim();
-		}
-
 		// TODO: hackish, need to find a better way to hide drop down when they click off of it, can't use blur
 		// since blur will fire when the dropdown div is clicked in which case we don't want to hide the dropdown
 		let self = this;
@@ -185,13 +164,6 @@ export class DateTimePickerComponent implements ControlValueAccessor, OnInit {
 		};
 	}
 
-	private formatDate() {
-		if (!this.innerValue)
-			this.formattedDate = "";
-		else
-			this.formattedDate = moment(new Date(this.innerValue)).format(this.dateFormat);
-	}
-
 	private getMinuteInt() {
 		let currMinute = parseInt(this.selectedMinute);
 		if (isNaN(currMinute))
@@ -199,7 +171,7 @@ export class DateTimePickerComponent implements ControlValueAccessor, OnInit {
 		return currMinute;
 	}
 
-	protected refreshCalendarDates() {
+	refreshCalendarDates() {
 		if (!this.selectedDate)
 			this.selectedDate = new Date();
 
@@ -211,8 +183,9 @@ export class DateTimePickerComponent implements ControlValueAccessor, OnInit {
 
 		if (!this.selectedHour) {
 			this.selectedHour = this.selectedDate.getHours();
-			if (this.selectedHour > 12) {
-				this.selectedHour -= 12;
+			if (this.selectedHour >= 12) {
+				if (this.selectedHour > 12)
+					this.selectedHour -= 12;
 				this.selectedAMPM = 'PM';
 			}
 			else {
@@ -221,7 +194,13 @@ export class DateTimePickerComponent implements ControlValueAccessor, OnInit {
 		}
 
 		if (!this.selectedMinute) {
-			this.selectedMinute = this.selectedDate.getMinutes().toString();
+			var minute = this.selectedDate.getMinutes();
+			if (this.minuteStep > 1) {
+				while (minute % this.minuteStep != 0) {
+					minute--;
+				}
+			}
+			this.selectedMinute = minute.toString();
 			this.formatMinute();
 		}
 
@@ -246,26 +225,17 @@ export class DateTimePickerComponent implements ControlValueAccessor, OnInit {
 	}
 
 	protected selectNow() {
-		this.selectedDate = new Date();
+		this.updateDateTimeControls(new Date());
+	}
+
+	updateDateTimeControls(newDateTime: Date) {
+		this.selectedDate = newDateTime;
 		this.selectedMonth = null;
 		this.selectedYear = null;
 		this.selectedHour = null;
 		this.selectedMinute = null;
 		this.selectedAMPM = null;
 		this.refreshCalendarDates();
-	}
-
-	protected blurEditor() {
-		if (!this.inputChanged) return;
-		this.inputChanged = false;
-		let date = new Date(this.formattedDate);
-		if (isNaN(date.getTime())) {
-			this.innerValue = null;
-			this.formatDate();
-			return;
-		}
-
-		this.selectDate(date, true);
 	}
 
 	protected datesAreEqual(date: Date) {
@@ -328,7 +298,7 @@ export class DateTimePickerComponent implements ControlValueAccessor, OnInit {
 		}
 	}
 
-	protected persistDate(alreadySelected = false, fromInput = false) {
+	persistDate(alreadySelected = false, fromInput = false) {
 		// add hours minutes, seconds
 		this.dropdownVisible = false;
 		var selectedDate = null;
@@ -361,17 +331,13 @@ export class DateTimePickerComponent implements ControlValueAccessor, OnInit {
 		}
 
 		this.innerValue = selectedDate;
-		this.formatDate();
-
-		this.onChangeCallback(this.innerValue);
-
 	}
 
 	protected addMinute(backwards) {
 		let currMinute = this.getMinuteInt();
 		currMinute += (backwards ? -1 : 1) * (this.minuteStep || 1);
 		if (currMinute < 0) {
-			currMinute = 59;
+			currMinute = 60 - (this.minuteStep || 1);
 			this.addHour(true);
 		}
 		else if (currMinute > 59) {
@@ -383,22 +349,71 @@ export class DateTimePickerComponent implements ControlValueAccessor, OnInit {
 	}
 
 	writeValue(value: Date) {
+		this._lock = true;
 		if (value === undefined || value == null) {
 			this.innerValue = null;
 		}
 		else if (value !== this.innerValue) {
 			this.innerValue = value;
 		}
-
+		this._lock = false;
 		this.refreshCalendarDates();
-		this.formatDate();
-	}
-
-	registerOnChange(fn: any) {
-		this.onChangeCallback = fn;
-	}
-
-	registerOnTouched(fn: any) {
-		this.onTouchedCallback = fn;
 	}
 }
+
+//export const MIN_VALIDATOR: any = {
+//	provide: NG_VALIDATORS,
+//	useExisting: forwardRef(() => DateTimePickerMinValidator),
+//	multi: true
+//};
+
+//@Directive({
+//	selector: '[minDate]',
+//	providers: [MIN_VALIDATOR]
+//})
+//export class DateTimePickerMinValidator implements Validator {
+//	@Input("minDate") dateTimePickerMin: Date;
+
+//	validate(c: AbstractControl) {
+//		if (!this.dateTimePickerMin) return null;
+//		if (c.value) {
+//			let dt = new Date(c.value);
+//			if (!isNaN(dt.getTime()) && dt < this.dateTimePickerMin) {
+//				return {
+//					min: true
+//				};
+//			}
+//		}
+
+//		return null;
+//	}
+//}
+
+
+//export const MAX_VALIDATOR: any = {
+//	provide: NG_VALIDATORS,
+//	useExisting: forwardRef(() => DateTimePickerMaxValidator),
+//	multi: true
+//};
+
+//@Directive({
+//	selector: '[maxDate]',
+//	providers: [MAX_VALIDATOR]
+//})
+//export class DateTimePickerMaxValidator implements Validator {
+//	@Input("maxDate") dateTimePickerMax: Date;
+
+//	validate(c: AbstractControl) {
+//		if (!this.dateTimePickerMax) return null;
+//		if (c.value) {
+//			let dt = new Date(c.value);
+//			if (!isNaN(dt.getTime()) && dt > this.dateTimePickerMax) {
+//				return {
+//					max: true
+//				};
+//			}
+//		}
+
+//		return null;
+//	}
+//}

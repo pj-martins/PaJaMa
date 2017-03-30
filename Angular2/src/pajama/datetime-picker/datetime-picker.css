@@ -21,19 +21,20 @@
 }
 
 .datetime-picker-calendar-icon {
-	position: absolute;
+	/*position: absolute;
 	right: 5px;
-	top: 5px;
+	top: 5px;*/
+	right: 18px;
 }
 
 .datetime-picker-dropdown {
-	z-index: 1;
+	z-index: 5;
 	position: absolute;
 	border: 1px solid;
 	background-color: #F8F8FF;
 	border-color: grey;
 	padding: 10px;
-	width: 100%;
+	width: 300px;
 	max-width: 300px;
 }
 
@@ -42,7 +43,7 @@
 }
 
 .datetime-picker-timeonly-dropdown {
-	width: initial !important;
+	width: 200px !important;
 }
 
 .datetime-picker-container input, .datetime-picker-container select {
@@ -75,8 +76,8 @@
 	right: 0px;
 }
 
-.datetime-picker-inner {
-	background-color: white;
+.datetime-picker-month-year-panel select {
+	height: 24px;
 }
 
 .datetime-picker-inner .row {

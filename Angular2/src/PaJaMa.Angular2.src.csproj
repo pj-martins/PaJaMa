@@ -114,7 +114,10 @@
     <TypeScriptCompile Include="app\demo\demo-grid.component.ts" />
     <TypeScriptCompile Include="app\main.ts" />
     <TypeScriptCompile Include="app\polyfills.browser.ts" />
+    <TypeScriptCompile Include="app\sandbox\even-validator.component.ts" />
+    <TypeScriptCompile Include="app\sandbox\sandbox.component.ts" />
     <TypeScriptCompile Include="app\vendor.ts" />
+    <TypeScriptCompile Include="pajama\datetime-picker\datetime-picker.directive.ts" />
     <TypeScriptCompile Include="pajama\expand-collapse\expand-collapse.component.ts" />
     <TypeScriptCompile Include="pajama\expand-collapse\expand-collapse.module.ts" />
     <TypeScriptCompile Include="pajama\checklist\checklist.component.ts" />
@@ -166,7 +169,7 @@
           <AutoAssignPort>True</AutoAssignPort>
           <DevelopmentServerPort>49599</DevelopmentServerPort>
           <DevelopmentServerVPath>/</DevelopmentServerVPath>
-          <IISUrl>http://localhost:49599/</IISUrl>
+          <IISUrl>http://localhost:49600/</IISUrl>
           <NTLMAuthentication>False</NTLMAuthentication>
           <UseCustomServer>False</UseCustomServer>
           <CustomServerUrl>

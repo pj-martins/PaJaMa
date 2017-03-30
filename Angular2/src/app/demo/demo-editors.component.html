@@ -2,14 +2,14 @@
 	<div class="row">
 		<div class="col-md-1">Basic:</div>
 		<div class="col-md-3">
-			<datetime-picker [(ngModel)]='selectedDateTime'></datetime-picker>
+			<input type="text" dateTimePicker [(ngModel)]='selectedDateTime' />
 		</div>
 	</div>
 	<br />
 	<div class="row">
 		<div class="col-md-1">Advanced:</div>
 		<div class="col-md-3">
-			<datetime-picker placeholder="Advanced"
+			<input type="text" dateTimePicker placeholder="Advanced"
 							 [(ngModel)]='selectedDateTime'
 							 [hideDate]="hideDate"
 							 [dateFormat]="((!hideDate ? 'MM/DD/YYYY ' : '') + (!hideTime ? 'h:mm A' : '')).trim()"
@@ -17,8 +17,8 @@
 							 [selectOnCalendarClick]="selectOnCalendarClick"
 							 [minDate]="minDate"
 							 [maxDate]="maxDate"
-							 [minuteStep]="minuteStep">
-			</datetime-picker>
+							 [minuteStep]="minuteStep" />
+			
 		</div>
 	</div>
 	<br />
@@ -31,9 +31,9 @@
 			<br />
 			<input type="checkbox" [(ngModel)]="selectOnCalendarClick" />&nbsp;Select On Calendar Click
 			<br />
-			Min: <datetime-picker [(ngModel)]="minDate" [hideTime]="true"></datetime-picker>
+			Min: <input type="text" dateTimePicker [(ngModel)]="minDate" [hideTime]="true" />
 			<br />
-			Max: <datetime-picker [(ngModel)]="maxDate" [hideTime]="true"></datetime-picker>
+			Max: <input type="text" dateTimePicker [(ngModel)]="maxDate" [hideTime]="true" />
 			<br />
 			Minute Step: <input type="number" [(ngModel)]="minuteStep" />
 		</div>
@@ -120,6 +120,46 @@
 		<div class="col-md-1">Basic:</div>
 		<div class="col-md-3">
 			<multi-typeahead [dataSource]="dataSource" [items]="multiTypeaheadItems"></multi-typeahead>
+		</div>
+	</div>
+	<br />
+	<div class="row">
+		<div class="col-md-1">Display Member:</div>
+		<div class="col-md-3">
+			<typeahead [dataSource]="rooms" [(ngModel)]="selectedRoom" displayMember="roomName"></typeahead>
+		</div>
+		<div class="col-md-7" *ngIf="selectedRoom">
+			{{'ID: ' + selectedRoom.id + ' - Room Name: ' + selectedRoom.roomName}}
+		</div>
+	</div>
+	<br />
+	<div class="row">
+		<div class="col-md-1">Display &amp; Value Member:</div>
+		<div class="col-md-3">
+			<typeahead [dataSource]="rooms" [(ngModel)]="selectedRoomID" displayMember="roomName" valueMember="id"></typeahead>
+		</div>
+		<div class="col-md-7" *ngIf="selectedRoomID">
+			ID: {{selectedRoomID}}
+		</div>
+	</div>
+	<br />
+	<div class="row">
+		<div class="col-md-1">Function Data Source:</div>
+		<div class="col-md-3">
+			<typeahead [dataSource]="getRooms" [(ngModel)]="selectedRoom2" displayMember="roomName"></typeahead>
+		</div>
+		<div class="col-md-7" *ngIf="selectedRoom2">
+			{{'ID: ' + selectedRoom2.id + ' - Room Name: ' + selectedRoom2.roomName}}
+		</div>
+	</div>
+	<br />
+	<div class="row">
+		<div class="col-md-1">Observable Data Source:</div>
+		<div class="col-md-3">
+			<typeahead [dataSource]="getRoomsObservable" [(ngModel)]="selectedRoom3" displayMember="roomName"></typeahead>
+		</div>
+		<div class="col-md-7" *ngIf="selectedRoom3">
+			{{'ID: ' + selectedRoom3.id + ' - Room Name: ' + selectedRoom3.roomName}}
 		</div>
 	</div>
 </expand-collapse>

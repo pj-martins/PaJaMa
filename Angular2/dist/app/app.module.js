@@ -17,6 +17,8 @@ var checklist_module_1 = require("pajama/checklist/checklist.module");
 var overlay_module_1 = require("pajama/overlay/overlay.module");
 var typeahead_module_1 = require("pajama/typeahead/typeahead.module");
 var datetime_picker_module_1 = require("pajama/datetime-picker/datetime-picker.module");
+var multi_textbox_module_1 = require("pajama/multi-textbox/multi-textbox.module");
+var expand_collapse_module_1 = require("pajama/expand-collapse/expand-collapse.module");
 var pipes_module_1 = require("pajama/pipes/pipes.module");
 var app_routing_1 = require("./app.routing");
 var demo_grid_component_1 = require("./demo/demo-grid.component");
@@ -38,6 +40,8 @@ AppModule = __decorate([
             pipes_module_1.PipesModule,
             checklist_module_1.CheckListModule,
             datetime_picker_module_1.DateTimePickerModule,
+            multi_textbox_module_1.MultiTextboxModule,
+            expand_collapse_module_1.ExpandCollapseModule,
             app_routing_1.routing
         ],
         providers: [parser_service_1.ParserService],

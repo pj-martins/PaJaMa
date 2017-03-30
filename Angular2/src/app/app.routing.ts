@@ -2,6 +2,7 @@
 import { Routes, RouterModule, RouterOutletMap } from '@angular/router';
 import { DemoGridComponent } from './demo/demo-grid.component';
 import { DemoEditorsComponent } from './demo/demo-editors.component';
+import { SandboxComponent } from './sandbox/sandbox.component';
 
 const appRoutes: Routes = [
 	{
@@ -9,8 +10,12 @@ const appRoutes: Routes = [
 		component: DemoGridComponent
 	},
 	{
-		path: '',
+		path: '', //'demoeditors',
 		component: DemoEditorsComponent
+	},
+	{
+		path: 'sandbox',
+		component: SandboxComponent
 	}
 ];
 

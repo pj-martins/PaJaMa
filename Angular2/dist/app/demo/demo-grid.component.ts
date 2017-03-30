@@ -22,7 +22,6 @@ export class DemoGridComponent implements OnInit {
 	}
 
 	ngOnInit() {
-		console.log('demo');
 		this.gridDemo.data = EVENTS;
 		this._coordinatorColumn.customProps["coordinators"] = this.gridDemo.getDistinctValues(this._coordinatorColumn);
 	}
@@ -67,6 +66,7 @@ export class DemoGridComponent implements OnInit {
 
 		let phoneNumberCol = new DataColumn("phoneNumber");
 		phoneNumberCol.width = "160px";
+		phoneNumberCol.filterMode = FilterMode.Contains;
 		this.gridDemo.columns.push(phoneNumberCol);
 
 		let evtTypeCol = new DataColumn("hallEventType.eventTypeName", "Event Type");
@@ -86,7 +86,6 @@ export class DemoGridComponent implements OnInit {
 `, [TypeaheadModule]);
 		requestedByCol.sortable = true;
 		this.gridDemo.columns.push(requestedByCol);
-
 		this.gridDemo.loadGridState();
 	}
 

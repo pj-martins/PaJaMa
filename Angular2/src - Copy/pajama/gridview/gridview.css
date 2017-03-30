@@ -1,0 +1,89 @@
+.gridview {
+	border-width: 1px;
+	border-style: solid;
+	border-color: #027FF4;
+	width: 100%;
+}
+
+	.gridview tr:first-child th, .table-header tr:first-child th {
+		background-color: #027FF4;
+		color: #fff;
+		font-weight: bold;
+	}
+
+.scrollable-table {
+	width: 100%;
+}
+
+	.scrollable-table thead,
+	.scrollable-table tbody {
+		display: block;
+	}
+
+	.scrollable-table tbody {
+		overflow-y: auto;
+		overflow-x: hidden;
+	}
+
+
+.glyphicon-small {
+	font-size: 13px;
+}
+
+.header-button {
+	right: 0;
+	left: auto;
+	float: right;
+	padding-bottom: 8px;
+	padding-right: 20px;
+	cursor: pointer;
+}
+
+.detailgrid-container {
+	line-height: 0 !important;
+	padding: 0 !important;
+	padding-left: 20px !important;
+}
+
+.typeahead-button {
+	display: inline-block;
+	white-space: nowrap;
+	margin-top: -26px;
+	border: none;
+	background-color: transparent;
+}
+
+.template-loading {
+	background-color: white;
+	text-align: center;
+	padding: 10px;
+}
+
+.template-inner {
+	display: block;
+	margin: 0 auto;
+}
+
+.gridview-alternate-row {
+	background-color: #EEE;
+}
+
+.no-wrap {
+	white-space: nowrap;
+}
+
+.small-button {
+	height: 30px;
+	width: 30px;
+	padding: 2px;
+}
+
+.selectable-row:hover, .selected-row {
+	cursor: pointer;
+	background-color: #C2F0F0 !important;
+}
+
+
+.gridview th:not(:first-child) {
+	border-left: 1px solid #fff;
+}

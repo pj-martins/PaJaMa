@@ -18,7 +18,6 @@ var DemoGridComponent = (function () {
         this.initGrid();
     }
     DemoGridComponent.prototype.ngOnInit = function () {
-        console.log('demo');
         this.gridDemo.data = EVENTS;
         this._coordinatorColumn.customProps["coordinators"] = this.gridDemo.getDistinctValues(this._coordinatorColumn);
     };
@@ -52,6 +51,7 @@ var DemoGridComponent = (function () {
         this.gridDemo.columns.push(this._coordinatorColumn);
         var phoneNumberCol = new gridview_1.DataColumn("phoneNumber");
         phoneNumberCol.width = "160px";
+        phoneNumberCol.filterMode = gridview_1.FilterMode.Contains;
         this.gridDemo.columns.push(phoneNumberCol);
         var evtTypeCol = new gridview_1.DataColumn("hallEventType.eventTypeName", "Event Type");
         evtTypeCol.filterMode = gridview_1.FilterMode.DynamicList;

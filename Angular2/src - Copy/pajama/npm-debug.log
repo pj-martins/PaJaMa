@@ -1,0 +1,149 @@
+0 info it worked if it ends with ok
+1 verbose cli [ 'C:\\Program Files (x86)\\nodejs\\node.exe',
+1 verbose cli   'C:\\Users\\ex_pjmartins\\AppData\\Roaming\\npm\\node_modules\\npm\\bin\\npm-cli.js',
+1 verbose cli   'publish',
+1 verbose cli   'pajama' ]
+2 info using npm@3.10.9
+3 info using node@v6.9.2
+4 verbose publish [ 'pajama' ]
+5 silly cache add args [ 'pajama', null ]
+6 verbose cache add spec pajama
+7 silly cache add parsed spec Result {
+7 silly cache add   raw: 'pajama',
+7 silly cache add   scope: null,
+7 silly cache add   escapedName: 'pajama',
+7 silly cache add   name: 'pajama',
+7 silly cache add   rawSpec: '',
+7 silly cache add   spec: 'latest',
+7 silly cache add   type: 'tag' }
+8 silly addNamed pajama@latest
+9 verbose addNamed "latest" is being treated as a dist-tag for pajama
+10 info addNameTag [ 'pajama', 'latest' ]
+11 silly mapToRegistry name pajama
+12 silly mapToRegistry using default registry
+13 silly mapToRegistry registry https://registry.npmjs.org/
+14 silly mapToRegistry data Result {
+14 silly mapToRegistry   raw: 'pajama',
+14 silly mapToRegistry   scope: null,
+14 silly mapToRegistry   escapedName: 'pajama',
+14 silly mapToRegistry   name: 'pajama',
+14 silly mapToRegistry   rawSpec: '',
+14 silly mapToRegistry   spec: 'latest',
+14 silly mapToRegistry   type: 'tag' }
+15 silly mapToRegistry uri https://registry.npmjs.org/pajama
+16 verbose addNameTag registry:https://registry.npmjs.org/pajama not in flight; fetching
+17 verbose request uri https://registry.npmjs.org/pajama
+18 verbose request no auth needed
+19 info attempt registry request try #1 at 8:12:25 AM
+20 verbose request using bearer token for auth
+21 verbose request id a5da94d978fbce61
+22 verbose etag W/"58c6b01d-16ef"
+23 verbose lastModified Mon, 13 Mar 2017 14:43:41 GMT
+24 http request GET https://registry.npmjs.org/pajama
+25 http 304 https://registry.npmjs.org/pajama
+26 verbose headers { server: 'nginx/1.10.1',
+26 verbose headers   'last-modified': 'Mon, 13 Mar 2017 14:43:41 GMT',
+26 verbose headers   etag: '"58c6b01d-16ef"',
+26 verbose headers   'cache-control': 'max-age=300',
+26 verbose headers   'accept-ranges': 'bytes',
+26 verbose headers   date: 'Mon, 13 Mar 2017 15:12:26 GMT',
+26 verbose headers   via: '1.1 varnish',
+26 verbose headers   connection: 'keep-alive',
+26 verbose headers   'x-served-by': 'cache-lax8626-LAX',
+26 verbose headers   'x-cache': 'MISS',
+26 verbose headers   'x-cache-hits': '0',
+26 verbose headers   'x-timer': 'S1489417946.072818,VS0,VE30',
+26 verbose headers   vary: 'Accept-Encoding' }
+27 silly get cb [ 304,
+27 silly get   { server: 'nginx/1.10.1',
+27 silly get     'last-modified': 'Mon, 13 Mar 2017 14:43:41 GMT',
+27 silly get     etag: '"58c6b01d-16ef"',
+27 silly get     'cache-control': 'max-age=300',
+27 silly get     'accept-ranges': 'bytes',
+27 silly get     date: 'Mon, 13 Mar 2017 15:12:26 GMT',
+27 silly get     via: '1.1 varnish',
+27 silly get     connection: 'keep-alive',
+27 silly get     'x-served-by': 'cache-lax8626-LAX',
+27 silly get     'x-cache': 'MISS',
+27 silly get     'x-cache-hits': '0',
+27 silly get     'x-timer': 'S1489417946.072818,VS0,VE30',
+27 silly get     vary: 'Accept-Encoding' } ]
+28 verbose etag https://registry.npmjs.org/pajama from cache
+29 verbose get saving pajama to C:\Users\ex_pjmartins\AppData\Roaming\npm-cache\registry.npmjs.org\pajama\.cache.json
+30 verbose correctMkdir C:\Users\ex_pjmartins\AppData\Roaming\npm-cache correctMkdir not in flight; initializing
+31 silly addNameTag next cb for pajama with tag latest
+32 silly addNamed pajama@0.1.7
+33 verbose addNamed "0.1.7" is a plain semver version for pajama
+34 silly cache afterAdd pajama@0.1.7
+35 verbose afterAdd C:\Users\ex_pjmartins\AppData\Roaming\npm-cache\pajama\0.1.7\package\package.json not in flight; writing
+36 verbose correctMkdir C:\Users\ex_pjmartins\AppData\Roaming\npm-cache correctMkdir not in flight; initializing
+37 verbose afterAdd C:\Users\ex_pjmartins\AppData\Roaming\npm-cache\pajama\0.1.7\package\package.json written
+38 silly publish { name: 'pajama',
+38 silly publish   dependencies: { bootstrap: '^3.3.7', moment: '^2.17.1' },
+38 silly publish   readme: 'ERROR: No README data found!',
+38 silly publish   scripts: {},
+38 silly publish   version: '0.1.7',
+38 silly publish   _id: 'pajama@0.1.7',
+38 silly publish   _shasum: '7f2a95e78562eb563661a3acef04aff1e64a4d76',
+38 silly publish   _from: 'pajama@latest',
+38 silly publish   _resolved: 'file:AppData\\Local\\Temp\\pajamaangular\\~pajama' }
+39 info lifecycle pajama@0.1.7~prepublish: pajama@0.1.7
+40 silly lifecycle pajama@0.1.7~prepublish: no script for prepublish, continuing
+41 verbose getPublishConfig undefined
+42 silly mapToRegistry name pajama
+43 silly mapToRegistry using default registry
+44 silly mapToRegistry registry https://registry.npmjs.org/
+45 silly mapToRegistry data Result {
+45 silly mapToRegistry   raw: 'pajama',
+45 silly mapToRegistry   scope: null,
+45 silly mapToRegistry   escapedName: 'pajama',
+45 silly mapToRegistry   name: 'pajama',
+45 silly mapToRegistry   rawSpec: '',
+45 silly mapToRegistry   spec: 'latest',
+45 silly mapToRegistry   type: 'tag' }
+46 silly mapToRegistry uri https://registry.npmjs.org/pajama
+47 verbose publish registryBase https://registry.npmjs.org/
+48 silly publish uploading C:\Users\ex_pjmartins\AppData\Roaming\npm-cache\pajama\0.1.7\package.tgz
+49 verbose request uri https://registry.npmjs.org/pajama
+50 verbose request sending authorization for write operation
+51 info attempt registry request try #1 at 8:12:26 AM
+52 verbose request using bearer token for auth
+53 http request PUT https://registry.npmjs.org/pajama
+54 http 403 https://registry.npmjs.org/pajama
+55 verbose headers { 'content-type': 'application/json',
+55 verbose headers   'cache-control': 'max-age=300',
+55 verbose headers   'content-length': '95',
+55 verbose headers   'accept-ranges': 'bytes',
+55 verbose headers   date: 'Mon, 13 Mar 2017 15:12:26 GMT',
+55 verbose headers   via: '1.1 varnish',
+55 verbose headers   connection: 'keep-alive',
+55 verbose headers   'x-served-by': 'cache-lax8626-LAX',
+55 verbose headers   'x-cache': 'MISS',
+55 verbose headers   'x-cache-hits': '0',
+55 verbose headers   'x-timer': 'S1489417946.224249,VS0,VE159',
+55 verbose headers   vary: 'Accept-Encoding' }
+56 verbose request invalidating C:\Users\ex_pjmartins\AppData\Roaming\npm-cache\registry.npmjs.org\pajama on PUT
+57 error publish Failed PUT 403
+58 verbose stack Error: "You cannot publish over the previously published version 0.1.7." : pajama
+58 verbose stack     at makeError (C:\Users\ex_pjmartins\AppData\Roaming\npm\node_modules\npm\node_modules\npm-registry-client\lib\request.js:302:12)
+58 verbose stack     at CachingRegistryClient.<anonymous> (C:\Users\ex_pjmartins\AppData\Roaming\npm\node_modules\npm\node_modules\npm-registry-client\lib\request.js:290:14)
+58 verbose stack     at Request._callback (C:\Users\ex_pjmartins\AppData\Roaming\npm\node_modules\npm\node_modules\npm-registry-client\lib\request.js:210:14)
+58 verbose stack     at Request.self.callback (C:\Users\ex_pjmartins\AppData\Roaming\npm\node_modules\npm\node_modules\request\request.js:187:22)
+58 verbose stack     at emitTwo (events.js:106:13)
+58 verbose stack     at Request.emit (events.js:191:7)
+58 verbose stack     at Request.<anonymous> (C:\Users\ex_pjmartins\AppData\Roaming\npm\node_modules\npm\node_modules\request\request.js:1048:10)
+58 verbose stack     at emitOne (events.js:96:13)
+58 verbose stack     at Request.emit (events.js:188:7)
+58 verbose stack     at IncomingMessage.<anonymous> (C:\Users\ex_pjmartins\AppData\Roaming\npm\node_modules\npm\node_modules\request\request.js:969:12)
+59 verbose statusCode 403
+60 verbose pkgid pajama
+61 verbose cwd C:\Projects\GIT\PaJaMa\Angular2\src\pajama
+62 error Windows_NT 10.0.10586
+63 error argv "C:\\Program Files (x86)\\nodejs\\node.exe" "C:\\Users\\ex_pjmartins\\AppData\\Roaming\\npm\\node_modules\\npm\\bin\\npm-cli.js" "publish" "pajama"
+64 error node v6.9.2
+65 error npm  v3.10.9
+66 error code E403
+67 error "You cannot publish over the previously published version 0.1.7." : pajama
+68 error If you need help, you may report this error at:
+68 error     <https://github.com/npm/npm/issues>
+69 verbose exit [ 1, true ]
