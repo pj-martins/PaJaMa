@@ -2,6 +2,7 @@
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { MultiTextboxComponent } from './multi-textbox.component';
+import { MultiTextboxDirective } from './multi-textbox.directive';
 
 @NgModule({
 	imports: [
@@ -9,9 +10,14 @@ import { MultiTextboxComponent } from './multi-textbox.component';
 		FormsModule
 	],
 	declarations: [
-		MultiTextboxComponent
+		MultiTextboxComponent,
+		MultiTextboxDirective
 	],
 	exports: [
+		MultiTextboxComponent,
+		MultiTextboxDirective
+	],
+	entryComponents: [
 		MultiTextboxComponent
 	]
 })

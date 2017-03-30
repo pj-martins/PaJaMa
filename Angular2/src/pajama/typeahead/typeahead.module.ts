@@ -4,6 +4,7 @@ import { FormsModule } from '@angular/forms';
 import { TypeaheadComponent } from './typeahead.component';
 import { TypeaheadDirective } from './typeahead.directive';
 import { MultiTypeaheadComponent } from './multi-typeahead.component';
+import { MultiTypeaheadDirective } from './multi-typeahead.directive';
 import { MultiTextboxModule } from '../multi-textbox/multi-textbox.module';
 import { ParserService } from '../services/parser.service';
 
@@ -17,15 +18,18 @@ import { ParserService } from '../services/parser.service';
 	declarations: [
 		TypeaheadComponent,
 		MultiTypeaheadComponent,
-		TypeaheadDirective
+		TypeaheadDirective,
+		MultiTypeaheadDirective
 	],
 	exports: [
 		TypeaheadComponent,
 		MultiTypeaheadComponent,
-		TypeaheadDirective
+		TypeaheadDirective,
+		MultiTypeaheadDirective
 	],
 	entryComponents: [
-		TypeaheadComponent
+		TypeaheadComponent,
+		MultiTypeaheadComponent
 	]
 })
 export class TypeaheadModule { }

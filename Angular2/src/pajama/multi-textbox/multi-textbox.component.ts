@@ -1,36 +1,28 @@
 ﻿import { Component, Input, Output, EventEmitter, ElementRef, OnInit } from '@angular/core'
 
-export const PRE_INPUT = `<div class='multi-textbox-container'>
+export const MULTITEXTBOX_TEMPLATE = `
+	<div class='multi-textbox-button-container' [style.display]="currText ? 'inline' : 'none'">
+		<button (click)='addItem()' class="multi-textbox-button" tabindex="-1">
+			<div class="glyphicon glyphicon-plus"></div>
+		</button>
+	</div>
 	<div class='multi-textbox-item-container'>
 		<div *ngFor='let item of items || []' class='multi-textbox-item'>
 			{{getObjectValue(item)}}
 			<div class='glyphicon glyphicon-remove multi-textbox-remove' (click)='removeItem(item)'></div>
 		</div>
 	</div>
-	<div class='multi-textbox-input-container'>
 `;
-
-export const POST_INPUT = `
-	</div>
-	<div class='multi-textbox-button-container' [style.display]="currText ? 'inline' : 'none'">
-		<button (click)='addItem()' class="multi-textbox-button" tabindex="-1">
-			<div class="glyphicon glyphicon-plus"></div>
-		</button>
-	</div>
-</div>`;
 
 @Component({
 	moduleId: module.id,
 	selector: 'multi-textbox',
-	template: PRE_INPUT + `
-		<input type='text' [style.padding-left]="paddingLeft + 'px'" class='multi-textbox-input' [(ngModel)]='currText' (keydown)="keyDown($event, false)" (blur)='blur()' (focus)="resize()" />
-	` + POST_INPUT,
+	template: MULTITEXTBOX_TEMPLATE,
 	styleUrls: ['multi-textbox.css']
 })
 export class MultiTextboxComponent implements OnInit {
 
 	private _items: Array<any> = [];
-	@Input()
 	get items(): Array<any> {
 		return this._items;
 	}
@@ -39,8 +31,9 @@ export class MultiTextboxComponent implements OnInit {
 	}
 
 	@Output() itemsChanged = new EventEmitter<any>();
+	@Output() paddingChanged = new EventEmitter<any>();
 
-	protected currText: string;
+	currText: string;
 
 	constructor(protected elementRef: ElementRef) {
 		
@@ -51,22 +44,23 @@ export class MultiTextboxComponent implements OnInit {
 
 	private _originalPaddingLeft: number = 0;
 	private _paddingLeft: number = 0;
-	@Input()
-	protected get paddingLeft() {
+
+	get paddingLeft() {
 		return this._paddingLeft;
 	}
-	protected set paddingLeft(p: number) {
+	set paddingLeft(p: number) {
 		this._originalPaddingLeft = p;
 		this._paddingLeft = p;
 	}
 
-	protected resize() {
+	resize() {
 		let items = this.elementRef.nativeElement.getElementsByClassName("multi-textbox-item");
 		let totWidth = 0;
 		for (let item of items) {
 			totWidth += item.offsetWidth + 1;
 		}
 		this._paddingLeft = this._originalPaddingLeft + totWidth;
+		this.paddingChanged.emit(this._paddingLeft);
 	}
 
 	protected removeItem(item: any) {
@@ -93,7 +87,7 @@ export class MultiTextboxComponent implements OnInit {
 		this.resize();
 	}
 
-	protected keyDown(event: KeyboardEvent, ignoreEnter: boolean) {
+	keydown(event: KeyboardEvent, ignoreEnter: boolean) {
 		let charCode = event.which || event.keyCode;
 		if (charCode == 8) {
 			if (!this.currText && this._items.length > 0) {
@@ -108,7 +102,7 @@ export class MultiTextboxComponent implements OnInit {
 		window.setTimeout(() => this.resize(), 100);
 	}
 
-	protected blur() {
+	blur() {
 		this.addItem();
 		this.resize();
 	}

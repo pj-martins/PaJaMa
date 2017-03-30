@@ -44,8 +44,8 @@
 <expand-collapse headerText="Multi Textbox">
 	<div class="row">
 		<div class="col-md-1">Basic:</div>
-		<div class="col-md-3">
-			<multi-textbox [items]="multiTextboxItems"></multi-textbox>
+		<div class="col-md-8">
+			<input type="text" [multiTextbox]="multiTextboxItems" style="width:40%" />
 		</div>
 	</div>
 </expand-collapse>
@@ -118,8 +118,8 @@
 <expand-collapse headerText="Multi Type Ahead">
 	<div class="row">
 		<div class="col-md-1">Basic:</div>
-		<div class="col-md-3">
-			<multi-typeahead [dataSource]="dataSource" [items]="multiTypeaheadItems"></multi-typeahead>
+		<div class="col-md-8">
+			<input [multiTypeahead]="multiTypeaheadItems" [dataSource]="dataSource" style="width:40%" />
 		</div>
 	</div>
 	<br />

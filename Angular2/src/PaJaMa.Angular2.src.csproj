@@ -139,6 +139,7 @@
     <TypeScriptCompile Include="pajama\gridview\template.builder.ts" />
     <TypeScriptCompile Include="pajama\multi-textbox\multi-textbox.component.ts" />
     <TypeScriptCompile Include="pajama\multi-textbox\multi-textbox.module.ts" />
+    <TypeScriptCompile Include="pajama\multi-textbox\multi-textbox.directive.ts" />
     <TypeScriptCompile Include="pajama\overlay\overlay.component.ts" />
     <TypeScriptCompile Include="pajama\overlay\overlay.module.ts" />
     <TypeScriptCompile Include="pajama\index.ts" />
@@ -151,8 +152,10 @@
     <TypeScriptCompile Include="pajama\services\parser.service.ts" />
     <TypeScriptCompile Include="pajama\typeahead\multi-typeahead.component.ts" />
     <TypeScriptCompile Include="pajama\typeahead\typeahead.component.ts" />
+    <TypeScriptCompile Include="pajama\typeahead\multi-typeahead.directive.ts" />
     <TypeScriptCompile Include="pajama\typeahead\typeahead.directive.ts" />
     <TypeScriptCompile Include="pajama\typeahead\typeahead.module.ts" />
+    <TypeScriptCompile Include="pajama\typeahead\typeahead.ts" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

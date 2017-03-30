@@ -1,64 +1,45 @@
 ﻿import { Component, Input, ViewChild, ElementRef } from '@angular/core'
-import { MultiTextboxComponent, PRE_INPUT, POST_INPUT } from '../multi-textbox/multi-textbox.component';
-import { TypeaheadComponent } from './typeahead.component';
+import { MultiTextboxComponent, MULTITEXTBOX_TEMPLATE } from '../multi-textbox/multi-textbox.component';
+import { Typeahead, TYPEAHEAD_TEMPLATE } from './typeahead';
 import { ParserService } from '../services/parser.service';
 
 @Component({
 	moduleId: module.id,
 	selector: 'multi-typeahead',
-	template: PRE_INPUT +
-	`<input type="text" typeahead #childTypeahead (keydown)="keyDown($event, true)" [matchOn]="matchOn" [dataSource]='dataSource' (focus)='resize()' [displayMember]='displayMember' 
-			[valueMember]='valueMember' [minLength]='minLength' [(ngModel)]='currText' (itemSelected)='itemSelected($event)' [waitMs]='waitMs' />`
-	+ POST_INPUT,
+	template: MULTITEXTBOX_TEMPLATE + TYPEAHEAD_TEMPLATE,
 	styleUrls: ['../multi-textbox/multi-textbox.css', 'typeahead.css']
 })
 export class MultiTypeaheadComponent extends MultiTextboxComponent {
-	@ViewChild("childTypeahead") childTypeahead: TypeaheadComponent;
 
-	@Input()
-	matchOn: Array<string>;
-
-	@Input()
-	minLength = 1;
-
-	@Input()
-	displayMember: string;
-
-	@Input()
-	waitMs = 0;
+	typeahead: Typeahead;
 
 	constructor(protected elementRef: ElementRef, private parserService: ParserService) {
 		super(elementRef);
-	}
-
-	@Input()
-	get dataSource(): any {
-		return this.childTypeahead.dataSource;
-	}
-	set dataSource(val: any) {
-		this.childTypeahead.dataSource = val;
+		this.typeahead = new Typeahead(this.parserService);
+		this.typeahead.itemSelected.subscribe(i => this.itemSelected(i));
 	}
 
 	protected itemSelected(item) {
 		if (item) {
 			this.items.push(item);
-			window.setTimeout(() =>
-				this.currText = "", 10);
-			this.itemsChanged.emit(null);
-			this.resize();
+			window.setTimeout(() => {
+				this.currText = "";
+				this.itemsChanged.emit(null);
+				this.resize();
+			}, 10);
 		}
 	}
 
 	protected itemsAreEqual(item1: any, item2: any): boolean {
-		if (!this.displayMember)
+		if (!this.typeahead.displayMember)
 			return item1 == item2;
-		return this.parserService.getObjectValue(this.displayMember, item1) ==
-			this.parserService.getObjectValue(this.displayMember, item2);
+		return this.parserService.getObjectValue(this.typeahead.displayMember, item1) ==
+			this.parserService.getObjectValue(this.typeahead.displayMember, item2);
 	}
 
 	protected getObjectValue(item) {
-		if (!this.displayMember)
+		if (!this.typeahead.displayMember)
 			return item;
-		return this.parserService.getObjectValue(this.displayMember, item);
+		return this.parserService.getObjectValue(this.typeahead.displayMember, item);
 	}
 }
