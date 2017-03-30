@@ -7,8 +7,8 @@ import { ParserService } from '../services/parser.service';
 	moduleId: module.id,
 	selector: 'multi-typeahead',
 	template: PRE_INPUT +
-	`<typeahead #childTypeahead (keydown)="keyDown($event, true)" [matchOn]="matchOn" [padLeft]="paddingLeft + 'px'" [dataSource]='dataSource' (focus)='resize()' [displayMember]='displayMember' 
-			[valueMember]='valueMember' [minLength]='minLength' [(ngModel)]='currText' (itemSelected)='itemSelected($event)' [waitMs]='waitMs'></typeahead>`
+	`<input type="text" typeahead #childTypeahead (keydown)="keyDown($event, true)" [matchOn]="matchOn" [dataSource]='dataSource' (focus)='resize()' [displayMember]='displayMember' 
+			[valueMember]='valueMember' [minLength]='minLength' [(ngModel)]='currText' (itemSelected)='itemSelected($event)' [waitMs]='waitMs' />`
 	+ POST_INPUT,
 	styleUrls: ['../multi-textbox/multi-textbox.css', 'typeahead.css']
 })

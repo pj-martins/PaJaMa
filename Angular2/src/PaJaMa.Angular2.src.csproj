@@ -151,6 +151,7 @@
     <TypeScriptCompile Include="pajama\services\parser.service.ts" />
     <TypeScriptCompile Include="pajama\typeahead\multi-typeahead.component.ts" />
     <TypeScriptCompile Include="pajama\typeahead\typeahead.component.ts" />
+    <TypeScriptCompile Include="pajama\typeahead\typeahead.directive.ts" />
     <TypeScriptCompile Include="pajama\typeahead\typeahead.module.ts" />
   </ItemGroup>
   <PropertyGroup>

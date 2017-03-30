@@ -1,4 +1,4 @@
-﻿import { Directive, ViewContainerRef, OnInit, AfterViewInit, ComponentFactoryResolver, TemplateRef, Input, Output, ComponentRef, OnChanges, ElementRef, EventEmitter } from '@angular/core';
+﻿import { Directive, ViewContainerRef, OnInit, ComponentFactoryResolver, TemplateRef, Input, Output, ComponentRef, ElementRef, EventEmitter } from '@angular/core';
 import { DateTimePickerComponent } from './datetime-picker.component';
 import * as moment from 'moment'
 
@@ -7,8 +7,6 @@ import * as moment from 'moment'
 	host: { '(blur)': 'blurEditor()', '(keyup)': 'keyup($event)' }
 })
 export class DateTimePickerDirective implements OnInit {
-	//@Input("dateTimePicker") dateTimPicker: any;
-
 	private _component: ComponentRef<DateTimePickerComponent>;
 	private _initialColor: string;
 

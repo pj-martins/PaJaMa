@@ -1,22 +1,4 @@
-﻿.datetime-picker input::-webkit-outer-spin-button,
-.datetime-picker input::-webkit-inner-spin-button {
-	-webkit-appearance: none;
-	margin: 0;
-}
-
-.datetime-picker input, .datetime-picker select {
-}
-
-
-.datetime-picker-input-container {
-	position: relative;
-}
-
-.datetime-picker-input-container input {
-	width: 100%;
-}
-
-.datetime-picker-clickable {
+﻿.datetime-picker-clickable {
 	cursor: pointer;
 }
 

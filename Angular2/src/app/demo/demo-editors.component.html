@@ -71,14 +71,14 @@
 	<div class="row">
 		<div class="col-md-1">Basic:</div>
 		<div class="col-md-3">
-			<typeahead [dataSource]="dataSource" [(ngModel)]="selectedText"></typeahead>
+			<input type="text" typeahead [dataSource]="dataSource" [(ngModel)]="selectedText" />
 		</div>
 	</div>
 	<br />
 	<div class="row">
 		<div class="col-md-1">Display Member:</div>
 		<div class="col-md-3">
-			<typeahead [dataSource]="rooms" [(ngModel)]="selectedRoom" displayMember="roomName"></typeahead>
+			<input type="text" typeahead [dataSource]="rooms" [(ngModel)]="selectedRoom" displayMember="roomName" />
 		</div>
 		<div class="col-md-7" *ngIf="selectedRoom">
 			{{'ID: ' + selectedRoom.id + ' - Room Name: ' + selectedRoom.roomName}}
@@ -88,7 +88,7 @@
 	<div class="row">
 		<div class="col-md-1">Display &amp; Value Member:</div>
 		<div class="col-md-3">
-			<typeahead [dataSource]="rooms" [(ngModel)]="selectedRoomID" displayMember="roomName" valueMember="id"></typeahead>
+			<input type="text" typeahead [dataSource]="rooms" [(ngModel)]="selectedRoomID" displayMember="roomName" valueMember="id" />
 		</div>
 		<div class="col-md-7" *ngIf="selectedRoomID">
 			ID: {{selectedRoomID}}
@@ -98,7 +98,7 @@
 	<div class="row">
 		<div class="col-md-1">Function Data Source:</div>
 		<div class="col-md-3">
-			<typeahead [dataSource]="getRooms" [(ngModel)]="selectedRoom2" displayMember="roomName"></typeahead>
+			<input type="text" typeahead [dataSource]="getRooms" [(ngModel)]="selectedRoom2" displayMember="roomName" />
 		</div>
 		<div class="col-md-7" *ngIf="selectedRoom2">
 			{{'ID: ' + selectedRoom2.id + ' - Room Name: ' + selectedRoom2.roomName}}
@@ -108,7 +108,7 @@
 	<div class="row">
 		<div class="col-md-1">Observable Data Source:</div>
 		<div class="col-md-3">
-			<typeahead [dataSource]="getRoomsObservable" [(ngModel)]="selectedRoom3" displayMember="roomName"></typeahead>
+			<input type="text" typeahead [dataSource]="getRoomsObservable" [(ngModel)]="selectedRoom3" displayMember="roomName" />
 		</div>
 		<div class="col-md-7" *ngIf="selectedRoom3">
 			{{'ID: ' + selectedRoom3.id + ' - Room Name: ' + selectedRoom3.roomName}}
@@ -126,7 +126,7 @@
 	<div class="row">
 		<div class="col-md-1">Display Member:</div>
 		<div class="col-md-3">
-			<typeahead [dataSource]="rooms" [(ngModel)]="selectedRoom" displayMember="roomName"></typeahead>
+			<input type="text" typeahead [dataSource]="rooms" [(ngModel)]="selectedRoom" displayMember="roomName" />
 		</div>
 		<div class="col-md-7" *ngIf="selectedRoom">
 			{{'ID: ' + selectedRoom.id + ' - Room Name: ' + selectedRoom.roomName}}
@@ -136,7 +136,7 @@
 	<div class="row">
 		<div class="col-md-1">Display &amp; Value Member:</div>
 		<div class="col-md-3">
-			<typeahead [dataSource]="rooms" [(ngModel)]="selectedRoomID" displayMember="roomName" valueMember="id"></typeahead>
+			<input type="text" typeahead [dataSource]="rooms" [(ngModel)]="selectedRoomID" displayMember="roomName" valueMember="id" />
 		</div>
 		<div class="col-md-7" *ngIf="selectedRoomID">
 			ID: {{selectedRoomID}}
@@ -146,7 +146,7 @@
 	<div class="row">
 		<div class="col-md-1">Function Data Source:</div>
 		<div class="col-md-3">
-			<typeahead [dataSource]="getRooms" [(ngModel)]="selectedRoom2" displayMember="roomName"></typeahead>
+			<input type="text" typeahead [dataSource]="getRooms" [(ngModel)]="selectedRoom2" displayMember="roomName" />
 		</div>
 		<div class="col-md-7" *ngIf="selectedRoom2">
 			{{'ID: ' + selectedRoom2.id + ' - Room Name: ' + selectedRoom2.roomName}}
@@ -156,7 +156,7 @@
 	<div class="row">
 		<div class="col-md-1">Observable Data Source:</div>
 		<div class="col-md-3">
-			<typeahead [dataSource]="getRoomsObservable" [(ngModel)]="selectedRoom3" displayMember="roomName"></typeahead>
+			<input type="text" typeahead [dataSource]="getRoomsObservable" [(ngModel)]="selectedRoom3" displayMember="roomName" />
 		</div>
 		<div class="col-md-7" *ngIf="selectedRoom3">
 			{{'ID: ' + selectedRoom3.id + ' - Room Name: ' + selectedRoom3.roomName}}

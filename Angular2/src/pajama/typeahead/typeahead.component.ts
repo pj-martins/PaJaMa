@@ -1,30 +1,15 @@
-﻿import { Component, Input, Output, EventEmitter, OnInit, forwardRef, NgZone } from '@angular/core';
-import { NG_VALUE_ACCESSOR, ControlValueAccessor } from '@angular/forms';
+﻿import { Component, Input, Output, EventEmitter, OnInit, NgZone } from '@angular/core';
 import { ParserService } from '../services/parser.service';
-
-const noop = () => {
-};
-
-export const CUSTOM_INPUT_CONTROL_VALUE_ACCESSOR: any = {
-	provide: NG_VALUE_ACCESSOR,
-	useExisting: forwardRef(() => TypeaheadComponent),
-	multi: true
-};
 
 @Component({
 	moduleId: module.id,
 	selector: 'typeahead',
 	template: `
-		<div class='typeahead-container'>
-			<div class='typeahead-input-container'>
-				<input type='text' [(ngModel)]='textValue' [required]='required' (keyup)='valueChanged($event)' (focus)='focus.emit(null)' [style.padding-left]='padLeft' (keydown)='keydown($event)' class='text_id_{{uniqueId}}' />
-			</div>
-			<div class='typeahead-button-container' *ngIf='!dataSourceFunction && !hideButton'>
-				<button class='glyphicon glyphicon-chevron-down typeahead-button button_id_{{uniqueId}}' (click)='openByButton()' (keydown)='keydown($event)' tabindex="-1"></button>
-			</div>
-			<div class='typeahead-button-container' *ngIf='dataSourceFunction && loading'>
-				<span class='glyphicon glyphicon-refresh refresh-icon'></span>
-			</div>
+		<div class='typeahead-button-container' *ngIf='!dataSourceFunction && !hideButton'>
+			<button class='glyphicon glyphicon-chevron-down typeahead-button button_id_{{uniqueId}}' (click)='openByButton()' (keydown)='keydown($event)' tabindex="-1"></button>
+		</div>
+		<div class='typeahead-button-container' *ngIf='dataSourceFunction && loading'>
+			<span class='glyphicon glyphicon-refresh refresh-icon'></span>
 		</div>
 		<div [hidden]='!dropdownVisible' class='typeahead-popup'>
 			<div *ngFor='let item of items; let i = index' [hidden]='itemHidden(item)'>
@@ -37,15 +22,9 @@ export const CUSTOM_INPUT_CONTROL_VALUE_ACCESSOR: any = {
 			Invalid selection, please select item from list.
 		</strong>
         `,
-	providers: [CUSTOM_INPUT_CONTROL_VALUE_ACCESSOR],
 	styleUrls: ['typeahead.css']
 })
-export class TypeaheadComponent implements ControlValueAccessor, OnInit {
-	private innerValue: any;
-	private onTouchedCallback: () => void = noop;
-	private onChangeCallback: (_: any) => void = noop;
-	private valueWritten = false;
-
+export class TypeaheadComponent implements OnInit {
 	private isOpenByButton = false;
 
 	protected loading = false;
@@ -54,12 +33,24 @@ export class TypeaheadComponent implements ControlValueAccessor, OnInit {
 	private _dataSource: any;
 
 	@Output() focus = new EventEmitter<any>();
-	@Input() required: boolean;
 
-	// specifically for multi typeahead
-	@Input() padLeft: string;
+	valueChanged = new EventEmitter<any>();
+	
+	items: Array<any> = [];
 
-	@Input()
+	private _lock = false;
+	private _innerValue: any;
+	private get innerValue(): any {
+		return this._innerValue;
+	}
+	private set innerValue(v: any) {
+		this._innerValue = v;
+		if (!this._lock)
+			this.valueChanged.emit(v);
+	}
+
+	activeIndex = -1;
+
 	get dataSource(): any {
 		return this._dataSource;
 	}
@@ -74,37 +65,15 @@ export class TypeaheadComponent implements ControlValueAccessor, OnInit {
 		}
 		else
 			throw typeof val;
-		if (this.valueWritten)
-			this.setText();
 	}
 
-	items: Array<any> = [];
-
-
-	activeIndex = -1;
-
-	@Input()
 	displayMember: string;
-
-	@Input()
 	matchOn: Array<string>;
-
-	@Input()
 	limitToList = true;
-
-	@Input()
 	valueMember: string;
-
-	@Input()
     minLength = 1;
-
-    @Input()
     waitMs = 0;
-
-	@Input()
 	hideButton = false;
-
-	@Output()
 	itemSelected = new EventEmitter<any>();
 
 	typeaheadError = false;
@@ -122,7 +91,6 @@ export class TypeaheadComponent implements ControlValueAccessor, OnInit {
 	set value(v: any) {
 		if (v !== this.innerValue) {
 			this.innerValue = v;
-			this.onChangeCallback(this.innerValue);
 		}
 	}
 
@@ -154,7 +122,7 @@ export class TypeaheadComponent implements ControlValueAccessor, OnInit {
 		};
 	}
 
-	protected textValue: string;
+	textValue: string;
 	protected selectItem(item: any) {
 		this.typeaheadError = false;
 		this.textValue = this.displayMember ? this.parserService.getObjectValue(this.displayMember, item) : item;
@@ -224,7 +192,7 @@ export class TypeaheadComponent implements ControlValueAccessor, OnInit {
 	}
 
     private _lastKeypress: Date;
-	protected valueChanged(event: any) {
+	keyup(event: any) {
 		let charCode = event.which || event.keyCode;
 		// which other char codes?
         if ((charCode >= 48 && charCode <= 90) || (charCode >= 96 && charCode <= 111) || (charCode >= 186 && charCode <= 222) || charCode == 8) {
@@ -304,7 +272,7 @@ export class TypeaheadComponent implements ControlValueAccessor, OnInit {
 		}
 	}
 
-	protected keydown(event: any) {
+	keydown(event: any) {
 		this.typeaheadError = false;
 		let charCode = event.which || event.keyCode;
 		switch (charCode) {
@@ -395,47 +363,13 @@ export class TypeaheadComponent implements ControlValueAccessor, OnInit {
 	}
 
 	writeValue(value: any) {
+		this._lock = true;
 		if (value === undefined || value == null) {
 			this.innerValue = null;
-			this.setText();
 		}
 		else if (value !== this.innerValue) {
 			this.innerValue = value;
-			this.valueWritten = true;
-			this.setText();
 		}
-	}
-
-	protected setText() {
-		if (this.innerValue === undefined || this.innerValue === null || this.innerValue === '') {
-			this.textValue = '';
-		}
-		else if (!this.textValue && this.displayMember && !this.valueMember) {
-			this.textValue = this.displayMember ? this.parserService.getObjectValue(this.displayMember, this.innerValue) : this.innerValue;
-		}
-		else if (!this.textValue && this.items && this.items.length > 0) {
-			for (let item of this.items) {
-				if (this.displayMember && this.valueMember) {
-					let val = this.parserService.getObjectValue(this.valueMember, item);
-					if (val == this.innerValue) {
-						this.textValue = this.parserService.getObjectValue(this.displayMember, item);
-						break;
-					}
-				}
-				else if (item == this.innerValue) {
-					this.textValue = item;
-					break;
-				}
-			}
-		}
-
-	}
-
-	registerOnChange(fn: any) {
-		this.onChangeCallback = fn;
-	}
-
-	registerOnTouched(fn: any) {
-		this.onTouchedCallback = fn;
+		this._lock = false;
 	}
 }
