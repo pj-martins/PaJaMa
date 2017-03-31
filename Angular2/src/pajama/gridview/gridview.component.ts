@@ -66,7 +66,7 @@ import { ParserService } from '../services/parser.service';
 					</td>
                 </tr>
                 <tr [hidden]='grid.loading' *ngIf='grid.rowTemplate'>
-                    <td [attr.colspan]="getVisibleColumnCount()"><gridview-rowtemplate [parentGridView]="grid" [parentGridViewComponent]="self" [row]="row"></gridview-rowtemplate></td>
+                    <td [attr.colspan]="getVisibleColumnCount()"><div gridviewRowTemplate [parentGridView]="grid" [parentGridViewComponent]="self" [row]="row"></div></td>
                 </tr>
                 <tr [hidden]='grid.loading' *ngIf='grid.detailGridView' class="detail-gridview-row" [hidden]='!detailGridViewComponents[row[grid.keyFieldName]] || !detailGridViewComponents[row[grid.keyFieldName]].isExpanded()'>
                     <td *ngIf="!grid.detailGridView.hideExpandButton"></td>

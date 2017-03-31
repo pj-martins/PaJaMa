@@ -6,11 +6,11 @@ import { SandboxComponent } from './sandbox/sandbox.component';
 
 const appRoutes: Routes = [
 	{
-		path: 'grid',
+		path: '',
 		component: DemoGridComponent
 	},
 	{
-		path: '', //'demoeditors',
+		path: 'demoeditors',
 		component: DemoEditorsComponent
 	},
 	{

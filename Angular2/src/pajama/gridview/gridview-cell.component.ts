@@ -10,7 +10,7 @@ import { ParserService } from '../services/parser.service';
 	styleUrls: ['gridview.css'],
 	template: `
 <div *ngIf="column.template">
-	<gridview-cell-template [column]="column" [row]="row" [parentGridViewComponent]="parentGridViewComponent" [parentGridView]="parentGridView"></gridview-cell-template>
+	<div gridviewCellTemplate [column]="column" [row]="row" [parentGridViewComponent]="parentGridViewComponent" [parentGridView]="parentGridView"></div>
 </div>
 <div *ngIf="!column.template && column.fieldType == fieldType.Date">
 	<div [innerHTML]="getObjectValue() == null ? '' : getObjectValue() | moment:(column.format ? column.format : 'MM/DD/YYYY')"></div>

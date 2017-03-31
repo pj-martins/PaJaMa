@@ -16,6 +16,8 @@ import { routing } from './app.routing';
 import { DemoGridComponent } from './demo/demo-grid.component';
 import { DemoEditorsComponent } from './demo/demo-editors.component';
 
+import { CoordinatorFilterCellTemplateComponent, CustomerCellTemplateComponent } from './demo/grid-templates.component';
+
 
 import { SandboxComponent } from './sandbox/sandbox.component';
 import { EvenValidatorComponent, EvenValidatorDirective } from './sandbox/even-validator.component';
@@ -44,7 +46,14 @@ import { EvenValidatorComponent, EvenValidatorDirective } from './sandbox/even-v
 
 		SandboxComponent,
 		EvenValidatorComponent,
-		EvenValidatorDirective
+		EvenValidatorDirective,
+
+		CoordinatorFilterCellTemplateComponent,
+		CustomerCellTemplateComponent
+	],
+	entryComponents: [
+		CoordinatorFilterCellTemplateComponent,
+		CustomerCellTemplateComponent
 	],
 	bootstrap: [AppComponent]
 })

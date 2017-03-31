@@ -10,7 +10,7 @@ import { CheckListModule } from '../checklist/checklist.module';
 	template: `
 <div class='gridview-filtercell'>
 	<div *ngIf='column.filterTemplate'>
-		<gridview-filtercell-template [parentGridViewFilterCellComponent]="self" [column]="column"></gridview-filtercell-template>
+		<div gridviewFilterCellTemplate [parentFilterCellComponent]="self" [column]="column"></div>
 	</div>
 	<div *ngIf='!column.filterTemplate' [ngSwitch]='column.filterMode == filterMode.DistinctList || column.filterMode == filterMode.DynamicList || column.filterOptions'>
 		<div *ngSwitchCase='true'>

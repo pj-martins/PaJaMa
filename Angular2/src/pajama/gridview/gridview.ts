@@ -1,4 +1,4 @@
-﻿import { EventEmitter, PipeTransform } from '@angular/core';
+﻿import { EventEmitter, PipeTransform, Type } from '@angular/core';
 import { ParserService } from '../services/parser.service';
 import { OrderByPipe } from '../pipes/order-by.pipe';
 
@@ -18,7 +18,7 @@ export class GridView {
 	pagingType: PagingType = PagingType.Auto;
 	height: string;
 	dataChanged: EventEmitter<any> = new EventEmitter<any>();
-	rowTemplate: GridViewTemplate;
+	rowTemplate: Type<IGridViewRowTemplateComponent>;
 	customProps: { [name: string]: any; } = {};
 	customEvents: any = {};
 	filterVisible: boolean;
@@ -228,7 +228,7 @@ export class ColumnBase {
 	}
 }
 export class DataColumn extends ColumnBase {
-	template: GridViewTemplate;
+	template: Type<IGridViewCellTemplateComponent>;
 	fieldType: FieldType = FieldType.String;
 	columnPipe: ColumnPipe;
 	sortIndex: number = 0;
@@ -237,7 +237,7 @@ export class DataColumn extends ColumnBase {
 	sortable: boolean;
 	disableWrapping: boolean;
 	filterMode: FilterMode = FilterMode.None;
-	filterTemplate: GridViewTemplate;
+	filterTemplate: Type<IGridViewFilterCellTemplateComponent>;
 	filterDelayMilliseconds = 0;
     sortDirection: ColumnSortDirection = ColumnSortDirection.None;
 	customSort: (obj1: any, obj2: any) => number;
@@ -359,9 +359,6 @@ export class DetailGridView extends GridView {
 		return grid;
 	}
 }
-export class GridViewTemplate {
-	constructor(public template: string, public imports?: Array<any>, public declarations?: Array<any>, public styleUrls?: Array<string>) { }
-}
 
 // don't want to clutter storage with unneccessary info
 export class GridState {
@@ -378,4 +375,31 @@ export class GridColumnState {
 	columnIndex: number;
 	filterValue: any;
 	visible: boolean;
+}
+
+export interface IGridViewFilterCellTemplateComponent {
+	column: DataColumn;
+	parentGridView: GridView;
+	parentFilterCellComponent: IGridViewFilterCellComponent;
+}
+
+export interface IGridViewCellTemplateComponent {
+	row: any;
+	column: DataColumn;
+	parentGridView: GridView;
+	parentGridViewComponent: IGridViewComponent;
+}
+
+export interface IGridViewRowTemplateComponent {
+	parentGridView: GridView;
+	row: any;
+	parentGridViewComponent: IGridViewComponent;
+}
+
+export interface IGridViewComponent {
+
+}
+
+export interface IGridViewFilterCellComponent {
+	
 }

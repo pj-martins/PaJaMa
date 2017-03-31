@@ -3,13 +3,11 @@ import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { GridViewComponent } from './gridview.component';
 import { DetailGridViewComponent } from './detail-gridview.component';
-import { GridViewRowTemplateBuilder, GridViewRowTemplateComponent } from './gridview.rowtemplate';
 import { GridViewFilterCellComponent } from './gridview-filtercell.component';
-import { GridViewFilterCellTemplateComponent } from './gridview-filtercell-template.component';
-import { GridViewFilterCellTemplateBuilder } from './gridview-filtercell-template.component';
+import { GridViewFilterCellTemplateDirective } from './gridview-filtercell-template.directive';
 import { GridViewCellComponent } from './gridview-cell.component';
-import { GridViewCellTemplateBuilder } from './gridview-cell-template.component';
-import { GridViewCellTemplateComponent } from './gridview-cell-template.component';
+import { GridViewCellTemplateDirective } from './gridview-cell-template.directive';
+import { GridViewRowTemplateDirective } from './gridview-row-template.directive';
 import { GridViewHeaderCellComponent } from './gridview-headercell.component';
 import { GridViewPagerComponent } from './gridview-pager.component';
 import { GridViewSettingsComponent } from './gridview-settings.component';
@@ -33,19 +31,18 @@ import { CheckListModule } from '../checklist/checklist.module';
 		GridViewPagerComponent,
 		GridViewSettingsComponent,
 		GridViewHeaderCellComponent,
-		GridViewRowTemplateComponent,
-		GridViewCellTemplateComponent,
-		GridViewFilterCellTemplateComponent,
+		GridViewRowTemplateDirective,
+		GridViewCellTemplateDirective,
+		GridViewFilterCellTemplateDirective,
         DetailGridViewComponent
     ],
     exports: [
         GridViewComponent,
         GridViewCellComponent,
         GridViewFilterCellComponent,
-		GridViewRowTemplateComponent,
-		GridViewCellTemplateComponent,
-		GridViewFilterCellTemplateComponent
-    ],
-	providers: [GridViewRowTemplateBuilder, GridViewCellTemplateBuilder, GridViewFilterCellTemplateBuilder]
+		GridViewRowTemplateDirective,
+		GridViewCellTemplateDirective,
+		GridViewFilterCellTemplateDirective
+    ]
 })
 export class GridViewModule { }

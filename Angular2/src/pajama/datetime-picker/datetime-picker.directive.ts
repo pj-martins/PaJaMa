@@ -136,7 +136,10 @@ export class DateTimePickerDirective implements OnInit, OnChanges, Validator {
 
 	ngOnChanges(changes) {
 		// user is typing
-		if (this.elementRef.nativeElement == document.activeElement) return;
+		if (this.elementRef.nativeElement == document.activeElement) {
+			this.elementRef.nativeElement.style.color = this._initialColor;
+			return;
+		}
 		this.elementRef.nativeElement.style.color = this.elementRef.nativeElement.style.backgroundColor || "white";
 		this.formatDate(this.ngModel);
 	}
