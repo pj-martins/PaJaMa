@@ -11,7 +11,7 @@ import * as moment from 'moment'
 			<div class="datetime-picker-controls-panel row" *ngIf="!hideDate">
 				<div class="col-md-4 datetime-picker-clear-right  datetime-picker-month-year-panel">
 					<select [(ngModel)]="selectedMonth" (change)="refreshCalendarDates()">
-						<option *ngFor="let mo of months" [ngValue]="mo.number">{{mo.name.substring(0, 3)}}</option>
+						<option *ngFor="let mo of months" [ngValue]="mo.number" class="month-option id_{{uniqueId}}">{{mo.name.substring(0, 3)}}</option>
 					</select>
 				</div>
 				<div class="col-md-4 datetime-picker-date-panel">
@@ -57,8 +57,8 @@ import * as moment from 'moment'
 					<div class="datetime-picker-bottom-spinner datetime-picker-clickable glyphicon glyphicon-triangle-bottom" (click)="addMinute(true)">
 					</div>
 					<select [(ngModel)]="selectedAMPM">
-						<option>AM</option>
-						<option>PM</option>
+						<option class="ampm-option id_{{uniqueId}}" [ngValue]="'AM'">AM</option>
+						<option class="ampm-option id_{{uniqueId}}" [ngValue]="'PM'">PM</option>
 					</select>
 				</div>
 			</div>

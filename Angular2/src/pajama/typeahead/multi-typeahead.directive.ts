@@ -63,7 +63,7 @@ export class MultiTypeaheadDirective implements OnInit {
 		let factory = this.componentFactoryResolver.resolveComponentFactory(MultiTypeaheadComponent);
 		this._component = this.viewContainerRef.createComponent(factory);
 		this._component.instance.itemsChanged.subscribe(i => {
-			this.elementRef.nativeElement.value = this._component.instance.currText;
+			this.elementRef.nativeElement.value = this._component.instance.currText || "";
 		});
 	}
 
@@ -89,6 +89,7 @@ export class MultiTypeaheadDirective implements OnInit {
 
 	protected keydown(event: any) {
 		this._component.instance.typeahead.keydown(event);
+		this._component.instance.keydown(event, true);
 	}
 
 	protected keyup(event: any) {
