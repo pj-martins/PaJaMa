@@ -119,7 +119,10 @@ export class DateTimePickerDirective implements OnInit, OnChanges, Validator {
 			if (isNaN(date.getTime())) {
 				// might be just a time string
 				let valid = false;
-				let datePart = this.ngModel ? moment(this.ngModel).format('YYYY/MM/DD') : '1900/01/01';
+				let curr = new Date(this.ngModel);
+				if (isNaN(curr.getTime()))
+					curr = new Date(1900, 1, 1);
+				let datePart = this.ngModel ? moment(curr).format('YYYY/MM/DD') : '1900/01/01';
 				date = new Date(datePart + ' ' + formattedDate);
 				valid = !isNaN(date.getTime());
 				if (!valid) {
@@ -130,7 +133,7 @@ export class DateTimePickerDirective implements OnInit, OnChanges, Validator {
 			}
 
 			this._component.instance.updateDateTimeControls(date);
-			this._component.instance.persistDate();
+			this._component.instance.persistDate(true);
 		}
 	}
 

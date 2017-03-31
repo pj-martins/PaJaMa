@@ -109,7 +109,10 @@ export class TypeaheadDirective implements OnInit, OnChanges {
 		this.valueWritten = true;
 	}
 
+	private _keyIsTabOrEnter = false;
 	protected keydown(event: any) {
+		let charCode = event.which || event.keyCode;
+		this._keyIsTabOrEnter = charCode == 13 || charCode == 9;
 		this._component.instance.typeahead.keydown(event);
 	}
 
@@ -120,10 +123,11 @@ export class TypeaheadDirective implements OnInit, OnChanges {
 
 	ngOnChanges(changes) {
 		// user is typing
-		if (this.elementRef.nativeElement == document.activeElement) {
+		if (!this._keyIsTabOrEnter && this.elementRef.nativeElement == document.activeElement) {
 			this.elementRef.nativeElement.style.color = this._initialColor;
 			return;
 		}
+		this._keyIsTabOrEnter = false;
 		this.elementRef.nativeElement.style.color = this.elementRef.nativeElement.style.backgroundColor || "white";
 		this.setText(this.ngModel);
 	}
