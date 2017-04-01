@@ -7,7 +7,7 @@ import { ParserService } from '../services/parser.service';
 @Component({
 	moduleId: module.id,
 	selector: 'gridview-pager',
-	styleUrls: ['gridview-pager.css'],
+	styleUrls: ['gridview-pager.css', 'gridview.css'],
 	template: `
 <div class='show-hide-animation grid-pagination' [hidden]='!(parentGridView.pagingType < 2 && parentGridViewComponent.displayData && parentGridView.data && parentGridView.data.length > 0)'>
     <div [hidden]='parentGridView.pageSize <= 0 || (parentGridView.pagingType == pagingType.Auto ? parentGridViewComponent.unpagedData.length : parentGridView.totalRecords) <= parentGridView.pageSize'>

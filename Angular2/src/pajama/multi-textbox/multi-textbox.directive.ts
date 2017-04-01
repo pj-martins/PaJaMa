@@ -23,7 +23,7 @@ export class MultiTextboxDirective implements OnInit {
 		let factory = this.componentFactoryResolver.resolveComponentFactory(MultiTextboxComponent);
 		this._component = this.viewContainerRef.createComponent(factory);
 		this._component.instance.itemsChanged.subscribe(i => {
-			this.elementRef.nativeElement.value = this._component.instance.currText;
+			this.elementRef.nativeElement.value = this._component.instance.currText || "";
 		});
 	}
 	

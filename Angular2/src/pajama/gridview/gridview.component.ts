@@ -9,12 +9,12 @@ import { ParserService } from '../services/parser.service';
 	selector: 'gridview',
 	styleUrls: ['gridview.css'],
 	template: `
-<div *ngIf="grid">
+<div *ngIf="grid" class='gridview'>
     <div class='header-button' [hidden]='!(hasFilterRow())' (click)='toggleFilter()'><div class='glyphicon glyphicon-filter'></div><strong>&nbsp;&nbsp;Filter</strong></div>
     <div class='header-button' [hidden]='!(hasFilterRow())' style='padding-right:5px'><input type='checkbox' (click)='toggleFilter()' [checked]='grid.filterVisible' /></div>
     <div class='header-button' *ngIf='grid.detailGridView' (click)='collapseAll()' style='margin-bottom:2px'><div class='glyphicon glyphicon-minus'></div><strong>&nbsp;&nbsp;Collapse All</strong></div>
     <div class='header-button' *ngIf='grid.detailGridView' (click)='expandAll()'><div class='glyphicon glyphicon-plus'></div><strong>&nbsp;&nbsp;Expand All</strong></div>
-    <table disable-animate [ngClass]="'gridview ' + (grid.noBorder ? '' : 'grid-border ') + (grid.height ? 'scrollable-table ' : '') + 'table table-condensed'">
+    <table disable-animate [ngClass]="(grid.noBorder ? '' : 'grid-border ') + (grid.height ? 'scrollable-table ' : '') + 'table table-condensed'">
         <thead [hidden]='!grid.showHeader'>
             <tr>
                 <th *ngIf='grid.detailGridView && !grid.detailGridView.hideExpandButton' style='width:39px'></th>
@@ -24,8 +24,8 @@ import { ParserService } from '../services/parser.service';
                 </th>
             </tr>
             <tr [hidden]='!(hasFilterRow() && grid.filterVisible)'>
-                <td *ngIf='grid.detailGridView && !grid.detailGridView.hideExpandButton' style='width:39px'></td>
-                <td *ngFor="let col of grid.columns | orderBy:['columnIndex']" [hidden]='!(col.visible || col.visible === undefined)'>
+                <td class="filter-td" *ngIf='grid.detailGridView && !grid.detailGridView.hideExpandButton' style='width:39px'></td>
+                <td class="filter-td" *ngFor="let col of grid.columns | orderBy:['columnIndex']" [hidden]='!(col.visible || col.visible === undefined)'>
 					<gridview-filtercell *ngIf="col.filterMode && col.filterMode != 0" [parentGridView]="grid" [parentGridViewComponent]="self" [column]='col'>
 					</gridview-filtercell>
 				</td>
@@ -82,10 +82,10 @@ import { ParserService } from '../services/parser.service';
         </tfoot>
     </table>
 	<div class='row'>
-		<div class='pull-left'>
+		<div class='float-left'>
 			<gridview-pager [parentGridView]='grid' [parentGridViewComponent]="self" (pageChanging)='handlePageChanging()' (pageChanged)='handlePageChanged($event)'></gridview-pager>
 		</div>
-		<div class='pull-right gridview-settings'>
+		<div class='float-right gridview-settings'>
 			<gridview-settings [parentGridView]='grid'></gridview-settings>
 		</div>
 	</div>

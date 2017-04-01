@@ -44,7 +44,7 @@ export class MultiTextboxComponent implements OnInit {
 	originalPaddingLeft = -999;
 	private _paddingLeft: number = 0;
 	get paddingLeft() {
-		return this._paddingLeft + this.originalPaddingLeft;
+		return this._paddingLeft + (this.originalPaddingLeft < 0 ? 0 : this.originalPaddingLeft);
 	}
 
 	resize() {

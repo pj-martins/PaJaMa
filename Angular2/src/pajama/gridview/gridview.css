@@ -1,4 +1,9 @@
 .gridview {
+	font-family: Helvetica,Arial,sans-serif;
+	font-size: 14px;
+}
+
+.gridview table {
 	border-width: 1px;
 	border-style: solid;
 	border-color: #027FF4;
@@ -10,6 +15,14 @@
 		color: #fff;
 		font-weight: bold;
 	}
+
+	.gridview td, .gridview th {
+		padding: 4px;
+	}
+
+.filter-td {
+	padding:0px !important;
+}
 
 .scrollable-table {
 	width: 100%;
@@ -85,5 +98,13 @@
 
 
 .gridview th:not(:first-child) {
-	border-left: 1px solid #fff;
+	/*border-left: 1px solid #fff;*/
+}
+
+.float-right {
+	float: right;
+}
+
+.float-left {
+	float: left;
 }
