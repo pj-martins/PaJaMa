@@ -4,7 +4,7 @@
   "private": true,
   "devDependencies": {
     "@types/node": "^6.0.46",
-    "@types/core-js": "^0.9.35"
+    "@types/core-js": "0.9.35"
   },
 	"dependencies": {
 		"@angular/common": "~2.4.4",
