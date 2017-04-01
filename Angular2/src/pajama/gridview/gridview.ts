@@ -295,47 +295,6 @@ export class DataColumn extends ColumnBase {
 export class NumericColumn extends DataColumn {
 	decimalPlaces = 0;
 }
-export class LinkColumn extends DataColumn {
-	url: string;
-	parameters: { [parameterName: string]: string } = {};
-	target: string;
-
-	constructor(public fieldName?: string, public caption?: string) {
-		super(fieldName, caption);
-	}
-}
-export class ButtonColumn extends DataColumn {
-	click = new EventEmitter<any>();
-	class: string;
-	constructor(public fieldName?: string, public caption?: string) {
-		super(fieldName, caption);
-	}
-}
-export class EditColumn extends DataColumn {
-	editType = EditColumn.TEXT;
-	class: string;
-	max: number;
-	min: number;
-
-	ngModelChange = new EventEmitter<any>();
-	static readonly TEXT: string = "text";
-	static readonly TEXTAREA: string = "textarea";
-	static readonly NUMBER: string = "number";
-	static readonly CHECKBOX: string = "checkbox";
-}
-export class CheckListColumn extends DataColumn {
-	get checkList() { return true; }
-	commaSeparated: boolean;
-	items: Array<any>;
-	displayMember: string;
-}
-export class TypeaheadColumn extends DataColumn {
-	// TODO: what else should be exposed?
-	get typeahead() { return true; }
-	ngModelChange = new EventEmitter<any>();
-	items: any;
-	multi: true;
-}
 export class ColumnPipe {
 	constructor(public pipe: PipeTransform, public args?: any) { }
 }

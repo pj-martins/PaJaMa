@@ -1,4 +1,4 @@
-﻿import { Component, Input, Compiler, ViewContainerRef, ViewChild, Injectable, AfterViewInit, Directive, ComponentFactoryResolver, ComponentRef } from '@angular/core';
+﻿import { Component, Input, Compiler, ViewContainerRef, ViewChild, Injectable, OnInit, Directive, ComponentFactoryResolver, ComponentRef } from '@angular/core';
 import { GridView, DataColumn, FieldType, IGridViewRowTemplateComponent, IGridViewComponent } from './gridview';
 import { GridViewComponent } from './gridview.component';
 import { PipesModule } from '../pipes/pipes.module';
@@ -6,7 +6,7 @@ import { PipesModule } from '../pipes/pipes.module';
 @Directive({
 	selector: '[gridviewRowTemplate]'
 })
-export class GridViewRowTemplateDirective implements AfterViewInit, IGridViewRowTemplateComponent {
+export class GridViewRowTemplateDirective implements OnInit, IGridViewRowTemplateComponent {
 	private _component: ComponentRef<IGridViewRowTemplateComponent>;
 	@Input() row: any;
 	@Input() parentGridView: GridView;
@@ -15,7 +15,7 @@ export class GridViewRowTemplateDirective implements AfterViewInit, IGridViewRow
 	constructor(private componentFactoryResolver: ComponentFactoryResolver, private viewContainerRef: ViewContainerRef) {
 	}
 
-	ngAfterViewInit() {
+	ngOnInit() {
 		let factory = this.componentFactoryResolver.resolveComponentFactory(this.parentGridView.rowTemplate);
 		this._component = this.viewContainerRef.createComponent(factory);
 		this._component.instance.row = this.row;

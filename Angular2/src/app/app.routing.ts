@@ -19,7 +19,7 @@ const appRoutes: Routes = [
 	},
 	{
 		path: '',
-		redirectTo: 'editors',
+		redirectTo: 'grid',
 		pathMatch: 'full'
 	}
 ];

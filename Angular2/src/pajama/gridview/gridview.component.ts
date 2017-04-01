@@ -1,5 +1,5 @@
 ﻿import { Component, Input, Output, EventEmitter, OnInit, NgZone, ViewChild } from '@angular/core';
-import { GridView, DataColumn, LinkColumn, FilterMode, ColumnSortDirection, PagingType, FieldType, SelectMode, ColumnBase } from './gridview';
+import { GridView, DataColumn, FilterMode, ColumnSortDirection, PagingType, FieldType, SelectMode, ColumnBase } from './gridview';
 import { DetailGridViewComponent } from './detail-gridview.component';
 import { GridViewPagerComponent } from './gridview-pager.component';
 import { ParserService } from '../services/parser.service';
@@ -205,21 +205,6 @@ export class GridViewComponent {
 			}
 		}
 		return false;
-	}
-
-	protected getLink(column: LinkColumn, row: any) {
-		let url = column.url;
-		for (let k of Object.keys(column.parameters)) {
-			url += `;${k}=${this.parserService.getObjectValue(column.parameters[k], row)}`;
-		}
-		return url;
-	}
-
-	protected getLinkTarget(column: LinkColumn, row: any) {
-		if (column.target) {
-			return `_${this.parserService.getObjectValue(column.target, row)}`;
-		}
-		return '';
 	}
 
 	private _indexWidthInited = false;

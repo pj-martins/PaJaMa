@@ -1,9 +1,10 @@
 ﻿import { Component, OnInit, Type } from '@angular/core';
-import { GridView, DataColumn, FilterMode, FieldType, ColumnSortDirection } from '../../pajama/gridview/gridview';
+import { GridView, DataColumn, FilterMode, FieldType, ColumnSortDirection, DetailGridView, DetailGridViewDataEventArgs } from '../../pajama/gridview/gridview';
 import { TypeaheadModule } from '../../pajama/typeahead/typeahead.module';
 import { MultiTextboxModule } from '../../pajama/multi-textbox/multi-textbox.module';
 import { Event } from '../classes/classes';
-import { CustomerCellTemplateComponent, CoordinatorFilterCellTemplateComponent } from './grid-templates.component';
+import { CustomerCellTemplateComponent, CoordinatorFilterCellTemplateComponent, EventTypeFilterCellTemplateComponent, RequestedByFilterCellTemplateComponent } from './grid-cell-templates.component';
+import { RoomComponent } from './room.component';
 
 declare var EVENTS: Array<Event>;
 
@@ -57,11 +58,6 @@ export class DemoGridComponent implements OnInit {
 		this._coordinatorColumn = new DataColumn("coordinator");
 
 		this._coordinatorColumn.filterMode = FilterMode.Equals;
-//		this._coordinatorColumn.filterTemplate = new GridViewTemplate(`
-//<typeahead [(ngModel)]='column.filterValue' [dataSource]='column.customProps.coordinators'
-//	 (itemSelected)="parentGridViewFilterCellComponent.filterChanged()"
-//	 (ngModelChange)="parentGridViewFilterCellComponent.filterChanged()">
-//</typeahead>`, [TypeaheadModule]);
 		this._coordinatorColumn.filterTemplate = CoordinatorFilterCellTemplateComponent;
 		this._coordinatorColumn.sortable = true;
 		this._coordinatorColumn.allowSizing = true;
@@ -74,21 +70,25 @@ export class DemoGridComponent implements OnInit {
 
 		let evtTypeCol = new DataColumn("hallEventType.eventTypeName", "Event Type");
 		evtTypeCol.filterMode = FilterMode.DynamicList;
-//		evtTypeCol.filterValue = [];
-//		evtTypeCol.filterTemplate = new GridViewTemplate(`
-//<multi-textbox [items]='column.filterValue' (itemsChanged)="parentGridViewFilterCellComponent.filterChanged()"></multi-textbox>
-//`, [MultiTextboxModule]);
+		evtTypeCol.filterValue = [];
+		evtTypeCol.filterTemplate = EventTypeFilterCellTemplateComponent;
 		evtTypeCol.allowSizing = true;
 		this.gridDemo.columns.push(evtTypeCol);
 
 		let requestedByCol = new DataColumn("requestedBy");
 		requestedByCol.filterMode = FilterMode.DistinctList;
-//		requestedByCol.filterValue = [];
-//		requestedByCol.filterTemplate = new GridViewTemplate(`
-//<multi-typeahead [items]='column.filterValue' (itemsChanged)="parentGridViewFilterCellComponent.filterChanged()" [dataSource]='column.filterOptions'></multi-typeahead>
-//`, [TypeaheadModule]);
+		requestedByCol.filterValue = [];
+		requestedByCol.filterTemplate = RequestedByFilterCellTemplateComponent;
 		requestedByCol.sortable = true;
 		this.gridDemo.columns.push(requestedByCol);
+
+		this.gridDemo.keyFieldName = "id";
+
+		let roomsDetailGridView = new DetailGridView();
+		roomsDetailGridView.rowTemplate = RoomComponent;
+		roomsDetailGridView.setChildData.subscribe((e: DetailGridViewDataEventArgs) => e.detailGridViewInstance.data = (<Event>e.parentRow).hallRequestRooms);
+		this.gridDemo.detailGridView = roomsDetailGridView;
+
 		this.gridDemo.loadGridState();
 	}
 

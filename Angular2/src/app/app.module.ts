@@ -16,7 +16,8 @@ import { routing } from './app.routing';
 import { DemoGridComponent } from './demo/demo-grid.component';
 import { DemoEditorsComponent } from './demo/demo-editors.component';
 
-import { CoordinatorFilterCellTemplateComponent, CustomerCellTemplateComponent } from './demo/grid-templates.component';
+import { CoordinatorFilterCellTemplateComponent, CustomerCellTemplateComponent, EventTypeFilterCellTemplateComponent, RequestedByFilterCellTemplateComponent } from './demo/grid-cell-templates.component';
+import { RoomComponent } from './demo/room.component';
 
 
 import { SandboxComponent } from './sandbox/sandbox.component';
@@ -49,11 +50,17 @@ import { EvenValidatorComponent, EvenValidatorDirective } from './sandbox/even-v
 		EvenValidatorDirective,
 
 		CoordinatorFilterCellTemplateComponent,
-		CustomerCellTemplateComponent
+		CustomerCellTemplateComponent,
+		EventTypeFilterCellTemplateComponent,
+		RequestedByFilterCellTemplateComponent,
+		RoomComponent
 	],
 	entryComponents: [
 		CoordinatorFilterCellTemplateComponent,
-		CustomerCellTemplateComponent
+		CustomerCellTemplateComponent,
+		EventTypeFilterCellTemplateComponent,
+		RequestedByFilterCellTemplateComponent,
+		RoomComponent
 	],
 	bootstrap: [AppComponent]
 })
