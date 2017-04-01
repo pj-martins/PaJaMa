@@ -1,12 +1,24 @@
-﻿.datetime-picker-clickable {
+﻿.calendar-button-container {
+	margin-left: -35px;
+	display: inline;
+}
+
+.calendar-button {
+	border: 0px;
+	vertical-align: top;
+	margin-top: 1px;
+	height: 22px;
+	width: 30px;
+	background-color: rgba(255, 255, 255, 0.5);
+}
+
+
+.datetime-picker-clickable {
 	cursor: pointer;
 }
 
 .datetime-picker-calendar-icon {
-	position: absolute;
-	right: 5px;
-	top: 5px;
-	/*right: 18px;*/
+	margin-top: 2px;
 }
 
 .datetime-picker-dropdown {
@@ -53,7 +65,7 @@
 	margin-top: 12px;
 }
 
-.datetime-picker-date-panel .datetime-picker-top-spinner, 
+.datetime-picker-date-panel .datetime-picker-top-spinner,
 .datetime-picker-date-panel .datetime-picker-bottom-spinner {
 	right: 0px;
 }
@@ -74,12 +86,12 @@
 
 .datetime-picker-calendar-day {
 	text-align: right;
-	padding-right:10px;
+	padding-right: 10px;
 }
 
-.datetime-picker-calendar-day:hover {
-	background-color: #d9edf7;
-}
+	.datetime-picker-calendar-day:hover {
+		background-color: #d9edf7;
+	}
 
 .datetime-picker-calendar-table {
 	width: 100%;
@@ -94,14 +106,15 @@
 	color: gray;
 }
 
-.datetime-picker-disabled:hover {
-	background-color:inherit;
-}
+	.datetime-picker-disabled:hover {
+		background-color: inherit;
+	}
 
 .datetime-picker-selected {
 	background-color: #bce8f1;
 	font-weight: bold;
 }
+
 .calendar-day:hover {
 	background-color: #d9edf7;
 }

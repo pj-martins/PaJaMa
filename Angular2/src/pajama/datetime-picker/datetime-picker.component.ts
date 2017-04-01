@@ -1,11 +1,16 @@
-﻿import { Component, Input, Output, EventEmitter, OnInit, forwardRef, NgZone, Directive, Attribute } from '@angular/core';
+﻿import { Component, Input, Output, EventEmitter, OnInit, forwardRef, NgZone, Directive, Attribute, ElementRef } from '@angular/core';
 import { NG_VALUE_ACCESSOR, ControlValueAccessor, AbstractControl, NG_VALIDATORS, Validator, FormControl } from '@angular/forms';
 import * as moment from 'moment'
 
 @Component({
 	moduleId: module.id,
 	selector: 'datetime-picker',
-	template: `<div class="glyphicon glyphicon-calendar datetime-picker-clickable datetime-picker-calendar-icon id_{{uniqueId}}" (click)="dropdownVisible=!dropdownVisible"></div>
+	template: `
+	<div class="calendar-button-container id_{{uniqueId}}">
+		<button class="calendar-button id_{{uniqueId}}" (click)="dropdownVisible=!dropdownVisible">
+			<div class="glyphicon glyphicon-calendar datetime-picker-calendar-icon id_{{uniqueId}}"></div>
+		</button>
+	</div>
 	<div class="datetime-picker-dropdown {{hideDate ? 'datetime-picker-timeonly-dropdown' : ''}} id_{{uniqueId}}" *ngIf="dropdownVisible">
 		<div class="datetime-picker-container id_{{uniqueId}}">
 			<div class="datetime-picker-controls-panel row" *ngIf="!hideDate">
@@ -74,7 +79,8 @@ import * as moment from 'moment'
 				</div>
 			</div>
 		</div>
-	</div>`,
+	</div>
+`,
 	styleUrls: ['datetime-picker.css']
 })
 export class DateTimePickerComponent implements OnInit { // implements ControlValueAccessor, OnInit {
@@ -128,7 +134,7 @@ export class DateTimePickerComponent implements OnInit { // implements ControlVa
 	protected dropdownVisible: boolean = false;
 	protected uniqueId = Math.floor((1 + Math.random()) * 0x10000).toString();
 
-	constructor(private zone: NgZone) { }
+	constructor(private zone: NgZone, public elementRef: ElementRef) { }
 
 	ngOnInit() {
 		// TODO: hackish, need to find a better way to hide drop down when they click off of it, can't use blur

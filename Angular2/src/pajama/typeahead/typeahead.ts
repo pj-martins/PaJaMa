@@ -2,8 +2,10 @@
 import { ParserService } from '../services/parser.service';
 
 export const TYPEAHEAD_TEMPLATE = `
-		<div class='typeahead-button-container' *ngIf='!typeahead.dataSourceFunction && !typeahead.hideButton'>
-			<button class='glyphicon glyphicon-chevron-down typeahead-button button_id_{{uniqueId}}' (click)='typeahead.openByButton()' (keydown)='typeahead.keydown($event)' tabindex="-1"></button>
+		<div class='typeahead-button-container id_{{uniqueId}}' *ngIf='!typeahead.dataSourceFunction && !typeahead.hideButton'>
+			<button class='typeahead-button id_{{uniqueId}}' (click)='typeahead.openByButton()' (keydown)='typeahead.keydown($event)' tabindex="-1">
+				<div class='typeahead-dropdown-image glyphicon glyphicon-chevron-down id_{{uniqueId}}'></div>
+			</button>
 		</div>
 		<div class='typeahead-button-container' *ngIf='typeahead.dataSourceFunction && typeahead.loading'>
 			<span class='glyphicon glyphicon-refresh refresh-icon'></span>
@@ -18,7 +20,7 @@ export const TYPEAHEAD_TEMPLATE = `
 		<strong [hidden]='!typeahead.typeaheadError' class='typeahead-error'>
 			Invalid selection, please select item from list.
 		</strong>
-        `;
+`;
 
 export class Typeahead {
 

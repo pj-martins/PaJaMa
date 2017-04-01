@@ -1,4 +1,10 @@
-﻿.typeahead-popup {
+﻿.typeahead {
+	width:100%;
+	margin-top: -21px;
+	text-align: right;
+}
+
+.typeahead-popup {
 	z-index: 100;
 	position: absolute;
 	border: 1px solid;
@@ -29,18 +35,15 @@
 }
 
 .typeahead-button-container {
-	position: absolute;
-	right: 0;
-	top: 0px;
-	/*margin-left: -35px;
-	display: inline;*/
+	margin-left: -35px;
+	display: inline;
 }
 
 
 .typeahead-button {
 	border: 0px;
 	vertical-align: top;
-	margin-top: 1px;
+	margin-top: 2px;
 	height: 22px;
 	width: 30px;
 	background-color: rgba(255, 255, 255, 0.5);
@@ -75,4 +78,8 @@
 
 .multi-textbox-button-container {
 	display:none !important;
+}
+
+.typeahead-dropdown-image {
+	margin-top: 3px;
 }

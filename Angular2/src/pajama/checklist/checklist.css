@@ -20,28 +20,6 @@
 	max-width: inherit;
 }
 
-.checklist-input-container {
-	width: 100%;
-	display: inline-block;
-}
-
-.checklist-input {
-	/*width: 100%;
-	background: white !important;
-	font: inherit;
-	border: 0px;
-	min-height: 26px;
-	white-space: nowrap;
-	overflow: hidden;
-	text-overflow: ellipsis;
-	text-align: left;
-	padding-left: 8px;*/
-}
-
-.checklist-input-container input {
-	width: 100%;
-}
-
 .checklist-button-container {
 	margin-left: -35px;
 	display: inline;
