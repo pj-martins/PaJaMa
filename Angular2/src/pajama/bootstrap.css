@@ -1,0 +1,34 @@
+﻿.sort-arrow {
+	margin-top: 6px !important;
+}
+
+	.sort-arrow.bottom-empty {
+		margin-top: 12px !important;
+	}
+
+	.sort-arrow.top-empty {
+		margin-top: 2px !important;
+	}
+
+.input-button-container {
+	position: absolute;
+	right: 18px;
+	top: 7px;
+}
+
+.datetime-picker-calendar-icon {
+	border: none !important;
+}
+
+.refresh-icon {
+	margin-right: 4px;
+}
+
+.multi-textbox-item-container {
+	margin-top: -28px !important;
+}
+
+
+.gridview-filtercell .input-button-container {
+	top: 1px !important;
+}

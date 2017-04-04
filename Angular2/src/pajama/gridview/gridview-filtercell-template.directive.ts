@@ -1,4 +1,4 @@
-﻿import { Component, Input, Compiler, ViewContainerRef, ViewChild, Injectable, OnInit, Directive, ComponentFactoryResolver, ComponentRef } from '@angular/core';
+﻿import { Component, Input, Compiler, ViewContainerRef, ViewChild, Injectable, OnInit, Directive, ComponentFactoryResolver, ComponentRef, ElementRef } from '@angular/core';
 import { GridView, DataColumn, FieldType, IGridViewFilterCellComponent, IGridViewFilterCellTemplateComponent } from './gridview';
 import { GridViewFilterCellComponent } from './gridview-filtercell.component';
 import { PipesModule } from '../pipes/pipes.module';
@@ -13,7 +13,8 @@ export class GridViewFilterCellTemplateDirective implements OnInit, IGridViewFil
 	@Input() parentGridView: GridView;
 	@Input() parentFilterCellComponent: IGridViewFilterCellComponent;
 
-	constructor(private componentFactoryResolver: ComponentFactoryResolver, private viewContainerRef: ViewContainerRef) {
+	constructor(private componentFactoryResolver: ComponentFactoryResolver, private viewContainerRef: ViewContainerRef, private elementRef: ElementRef) {
+		//this.elementRef.nativeElement.parentNode.removeChild(this.elementRef.nativeElement);
 	}
 
 	ngOnInit() {

@@ -20,9 +20,9 @@
 .datetime-picker-calendar-icon {
 	border: 1px solid black;
 	height: 10px;
-    width: 14px;
-    border-top: 4px solid black;
-    border-radius: 2px;
+	width: 14px;
+	border-top: 4px solid black;
+	border-radius: 2px;
 }
 
 .datetime-picker-dropdown {
@@ -52,21 +52,17 @@
 	margin-bottom: 4px;
 }
 
-.datetime-picker-clear-right {
-	padding-right: 0px;
-}
-
 .datetime-picker-top-spinner, .datetime-picker-bottom-spinner {
 	font-size: 11px;
 	position: absolute;
 }
 
 .datetime-picker-top-spinner {
-	margin-top: 1px;
+	margin-top: 3px;
 }
 
 .datetime-picker-bottom-spinner {
-	margin-top: 12px;
+	margin-top: 14px;
 }
 
 .datetime-picker-date-panel .datetime-picker-top-spinner,
@@ -74,9 +70,29 @@
 	right: 0px;
 }
 
-.datetime-picker-month-year-panel select {
+.datetime-picker-month-year-panel {
+	margin-bottom:5px;
+}
+
+.datetime-picker-month-year-panel select,
+.datetime-picker-month-year-panel input {
 	height: 24px;
 }
+
+	.datetime-picker-month-year-panel input::-webkit-outer-spin-button,
+	.datetime-picker-month-year-panel input::-webkit-inner-spin-button {
+		/* display: none; <- Crashes Chrome on hover */
+		-webkit-appearance: none;
+		margin: 0; /* <-- Apparently some margin are still there even though it's hidden */
+	}
+
+.datetime-picker-month-year-panel {
+	width: 33.3333333%;
+	float: left;
+	position: relative;
+	margin-right: 10px;
+}
+
 
 .datetime-picker-inner .row {
 	margin: 0px;
@@ -151,5 +167,13 @@
 }
 
 .datetime-picker-button {
-	padding-left:4px;
+	padding-left: 4px;
+}
+
+.arrow-left-right-container {
+	float: right;
+}
+
+.datetime-picker-calendar-table td {
+	padding: 5px;
 }

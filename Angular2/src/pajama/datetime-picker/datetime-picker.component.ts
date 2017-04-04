@@ -8,34 +8,33 @@ import * as moment from 'moment'
 	template: `
 	<div class="input-button-container component id_{{uniqueId}}">
 		<button class="input-button datetime-picker-button id_{{uniqueId}}" (click)="dropdownVisible=!dropdownVisible">
-			<div class="datetime-picker-calendar-icon id_{{uniqueId}}"></div>
+			<div class="datetime-picker-calendar-icon glyphicon glyphicon-calendar id_{{uniqueId}}"></div>
 		</button>
 	</div>
 	<div class="datetime-picker-dropdown component {{hideDate ? 'datetime-picker-timeonly-dropdown' : ''}} id_{{uniqueId}}" *ngIf="dropdownVisible">
 		<div class="datetime-picker-container id_{{uniqueId}}">
-			<div class="datetime-picker-controls-panel row" *ngIf="!hideDate">
-				<div class="col-md-4 datetime-picker-clear-right  datetime-picker-month-year-panel">
+			<div class="datetime-picker-controls-panel" *ngIf="!hideDate">
+				<div class="datetime-picker-month-year-panel">
 					<select [(ngModel)]="selectedMonth" (change)="refreshCalendarDates()">
 						<option *ngFor="let mo of months" [ngValue]="mo.number" class="month-option id_{{uniqueId}}">{{mo.name.substring(0, 3)}}</option>
 					</select>
 				</div>
-				<div class="col-md-4 datetime-picker-date-panel">
+				<div class="datetime-picker-date-panel  datetime-picker-month-year-panel">
 					<input type="number" [(ngModel)]="selectedYear" (change)="refreshCalendarDates()" />
-					<div class="datetime-picker-top-spinner datetime-picker-clickable glyphicon glyphicon-triangle-top" (click)="addYear()">
+				</div>
+				<div class="arrow-up-down-container">
+					<div class="datetime-picker-top-spinner datetime-picker-clickable arrow-up" (click)="addYear()">
 					</div>
-					<div class="datetime-picker-bottom-spinner datetime-picker-clickable glyphicon glyphicon-triangle-bottom" (click)="addYear(true)">
+					<div class="datetime-picker-bottom-spinner datetime-picker-clickable arrow-down" (click)="addYear(true)">
 					</div>
 				</div>
-				<div class="col-md-1"></div>
-				<div class="col-md-1 datetime-picker-clickable datetime-picker-clear-right">
-					<span class="glyphicon glyphicon-triangle-left" (click)="addMonth(true)"></span>
-				</div>
-				<div class="col-md-1 datetime-picker-clickable">
-					<span class="glyphicon glyphicon-triangle-right" (click)="addMonth()"></span>
+				<div class="arrow-left-right-container">
+					<div class="arrow-left datetime-picker-clickable" (click)="addMonth(true)"></div>
+					<div class="arrow-right datetime-picker-clickable" (click)="addMonth()"></div>
 				</div>
 			</div>
 			<div class="datetime-picker-inner" *ngIf="!hideDate">
-				<table class="datetime-picker-calendar-table id_{{uniqueId}}">
+				<table class="datetime-picker-calendar-table id_{{uniqueId}}" cellspacing=0>
 					<tr class="datetime-picker-calendar-header-row">
 						<td *ngFor="let day of dayNames" class="datetime-picker-calendar-header">
 							{{day.substring(0, 2)}}

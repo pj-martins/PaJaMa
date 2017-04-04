@@ -20,6 +20,7 @@ export class MultiTextboxDirective implements OnInit {
 	
 	constructor(private componentFactoryResolver: ComponentFactoryResolver, private viewContainerRef: ViewContainerRef, private elementRef: ElementRef,
 		private parserService: ParserService) {
+		this.elementRef.nativeElement.style.boxSizing = "border-box";
 		let factory = this.componentFactoryResolver.resolveComponentFactory(MultiTextboxComponent);
 		this._component = this.viewContainerRef.createComponent(factory);
 		this._component.instance.itemsChanged.subscribe(i => {

@@ -14,7 +14,7 @@ import { ParserService } from '../services/parser.service';
     <div class='header-button' [hidden]='!(hasFilterRow())' style='padding-right:5px'><input type='checkbox' (click)='toggleFilter()' [checked]='grid.filterVisible' /></div>
     <div class='header-button' *ngIf='grid.detailGridView' (click)='collapseAll()' style='margin-bottom:2px'><div class='glyphicon glyphicon-minus'></div><strong>&nbsp;&nbsp;Collapse All</strong></div>
     <div class='header-button' *ngIf='grid.detailGridView' (click)='expandAll()'><div class='glyphicon glyphicon-plus'></div><strong>&nbsp;&nbsp;Expand All</strong></div>
-    <table disable-animate [ngClass]="(grid.noBorder ? '' : 'grid-border ') + (grid.height ? 'scrollable-table ' : '') + 'table table-condensed'">
+    <table disable-animate [ngClass]="(grid.noBorder ? '' : 'grid-border ') + (grid.height ? 'scrollable-table ' : '') + 'table table-condensed'" cellspacing=0>
         <thead [hidden]='!grid.showHeader'>
             <tr>
                 <th *ngIf='grid.detailGridView && !grid.detailGridView.hideExpandButton' style='width:39px'></th>

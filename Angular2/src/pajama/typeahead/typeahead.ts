@@ -7,10 +7,10 @@ export const TYPEAHEAD_TEMPLATE = `
 				<div class='typeahead-dropdown-image arrow-down id_{{uniqueId}}'></div>
 			</button>
 		</div>
-		<div class='typeahead-button-container' *ngIf='typeahead.dataSourceFunction && typeahead.loading'>
+		<div class='input-button-container' *ngIf='typeahead.dataSourceFunction && typeahead.loading'>
 			<span class='glyphicon glyphicon-refresh refresh-icon'></span>
 		</div>
-		<div [hidden]='!typeahead.dropdownVisible' class='typeahead-popup'>
+		<div [hidden]='!typeahead.dropdownVisible' class='typeahead-popup component'>
 			<div *ngFor='let item of typeahead.items; let i = index' [hidden]='typeahead.itemHidden(item)'>
 				<div class='typeahead-item' class="typeahead-item {{typeahead.activeIndex == i ? 'typeahead-item-selected' : ''}}" (mouseover)='typeahead.hovered(i)' (click)='typeahead.selectItem(item)'>
 					<div [innerHtml]='typeahead.itemDisplay(item)'></div>

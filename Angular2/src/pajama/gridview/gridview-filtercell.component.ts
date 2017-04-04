@@ -6,15 +6,15 @@ import { CheckListModule } from '../checklist/checklist.module';
 @Component({
 	moduleId: module.id,
 	selector: 'gridview-filtercell',
-	styleUrls: ['gridview-filtercell.css'],
+	styleUrls: ['../styles.css', 'gridview-filtercell.css'],
 	template: `
-<div class='gridview-filtercell'>
+<div class='gridview-filtercell col-md-12'>
 	<div *ngIf='column.filterTemplate'>
 		<div gridviewFilterCellTemplate [parentFilterCellComponent]="self" [column]="column"></div>
 	</div>
 	<div *ngIf='!column.filterTemplate' [ngSwitch]='column.filterMode == filterMode.DistinctList || column.filterMode == filterMode.DynamicList || column.filterOptions'>
 		<div *ngSwitchCase='true'>
-			<input type='text' name='filtcheck' [showFilterIcon]='true' [dataSource]='checklistItems' [checkList]='column.filterValue' (selectionChanged)='filterChanged()'  class='filter-check-list' />
+			<input type='text' name='filtcheck' [showFilterIcon]='true' [dataSource]='checklistItems' [checkList]='column.filterValue' (selectionChanged)='filterChanged()'  class='filter-check-list filtercell-textbox' />
 		</div>
 		<div *ngSwitchDefault>
 			<input type='text' [(ngModel)]='column.filterValue' (ngModelChange)='filterChanged()' class="filtercell-textbox" />

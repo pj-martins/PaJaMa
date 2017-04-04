@@ -60,6 +60,7 @@ export class MultiTypeaheadDirective implements OnInit {
 
 	constructor(private componentFactoryResolver: ComponentFactoryResolver, private viewContainerRef: ViewContainerRef, private elementRef: ElementRef,
 		private parserService: ParserService) {
+		this.elementRef.nativeElement.style.boxSizing = "border-box";
 		let factory = this.componentFactoryResolver.resolveComponentFactory(MultiTypeaheadComponent);
 		this._component = this.viewContainerRef.createComponent(factory);
 		this._component.instance.itemsChanged.subscribe(i => {
@@ -72,7 +73,7 @@ export class MultiTypeaheadDirective implements OnInit {
 			if (this._component.instance.originalPaddingLeft == -999) {
 				let padding = window.getComputedStyle(this.elementRef.nativeElement, null).getPropertyValue('padding-left');
 				if (padding) {
-					this._component.instance.originalPaddingLeft = parseInt(padding.replace('px', ''));
+					this._component.instance.originalPaddingLeft = parseFloat(padding.replace('px', ''));
 					if (isNaN(this._component.instance.originalPaddingLeft))
 						this._component.instance.originalPaddingLeft = 0;
 				}

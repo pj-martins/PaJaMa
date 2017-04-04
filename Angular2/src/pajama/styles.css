@@ -1,6 +1,9 @@
 ﻿.component {
-	font-family: Helvetica,Arial,sans-serif;
-	font-size: 14px;
+	font: 14px Helvetica,Arial,sans-serif;
+}
+
+.component input {
+	padding-left: 4px;
 }
 
 .arrow-up, .arrow-down {
@@ -17,6 +20,37 @@
 .arrow-down {
 	border-top: 7px solid black;
 }
+
+.arrow-left, .arrow-right {
+	width: 0;
+	height: 0;
+	border-top: 7px solid transparent;
+	border-bottom: 7px solid transparent;
+}
+
+.arrow-right {
+	border-left: 7px solid black;
+	float: left;
+	margin-left: 10px;
+}
+
+.arrow-left {
+	border-right: 7px solid black;
+	float: left;
+}
+
+.arrow-left-right-container {
+	width: 8.3333333%;
+	float: left;
+	margin-top: 3px;
+	margin-right: 8px;
+}
+
+.arrow-up-down-container {
+	width: 8.3333333%;
+	float: left;
+}
+
 
 .input-button-container {
 	margin-left: -29px;
@@ -43,7 +77,7 @@
 	height: 12px;
 	width: 2px;
 	margin-left: 6px;
-	margin-right:6px;
+	margin-right: 6px;
 	background-color: black;
 	transform: rotate(45deg);
 	-ms-transform: rotate(45deg); /* IE 9 */

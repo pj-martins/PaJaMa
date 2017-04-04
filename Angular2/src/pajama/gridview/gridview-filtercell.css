@@ -1,5 +1,6 @@
 .gridview-filtercell {
 	user-select: none;
+	padding-left: 0px !important
 }
 
 .filtercell-textbox {

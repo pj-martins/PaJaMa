@@ -13,6 +13,13 @@ export class MultiTypeaheadComponent extends MultiTextboxComponent {
 
 	typeahead: Typeahead;
 
+	get currText(): string {
+		return this.typeahead.textValue;;
+	}
+	set currText(v: string) {
+		this.typeahead.textValue = v;
+	}
+
 	constructor(protected elementRef: ElementRef, private parserService: ParserService) {
 		super(elementRef);
 		this.typeahead = new Typeahead(this.parserService);

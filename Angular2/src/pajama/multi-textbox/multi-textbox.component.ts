@@ -1,12 +1,11 @@
 ﻿import { Component, Input, Output, EventEmitter, ElementRef, OnInit } from '@angular/core'
 
 export const MULTITEXTBOX_TEMPLATE = `
-	<div class='input-button-container component' [style.display]="currText ? 'inline' : 'none'">
+	<div class='input-button-container component' [style.display]="currText && !typeahead ? 'inline' : 'none'">
 		<button (click)='addItem()' class="input-button" tabindex="-1">
 			<div class="glyphicon glyphicon-plus"></div>
 		</button>
 	</div>
-	<br />
 	<div class='multi-textbox-item-container component' [style.padding-left]="(originalPaddingLeft <= 0 ? 0 : originalPaddingLeft - 1) + 'px'">
 		<div *ngFor='let item of items || []' class='multi-textbox-item'>
 			{{getObjectValue(item)}}
@@ -38,7 +37,13 @@ export class MultiTextboxComponent implements OnInit {
 	@Output() itemsChanged = new EventEmitter<any>();
 	@Output() paddingChanged = new EventEmitter<any>();
 
-	currText: string;
+	private _currText: string;
+	get currText(): string {
+		return this._currText;
+	}
+	set currText(v: string) {
+		this._currText = v;
+	}
 
 	constructor(protected elementRef: ElementRef) {
 	}
@@ -49,7 +54,7 @@ export class MultiTextboxComponent implements OnInit {
 	originalPaddingLeft = -999;
 	private _paddingLeft: number = 0;
 	get paddingLeft() {
-		return this._paddingLeft + (this.originalPaddingLeft < 0 ? 0 : this.originalPaddingLeft);
+		return this._paddingLeft + (this.originalPaddingLeft < 0 ? 0 : this.originalPaddingLeft) + 5;
 	}
 
 	resize() {
