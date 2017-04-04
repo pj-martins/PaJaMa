@@ -1,36 +1,18 @@
 ﻿.multi-textbox-remove, .multi-textbox-add {
 	cursor: pointer;
+	display:inline-block;
 }
-
-.multi-textbox-button-container {
-	margin-left: -32px;
-	display: inline;
-}
-
-.multi-textbox-button {
-	border: 0px;
-	vertical-align: top;
-	margin-top: 1px;
-	height: 22px;
-	width: 30px;
-	background-color: rgba(255, 255, 255, 0.5);
-}
-
 
 .multi-textbox-item {
 	background-color: #ddd;
 	border-radius: 2px;
 	padding: 2px 6px;
 	margin-top: 1px;
-	margin-left: 1px;
-	display:inline;
+	margin-left: 2px;
+	display: inline-block;
 }
 
 .multi-textbox-item-container {
-	/*position: absolute;
-	top: 0px;*/
-	/*display: inline;
-	left: 0px;*/
-	margin-top:-21px;
-	margin-left:1px;
+	margin-top: -21px;
+	margin-left: 1px;
 }

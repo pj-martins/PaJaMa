@@ -6,12 +6,12 @@ import * as moment from 'moment'
 	moduleId: module.id,
 	selector: 'datetime-picker',
 	template: `
-	<div class="calendar-button-container id_{{uniqueId}}">
-		<button class="calendar-button id_{{uniqueId}}" (click)="dropdownVisible=!dropdownVisible">
-			<div class="glyphicon glyphicon-calendar datetime-picker-calendar-icon id_{{uniqueId}}"></div>
+	<div class="input-button-container component id_{{uniqueId}}">
+		<button class="input-button datetime-picker-button id_{{uniqueId}}" (click)="dropdownVisible=!dropdownVisible">
+			<div class="datetime-picker-calendar-icon id_{{uniqueId}}"></div>
 		</button>
 	</div>
-	<div class="datetime-picker-dropdown {{hideDate ? 'datetime-picker-timeonly-dropdown' : ''}} id_{{uniqueId}}" *ngIf="dropdownVisible">
+	<div class="datetime-picker-dropdown component {{hideDate ? 'datetime-picker-timeonly-dropdown' : ''}} id_{{uniqueId}}" *ngIf="dropdownVisible">
 		<div class="datetime-picker-container id_{{uniqueId}}">
 			<div class="datetime-picker-controls-panel row" *ngIf="!hideDate">
 				<div class="col-md-4 datetime-picker-clear-right  datetime-picker-month-year-panel">
@@ -81,7 +81,7 @@ import * as moment from 'moment'
 		</div>
 	</div>
 `,
-	styleUrls: ['datetime-picker.css']
+	styleUrls: ['../styles.css', 'datetime-picker.css']
 })
 export class DateTimePickerComponent implements OnInit { // implements ControlValueAccessor, OnInit {
 

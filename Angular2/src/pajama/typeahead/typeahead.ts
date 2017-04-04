@@ -2,9 +2,9 @@
 import { ParserService } from '../services/parser.service';
 
 export const TYPEAHEAD_TEMPLATE = `
-		<div class='typeahead-button-container id_{{uniqueId}}' *ngIf='!typeahead.dataSourceFunction && !typeahead.hideButton'>
-			<button class='typeahead-button id_{{uniqueId}}' (click)='typeahead.openByButton()' (keydown)='typeahead.keydown($event)' tabindex="-1">
-				<div class='typeahead-dropdown-image glyphicon glyphicon-chevron-down id_{{uniqueId}}'></div>
+		<div class='input-button-container id_{{uniqueId}}' *ngIf='!typeahead.dataSourceFunction && !typeahead.hideButton'>
+			<button class='input-button id_{{uniqueId}}' (click)='typeahead.openByButton()' (keydown)='typeahead.keydown($event)' tabindex="-1">
+				<div class='typeahead-dropdown-image arrow-down id_{{uniqueId}}'></div>
 			</button>
 		</div>
 		<div class='typeahead-button-container' *ngIf='typeahead.dataSourceFunction && typeahead.loading'>

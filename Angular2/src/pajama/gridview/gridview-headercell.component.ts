@@ -7,17 +7,17 @@ import { ParserService } from '../services/parser.service';
 @Component({
 	moduleId: module.id,
 	selector: 'gridview-headercell',
-	styleUrls: ['gridview-headercell.css'],
+	styleUrls: ['../styles.css', 'gridview-headercell.css'],
 	template: `
 <div class='sort-header' (click)='setSort(column, $event)' [id]='column.getIdentifier()' draggable="true" (dragover)="dragOver($event)" (dragstart)="dragStart($event)" (drop)="drop($event)">
 	<div class='header-caption' [style.width]="(column.fieldName || column.sortField) && column.sortable ? '' : '100%'">
 		<div [innerHTML]="column.getCaption()"></div>
 	</div>
 	<div [ngClass]="{ 'header-caption sort-arrows' : (column.fieldName || column.sortField) && column.sortable }" *ngIf='(column.fieldName || column.sortField) && column.sortable'>
-		<div [ngClass]="'sort-arrow top-empty' + (column.sortDirection == sortDirection.None ? ' glyphicon glyphicon-menu-up' : '')"></div>
-		<div [ngClass]="'sort-arrow bottom-empty' + (column.sortDirection == sortDirection.None ? ' glyphicon glyphicon-menu-down' : '')"></div>
-		<div [ngClass]="'sort-arrow' + (column.sortDirection == sortDirection.Desc ? ' glyphicon glyphicon-menu-up' : '')"></div>
-		<div [ngClass]="'sort-arrow' + (column.sortDirection == sortDirection.Asc ? ' glyphicon glyphicon-menu-down' : '')"></div>
+		<div [ngClass]="'top-empty' + (column.sortDirection == sortDirection.None ? ' arrow-up' : '') + ' sort-arrow'"></div>
+		<div [ngClass]="'bottom-empty' + (column.sortDirection == sortDirection.None ? ' arrow-down' : '') + ' sort-arrow'"></div>
+		<div [ngClass]="'sort-arrow' + (column.sortDirection == sortDirection.Desc ? ' arrow-up' : '')"></div>
+		<div [ngClass]="'sort-arrow' + (column.sortDirection == sortDirection.Asc ? ' arrow-down' : '')"></div>
 	</div>
 </div>
 <div class='resize-div' *ngIf='column.allowSizing' (mousedown)='startResize($event)'>|</div>

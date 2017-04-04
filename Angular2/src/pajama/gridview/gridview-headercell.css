@@ -9,7 +9,7 @@
 }
 
 .sort-arrows {
-	margin-left: 10px !important;
+	margin-left: 13px !important;
 }
 
 .header-caption {
@@ -20,14 +20,15 @@
 
 .sort-arrow {
 	position: absolute;
+	margin-top:5px;
 }
 
 	.sort-arrow.top-empty {
-		margin-top: -4px;
+		margin-top: 0px;
 	}
 
 	.sort-arrow.bottom-empty {
-		margin-top: 4px;
+		margin-top: 8px;
 	}
 
 .resize-div {
@@ -48,4 +49,12 @@
 gridview-headercell {
 	position: relative;
 	overflow: hidden;
+}
+
+.arrow-up {
+	border-bottom: 7px solid white;
+}
+
+.arrow-down {
+	border-top: 7px solid white;
 }

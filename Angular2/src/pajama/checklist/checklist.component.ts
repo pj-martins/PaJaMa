@@ -10,9 +10,9 @@ export class CheckListItem {
 	moduleId: module.id,
 	selector: 'checklist',
 	template: `
-		<div class='checklist-button-container id_{{uniqueId}}'>
-			<button (click)='dropdownVisible = !dropdownVisible' class="checklist-button id_{{uniqueId}}">
-				<div class="drop-down-image glyphicon id_{{uniqueId}} {{ allSelected || !showFilterIcon ? 'glyphicon-chevron-down' : 'glyphicon-filter'}}"></div>
+		<div class='input-button-container id_{{uniqueId}}'>
+			<button (click)='dropdownVisible = !dropdownVisible' class="input-button id_{{uniqueId}}">
+				<div class="drop-down-image id_{{uniqueId}} {{ allSelected || !showFilterIcon ? 'arrow-down' : 'glyphicon-filter'}}"></div>
 			</button>
 		</div>
         <div class='checklist-dropdown' [hidden]='!dropdownVisible'>
@@ -25,7 +25,7 @@ export class CheckListItem {
             </div>
         </div>
 `,
-	styleUrls: ['checklist.css']
+	styleUrls: ['../styles.css', 'checklist.css']
 })
 export class CheckListComponent implements OnInit {
 	displayMember: string;

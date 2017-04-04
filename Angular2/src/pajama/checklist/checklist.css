@@ -20,20 +20,6 @@
 	max-width: inherit;
 }
 
-.checklist-button-container {
-	margin-left: -35px;
-	display: inline;
-}
-
-.checklist-button {
-	border: 0px;
-	vertical-align: top;
-	margin-top: 2px;
-	height: 22px;
-	width: 30px;
-	background-color: rgba(255, 255, 255, 0.5);
-}
-
 .checklist-dropdown {
 	z-index: 1;
 	position: absolute;

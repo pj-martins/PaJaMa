@@ -7,9 +7,9 @@ import { ParserService } from '../services/parser.service';
 @Component({
 	moduleId: module.id,
 	selector: 'gridview',
-	styleUrls: ['gridview.css'],
+	styleUrls: ['../styles.css', 'gridview.css'],
 	template: `
-<div *ngIf="grid" class='gridview'>
+<div *ngIf="grid" class='gridview component'>
     <div class='header-button' [hidden]='!(hasFilterRow())' (click)='toggleFilter()'><div class='glyphicon glyphicon-filter'></div><strong>&nbsp;&nbsp;Filter</strong></div>
     <div class='header-button' [hidden]='!(hasFilterRow())' style='padding-right:5px'><input type='checkbox' (click)='toggleFilter()' [checked]='grid.filterVisible' /></div>
     <div class='header-button' *ngIf='grid.detailGridView' (click)='collapseAll()' style='margin-bottom:2px'><div class='glyphicon glyphicon-minus'></div><strong>&nbsp;&nbsp;Collapse All</strong></div>

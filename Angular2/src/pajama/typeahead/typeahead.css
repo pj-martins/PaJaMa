@@ -34,21 +34,6 @@
 	outline: 0;
 }
 
-.typeahead-button-container {
-	margin-left: -35px;
-	display: inline;
-}
-
-
-.typeahead-button {
-	border: 0px;
-	vertical-align: top;
-	margin-top: 2px;
-	height: 22px;
-	width: 30px;
-	background-color: rgba(255, 255, 255, 0.5);
-}
-
 .typeahead-error {
 	color: red;
 }

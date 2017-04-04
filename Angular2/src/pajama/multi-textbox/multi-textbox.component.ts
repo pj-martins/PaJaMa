@@ -1,15 +1,20 @@
 ﻿import { Component, Input, Output, EventEmitter, ElementRef, OnInit } from '@angular/core'
 
 export const MULTITEXTBOX_TEMPLATE = `
-	<div class='multi-textbox-button-container' [style.display]="currText ? 'inline' : 'none'">
-		<button (click)='addItem()' class="multi-textbox-button" tabindex="-1">
+	<div class='input-button-container component' [style.display]="currText ? 'inline' : 'none'">
+		<button (click)='addItem()' class="input-button" tabindex="-1">
 			<div class="glyphicon glyphicon-plus"></div>
 		</button>
 	</div>
-	<div class='multi-textbox-item-container' [style.padding-left]="(originalPaddingLeft <= 0 ? 0 : originalPaddingLeft - 1) + 'px'">
+	<br />
+	<div class='multi-textbox-item-container component' [style.padding-left]="(originalPaddingLeft <= 0 ? 0 : originalPaddingLeft - 1) + 'px'">
 		<div *ngFor='let item of items || []' class='multi-textbox-item'>
 			{{getObjectValue(item)}}
-			<div class='glyphicon glyphicon-remove multi-textbox-remove' (click)='removeItem(item)'></div>
+			<div class='multi-textbox-remove close-outer' (click)='removeItem(item)'>
+				<div class='close-inner'>
+					<div class='close-icon'></div>
+				</div>
+			</div>
 		</div>
 	</div>
 `;
@@ -18,7 +23,7 @@ export const MULTITEXTBOX_TEMPLATE = `
 	moduleId: module.id,
 	selector: 'multi-textbox',
 	template: MULTITEXTBOX_TEMPLATE,
-	styleUrls: ['multi-textbox.css']
+	styleUrls: ['../styles.css', 'multi-textbox.css']
 })
 export class MultiTextboxComponent implements OnInit {
 
