@@ -24,6 +24,7 @@ export class CheckListDirective {
 	}
 	set checkList(v: Array<any>) {
 		this._component.instance.selectedItems = v;
+		this.elementRef.nativeElement.value = this._component.instance.selectedText;
 	}
 
 	@Input()
@@ -32,6 +33,7 @@ export class CheckListDirective {
 	}
 	set dataSource(v: Array<any>) {
 		this._component.instance.dataSource = v;
+		this.elementRef.nativeElement.value = this._component.instance.selectedText;
 	}
 
 	@Input()

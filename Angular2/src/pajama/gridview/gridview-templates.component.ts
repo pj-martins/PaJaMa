@@ -1,9 +1,9 @@
-﻿import { GridView, DataColumn, IGridViewFilterCellTemplateComponent, IGridViewComponent, IGridViewCellTemplateComponent, IGridViewRowTemplateComponent } from './gridview';
+﻿import { GridView, DataColumn, IGridViewFilterCellComponent, IGridViewFilterCellTemplateComponent, IGridViewComponent, IGridViewCellTemplateComponent, IGridViewRowTemplateComponent } from './gridview';
 
 export abstract class GridViewFilterCellTemplateComponent implements IGridViewFilterCellTemplateComponent {
 	column: DataColumn;
 	parentGridView: GridView;
-	parentFilterCellComponent: IGridViewFilterCellTemplateComponent;
+	parentFilterCellComponent: IGridViewFilterCellComponent;
 }
 
 export abstract class GridViewCellTemplateComponent implements IGridViewCellTemplateComponent {

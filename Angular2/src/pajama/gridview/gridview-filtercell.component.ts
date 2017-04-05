@@ -1,5 +1,5 @@
 ﻿import { Component, Input, OnInit, ElementRef } from '@angular/core';
-import { DataColumn, FilterMode, GridView } from './gridview';
+import { DataColumn, FilterMode, GridView, IGridViewFilterCellComponent } from './gridview';
 import { GridViewComponent } from './gridview.component';
 import { CheckListModule } from '../checklist/checklist.module';
 
@@ -23,7 +23,7 @@ import { CheckListModule } from '../checklist/checklist.module';
 </div>
 `
 })
-export class GridViewFilterCellComponent implements OnInit {
+export class GridViewFilterCellComponent implements OnInit, IGridViewFilterCellComponent {
 	@Input() column: DataColumn;
 	@Input() parentGridView: GridView
 	@Input() parentGridViewComponent: GridViewComponent;
@@ -66,7 +66,7 @@ export class GridViewFilterCellComponent implements OnInit {
 	}
 
 	private _lastChange: Date;
-	protected filterChanged() {
+	filterChanged() {
 		if (this.column.filterDelayMilliseconds > 0) {
 			this._lastChange = new Date();
 			window.setTimeout(() => {

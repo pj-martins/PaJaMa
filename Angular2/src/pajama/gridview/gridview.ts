@@ -164,23 +164,58 @@ export class GridView {
 		this.pageSize = state.pageSize;
 		this.filterVisible = state.filterVisible;
 
+		// make a clone as to not hinder original list
+		let copy = new Array<ColumnBase>();
 		for (let col of this.columns) {
+			copy.push(col);
+		}
+		let orderedCols: Array<ColumnBase> = new OrderByPipe().transform(copy, ['-columnIndex']);
+
+		let refilter = false;
+		// lets set ordering, visibility, filtering first
+		for (let col of orderedCols) {
 			for (let colState of state.gridColumnStates) {
 				if (col.getIdentifier() != colState.identifier) continue;
 				col.columnIndex = colState.columnIndex;
-				col.width = colState.width;
 				col.visible = colState.visible;
 				if (col instanceof DataColumn) {
 					let cd = <DataColumn>col;
 					cd.sortDirection = colState.sortDirection;
 					cd.sortIndex = colState.sortIndex;
 					if (colState.filterValue instanceof Array) {
-						if (colState.filterValue.length > 0)
+						if (colState.filterValue.length > 0) {
 							cd.filterValue = colState.filterValue;
+							refilter = true;
+						}
 					}
-					else if (colState.filterValue)
+					else if (colState.filterValue) {
 						cd.filterValue = colState.filterValue;
+						refilter = true;
+					}
 				}
+				break;
+			}
+		}
+
+		if (refilter)
+			this.dataChanged.emit(this);
+
+		// recalculate indices in case we have duplicates
+		orderedCols = new OrderByPipe().transform(orderedCols, ['columnIndex']);
+		for (let i = 0; i < orderedCols.length; i++) {
+			orderedCols[i].columnIndex = i;
+		}
+
+		// we need the last column to be a floater, so after we've set indices correctly we can now
+		// determine the true last column
+		orderedCols = new OrderByPipe().transform(orderedCols, ['-columnIndex']);
+		for (let i = 0; i < orderedCols.length; i++) {
+			let col = orderedCols[i];
+			for (let colState of state.gridColumnStates) {
+				if (col.getIdentifier() != colState.identifier) continue;
+				// last column is floater
+				col.width = i == 0 ? "" : colState.width;
+				break;
 			}
 		}
 	}
@@ -239,8 +274,9 @@ export class DataColumn extends ColumnBase {
 	filterMode: FilterMode = FilterMode.None;
 	filterTemplate: Type<IGridViewFilterCellTemplateComponent>;
 	filterDelayMilliseconds = 0;
-    sortDirection: ColumnSortDirection = ColumnSortDirection.None;
+	sortDirection: ColumnSortDirection = ColumnSortDirection.None;
 	customSort: (obj1: any, obj2: any) => number;
+	customFilter: (obj: any) => boolean;
 
 	private _filterOptions: any[];
 	get filterOptions(): any[] {
@@ -329,7 +365,7 @@ export class GridState {
 export class GridColumnState {
 	identifier: string;
 	width: string;
-    sortDirection: ColumnSortDirection;
+	sortDirection: ColumnSortDirection;
 	sortIndex: number;
 	columnIndex: number;
 	filterValue: any;
@@ -360,5 +396,5 @@ export interface IGridViewComponent {
 }
 
 export interface IGridViewFilterCellComponent {
-	
+	filterChanged(): void;
 }

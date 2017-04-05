@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+﻿import { Component } from '@angular/core';
 import { Room } from '../classes/classes';
 import { Observable } from 'rxjs/Rx';
 

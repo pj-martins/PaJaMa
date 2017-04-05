@@ -30,6 +30,8 @@ export class GridViewCellComponent {
 
 	@Input() parentGridViewComponent: GridViewComponent;
 	@Input() parentGridView: GridView;
+	@Input() first: boolean;
+	@Input() last: boolean;
 
 	protected fieldType = FieldType;
 

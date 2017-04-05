@@ -7,7 +7,7 @@ import * as moment from 'moment'
 	selector: 'datetime-picker',
 	template: `
 	<div class="input-button-container component id_{{uniqueId}}">
-		<button class="input-button datetime-picker-button id_{{uniqueId}}" (click)="dropdownVisible=!dropdownVisible">
+		<button class="input-button datetime-picker-button id_{{uniqueId}}" (click)="showDropdown()">
 			<div class="datetime-picker-calendar-icon glyphicon glyphicon-calendar id_{{uniqueId}}"></div>
 		</button>
 	</div>
@@ -222,6 +222,12 @@ export class DateTimePickerComponent implements OnInit { // implements ControlVa
 
 	protected selectNow() {
 		this.updateDateTimeControls(new Date());
+	}
+
+	protected showDropdown() {
+		this.dropdownVisible = !this.dropdownVisible;
+		if (this.innerValue)
+			this.updateDateTimeControls(this.innerValue);
 	}
 
 	updateDateTimeControls(newDateTime: Date) {

@@ -19,7 +19,7 @@
 		}
 
 
-.column-menu {
+.column-menu, .help-text {
 	position: fixed;
 	font-size: 14px;
 	text-align: left;
@@ -47,13 +47,17 @@
 	white-space: nowrap;
 }
 
-.column-close-button {
+.column-close-button, .help-text-close-button {
 	cursor: pointer;
 	float: right;
 	padding: 5px;
 }
 
-.customize-header {
+.customize-header, .help-text-header {
 	background-color: #e3e6e8;
 	height: 30px;
+}
+
+.help-text-body {
+	padding: 25px;
 }

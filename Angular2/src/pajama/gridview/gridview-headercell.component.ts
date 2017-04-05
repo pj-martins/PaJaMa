@@ -9,7 +9,7 @@ import { ParserService } from '../services/parser.service';
 	selector: 'gridview-headercell',
 	styleUrls: ['../styles.css', 'gridview-headercell.css'],
 	template: `
-<div class='sort-header' (click)='setSort(column, $event)' [id]='column.getIdentifier()' draggable="true" (dragover)="dragOver($event)" (dragstart)="dragStart($event)" (drop)="drop($event)">
+<div class="sort-header" (click)='setSort(column, $event)' [id]='column.getIdentifier()' draggable="true" (dragover)="dragOver($event)" (dragstart)="dragStart($event)" (drop)="drop($event)">
 	<div class='header-caption' [style.width]="(column.fieldName || column.sortField) && column.sortable ? '' : '100%'">
 		<div [innerHTML]="column.getCaption()"></div>
 	</div>
@@ -20,19 +20,22 @@ import { ParserService } from '../services/parser.service';
 		<div [ngClass]="'sort-arrow' + (column.sortDirection == sortDirection.Asc ? ' arrow-down' : '')"></div>
 	</div>
 </div>
-<div class='resize-div' *ngIf='column.allowSizing' (mousedown)='startResize($event)'>|</div>
+<div class='resize-div' *ngIf='column.allowSizing && !last' (mousedown)='startResize($event)'>|</div>
 `
 })
 export class GridViewHeaderCellComponent {
 	@Input() column: DataColumn;
 	@Input() parentGridView: GridView;
 	@Input() columnIndex: number;
+	@Input() first: boolean;
+	@Input() last: boolean;
 	@Output() sortChanged = new EventEmitter<DataColumn>();
 	@Output() widthChanged = new EventEmitter<DataColumn>();
 
-	constructor(private elementRef: ElementRef, private zone: NgZone) { }
 
-    sortDirection = ColumnSortDirection;
+	constructor(public elementRef: ElementRef, private zone: NgZone) { }
+
+	sortDirection = ColumnSortDirection;
 
 	setSort(column: DataColumn, event: any) {
 		if (!column.sortable) return;
@@ -42,7 +45,7 @@ export class GridViewHeaderCellComponent {
 			if (col == column) continue;
 			if (col.sortable) {
 				if (!event.ctrlKey) {
-                    col.sortDirection = ColumnSortDirection.None;
+					col.sortDirection = ColumnSortDirection.None;
 					col.sortIndex = 0;
 				}
 				else if (col.sortIndex > maxIndex)
@@ -53,16 +56,16 @@ export class GridViewHeaderCellComponent {
 			column.sortIndex = maxIndex + 1;
 
 		if (column.sortDirection === undefined) {
-            column.sortDirection = ColumnSortDirection.Asc;
+			column.sortDirection = ColumnSortDirection.Asc;
 		}
 		else {
 			switch (column.sortDirection) {
-                case ColumnSortDirection.None:
-                case ColumnSortDirection.Desc:
-                    column.sortDirection = ColumnSortDirection.Asc;
+				case ColumnSortDirection.None:
+				case ColumnSortDirection.Desc:
+					column.sortDirection = ColumnSortDirection.Asc;
 					break;
 				case 1:
-                    column.sortDirection = ColumnSortDirection.Desc;
+					column.sortDirection = ColumnSortDirection.Desc;
 					break;
 			}
 		}
@@ -71,24 +74,26 @@ export class GridViewHeaderCellComponent {
 			this.sortChanged.emit(column);
 	}
 
-	private _origMove;
-	private _origUp;
-	private _currEvt;
+	private _origMove: any;
+	private _origUp: any;
+	private _origX: number;
 	private _lockedColumns: Array<LockedColumn> = [];
 	private _parentTH: any;
+	private _origWidth: number;
 
 	// we could set the column widths directly but that will cause grid to redraw which would
 	// be expensive, so we'll wait until after
-	protected startResize(evt) {
+	protected startResize(evt: any) {
 		if (this.elementRef.nativeElement.parentElement.nextElementSibling == null)
 			return;
 
 		this.elementRef.nativeElement.draggable = false;
-		this._currEvt = evt;
+		this._origX = evt.clientX;
 		this._origMove = window.onmousemove;
 		this._origUp = window.onmouseup;
 		this._lockedColumns = [];
 		this._parentTH = this.elementRef.nativeElement.parentElement;
+		this._origWidth = this._parentTH.offsetWidth;
 		var next = this._parentTH.nextElementSibling;
 		while (next != null) {
 			if (next.nextElementSibling == null) {
@@ -126,7 +131,7 @@ export class GridViewHeaderCellComponent {
 	protected endResize() {
 		window.onmousemove = this._origMove;
 		window.onmouseup = this._origUp;
-		this._currEvt = null;
+		this._origX = 0;
 		this._origMove = null;
 		this._origUp = null;
 		if (this._resized) {
@@ -151,15 +156,13 @@ export class GridViewHeaderCellComponent {
 	}
 
 	private _resized = false;
-	private resize(event) {
-		if (this._currEvt && event.buttons == 1) {
-			let currX = event.clientX;
-			let delta = event.clientX - this._currEvt.clientX;
-			this._parentTH.style.width = (this._parentTH.offsetWidth + delta).toString() + 'px';
+	private resize(event: any) {
+		if (this._origX && event.buttons == 1) {
+			let delta = event.clientX - this._origX;
+			this._parentTH.style.width = (this._origWidth + delta).toString() + 'px';
 			for (let locked of this._lockedColumns) {
 				locked.parentTH.width = locked.originalWidth;
 			}
-			this._currEvt = event;
 			this._resized = true;
 		}
 		else {
