@@ -1,5 +1,5 @@
 ﻿import { Component, OnInit } from '@angular/core';
-import { GridView, DataColumn, FilterMode, FieldType, ColumnSortDirection } from '../../pajama/gridview/gridview';
+import { GridView, DataColumn, FilterMode, FieldType } from '../../pajama/gridview/gridview';
 import { GridViewCellTemplateComponent, GridViewFilterCellTemplateComponent } from '../../pajama/gridview/gridview-templates.component';
 
 @Component({

@@ -66,6 +66,7 @@ export class MultiTypeaheadDirective implements OnInit {
 		this._component.instance.itemsChanged.subscribe(i => {
 			this.elementRef.nativeElement.value = this._component.instance.currText || "";
 		});
+		this.elementRef.nativeElement.style.width = "100%";
 	}
 
 	ngOnInit() {

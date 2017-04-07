@@ -1,4 +1,4 @@
-﻿import { ModuleWithProviders } from '@angular/core';
+import { ModuleWithProviders } from '@angular/core';
 import { Routes, RouterModule, RouterOutletMap } from '@angular/router';
 import { DemoGridComponent } from './demo/demo-grid.component';
 import { DemoEditorsComponent } from './demo/demo-editors.component';

@@ -1,4 +1,4 @@
-﻿import { Component, Input, forwardRef, Directive } from '@angular/core';
+import { Component, Input, forwardRef, Directive } from '@angular/core';
 import { NG_VALUE_ACCESSOR, ControlValueAccessor, AbstractControl, Validator, NG_VALIDATORS, FormControl } from '@angular/forms';
 
 const noop = () => {

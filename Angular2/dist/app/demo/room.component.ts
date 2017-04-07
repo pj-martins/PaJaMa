@@ -1,6 +1,6 @@
-﻿import { Component } from '@angular/core';
+import { Component } from '@angular/core';
 import { Room } from '../classes/classes';
-import { GridViewRowTemplateComponent } from '../../pajama/gridview/gridview-templates.component'
+import { GridViewRowTemplateComponent } from 'pajama/gridview/gridview-templates.component'
 
 @Component({
 	moduleId: module.id,

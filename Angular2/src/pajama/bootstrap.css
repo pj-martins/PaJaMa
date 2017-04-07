@@ -11,9 +11,8 @@
 	}
 
 .input-button-container {
-	position: absolute;
-	right: 18px;
-	top: 7px;
+	top: -27px !important;
+	right: 8px !important;
 }
 
 .datetime-picker-calendar-icon {

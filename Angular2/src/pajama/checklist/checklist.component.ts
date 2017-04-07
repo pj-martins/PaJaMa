@@ -1,4 +1,4 @@
-import { Component, Input, Output, EventEmitter, OnInit, NgZone } from '@angular/core';
+import { Component, Input, Output, EventEmitter, OnInit, NgZone, ElementRef } from '@angular/core';
 
 export class CheckListItem {
 	selected: boolean;
@@ -10,6 +10,7 @@ export class CheckListItem {
 	moduleId: module.id,
 	selector: 'checklist',
 	template: `
+	<div class='checklist'>
 		<div class='input-button-container id_{{uniqueId}}'>
 			<button (click)='dropdownVisible = !dropdownVisible' class="input-button id_{{uniqueId}}">
 				<div class="drop-down-image id_{{uniqueId}} {{ allSelected || !showFilterIcon ? 'arrow-down' : 'glyphicon glyphicon-filter'}}"></div>
@@ -24,6 +25,7 @@ export class CheckListItem {
                 </div>
             </div>
         </div>
+	</div>
 `,
 	styleUrls: ['../styles.css', 'checklist.css']
 })

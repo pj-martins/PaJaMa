@@ -40,7 +40,7 @@
 }
 
 .arrow-left-right-container {
-	width: 8.3333333%;
+	width: 9.3333333%;
 	float: left;
 	margin-top: 3px;
 	margin-right: 8px;
@@ -53,8 +53,10 @@
 
 
 .input-button-container {
-	margin-left: -29px;
-	display: inline;
+	display:block;
+	position:absolute;
+	top: -20px;
+	right: 0px;
 }
 
 .input-button {

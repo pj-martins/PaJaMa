@@ -1,5 +1,6 @@
 ﻿import { Component, Input, Output, EventEmitter, OnInit, NgZone, ViewChild, ViewChildren, QueryList } from '@angular/core';
-import { GridView, DataColumn, FilterMode, ColumnSortDirection, PagingType, FieldType, SelectMode, ColumnBase, GridState } from './gridview';
+import { GridView, DataColumn, FilterMode, PagingType, FieldType, SelectMode, ColumnBase, GridState } from './gridview';
+import { SortDirection } from '../shared';
 import { DetailGridViewComponent } from './detail-gridview.component';
 import { GridViewPagerComponent } from './gridview-pager.component';
 import { GridViewHeaderCellComponent } from './gridview-headercell.component';
@@ -20,7 +21,7 @@ import { ParserService } from '../services/parser.service';
             <tr>
                 <th *ngIf='grid.detailGridView && !grid.detailGridView.hideExpandButton' style='width:39px'></th>
                 <th *ngIf='grid.allowRowSelect' style='width:1%'></th>
-                <th *ngFor="let col of grid.columns | orderBy:['columnIndex'];let i = index;let last = last; let first = first" [hidden]='!col.visible' [style.width]="col.width" [ngClass]="col.allowSizing && !last ? 'resize-border' : ''">
+                <th *ngFor="let col of grid.columns | orderBy:['columnIndex'];let i = index;let last = last; let first = first" [hidden]='!col.visible' [style.width]="col.width" [ngClass]="!last ? 'resize-border' : ''">
                     <gridview-headercell (sortChanged)='handleSortChanged($event)' [first]='first' [last]='last' [columnIndex]='i' [column]='col' [parentGridView]="grid"></gridview-headercell>
                 </th>
             </tr>
@@ -59,7 +60,7 @@ import { ParserService } from '../services/parser.service';
                 </td>
             </tr>
             <tr [hidden]='!(grid.loading)' style="display:none"><td [attr.colspan]="getVisibleColumnCount() + 1"></td></tr>
-            <template ngFor let-row [ngForOf]="displayData" let-i="index">
+            <ng-template ngFor let-row [ngForOf]="displayData" let-i="index">
                 <tr [hidden]='grid.loading' *ngIf='!grid.rowTemplate' [ngClass]="(grid.getRowClass ? grid.getRowClass(row) : '') + (i % 2 != 0 ? ' gridview-alternate-row' : '') + (grid.selectMode > 0 ? ' selectable-row' : '') + (selectedKeys[row[grid.keyFieldName]] ? ' selected-row' : '')" (click)='rowClick(row)'>
                     <td *ngIf='grid.detailGridView && !grid.detailGridView.hideExpandButton' style='width:39px'><button class="glyphicon glyphicon-small {{detailGridViewComponents[row[grid.keyFieldName]] && detailGridViewComponents[row[grid.keyFieldName]].isExpanded() ? 'glyphicon-minus' : 'glyphicon-plus'}}" (click)='expandCollapse(row[grid.keyFieldName])'></button></td>
                     <td *ngFor="let col of grid.columns | orderBy:['columnIndex'];let last = last; let first = first" [hidden]='!(!grid.rowTemplate && (col.visible || col.visible === undefined))' [ngClass]="col.getRowCellClass ? col.getRowCellClass(row) : (col.disableWrapping ? 'no-wrap' : '')">
@@ -73,7 +74,7 @@ import { ParserService } from '../services/parser.service';
                     <td *ngIf="!grid.detailGridView.hideExpandButton"></td>
                     <td [attr.colspan]="getVisibleColumnCount()" class='detailgrid-container'><detail-gridview [parentGridViewComponent]="self" [detailGridView]="grid.detailGridView" [row]="row"></detail-gridview></td>
                 </tr>
-            </template>
+            </ng-template>
         </tbody>
         <tfoot *ngIf='grid.showFooter'>
             <tr>
@@ -164,7 +165,7 @@ export class GridViewComponent {
 
 	detailGridViewComponents: { [keyFieldValue: string]: DetailGridViewComponent } = {};
 	protected self: GridViewComponent = this;
-    protected sortDirection = ColumnSortDirection;
+    protected sortDirection = SortDirection;
 	protected fieldType = FieldType;
 
 	private _unpagedData: Array<any>;
@@ -277,7 +278,7 @@ export class GridViewComponent {
 		let sorts = new Array<DataColumn>();
 		if (this.grid.columns) {
 			for (let col of this.grid.getDataColumns()) {
-                if (col.fieldName && col.sortDirection !== undefined && col.sortDirection != ColumnSortDirection.None) {
+                if (col.fieldName && col.sortDirection !== undefined && col.sortDirection != SortDirection.None) {
 					if (col.sortIndex === undefined)
 						col.sortIndex = 0;
 					sorts.push(col);
@@ -312,7 +313,7 @@ export class GridViewComponent {
 				if (aval == bval)
 					continue;
 
-                if (curr.sortDirection == ColumnSortDirection.Desc)
+                if (curr.sortDirection == SortDirection.Desc)
 					return aval > bval ? -1 : 1;
 
 				return aval < bval ? -1 : 1;
@@ -375,6 +376,7 @@ export class GridViewComponent {
 	private showRow(row: any): boolean {
 
 		for (let col of this.grid.getDataColumns()) {
+			if (!col.visible) continue;
 			if (col.customFilter) {
 				if (!col.customFilter(row))
 					return false;

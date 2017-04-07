@@ -6,6 +6,7 @@ import * as moment from 'moment'
 	moduleId: module.id,
 	selector: 'datetime-picker',
 	template: `
+<div class='datetime-picker'>
 	<div class="input-button-container component id_{{uniqueId}}">
 		<button class="input-button datetime-picker-button id_{{uniqueId}}" (click)="showDropdown()">
 			<div class="datetime-picker-calendar-icon glyphicon glyphicon-calendar id_{{uniqueId}}"></div>
@@ -79,6 +80,7 @@ import * as moment from 'moment'
 			</div>
 		</div>
 	</div>
+</div>
 `,
 	styleUrls: ['../styles.css', 'datetime-picker.css']
 })

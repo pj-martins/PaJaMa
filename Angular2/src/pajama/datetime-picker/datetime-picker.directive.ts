@@ -93,7 +93,7 @@ export class DateTimePickerDirective implements OnInit, OnChanges, Validator {
 		// UGLY, this fires before the initial value
 		// blank it first so we can format the text without flickering unformatted
 		this.elementRef.nativeElement.style.color = this.elementRef.nativeElement.style.backgroundColor || "white";
-		//this.elementRef.nativeElement.style.width = "100%";
+		this.elementRef.nativeElement.style.width = "100%";
 	}
 
 	ngOnInit() {

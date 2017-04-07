@@ -1,5 +1,6 @@
 ﻿import { Component, OnInit, Type } from '@angular/core';
-import { GridView, DataColumn, FilterMode, FieldType, ColumnSortDirection, DetailGridView, DetailGridViewDataEventArgs } from '../../pajama/gridview/gridview';
+import { GridView, DataColumn, FilterMode, FieldType, DetailGridView, DetailGridViewDataEventArgs } from '../../pajama/gridview/gridview';
+import { SortDirection } from '../../pajama/shared';
 import { TypeaheadModule } from '../../pajama/typeahead/typeahead.module';
 import { MultiTextboxModule } from '../../pajama/multi-textbox/multi-textbox.module';
 import { Event } from '../classes/classes';
@@ -46,7 +47,7 @@ export class DemoGridComponent implements OnInit {
 		let startCol = new DataColumn("eventStartDT", "Start");
 		startCol.fieldType = FieldType.Date;
 		startCol.sortable = true;
-        startCol.sortDirection = ColumnSortDirection.Desc;
+        startCol.sortDirection = SortDirection.Desc;
 		startCol.width = "110px";
 		this.gridDemo.columns.push(startCol);
 

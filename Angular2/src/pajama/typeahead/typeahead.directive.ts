@@ -100,6 +100,7 @@ export class TypeaheadDirective implements OnInit, OnChanges {
 			//this.setText(v);
 		});
 		this._initialColor = this.elementRef.nativeElement.style.color;
+		this.elementRef.nativeElement.style.width = "100%";
 	}
 
 	ngOnInit() {

@@ -18,8 +18,11 @@ import { ParserService } from '../services/parser.service';
 <div *ngIf="!column.template && !column.format && column.fieldType == fieldType.Boolean">
 	<div [ngClass]="{ 'glyphicon glyphicon-ok' : getObjectValue(false) == true }"></div>
 </div>
+<div *ngIf="!column.template && column.click">
+	<button class="{{column.class}}" (click)="column.click.emit(row)">{{getObjectValue('')}}</button>
+</div>
 <!-- TODO: should we allow links to above items? duplication here too -->
-<div *ngIf="column.fieldType != fieldType.Date && column.fieldType != fieldType.Boolean && !column.template && !column.format">
+<div *ngIf="column.fieldType != fieldType.Date && column.fieldType != fieldType.Boolean && !column.template && !column.format && !column.click">
 	<div [innerHTML]="getObjectValue('')"></div>
 </div>
 `

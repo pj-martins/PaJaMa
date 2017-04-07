@@ -1,5 +1,5 @@
 ﻿import { Component, Input, Output, EventEmitter } from '@angular/core';
-import { GridView, DataColumn, FieldType, ColumnSortDirection, PagingType } from './gridview';
+import { GridView, DataColumn, FieldType, PagingType } from './gridview';
 import { GridViewComponent } from './gridview.component';
 import { PipesModule } from '../pipes/pipes.module';
 import { ParserService } from '../services/parser.service';

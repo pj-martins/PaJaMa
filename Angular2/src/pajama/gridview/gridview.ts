@@ -1,6 +1,7 @@
 ﻿import { EventEmitter, PipeTransform, Type } from '@angular/core';
 import { ParserService } from '../services/parser.service';
 import { OrderByPipe } from '../pipes/order-by.pipe';
+import { SortDirection } from '../shared';
 
 export class GridView {
 	private _data: Array<any>;
@@ -140,7 +141,8 @@ export class GridView {
 		for (let col of this.columns) {
 			let colState = new GridColumnState();
 			colState.identifier = col.getIdentifier();
-			colState.columnIndex = col.columnIndex;
+			if (this.allowColumnOrdering)
+				colState.columnIndex = col.columnIndex;
 			colState.width = col.width;
 			colState.visible = col.visible;
 			if (col instanceof DataColumn) {
@@ -176,7 +178,8 @@ export class GridView {
 		for (let col of orderedCols) {
 			for (let colState of state.gridColumnStates) {
 				if (col.getIdentifier() != colState.identifier) continue;
-				col.columnIndex = colState.columnIndex;
+				if (this.allowColumnOrdering)
+					col.columnIndex = colState.columnIndex;
 				col.visible = colState.visible;
 				if (col instanceof DataColumn) {
 					let cd = <DataColumn>col;
@@ -192,6 +195,10 @@ export class GridView {
 						cd.filterValue = colState.filterValue;
 						refilter = true;
 					}
+					else if (cd.filterValue) {
+						cd.filterValue = null;
+						refilter = true;
+					}
 				}
 				break;
 			}
@@ -202,8 +209,10 @@ export class GridView {
 
 		// recalculate indices in case we have duplicates
 		orderedCols = new OrderByPipe().transform(orderedCols, ['columnIndex']);
-		for (let i = 0; i < orderedCols.length; i++) {
-			orderedCols[i].columnIndex = i;
+		if (this.allowColumnOrdering) {
+			for (let i = 0; i < orderedCols.length; i++) {
+				orderedCols[i].columnIndex = i;
+			}
 		}
 
 		// we need the last column to be a floater, so after we've set indices correctly we can now
@@ -219,11 +228,6 @@ export class GridView {
 			}
 		}
 	}
-}
-export enum ColumnSortDirection {
-	None,
-	Asc,
-	Desc
 }
 export enum FilterMode {
 	None,
@@ -274,7 +278,7 @@ export class DataColumn extends ColumnBase {
 	filterMode: FilterMode = FilterMode.None;
 	filterTemplate: Type<IGridViewFilterCellTemplateComponent>;
 	filterDelayMilliseconds = 0;
-	sortDirection: ColumnSortDirection = ColumnSortDirection.None;
+	sortDirection: SortDirection = SortDirection.None;
 	customSort: (obj1: any, obj2: any) => number;
 	customFilter: (obj: any) => boolean;
 
@@ -331,6 +335,13 @@ export class DataColumn extends ColumnBase {
 export class NumericColumn extends DataColumn {
 	decimalPlaces = 0;
 }
+export class ButtonColumn extends DataColumn {
+	click = new EventEmitter<any>();
+	class: string;
+	constructor(public fieldName?: string, public caption?: string) {
+		super(fieldName, caption);
+	}
+}
 export class ColumnPipe {
 	constructor(public pipe: PipeTransform, public args?: any) { }
 }
@@ -365,7 +376,7 @@ export class GridState {
 export class GridColumnState {
 	identifier: string;
 	width: string;
-	sortDirection: ColumnSortDirection;
+	sortDirection: SortDirection;
 	sortIndex: number;
 	columnIndex: number;
 	filterValue: any;

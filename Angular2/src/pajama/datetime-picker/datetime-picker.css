@@ -12,6 +12,9 @@
 	background-color: rgba(255, 255, 255, 0.5);
 }
 
+.datetime-picker {
+	position: relative;
+}
 
 .datetime-picker-clickable {
 	cursor: pointer;
@@ -71,20 +74,20 @@
 }
 
 .datetime-picker-month-year-panel {
-	margin-bottom:5px;
+	margin-bottom: 5px;
 }
 
-.datetime-picker-month-year-panel select,
-.datetime-picker-month-year-panel input {
-	height: 24px;
-}
-
-	.datetime-picker-month-year-panel input::-webkit-outer-spin-button,
-	.datetime-picker-month-year-panel input::-webkit-inner-spin-button {
-		/* display: none; <- Crashes Chrome on hover */
-		-webkit-appearance: none;
-		margin: 0; /* <-- Apparently some margin are still there even though it's hidden */
+	.datetime-picker-month-year-panel select,
+	.datetime-picker-month-year-panel input {
+		height: 24px;
 	}
+
+		.datetime-picker-month-year-panel input::-webkit-outer-spin-button,
+		.datetime-picker-month-year-panel input::-webkit-inner-spin-button {
+			/* display: none; <- Crashes Chrome on hover */
+			-webkit-appearance: none;
+			margin: 0; /* <-- Apparently some margin are still there even though it's hidden */
+		}
 
 .datetime-picker-month-year-panel {
 	width: 33.3333333%;

@@ -1,6 +1,7 @@
 ﻿import { Component, Input, Output, EventEmitter, ElementRef, OnInit } from '@angular/core'
 
 export const MULTITEXTBOX_TEMPLATE = `
+<div class='multi-textbox'>
 	<div class='input-button-container component' [style.display]="currText && !typeahead ? 'inline' : 'none'">
 		<button (click)='addItem()' class="input-button" tabindex="-1">
 			<div class="glyphicon glyphicon-plus"></div>
@@ -16,6 +17,7 @@ export const MULTITEXTBOX_TEMPLATE = `
 			</div>
 		</div>
 	</div>
+</div>
 `;
 
 @Component({

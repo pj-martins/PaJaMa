@@ -1,10 +1,10 @@
-﻿import { Directive, ViewContainerRef, ComponentFactoryResolver, TemplateRef, Input, Output, ComponentRef, ElementRef, EventEmitter } from '@angular/core';
+﻿import { Directive, ViewContainerRef, ComponentFactoryResolver, TemplateRef, Input, Output, ComponentRef, ElementRef, EventEmitter, AfterViewInit } from '@angular/core';
 import { CheckListComponent } from './checklist.component';
 import * as moment from 'moment'
 
 @Directive({
 	selector: '[checkList]',
-	host: { '(click)' : 'editorClick()' }
+	host: { '(click)': 'editorClick()', '(keydown)':'keydown($event)' },
 })
 export class CheckListDirective {
 	private _component: ComponentRef<CheckListComponent>;
@@ -59,9 +59,9 @@ export class CheckListDirective {
 	set disableAll(v: boolean) {
 		this._component.instance.disableAll = v;
 	}
-	
+
 	@Output()
-	get selectionChanged() : EventEmitter<any> {
+	get selectionChanged(): EventEmitter<any> {
 		return this._component.instance.selectionChanged;
 	}
 	set selectionChanged(v: EventEmitter<any>) {
@@ -72,12 +72,22 @@ export class CheckListDirective {
 		this._component.instance.dropdownVisible = !this._component.instance.dropdownVisible;
 	}
 
+	protected positionButton() {
+		let btnContainer = this.elementRef.nativeElement.nextSibling.getElementsByClassName("input-button-container")[0];
+		btnContainer.style.top = (-1 * this.elementRef.nativeElement.offsetHeight).toString() + 'px';
+		btnContainer.style.left = this.elementRef.nativeElement.offsetWidth.toString() + 'px';
+	}
+
+	protected keydown(evt) {
+		evt.preventDefault();
+	}
+
 	constructor(private componentFactoryResolver: ComponentFactoryResolver, private viewContainerRef: ViewContainerRef, private elementRef: ElementRef) {
 		let factory = this.componentFactoryResolver.resolveComponentFactory(CheckListComponent);
 		this._component = this.viewContainerRef.createComponent(factory);
 		this._component.instance.selectionChanged.subscribe(s => {
 			this.elementRef.nativeElement.value = this._component.instance.selectedText;
 		});
-		this.elementRef.nativeElement.readOnly = true;
+		this.elementRef.nativeElement.style.width = "100%";
 	}
 }

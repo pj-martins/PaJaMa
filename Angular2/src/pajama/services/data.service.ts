@@ -3,6 +3,7 @@ import { Http, Response } from '@angular/http';
 import { Observable } from 'rxjs/Rx';
 import 'rxjs/add/operator/map';
 import 'rxjs/add/operator/catch';
+import { SortDirection } from '../shared';
 
 @Injectable()
 export class DataService {
@@ -172,10 +173,6 @@ export class ODataArguments extends GetArguments {
 	includeCount: boolean;
 }
 
-export enum SortDirection {
-	Asc,
-	Desc
-}
 export class OrderBy {
 	constructor(public sortField: string, public sortDirection: SortDirection = SortDirection.Asc) { }
 }

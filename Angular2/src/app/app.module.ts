@@ -22,6 +22,7 @@ import { RoomComponent } from './demo/room.component';
 
 import { SandboxComponent } from './sandbox/sandbox.component';
 import { EvenValidatorComponent, EvenValidatorDirective } from './sandbox/even-validator.component';
+import { TestComponent } from './sandbox/test.component';
 
 @NgModule({
 	imports: [
@@ -53,7 +54,9 @@ import { EvenValidatorComponent, EvenValidatorDirective } from './sandbox/even-v
 		CustomerCellTemplateComponent,
 		EventTypeFilterCellTemplateComponent,
 		RequestedByFilterCellTemplateComponent,
-		RoomComponent
+		RoomComponent,
+
+		TestComponent,
 	],
 	entryComponents: [
 		CoordinatorFilterCellTemplateComponent,

@@ -1,5 +1,5 @@
 ﻿import { Component, Input, Output, EventEmitter } from '@angular/core';
-import { GridView } from './gridview';
+import { GridView, ColumnBase, DataColumn } from './gridview';
 
 @Component({
 	moduleId: module.id,
@@ -22,8 +22,8 @@ import { GridView } from './gridview';
 	</div>
 	<ul [style.display]="customizingColumns ? 'block' : 'none'">
 		<li *ngFor='let col of parentGridView.columns' class='column-menu-item'>
-			&nbsp;&nbsp;&nbsp;<input type='checkbox' [(ngModel)]='col.visible' (ngModelChange)='parentGridView.saveGridState()' />
-			<span (click)='col.visible = !col.visible'>&nbsp;&nbsp;{{col.getCaption()}}</span>
+			&nbsp;&nbsp;&nbsp;<input type='checkbox' [(ngModel)]='col.visible' (ngModelChange)='visibilityChanged(col)' />
+			<span (click)='showHideColumn(col)'>&nbsp;&nbsp;{{col.getCaption()}}</span>
 		</li>
 	</ul>
 </div>
@@ -58,7 +58,7 @@ import { GridView } from './gridview';
 		before the column it is dropped on. If you drag to the right it will appear after the column it is dropped on.
 		<br /><br />
 		<strong>Oh No!</strong><br />
-		You may get yourself into a pickle where you've lost your way around and have gotten the grid into an undesired state, no worries! To reset the grid, click on the button labeled "Settings" and click on "Reset" grid to reset to the default state.
+		You may get yourself into a pickle where you've lost your way around and have gotten the grid into an undesired state, no worries! To reset the grid, click on the button labeled "Settings" and click on "Reset" to reset to the default state.
 	</div>
 </div>
 `
@@ -78,5 +78,17 @@ export class GridViewSettingsComponent {
 	protected customizeColumns() {
 		this.customizingColumns = true;
 		this.menuDown = false;
+	}
+
+	protected visibilityChanged(col: ColumnBase) {
+		if (col instanceof DataColumn && (<DataColumn>col).filterValue)
+			this.parentGridView.dataChanged.emit(this.parentGridView);
+
+		this.parentGridView.saveGridState();
+	}
+
+	protected showHideColumn(col: ColumnBase) {
+		col.visible = !col.visible;
+		this.visibilityChanged(col);
 	}
 }

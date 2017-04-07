@@ -26,6 +26,7 @@ export class MultiTextboxDirective implements OnInit {
 		this._component.instance.itemsChanged.subscribe(i => {
 			this.elementRef.nativeElement.value = this._component.instance.currText || "";
 		});
+		this.elementRef.nativeElement.style.width = "100%";
 	}
 	
 	protected keydown(event: any) {

@@ -1,5 +1,6 @@
 ﻿import { Component, Input, Output, EventEmitter, ElementRef, NgZone } from '@angular/core';
-import { GridView, DataColumn, FieldType, ColumnSortDirection, ColumnBase } from './gridview';
+import { GridView, DataColumn, FieldType, ColumnBase } from './gridview';
+import { SortDirection } from '../shared';
 import { GridViewComponent } from './gridview.component';
 import { PipesModule } from '../pipes/pipes.module';
 import { ParserService } from '../services/parser.service';
@@ -35,7 +36,7 @@ export class GridViewHeaderCellComponent {
 
 	constructor(public elementRef: ElementRef, private zone: NgZone) { }
 
-	sortDirection = ColumnSortDirection;
+	sortDirection = SortDirection;
 
 	setSort(column: DataColumn, event: any) {
 		if (!column.sortable) return;
@@ -45,7 +46,7 @@ export class GridViewHeaderCellComponent {
 			if (col == column) continue;
 			if (col.sortable) {
 				if (!event.ctrlKey) {
-					col.sortDirection = ColumnSortDirection.None;
+					col.sortDirection = SortDirection.None;
 					col.sortIndex = 0;
 				}
 				else if (col.sortIndex > maxIndex)
@@ -56,16 +57,16 @@ export class GridViewHeaderCellComponent {
 			column.sortIndex = maxIndex + 1;
 
 		if (column.sortDirection === undefined) {
-			column.sortDirection = ColumnSortDirection.Asc;
+			column.sortDirection = SortDirection.Asc;
 		}
 		else {
 			switch (column.sortDirection) {
-				case ColumnSortDirection.None:
-				case ColumnSortDirection.Desc:
-					column.sortDirection = ColumnSortDirection.Asc;
+				case SortDirection.None:
+				case SortDirection.Desc:
+					column.sortDirection = SortDirection.Asc;
 					break;
 				case 1:
-					column.sortDirection = ColumnSortDirection.Desc;
+					column.sortDirection = SortDirection.Desc;
 					break;
 			}
 		}
