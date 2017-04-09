@@ -2,7 +2,7 @@
 	<div class="row">
 		<div class="col-md-1">Basic:</div>
 		<div class="col-md-3">
-			<input type="text" dateTimePicker [(ngModel)]='selectedDateTime' style="width:90%" />
+			<input type="text" dateTimePicker [(ngModel)]='selectedDateTime' />
 		</div>
 	</div>
 	<br />
@@ -53,14 +53,14 @@
 	<div class="row">
 		<div class="col-md-1">Basic:</div>
 		<div class="col-md-3">
-			<input type="text" [dataSource]="dataSource" checkList />
+			<checklist type="text" [dataSource]="dataSource"></checklist>
 		</div>
 	</div>
 	<br />
 	<div class="row">
 		<div class="col-md-1">Display Member:</div>
 		<div class="col-md-3">
-			<input type="text" [dataSource]="rooms" displayMember="roomName" [checkList]="selectedRooms" />
+			<checklist type="text" [dataSource]="rooms" displayMember="roomName" [selectedItems]="selectedRooms"></checklist>
 		</div>
 		<div class="col-md-7">
 			<div *ngFor="let sr of selectedRooms">{{'ID: ' + sr.id + ' - Room Name: ' + sr.roomName}}</div>

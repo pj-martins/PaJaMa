@@ -2,9 +2,10 @@
 	font: 14px Helvetica,Arial,sans-serif;
 }
 
-.component input {
-	padding-left: 4px;
-}
+	input.component {
+		padding-left: 6px;
+		width: 100% !important;
+	}
 
 .arrow-up, .arrow-down {
 	width: 0;
@@ -53,8 +54,8 @@
 
 
 .input-button-container {
-	display:block;
-	position:absolute;
+	display: block;
+	position: absolute;
 	top: -20px;
 	right: 0px;
 }

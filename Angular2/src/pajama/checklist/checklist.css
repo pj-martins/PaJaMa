@@ -7,6 +7,29 @@
 	cursor: pointer;
 }
 
+.checklist-button {
+	width: 100%;
+	background-color: white;
+	border-width: 1px;
+	border-style: solid;
+	border-color: #aaa;
+	height: 20px;
+	position: relative;
+	text-align: left;
+}
+
+.checklist-button-text {
+	display: inline-block;
+}
+
+.checklist-button-image {
+	display: inline-block;
+	right: 0px;
+	position: absolute;
+	right: 7px;
+	top: 4px;
+}
+
 .checklist-item-all {
 	font-style: italic;
 }
@@ -27,7 +50,7 @@
 	background-color: white;
 	border-color: grey;
 	padding: 5px;
-	min-width: 100%;
+	min-width: 160px;
 	white-space: nowrap;
 	overflow-x: hidden;
 	overflow-y: auto;

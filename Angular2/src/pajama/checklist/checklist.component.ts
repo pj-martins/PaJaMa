@@ -10,7 +10,23 @@ export class CheckListItem {
 	moduleId: module.id,
 	selector: 'checklist',
 	template: `
+	<button (click)='dropdownVisible = !dropdownVisible' class="checklist-button id_{{uniqueId}} {{class}}">
+		<div class="checklist-button-text">{{selectedText}}</div>
+		<div class="drop-down-image checklist-button-image id_{{uniqueId}} {{ allSelected || !showFilterIcon ? 'arrow-down' : 'glyphicon glyphicon-filter'}}"></div>
+	</button>
 	<div class='checklist'>
+		<div class='checklist-dropdown' [hidden]='!dropdownVisible'>
+			<div *ngIf='!disableAll' (click)='selectAll()' class='checklist-item checklist-item-all id_{{uniqueId}}'>
+				<div class="checklist-check glyphicon {{ allSelected ? 'glyphicon-ok' : 'glyphicon-none'}}"></div>(Select All)</div>
+				<div *ngFor='let item of displayItems' (click)='selectItem(item)' class='checklist id_{{uniqueId}}'>
+				<div class='checklist-item id_{{uniqueId}}'>
+					<div class="checklist-check glyphicon {{ item.selected ? 'glyphicon-ok' : 'glyphicon-none'}}"></div>{{displayMember ? item.item[displayMember] : item.item}}
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<!--<div class='checklist'>
 		<div class='input-button-container id_{{uniqueId}}'>
 			<button (click)='dropdownVisible = !dropdownVisible' class="input-button id_{{uniqueId}}">
 				<div class="drop-down-image id_{{uniqueId}} {{ allSelected || !showFilterIcon ? 'arrow-down' : 'glyphicon glyphicon-filter'}}"></div>
@@ -25,15 +41,27 @@ export class CheckListItem {
                 </div>
             </div>
         </div>
-	</div>
+	</div>-->
 `,
 	styleUrls: ['../styles.css', 'checklist.css']
 })
 export class CheckListComponent implements OnInit {
+	@Input()
 	displayMember: string;
+
+	@Input()
+	class: string;
+
+	@Input()
 	showFilterIcon = false;
+
+	@Input()
 	disableAll = false;
+
+	@Output()
 	selectionChanged = new EventEmitter<any>();
+
+	@Input()
 	showMultiplesEllipses = false;
 
 	protected displayItems: Array<CheckListItem> = [];
@@ -42,6 +70,7 @@ export class CheckListComponent implements OnInit {
 	constructor(private zone: NgZone) { }
 
 	private _value: Array<any> = [];
+	@Input()
 	get selectedItems(): any {
 		return this._value;
 	}
@@ -52,6 +81,7 @@ export class CheckListComponent implements OnInit {
 
 
 	private _dataSource: Array<any> = [];
+	@Input()
 	get dataSource(): Array<any> {
 		return this._dataSource;
 	}

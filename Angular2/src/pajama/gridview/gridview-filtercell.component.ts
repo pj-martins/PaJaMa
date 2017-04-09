@@ -14,7 +14,7 @@ import { CheckListModule } from '../checklist/checklist.module';
 	</div>
 	<div *ngIf='!column.filterTemplate' [ngSwitch]='column.filterMode == filterMode.DistinctList || column.filterMode == filterMode.DynamicList || column.filterOptions'>
 		<div *ngSwitchCase='true'>
-			<input type='text' name='filtcheck' [showFilterIcon]='true' [dataSource]='checklistItems' [checkList]='column.filterValue' (selectionChanged)='filterChanged()'  class='filter-check-list filtercell-textbox' />
+			<checklist type='text' name='filtcheck' [showFilterIcon]='true' [dataSource]='checklistItems' [selectedItems]='column.filterValue' (selectionChanged)='filterChanged()'  class='filter-check-list filtercell-textbox'></checklist>
 		</div>
 		<div *ngSwitchDefault>
 			<input type='text' [(ngModel)]='column.filterValue' (ngModelChange)='filterChanged()' class="filtercell-textbox" />
