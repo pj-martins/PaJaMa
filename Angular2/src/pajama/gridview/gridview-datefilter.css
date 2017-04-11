@@ -1,0 +1,9 @@
+﻿.date-filter-from, .date-filter-to {
+	padding-right: 1px;
+	padding-left: 1px;
+	width: 100%;
+}
+
+.date-filter-picker {
+	width: 100%;
+}

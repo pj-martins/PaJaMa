@@ -73,6 +73,7 @@
     <Content Include="app\styles.css" />
     <Content Include="pajama\bootstrap.css" />
     <Content Include="pajama\disable-edit\disable-edit.css" />
+    <Content Include="pajama\gridview\gridview-datefilter.css" />
     <Content Include="pajama\styles.css" />
     <Content Include="rooms.js" />
     <Content Include="events.js" />
@@ -125,7 +126,9 @@
     <TypeScriptCompile Include="app\sandbox\test.component.ts" />
     <TypeScriptCompile Include="app\vendor.ts" />
     <TypeScriptCompile Include="pajama\checklist\checklist.directive.ts" />
+    <TypeScriptCompile Include="pajama\disable-edit\disable-edit.directive.ts" />
     <TypeScriptCompile Include="pajama\disable-edit\disable-edit.component.ts" />
+    <TypeScriptCompile Include="pajama\gridview\gridview-datefilter.component.ts" />
     <TypeScriptCompile Include="pajama\shared.ts" />
     <TypeScriptCompile Include="pajama\datetime-picker\datetime-picker.directive.ts" />
     <TypeScriptCompile Include="pajama\expand-collapse\expand-collapse.component.ts" />

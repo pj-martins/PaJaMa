@@ -10,6 +10,14 @@ import * as moment from 'moment'
 export class MultiTextboxDirective implements OnInit {
 	private _component: ComponentRef<MultiTextboxComponent>;
 
+	@Input()
+	get isReadOnly(): boolean {
+		return this._component.instance.isReadOnly;
+	}
+	set isReadOnly(v: boolean) {
+		this._component.instance.isReadOnly = v;
+	}
+
 	@Input("multiTextbox")
 	get multiTextbox(): Array<any> {
 		return this._component.instance.items;

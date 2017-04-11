@@ -236,7 +236,8 @@ export enum FilterMode {
 	Equals,
 	NotEqual,
 	DistinctList,
-	DynamicList
+	DynamicList,
+	DateRange
 }
 export enum PagingType {
 	Auto,

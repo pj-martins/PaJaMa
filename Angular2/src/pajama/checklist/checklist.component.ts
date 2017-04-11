@@ -10,7 +10,7 @@ export class CheckListItem {
 	moduleId: module.id,
 	selector: 'checklist',
 	template: `
-	<button (click)='dropdownVisible = !dropdownVisible' class="checklist-button id_{{uniqueId}} {{class}}">
+	<button (click)='dropdownVisible = !dropdownVisible' class="{{class}} checklist-button id_{{uniqueId}}">
 		<div class="checklist-button-text">{{selectedText}}</div>
 		<div class="drop-down-image checklist-button-image id_{{uniqueId}} {{ allSelected || !showFilterIcon ? 'arrow-down' : 'glyphicon glyphicon-filter'}}"></div>
 	</button>

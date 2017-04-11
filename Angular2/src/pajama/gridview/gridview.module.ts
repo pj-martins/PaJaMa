@@ -10,11 +10,13 @@ import { GridViewCellTemplateDirective } from './gridview-cell-template.directiv
 import { GridViewRowTemplateDirective } from './gridview-row-template.directive';
 import { GridViewHeaderCellComponent } from './gridview-headercell.component';
 import { GridViewPagerComponent } from './gridview-pager.component';
+import { DateFilterComponent } from './gridview-datefilter.component';
 import { GridViewSettingsComponent } from './gridview-settings.component';
 import { ParserService } from '../services/parser.service';
 import { PipesModule } from '../pipes/pipes.module';
 import { TypeaheadModule } from '../typeahead/typeahead.module';
 import { CheckListModule } from '../checklist/checklist.module';
+import { DateTimePickerModule } from '../datetime-picker/datetime-picker.module';
 
 @NgModule({
     imports: [
@@ -22,7 +24,8 @@ import { CheckListModule } from '../checklist/checklist.module';
 		FormsModule,
 		PipesModule,
 		CheckListModule,
-		TypeaheadModule
+		TypeaheadModule,
+		DateTimePickerModule
     ],
     declarations: [
         GridViewComponent,
@@ -34,7 +37,8 @@ import { CheckListModule } from '../checklist/checklist.module';
 		GridViewRowTemplateDirective,
 		GridViewCellTemplateDirective,
 		GridViewFilterCellTemplateDirective,
-        DetailGridViewComponent
+		DetailGridViewComponent,
+		DateFilterComponent
     ],
     exports: [
         GridViewComponent,

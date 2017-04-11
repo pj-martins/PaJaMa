@@ -28,6 +28,24 @@
 }
 
 
+.checklist-button.form-control {
+	height:34px !important;
+}
+
+.checklist-button.form-control .checklist-button-image {
+	top: 10px !important;
+	right: 15px !important;
+}
+
 .gridview-filtercell .input-button-container {
-	top: 1px !important;
+	top: -23px !important;
+	right: 1px !important;
+}
+
+.gridview-filtercell .checklist-button {
+	height: 24px !important;
+}
+
+.drop-down-image.glyphicon-filter {
+	margin-top: 1px !important;
 }

@@ -1,4 +1,4 @@
-﻿.disable-edit {
+﻿/*.disable-edit {
 	border: 0px !important;
 	font-weight: bold;
 	background-color: #FAFAFA !important;
@@ -11,4 +11,4 @@
 	.disable-edit +
 	* .input-button-container {
 		display: none !important;
-	}
+	}*/

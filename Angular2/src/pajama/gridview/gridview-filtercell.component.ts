@@ -1,5 +1,5 @@
 ﻿import { Component, Input, OnInit, ElementRef } from '@angular/core';
-import { DataColumn, FilterMode, GridView, IGridViewFilterCellComponent } from './gridview';
+import { DataColumn, FilterMode, GridView, IGridViewFilterCellComponent, FieldType } from './gridview';
 import { GridViewComponent } from './gridview.component';
 import { CheckListModule } from '../checklist/checklist.module';
 
@@ -8,16 +8,28 @@ import { CheckListModule } from '../checklist/checklist.module';
 	selector: 'gridview-filtercell',
 	styleUrls: ['../styles.css', 'gridview-filtercell.css'],
 	template: `
-<div class='gridview-filtercell col-md-12'>
-	<div *ngIf='column.filterTemplate'>
-		<div gridviewFilterCellTemplate [parentFilterCellComponent]="self" [column]="column"></div>
-	</div>
-	<div *ngIf='!column.filterTemplate' [ngSwitch]='column.filterMode == filterMode.DistinctList || column.filterMode == filterMode.DynamicList || column.filterOptions'>
-		<div *ngSwitchCase='true'>
-			<checklist type='text' name='filtcheck' [showFilterIcon]='true' [dataSource]='checklistItems' [selectedItems]='column.filterValue' (selectionChanged)='filterChanged()'  class='filter-check-list filtercell-textbox'></checklist>
+<div class='gridview-filtercell'>
+	<div class='gridview-filtercell-content'>
+		<div *ngIf='column.filterTemplate'>
+			<div gridviewFilterCellTemplate [parentFilterCellComponent]="self" [column]="column"></div>
 		</div>
-		<div *ngSwitchDefault>
-			<input type='text' [(ngModel)]='column.filterValue' (ngModelChange)='filterChanged()' class="filtercell-textbox" />
+		<div *ngIf='!column.filterTemplate'>
+			<div *ngIf='column.filterMode == filterMode.DistinctList || column.filterMode == filterMode.DynamicList || column.filterOptions'>
+				<checklist type='text' name='filtcheck' [showFilterIcon]='true' [dataSource]='checklistItems' [selectedItems]='column.filterValue' (selectionChanged)='filterChanged()'  class='filter-check-list filtercell-textbox'></checklist>
+			</div>
+			<div *ngIf='column.filterMode == filterMode.DateRange'>
+				<datefilter [column]='column' [parentFilterCellComponent]="self" [parentGridView]="parentGridView"></datefilter>
+			</div>
+			<div *ngIf='column.filterMode != filterMode.DistinctList && column.filterMode != filterMode.DynamicList && !column.filterOptions && column.filterMode != filterMode.DateRange'>
+				<input type='text' [(ngModel)]='column.filterValue' (ngModelChange)='filterChanged()' class="filtercell-textbox" />
+			</div>
+		</div>
+	</div>
+	<div class='gridview-filtercell-clear'>
+		<div class='clickable close-outer' (click)='clearFilter()'>
+			<div class='close-inner'>
+				<div class='close-icon'></div>
+			</div>
 		</div>
 	</div>
 </div>
@@ -86,5 +98,10 @@ export class GridViewFilterCellComponent implements OnInit, IGridViewFilterCellC
 		this.parentGridView.currentPage = 1;
 		this.parentGridView.dataChanged.emit(this.parentGridView);
 		this.parentGridViewComponent.filterChanged.emit(this.column);
+	}
+
+	clearFilter() {
+		this.column.filterValue = null;
+		this.filterChanged();
 	}
 }

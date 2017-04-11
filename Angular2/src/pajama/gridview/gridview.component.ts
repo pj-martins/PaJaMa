@@ -238,6 +238,7 @@ export class GridViewComponent {
 		this.grid.filterVisible = !this.grid.filterVisible;
 		this.filterChanged.emit(null);
 		this.grid.saveGridState();
+		this.refreshDataSource();
 	}
 
 	protected rowClick(row) {
@@ -328,7 +329,7 @@ export class GridViewComponent {
 	private getFilteredData(rawData: Array<any>): Array<any> {
 		if (this.grid.disableAutoFilter) return rawData;
 		if (!this.grid.filterVisible && !this.grid.disableFilterRow) return rawData;
-
+		
 		if (!rawData) return [];
 		let filteredData: Array<any> = [];
 		for (let row of rawData) {

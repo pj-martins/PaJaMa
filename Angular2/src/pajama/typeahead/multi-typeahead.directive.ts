@@ -43,6 +43,14 @@ export class MultiTypeaheadDirective implements OnInit {
 	}
 
 	@Input()
+	get isReadOnly(): boolean {
+		return this._component.instance.isReadOnly;
+	}
+	set isReadOnly(v: boolean) {
+		this._component.instance.isReadOnly = v;
+	}
+
+	@Input()
 	get minLength(): number {
 		return this._component.instance.typeahead.minLength;
 	}

@@ -6,7 +6,7 @@ import { GridViewModule } from './gridview/gridview.module';
 import { MultiTextboxModule } from './multi-textbox/multi-textbox.module';
 import { OverlayModule } from './overlay/overlay.module';
 import { TypeaheadModule } from './typeahead/typeahead.module';
-import { DisableEditComponent } from './disable-edit/disable-edit.component';
+import { DisableEditDirective } from './disable-edit/disable-edit.directive';
 
 export * from './checklist/checklist.module';
 export * from './checklist/checklist.component';
@@ -32,7 +32,7 @@ export * from './pipes/enum-to-list.pipe';
 export * from './pipes/moment.pipe';
 export * from './pipes/order-by.pipe';
 export * from './pipes/to-camel-case.pipe';
-export { DisableEditComponent } from './disable-edit/disable-edit.component';
+export { DisableEditDirective } from './disable-edit/disable-edit.directive';
 
 @NgModule({
 	imports: [
@@ -45,7 +45,7 @@ export { DisableEditComponent } from './disable-edit/disable-edit.component';
 		TypeaheadModule
 	],
 	declarations: [
-		DisableEditComponent
+		DisableEditDirective
 	]
 })
 export class PaJaMaModule { }

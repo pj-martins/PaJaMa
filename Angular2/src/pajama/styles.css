@@ -97,3 +97,7 @@
 	-webkit-transform: rotate(90deg); /* Safari and Chrome */
 	Z-index: 2;
 }
+
+.clickable {
+	cursor: pointer;
+}

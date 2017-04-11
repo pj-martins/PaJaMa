@@ -10,7 +10,7 @@ export const MULTITEXTBOX_TEMPLATE = `
 	<div class='multi-textbox-item-container component' [style.padding-left]="(originalPaddingLeft <= 0 ? 0 : originalPaddingLeft - 1) + 'px'">
 		<div *ngFor='let item of items || []' class='multi-textbox-item'>
 			{{getObjectValue(item)}}
-			<div class='multi-textbox-remove close-outer' (click)='removeItem(item)'>
+			<div class='multi-textbox-remove close-outer' *ngIf='!isReadOnly' (click)='removeItem(item)'>
 				<div class='close-inner'>
 					<div class='close-icon'></div>
 				</div>
@@ -27,6 +27,8 @@ export const MULTITEXTBOX_TEMPLATE = `
 	styleUrls: ['../styles.css', 'multi-textbox.css']
 })
 export class MultiTextboxComponent implements OnInit {
+
+	isReadOnly = false;
 
 	private _items: Array<any> = [];
 	get items(): Array<any> {
