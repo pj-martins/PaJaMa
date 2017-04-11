@@ -103,6 +103,15 @@ export class GridViewFilterCellComponent implements OnInit, IGridViewFilterCellC
 
 	clearFilter() {
 		this.column.filterValue = null;
+		if (this.checklistItems && this.checklistItems.length > 0) {
+			let copy = [];
+			for (let ci of this.checklistItems) {
+				copy.push(ci);
+			}
+			this.column.filterValue = copy;
+		}
+
+
 		this.filterChanged();
 	}
 }
