@@ -1,6 +1,7 @@
 ﻿import { EventEmitter, PipeTransform, Type } from '@angular/core';
 import { ParserService } from '../services/parser.service';
 import { OrderByPipe } from '../pipes/order-by.pipe';
+import { Observable } from 'rxjs/Observable';
 import { SortDirection } from '../shared';
 
 export class GridView {
@@ -352,12 +353,9 @@ export enum FieldType {
 	Date,
 	Html
 }
-export class DetailGridViewDataEventArgs {
-	constructor(public parentRow: any, public detailGridViewInstance: DetailGridView) { }
-}
 export class DetailGridView extends GridView {
 
-	setChildData: EventEmitter<DetailGridViewDataEventArgs> = new EventEmitter<DetailGridViewDataEventArgs>();
+	getChildData: (parent: any) => Observable<Array<any>>;
 	hideExpandButton: boolean;
 
 	createInstance(): DetailGridView {

@@ -1,6 +1,6 @@
 ﻿import { forwardRef, Component, Input, Output, OnInit, EventEmitter } from '@angular/core';
 import { GridViewComponent } from './gridview.component';
-import { DataColumn, GridView, DetailGridView, DetailGridViewDataEventArgs } from './gridview';
+import { DataColumn, GridView, DetailGridView } from './gridview';
 
 @Component({
 	selector: 'detail-gridview',
@@ -28,7 +28,7 @@ export class DetailGridViewComponent implements OnInit {
 		this._expanded = !this._expanded;
 		if (!this._inited) {
 			this._inited = true;
-			this.detailGridView.setChildData.emit(new DetailGridViewDataEventArgs(this.row, this.detailGridViewInstance));
+			this.detailGridView.getChildData(this.row).subscribe(d => this.detailGridViewInstance.data = d);
 		}
 	}
 }

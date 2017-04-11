@@ -1,0 +1,25 @@
+﻿.square-button {
+	width: 17px;
+	height: 17px;
+	border-radius: 1px;
+	padding: 0px;
+}
+
+.icon-text {
+	font-size: 15pt;
+}
+
+.treenode-button {
+	display: inline-block;
+	vertical-align: top;
+}
+
+.treenode-content {
+	display: inline-block;
+}
+
+.treenode-child {
+	margin-top: 2px;
+	margin-bottom: 5px;
+	margin-left: 4px;
+}

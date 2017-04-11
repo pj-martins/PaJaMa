@@ -5,6 +5,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { ParserService } from '../pajama/services/parser.service';
 import { AppComponent } from './app.component';
 import { GridViewModule } from '../pajama/gridview/gridview.module';
+import { TreeViewModule } from '../pajama/treeview/treeview.module';
 import { CheckListModule } from '../pajama/checklist/checklist.module';
 import { OverlayModule } from '../pajama/overlay/overlay.module';
 import { TypeaheadModule } from '../pajama/typeahead/typeahead.module';
@@ -15,8 +16,10 @@ import { PipesModule } from '../pajama/pipes/pipes.module';
 import { routing } from './app.routing';
 import { DemoGridComponent } from './demo/demo-grid.component';
 import { DemoEditorsComponent } from './demo/demo-editors.component';
+import { DemoTreeComponent } from './demo/demo-tree.component';
 
 import { CoordinatorFilterCellTemplateComponent, CustomerCellTemplateComponent, EventTypeFilterCellTemplateComponent, RequestedByFilterCellTemplateComponent } from './demo/grid-cell-templates.component';
+import { RoomNodeTemplateComponent } from './demo/treeview-templates.component';
 import { RoomComponent } from './demo/room.component';
 
 
@@ -31,6 +34,7 @@ import { TestComponent } from './sandbox/test.component';
 		ReactiveFormsModule,
 		HttpModule,
 		GridViewModule,
+		TreeViewModule,
 		OverlayModule,
 		TypeaheadModule,
 		PipesModule,
@@ -44,6 +48,7 @@ import { TestComponent } from './sandbox/test.component';
 	declarations: [
 		AppComponent,
 		DemoGridComponent,
+		DemoTreeComponent,
 		DemoEditorsComponent,
 
 		SandboxComponent,
@@ -55,6 +60,7 @@ import { TestComponent } from './sandbox/test.component';
 		EventTypeFilterCellTemplateComponent,
 		RequestedByFilterCellTemplateComponent,
 		RoomComponent,
+		RoomNodeTemplateComponent,
 
 		TestComponent,
 	],
@@ -63,7 +69,8 @@ import { TestComponent } from './sandbox/test.component';
 		CustomerCellTemplateComponent,
 		EventTypeFilterCellTemplateComponent,
 		RequestedByFilterCellTemplateComponent,
-		RoomComponent
+		RoomComponent,
+		RoomNodeTemplateComponent
 	],
 	bootstrap: [AppComponent]
 })

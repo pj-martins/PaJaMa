@@ -422,7 +422,7 @@ export class GridViewComponent {
 	}
 
 	protected get displayData(): Array<any> {
-		if (this._displayData == null) {
+		if (this._displayData == null && this.unpagedData != null) {
 			var rawData = this.unpagedData;
 			if (this.grid.pageSize == 0 || this.grid.pagingType != PagingType.Auto)
 				this._displayData = rawData;
@@ -430,7 +430,7 @@ export class GridViewComponent {
 				this._displayData = rawData.slice((this.grid.currentPage - 1) * this.grid.pageSize, this.grid.currentPage * this.grid.pageSize);
 		}
 
-		return this._displayData;
+		return this._displayData || [];
 	}
 
 	refreshDataSource() {

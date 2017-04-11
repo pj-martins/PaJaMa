@@ -75,6 +75,7 @@
     <Content Include="pajama\disable-edit\disable-edit.css" />
     <Content Include="pajama\gridview\gridview-datefilter.css" />
     <Content Include="pajama\styles.css" />
+    <Content Include="pajama\treeview\treeview.css" />
     <Content Include="rooms.js" />
     <Content Include="events.js" />
     <Content Include="index.html" />
@@ -115,10 +116,12 @@
     <TypeScriptCompile Include="app\app.module.ts" />
     <TypeScriptCompile Include="app\app.routing.ts" />
     <TypeScriptCompile Include="app\classes\classes.ts" />
+    <TypeScriptCompile Include="app\demo\demo-tree.component.ts" />
     <TypeScriptCompile Include="app\demo\room.component.ts" />
     <TypeScriptCompile Include="app\demo\demo-editors.component.ts" />
     <TypeScriptCompile Include="app\demo\demo-grid.component.ts" />
     <TypeScriptCompile Include="app\demo\grid-cell-templates.component.ts" />
+    <TypeScriptCompile Include="app\demo\treeview-templates.component.ts" />
     <TypeScriptCompile Include="app\main.ts" />
     <TypeScriptCompile Include="app\polyfills.browser.ts" />
     <TypeScriptCompile Include="app\sandbox\even-validator.component.ts" />
@@ -163,6 +166,12 @@
     <TypeScriptCompile Include="pajama\pipes\to-camel-case.pipe.ts" />
     <TypeScriptCompile Include="pajama\services\data.service.ts" />
     <TypeScriptCompile Include="pajama\services\parser.service.ts" />
+    <TypeScriptCompile Include="pajama\treeview\treeview-node-template.directive.ts" />
+    <TypeScriptCompile Include="pajama\treeview\treeview-node.component.ts" />
+    <TypeScriptCompile Include="pajama\treeview\treeview-node-template.component.ts" />
+    <TypeScriptCompile Include="pajama\treeview\treeview.module.ts" />
+    <TypeScriptCompile Include="pajama\treeview\treeview.component.ts" />
+    <TypeScriptCompile Include="pajama\treeview\treeview.ts" />
     <TypeScriptCompile Include="pajama\typeahead\multi-typeahead.component.ts" />
     <TypeScriptCompile Include="pajama\typeahead\typeahead.component.ts" />
     <TypeScriptCompile Include="pajama\typeahead\multi-typeahead.directive.ts" />
