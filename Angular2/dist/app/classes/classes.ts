@@ -11,6 +11,9 @@ export class HallRequestRoom {
 export class Event {
 	customer: Customer;
 	hallRequestRooms: Array<HallRequestRoom>;
+	eventStartDT: Date;
+	eventEndDT: Date;
+	requestedBy: string;
 }
 
 export class Room {

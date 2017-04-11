@@ -1,11 +1,12 @@
 import { Component, OnInit, Type } from '@angular/core';
-import { GridView, DataColumn, FilterMode, FieldType, DetailGridView, DetailGridViewDataEventArgs } from 'pajama/gridview/gridview';
+import { GridView, DataColumn, FilterMode, FieldType, DetailGridView } from 'pajama/gridview/gridview';
 import { SortDirection } from 'pajama/shared';
 import { TypeaheadModule } from 'pajama/typeahead/typeahead.module';
 import { MultiTextboxModule } from 'pajama/multi-textbox/multi-textbox.module';
 import { Event } from '../classes/classes';
 import { CustomerCellTemplateComponent, CoordinatorFilterCellTemplateComponent, EventTypeFilterCellTemplateComponent, RequestedByFilterCellTemplateComponent } from './grid-cell-templates.component';
 import { RoomComponent } from './room.component';
+import { Observable } from 'rxjs/Observable';
 
 declare var EVENTS: Array<Event>;
 
@@ -87,7 +88,9 @@ export class DemoGridComponent implements OnInit {
 
 		let roomsDetailGridView = new DetailGridView();
 		roomsDetailGridView.rowTemplate = RoomComponent;
-		roomsDetailGridView.setChildData.subscribe((e: DetailGridViewDataEventArgs) => e.detailGridViewInstance.data = (<Event>e.parentRow).hallRequestRooms);
+		roomsDetailGridView.getChildData = (parentRow: any) => {
+			return Observable.create(o => o.next((<Event>parentRow).hallRequestRooms));
+		}
 		this.gridDemo.detailGridView = roomsDetailGridView;
 
 		this.gridDemo.loadGridState();
