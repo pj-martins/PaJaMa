@@ -17,7 +17,7 @@ import { TreeNode } from './treeview';
 			<div *ngIf="n.template">
 				<div treeviewNodeTemplate [node]="n"></div>
 			</div>
-			<div *ngIf="!n.template">
+			<div *ngIf="!n.template" class="{{n.class}}">
 				{{n.text}}
 			</div>
 			<div *ngIf='n.isExpanded' class='treenode-child'>

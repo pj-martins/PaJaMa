@@ -236,6 +236,7 @@ export class GridViewComponent {
 
 	protected toggleFilter() {
 		this.grid.filterVisible = !this.grid.filterVisible;
+		this.grid.currentPage = 1;
 		this.filterChanged.emit(null);
 		this.grid.saveGridState();
 		this.refreshDataSource();

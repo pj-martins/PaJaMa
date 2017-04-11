@@ -48,6 +48,7 @@ export class DemoTreeComponent implements OnInit {
 
 			let eventNode = new TreeNode();
 			eventNode.dataItem = e;
+			eventNode.class = "event-node";
 			eventNode.text = moment(e.eventStartDT).format("MM/DD/YYYY") + " - " + moment(e.eventEndDT).format("MM/DD/YYYY") + " " + e.requestedBy;
 
 			// synchronous

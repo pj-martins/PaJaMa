@@ -4,6 +4,7 @@ import { Observable } from 'rxjs/Observable'
 export class TreeNode {
 	dataItem: any;
 	text: string;
+	class: string;
 	isExpanded = false;
 
 	childNodes: Array<TreeNode>;

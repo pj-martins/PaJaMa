@@ -1,3 +1,8 @@
 ﻿body {
 	margin: 20px;
 }
+
+
+.event-node {
+	color: blue;
+}

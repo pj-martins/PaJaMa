@@ -7,7 +7,7 @@ import { TreeViewNodeComponent } from './treeview-node.component';
 	selector: 'treeview',
 	styleUrls: ['../styles.css', 'treeview.css'],
 	template: `
-<div class='treeview' *ngIf='nodes'>
+<div class='treeview component' *ngIf='nodes'>
 	<treeview-node [nodes]='nodes'></treeview-node>
 </div>
 `

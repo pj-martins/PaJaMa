@@ -57,17 +57,18 @@ export class GridViewFilterCellComponent implements OnInit, IGridViewFilterCellC
 					copy.push(ci);
 				}
 			}
-			if (!this.column.filterValue)
+			if (!this.column.filterValue || this.column.filterValue.length == 0)
 				this.column.filterValue = copy;
 
 			this.column.filterOptionsChanged.subscribe(() => {
 				this.checklistItems = this.column.filterOptions;
-					let copy2 = [];
-					if (this.checklistItems) {
-						for (let ci of this.checklistItems) {
-							copy2.push(ci);
-						}
+				let copy2 = [];
+				if (this.checklistItems) {
+					for (let ci of this.checklistItems) {
+						copy2.push(ci);
 					}
+				}
+				if (!this.column.filterValue || this.column.filterValue.length == 0)
 					this.column.filterValue = copy2;
 			});
 

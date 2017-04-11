@@ -30,6 +30,7 @@ export class GridView {
 	allowColumnOrdering = false;
 	allowColumnCustomization = false;
 	saveGridStateToStorage = false;
+	gridStateVersion = 0;
 	name: string;
 
 	getRowClass: (row: any) => string;
@@ -98,11 +99,13 @@ export class GridView {
 		}
 
 		this._stateLoaded = true;
-		let stateString = localStorage.getItem(this.name);
+		let stateString = localStorage.getItem(this.name + this.gridStateVersion.toString());
 		if (stateString) {
 			let state = <GridState>JSON.parse(stateString);
 			this.setGridState(state);
+			return true;
 		}
+		return false;
 	}
 
 	saveGridState() {
@@ -113,13 +116,13 @@ export class GridView {
 
 		let state = this.getGridState();
 		// TODO: is grid name too generic?
-		localStorage.setItem(this.name, JSON.stringify(state));
+		localStorage.setItem(this.name + this.gridStateVersion.toString(), JSON.stringify(state));
 	}
 
 	resetGridState() {
 		if (this._defaultState) {
 			this.setGridState(this._defaultState);
-			localStorage.removeItem(this.name);
+			localStorage.removeItem(this.name + this.gridStateVersion.toString());
 
 			// THIS SEEMS HACKISH! IN ORDER FOR THE COMPONENT TO REDRAW, IT NEEDS TO DETECT
 			// A CHANGE TO THE COLUMNS VARIABLE ITSELF RATHER THAN WHAT'S IN THE COLLECTION
@@ -205,8 +208,10 @@ export class GridView {
 			}
 		}
 
-		if (refilter)
-			this.dataChanged.emit(this);
+		// handle outside of control
+		//if (refilter) {
+		//	window.setTimeout(() => this.dataChanged.emit(this), 100);
+		//}
 
 		// recalculate indices in case we have duplicates
 		orderedCols = new OrderByPipe().transform(orderedCols, ['columnIndex']);
