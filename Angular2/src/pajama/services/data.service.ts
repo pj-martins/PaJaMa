@@ -4,6 +4,7 @@ import { Observable } from 'rxjs/Rx';
 import 'rxjs/add/operator/map';
 import 'rxjs/add/operator/catch';
 import { SortDirection } from '../shared';
+import * as moment from 'moment';
 
 @Injectable()
 export class DataService {
@@ -210,7 +211,10 @@ export class BinaryFilter extends FilterBase {
 	getFilterString(): string {
 		let filt = "";
 		let filtValue = this.filterValue;
-		if (filtValue && typeof this.filterValue != "number") {
+		if (filtValue && this.filterValue instanceof Date) {
+			filtValue = `DateTime'${moment(filtValue).format("YYYY-MM-DDTHH:mm")}'`;
+		}
+		else if (filtValue && typeof this.filterValue != "number") {
 			filtValue = `'${filtValue.toString()}'`;
 		}
 		let dbField = this.fieldName.substring(0, 1).toUpperCase() + this.fieldName.substring(1);
@@ -253,7 +257,7 @@ export enum FilterType {
 	GreaterThanOrEqual,
 	Contains,
 	StartsWith,
-	EndsWith,
+	EndsWith
 }
 
 export enum FilterOperator {

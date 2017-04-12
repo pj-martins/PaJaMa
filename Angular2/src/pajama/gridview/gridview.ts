@@ -198,6 +198,12 @@ export class GridView {
 					else if (colState.filterValue) {
 						cd.filterValue = colState.filterValue;
 						refilter = true;
+						if (col.filterMode == FilterMode.DateRange) {
+							if (col.filterValue.fromDate)
+								col.filterValue.fromDate = new Date(col.filterValue.fromDate);
+							if (col.filterValue.toDate)
+								col.filterValue.toDate = new Date(col.filterValue.toDate);
+						}
 					}
 					else if (cd.filterValue) {
 						cd.filterValue = null;
