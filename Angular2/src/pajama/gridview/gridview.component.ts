@@ -62,7 +62,15 @@ import { ParserService } from '../services/parser.service';
             <tr [hidden]='!(grid.loading)' style="display:none"><td [attr.colspan]="getVisibleColumnCount() + 1"></td></tr>
             <ng-template ngFor let-row [ngForOf]="displayData" let-i="index">
                 <tr [hidden]='grid.loading' *ngIf='!grid.rowTemplate' [ngClass]="(grid.getRowClass ? grid.getRowClass(row) : '') + (i % 2 != 0 ? ' gridview-alternate-row' : '') + (grid.selectMode > 0 ? ' selectable-row' : '') + (selectedKeys[row[grid.keyFieldName]] ? ' selected-row' : '')" (click)='rowClick(row)'>
-                    <td *ngIf='grid.detailGridView && !grid.detailGridView.hideExpandButton' style='width:39px'><button class="glyphicon glyphicon-small {{detailGridViewComponents[row[grid.keyFieldName]] && detailGridViewComponents[row[grid.keyFieldName]].isExpanded() ? 'glyphicon-minus' : 'glyphicon-plus'}}" (click)='expandCollapse(row[grid.keyFieldName])'></button></td>
+                    <td *ngIf='grid.detailGridView && !grid.detailGridView.hideExpandButton' style='width:39px'>
+						<!--<button class="glyphicon glyphicon-small {{detailGridViewComponents[row[grid.keyFieldName]] && detailGridViewComponents[row[grid.keyFieldName]].isExpanded() ? 'glyphicon-minus' : 'glyphicon-plus'}}" (click)='expandCollapse(row[grid.keyFieldName])'></button>-->
+						<div class="expandcollapse-button-container">
+						  <button class="expandcollapse-button" (click)='expandCollapse(row[grid.keyFieldName])'>
+							<div class="expandcollapse-horizontal"></div>
+							<div class="expandcollapse-vertical" *ngIf='!detailGridViewComponents[row[grid.keyFieldName]] || !detailGridViewComponents[row[grid.keyFieldName]].isExpanded()'></div>
+						  </button>
+						</div>
+					</td>
                     <td *ngFor="let col of grid.columns | orderBy:['columnIndex'];let last = last; let first = first" [hidden]='!(!grid.rowTemplate && (col.visible || col.visible === undefined))' [ngClass]="col.getRowCellClass ? col.getRowCellClass(row) : (col.disableWrapping ? 'no-wrap' : '')">
 						<gridview-cell [column]="col" [row]="row" [last]='last' [first]='first' [parentGridViewComponent]="self" [parentGridView]="grid"></gridview-cell>
 					</td>
