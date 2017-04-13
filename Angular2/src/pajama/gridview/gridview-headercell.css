@@ -10,6 +10,7 @@
 
 .sort-arrows {
 	margin-left: 13px !important;
+	margin-top: -2px;
 }
 
 .header-caption {
@@ -20,7 +21,7 @@
 
 .sort-arrow {
 	position: absolute;
-	margin-top:5px;
+	margin-top: 5px;
 }
 
 	.sort-arrow.top-empty {
@@ -49,12 +50,4 @@
 gridview-headercell {
 	position: relative;
 	overflow: hidden;
-}
-
-.arrow-up {
-	border-bottom: 7px solid white;
-}
-
-.arrow-down {
-	border-top: 7px solid white;
 }

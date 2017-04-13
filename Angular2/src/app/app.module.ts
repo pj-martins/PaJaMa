@@ -12,13 +12,15 @@ import { TypeaheadModule } from '../pajama/typeahead/typeahead.module';
 import { DateTimePickerModule } from '../pajama/datetime-picker/datetime-picker.module';
 import { MultiTextboxModule } from '../pajama/multi-textbox/multi-textbox.module';
 import { ExpandCollapseModule } from '../pajama/expand-collapse/expand-collapse.module';
+import { ModalDialogModule } from '../pajama/modal-dialog/modal-dialog.module';
 import { PipesModule } from '../pajama/pipes/pipes.module';
 import { routing } from './app.routing';
 import { DemoGridComponent } from './demo/demo-grid.component';
 import { DemoEditorsComponent } from './demo/demo-editors.component';
 import { DemoTreeComponent } from './demo/demo-tree.component';
+import { DemoModalComponent } from './demo/demo-modal.component';
 
-import { CoordinatorFilterCellTemplateComponent, CustomerCellTemplateComponent, EventTypeFilterCellTemplateComponent, RequestedByFilterCellTemplateComponent } from './demo/grid-cell-templates.component';
+import { CoordinatorFilterCellTemplateComponent, CustomerCellTemplateComponent, EventTypeFilterCellTemplateComponent, RequestedByFilterCellTemplateComponent, CustomerCellEditTemplateComponent } from './demo/grid-cell-templates.component';
 import { RoomNodeTemplateComponent } from './demo/treeview-templates.component';
 import { RoomComponent } from './demo/room.component';
 
@@ -42,6 +44,7 @@ import { TestComponent } from './sandbox/test.component';
 		DateTimePickerModule,
 		MultiTextboxModule,
 		ExpandCollapseModule,
+		ModalDialogModule,
 		routing
 	],
 	providers: [ParserService],
@@ -50,6 +53,7 @@ import { TestComponent } from './sandbox/test.component';
 		DemoGridComponent,
 		DemoTreeComponent,
 		DemoEditorsComponent,
+		DemoModalComponent,
 
 		SandboxComponent,
 		EvenValidatorComponent,
@@ -57,6 +61,7 @@ import { TestComponent } from './sandbox/test.component';
 
 		CoordinatorFilterCellTemplateComponent,
 		CustomerCellTemplateComponent,
+		CustomerCellEditTemplateComponent,
 		EventTypeFilterCellTemplateComponent,
 		RequestedByFilterCellTemplateComponent,
 		RoomComponent,
@@ -70,7 +75,8 @@ import { TestComponent } from './sandbox/test.component';
 		EventTypeFilterCellTemplateComponent,
 		RequestedByFilterCellTemplateComponent,
 		RoomComponent,
-		RoomNodeTemplateComponent
+		RoomNodeTemplateComponent,
+		CustomerCellEditTemplateComponent
 	],
 	bootstrap: [AppComponent]
 })

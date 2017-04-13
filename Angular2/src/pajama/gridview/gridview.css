@@ -5,18 +5,18 @@
 	width: 100%;
 }
 
-	.gridview tr:first-child th, .table-header tr:first-child th {
-		background-color: #027FF4;
-		color: #fff;
-		font-weight: bold;
-	}
+.gridview tr:first-child th, .table-header tr:first-child th {
+	background-color: #027FF4;
+	color: #fff;
+	font-weight: bold;
+}
 
-	.gridview td, .gridview th {
-		padding: 6px;
-	}
+.gridview td, .gridview th {
+	padding: 6px;
+}
 
 .filter-td {
-	padding:3px !important;
+	padding: 3px !important;
 }
 
 .scrollable-table {

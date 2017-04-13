@@ -13,6 +13,7 @@
 
 .gridview-filtercell-clear {
 	display: inline-block;
+	vertical-align:middle;
 }
 
 .filtercell-textbox {

@@ -55,17 +55,11 @@
 	margin-bottom: 4px;
 }
 
-.datetime-picker-top-spinner, .datetime-picker-bottom-spinner {
-	font-size: 11px;
-	position: absolute;
-}
-
 .datetime-picker-top-spinner {
 	margin-top: 3px;
 }
 
 .datetime-picker-bottom-spinner {
-	margin-top: 14px;
 }
 
 .datetime-picker-date-panel .datetime-picker-top-spinner,
@@ -175,6 +169,12 @@
 
 .arrow-left-right-container {
 	float: right;
+	display: inline-block;
+	margin-top:5px;
+}
+
+.arrow-up-down-container {
+	display: inline-block;
 }
 
 .datetime-picker-calendar-table td {

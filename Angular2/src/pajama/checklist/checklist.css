@@ -27,7 +27,7 @@
 	right: 0px;
 	position: absolute;
 	right: 7px;
-	top: 4px;
+	top: 3px;
 }
 
 .checklist-item-all {
@@ -60,8 +60,4 @@
 .glyphicon-none:before {
 	content: "\2122";
 	color: transparent !important;
-}
-
-.drop-down-image {
-	margin-top: 3px;
 }

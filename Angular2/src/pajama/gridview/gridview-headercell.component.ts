@@ -15,10 +15,10 @@ import { ParserService } from '../services/parser.service';
 		<div [innerHTML]="column.getCaption()"></div>
 	</div>
 	<div [ngClass]="{ 'header-caption sort-arrows' : (column.fieldName || column.sortField) && column.sortable }" *ngIf='(column.fieldName || column.sortField) && column.sortable'>
-		<div [ngClass]="'top-empty' + (column.sortDirection == sortDirection.None ? ' arrow-up' : '') + ' sort-arrow'"></div>
-		<div [ngClass]="'bottom-empty' + (column.sortDirection == sortDirection.None ? ' arrow-down' : '') + ' sort-arrow'"></div>
-		<div [ngClass]="'sort-arrow' + (column.sortDirection == sortDirection.Desc ? ' arrow-up' : '')"></div>
-		<div [ngClass]="'sort-arrow' + (column.sortDirection == sortDirection.Asc ? ' arrow-down' : '')"></div>
+		<div [ngClass]="'top-empty spinner-arrows' + (column.sortDirection == sortDirection.None ? ' icon-arrow-up-white' : '') + ' sort-arrow'"></div>
+		<div [ngClass]="'bottom-empty spinner-arrows' + (column.sortDirection == sortDirection.None ? ' icon-arrow-down-white' : '') + ' sort-arrow'"></div>
+		<div [ngClass]="'sort-arrow spinner-arrows' + (column.sortDirection == sortDirection.Desc ? ' icon-arrow-up-white' : '')"></div>
+		<div [ngClass]="'sort-arrow spinner-arrows' + (column.sortDirection == sortDirection.Asc ? ' icon-arrow-down-white' : '')"></div>
 	</div>
 </div>
 <div class='resize-div' *ngIf='column.allowSizing && !last' (mousedown)='startResize($event)'>|</div>

@@ -1,5 +1,5 @@
 ﻿import { Component, Input, Output, EventEmitter, OnInit, NgZone, ViewChild, ViewChildren, QueryList } from '@angular/core';
-import { GridView, DataColumn, FilterMode, PagingType, FieldType, SelectMode, ColumnBase, GridState } from './gridview';
+import { GridView, DataColumn, FilterMode, PagingType, FieldType, SelectMode, ColumnBase, GridState, RowArguments, TEMP_KEY_VALUE } from './gridview';
 import { SortDirection } from '../shared';
 import { DetailGridViewComponent } from './detail-gridview.component';
 import { GridViewPagerComponent } from './gridview-pager.component';
@@ -12,34 +12,39 @@ import { ParserService } from '../services/parser.service';
 	styleUrls: ['../styles.css', 'gridview.css'],
 	template: `
 <div *ngIf="grid" class='gridview component'>
-    <div class='header-button' [hidden]='!(hasFilterRow())' (click)='toggleFilter()'><div class='glyphicon glyphicon-filter'></div><strong>&nbsp;&nbsp;Filter</strong></div>
-    <div class='header-button' [hidden]='!(hasFilterRow())' style='padding-right:5px'><input type='checkbox' (click)='toggleFilter()' [checked]='grid.filterVisible' /></div>
-    <div class='header-button' *ngIf='grid.detailGridView' (click)='collapseAll()' style='margin-bottom:2px'><div class='glyphicon glyphicon-minus'></div><strong>&nbsp;&nbsp;Collapse All</strong></div>
-    <div class='header-button' *ngIf='grid.detailGridView' (click)='expandAll()'><div class='glyphicon glyphicon-plus'></div><strong>&nbsp;&nbsp;Expand All</strong></div>
+    <div class='header-button' *ngIf='hasFilterRow()' (click)='toggleFilter()'><div class='icon-filter-black icon-small'></div><strong>&nbsp;&nbsp;Filter</strong></div>
+    <div class='header-button' *ngIf='hasFilterRow()' style='padding-right:5px'><input type='checkbox' (click)='toggleFilter()' [checked]='grid.filterVisible' /></div>
+    <div class='header-button' *ngIf='grid.detailGridView' (click)='collapseAll()' style='margin-bottom:2px'><div class='icon-minus-black icon-small'></div><strong>&nbsp;&nbsp;Collapse All</strong></div>
+    <div class='header-button' *ngIf='grid.detailGridView' (click)='expandAll()'><div class='icon-plus-black icon-small'></div><strong>&nbsp;&nbsp;Expand All</strong></div>
     <table disable-animate [ngClass]="(grid.noBorder ? '' : 'grid-border ') + (grid.height ? 'scrollable-table ' : '') + 'table table-condensed'" cellspacing=0>
-        <thead [hidden]='!grid.showHeader'>
+        <thead *ngIf='grid.showHeader'>
             <tr>
-                <th *ngIf='grid.detailGridView && !grid.detailGridView.hideExpandButton' style='width:39px'></th>
+                <th *ngIf='grid.detailGridView && !grid.detailGridView.hideExpandButton' style='width:20px'></th>
                 <th *ngIf='grid.allowRowSelect' style='width:1%'></th>
-                <th *ngFor="let col of grid.columns | orderBy:['columnIndex'];let i = index;let last = last; let first = first" [hidden]='!col.visible' [style.width]="col.width" [ngClass]="!last ? 'resize-border' : ''">
+                <th *ngFor="let col of grid.getVisibleColumns() | orderBy:['columnIndex'];let i = index;let last = last; let first = first" [style.width]="col.width" [ngClass]="!last ? 'resize-border' : ''">
                     <gridview-headercell (sortChanged)='handleSortChanged($event)' [first]='first' [last]='last' [columnIndex]='i' [column]='col' [parentGridView]="grid"></gridview-headercell>
                 </th>
+				<th *ngIf='grid.allowEdit' style='width:45px'>
+					<button (click)='addRow()' class='icon-plus-white icon-small icon-button'></button>
+				</th>
             </tr>
-            <tr [hidden]='!(hasFilterRow() && grid.filterVisible)'>
-                <td class="filter-td" *ngIf='grid.detailGridView && !grid.detailGridView.hideExpandButton' style='width:39px'></td>
-                <td class="filter-td" *ngFor="let col of grid.columns | orderBy:['columnIndex']" [hidden]='!(col.visible || col.visible === undefined)'>
+            <tr *ngIf='hasFilterRow() && grid.filterVisible'>
+                <td class="filter-td" *ngIf='grid.detailGridView && !grid.detailGridView.hideExpandButton' style='width:20px'></td>
+                <td class="filter-td" *ngIf='grid.allowRowSelect'></td>
+                <td class="filter-td" *ngFor="let col of grid.getVisibleColumns() | orderBy:['columnIndex']">
 					<gridview-filtercell *ngIf="(col.filterMode && col.filterMode != 0) || col.filterTemplate" [parentGridView]="grid" [parentGridViewComponent]="self" [column]='col'>
 					</gridview-filtercell>
 				</td>
+				<td class="filter-td" *ngIf='grid.allowEdit'></td>
             </tr>
         </thead>
         <tbody [style.height]="grid.height">
-            <tr [hidden]='displayData != null || grid.loading'>
+            <tr *ngIf='displayData == null && !grid.loading'>
                 <td *ngIf='grid.detailGridView && !grid.detailGridView.hideExpandButton'></td>
-                <td [attr.colspan]="getVisibleColumnCount()">No results found!</td>
+                <td [attr.colspan]="getVisibleColumnCount() + (grid.allowEdit ? 1 : 0)">No results found!</td>
             </tr>
-            <tr [hidden]='!(grid.loading)'>
-                <td [attr.colspan]="getVisibleColumnCount() + 1">
+            <tr *ngIf='grid.loading'>
+                <td [attr.colspan]="getVisibleColumnCount() + 1 + (grid.allowEdit ? 1 : 0)">
                     <div class="template-loading">
                         <div class="template-inner">
                             <br />
@@ -50,8 +55,8 @@ import { ParserService } from '../services/parser.service';
                     </div>
                 </td>
             </tr>
-            <tr [hidden]='!(grid.showNoResults && grid.data && grid.data.length < 1) || grid.loading'>
-                <td [attr.colspan]="getVisibleColumnCount() + 1">
+            <tr *ngIf='(grid.showNoResults && grid.data && grid.data.length < 1) && !grid.loading'>
+                <td [attr.colspan]="getVisibleColumnCount() + 1 + (grid.allowEdit ? 1 : 0)">
                     <div class="template-loading">
                         <div class="template-inner">
                             <strong>No results found!</strong><br />
@@ -59,35 +64,42 @@ import { ParserService } from '../services/parser.service';
                     </div>
                 </td>
             </tr>
-            <tr [hidden]='!(grid.loading)' style="display:none"><td [attr.colspan]="getVisibleColumnCount() + 1"></td></tr>
+            <tr *ngIf='grid.loading' style="display:none"><td [attr.colspan]="getVisibleColumnCount() + 1 + (grid.allowEdit ? 1 : 0)"></td></tr>
             <ng-template ngFor let-row [ngForOf]="displayData" let-i="index">
-                <tr [hidden]='grid.loading' *ngIf='!grid.rowTemplate' [ngClass]="(grid.getRowClass ? grid.getRowClass(row) : '') + (i % 2 != 0 ? ' gridview-alternate-row' : '') + (grid.selectMode > 0 ? ' selectable-row' : '') + (selectedKeys[row[grid.keyFieldName]] ? ' selected-row' : '')" (click)='rowClick(row)'>
-                    <td *ngIf='grid.detailGridView && !grid.detailGridView.hideExpandButton' style='width:39px'>
-						<!--<button class="glyphicon glyphicon-small {{detailGridViewComponents[row[grid.keyFieldName]] && detailGridViewComponents[row[grid.keyFieldName]].isExpanded() ? 'glyphicon-minus' : 'glyphicon-plus'}}" (click)='expandCollapse(row[grid.keyFieldName])'></button>-->
-						<div class="expandcollapse-button-container">
-						  <button class="expandcollapse-button" (click)='expandCollapse(row[grid.keyFieldName])'>
+                <tr *ngIf='!grid.loading && !grid.rowTemplate' [ngClass]="(grid.getRowClass ? grid.getRowClass(row) : '') + (i % 2 != 0 ? ' gridview-alternate-row' : '') + (grid.selectMode > 0 ? ' selectable-row' : '') + (selectedKeys[getTempKeyValue(row)] ? ' selected-row' : '')" (click)='rowClick(row)'>
+                    <td *ngIf='grid.detailGridView && !grid.detailGridView.hideExpandButton'>
+						<!--<button class="glyphicon glyphicon-small {{detailGridViewComponents[getTempKeyValue(row)] && detailGridViewComponents[getTempKeyValue(row)].isExpanded() ? 'glyphicon-minus' : 'glyphicon-plus'}}" (click)='expandCollapse(getTempKeyValue(row))'></button>-->
+						<!--<div class="expandcollapse-button-container">
+						  <button class="expandcollapse-button" (click)='expandCollapse(getTempKeyValue(row))'>
 							<div class="expandcollapse-horizontal"></div>
-							<div class="expandcollapse-vertical" *ngIf='!detailGridViewComponents[row[grid.keyFieldName]] || !detailGridViewComponents[row[grid.keyFieldName]].isExpanded()'></div>
+							<div class="expandcollapse-vertical" *ngIf='!detailGridViewComponents[getTempKeyValue(row)] || !detailGridViewComponents[getTempKeyValue(row)].isExpanded()'></div>
 						  </button>
-						</div>
+						</div>-->
+						<button class="{{detailGridViewComponents[getTempKeyValue(row)] && detailGridViewComponents[getTempKeyValue(row)].isExpanded() ? 'icon-minus-black' : 'icon-plus-black'}} icon-small icon-button" (click)="expandCollapse(getTempKeyValue(row))"></button>
 					</td>
-                    <td *ngFor="let col of grid.columns | orderBy:['columnIndex'];let last = last; let first = first" [hidden]='!(!grid.rowTemplate && (col.visible || col.visible === undefined))' [ngClass]="col.getRowCellClass ? col.getRowCellClass(row) : (col.disableWrapping ? 'no-wrap' : '')">
-						<gridview-cell [column]="col" [row]="row" [last]='last' [first]='first' [parentGridViewComponent]="self" [parentGridView]="grid"></gridview-cell>
+                    <td *ngFor="let col of grid.getVisibleColumns(true) | orderBy:['columnIndex'];let last = last; let first = first" [ngClass]="col.getRowCellClass ? col.getRowCellClass(row) : (col.disableWrapping ? 'no-wrap' : '')">
+						<gridview-cell [column]="col" [row]="row" [last]='last' [first]='first' [index]='i' [parentGridViewComponent]="self" [parentGridView]="grid"></gridview-cell>
+					</td>
+					<td *ngIf='grid.allowEdit'>
+						<button *ngIf="!editing(row)" class="icon-pencil-black icon-small icon-button" (click)="editRow(row)"></button>
+						<button *ngIf="!editing(row)" class="icon-remove-black icon-small icon-button" (click)="deleteRow(row)"></button>
+						<button *ngIf="editing(row)" class="icon-check-black icon-small icon-button" (click)="saveEdit(row)"></button>
+						<button *ngIf="editing(row)" class="icon-cancel-black icon-small icon-button" (click)="cancelEdit(row)"></button>
 					</td>
                 </tr>
-                <tr [hidden]='grid.loading' *ngIf='grid.rowTemplate'>
-                    <td [attr.colspan]="getVisibleColumnCount()"><div gridviewRowTemplate [parentGridView]="grid" [parentGridViewComponent]="self" [row]="row"></div></td>
+                <tr *ngIf='!grid.loading && grid.rowTemplate'>
+                    <td [attr.colspan]="getVisibleColumnCount() + (grid.allowEdit ? 1 : 0)"><div gridviewRowTemplate [parentGridView]="grid" [parentGridViewComponent]="self" [row]="row"></div></td>
                 </tr>
-                <tr [hidden]='grid.loading' *ngIf='grid.detailGridView' class="detail-gridview-row" [hidden]='!detailGridViewComponents[row[grid.keyFieldName]] || !detailGridViewComponents[row[grid.keyFieldName]].isExpanded()'>
+                <tr [hidden]='grid.loading' *ngIf='grid.detailGridView' class="detail-gridview-row" [hidden]='!detailGridViewComponents[getTempKeyValue(row)] || !detailGridViewComponents[getTempKeyValue(row)].isExpanded()'>
                     <td *ngIf="!grid.detailGridView.hideExpandButton"></td>
-                    <td [attr.colspan]="getVisibleColumnCount()" class='detailgrid-container'><detail-gridview [parentGridViewComponent]="self" [detailGridView]="grid.detailGridView" [row]="row"></detail-gridview></td>
+                    <td [attr.colspan]="getVisibleColumnCount() + (grid.allowEdit ? 1 : 0)" class='detailgrid-container'><detail-gridview [parentGridViewComponent]="self" [detailGridView]="grid.detailGridView" [row]="row"></detail-gridview></td>
                 </tr>
             </ng-template>
         </tbody>
         <tfoot *ngIf='grid.showFooter'>
             <tr>
-                <td *ngIf='grid.detailGridView' style='width:39px'></td>
-                <td *ngFor="let col of grid.columns | orderBy:['columnIndex']" [hidden]='!(col.visible || col.visible === undefined)' grid-view-footer-cell='col'></td>
+                <td *ngIf='grid.detailGridView' style='width:20px'></td>
+                <td *ngFor="let col of grid.getVisibleColumns() | orderBy:['columnIndex']" grid-view-footer-cell='col'></td>
             </tr>
         </tfoot>
     </table>
@@ -115,12 +127,6 @@ export class GridViewComponent {
 		}
 		this._grid = value;
 		if (this._grid != null) {
-			if (this._grid.detailGridView && !this._grid.keyFieldName) {
-				throw "Grids with detail grids require a key field name";
-			}
-			if (this._grid.selectMode > 0 && !this._grid.keyFieldName) {
-				throw "Grids with row select enable require a key field name";
-			}
 			this._grid.dataChanged.subscribe(() => this.resetData());
 			this.initPager();
 		}
@@ -168,12 +174,17 @@ export class GridViewComponent {
 	@Output() filterChanged = new EventEmitter<DataColumn>();
 	@Output() pageChanged = new EventEmitter<any>();
 	@Output() selectionChanged = new EventEmitter<any[]>();
+	@Output() rowSave = new EventEmitter<RowArguments>();
+	@Output() rowCreate = new EventEmitter<RowArguments>();
+	@Output() rowDelete = new EventEmitter<RowArguments>();
 
 	constructor(public parserService: ParserService, private zone: NgZone) { }
 
-	detailGridViewComponents: { [keyFieldValue: string]: DetailGridViewComponent } = {};
+	editingRows: { [tempKeyValue: string]: any } = {};
+	newRows: { [tempKeyValue: string]: any } = {};
+	detailGridViewComponents: { [tempKeyValue: string]: DetailGridViewComponent } = {};
 	protected self: GridViewComponent = this;
-    protected sortDirection = SortDirection;
+	protected sortDirection = SortDirection;
 	protected fieldType = FieldType;
 
 	private _unpagedData: Array<any>;
@@ -221,6 +232,16 @@ export class GridViewComponent {
 		return false;
 	}
 
+	protected editing(row: any) {
+		return this.editingRows[this.getTempKeyValue(row)];
+	}
+
+	getTempKeyValue(row) {
+		if (!row[TEMP_KEY_VALUE])
+			row[TEMP_KEY_VALUE] = Math.floor((1 + Math.random()) * 0x10000).toString();
+		return row[TEMP_KEY_VALUE];
+	}
+
 	private _indexWidthInited = false;
 	protected getVisibleColumnCount(): number {
 		if (this.grid.rowTemplate)
@@ -252,11 +273,11 @@ export class GridViewComponent {
 
 	protected rowClick(row) {
 		if (this.grid.selectMode > 0) {
-			this.selectedKeys[row[this.grid.keyFieldName]] = !this.selectedKeys[row[this.grid.keyFieldName]];
+			this.selectedKeys[this.getTempKeyValue(row)] = !this.selectedKeys[this.getTempKeyValue(row)];
 
-			if (this.grid.selectMode == SelectMode.Single && this.selectedKeys[row[this.grid.keyFieldName]]) {
+			if (this.grid.selectMode == SelectMode.Single && this.selectedKeys[this.getTempKeyValue(row)]) {
 				for (let d of this.grid.data) {
-					if (d[this.grid.keyFieldName] != row[this.grid.keyFieldName]) {
+					if (d[this.grid.keyFieldName] != this.getTempKeyValue(row)) {
 						this.selectedKeys[d[this.grid.keyFieldName]] = false;
 					}
 				}
@@ -288,7 +309,7 @@ export class GridViewComponent {
 		let sorts = new Array<DataColumn>();
 		if (this.grid.columns) {
 			for (let col of this.grid.getDataColumns()) {
-                if (col.fieldName && col.sortDirection !== undefined && col.sortDirection != SortDirection.None) {
+				if (col.fieldName && col.sortDirection !== undefined && col.sortDirection != SortDirection.None) {
 					if (col.sortIndex === undefined)
 						col.sortIndex = 0;
 					sorts.push(col);
@@ -323,7 +344,7 @@ export class GridViewComponent {
 				if (aval == bval)
 					continue;
 
-                if (curr.sortDirection == SortDirection.Desc)
+				if (curr.sortDirection == SortDirection.Desc)
 					return aval > bval ? -1 : 1;
 
 				return aval < bval ? -1 : 1;
@@ -338,7 +359,7 @@ export class GridViewComponent {
 	private getFilteredData(rawData: Array<any>): Array<any> {
 		if (this.grid.disableAutoFilter) return rawData;
 		if (!this.grid.filterVisible && !this.grid.disableFilterRow) return rawData;
-		
+
 		if (!rawData) return [];
 		let filteredData: Array<any> = [];
 		for (let row of rawData) {
@@ -357,15 +378,15 @@ export class GridViewComponent {
 
 	expandAll() {
 		for (let row of this.displayData) {
-			if (!this.detailGridViewComponents[row[this.grid.keyFieldName]].isExpanded())
-				this.detailGridViewComponents[row[this.grid.keyFieldName]].expandCollapse();
+			if (!this.detailGridViewComponents[this.getTempKeyValue(row)].isExpanded())
+				this.detailGridViewComponents[this.getTempKeyValue(row)].expandCollapse();
 		}
 	}
 
 	collapseAll() {
 		for (let row of this.displayData) {
-			if (this.detailGridViewComponents[row[this.grid.keyFieldName]] && this.detailGridViewComponents[row[this.grid.keyFieldName]].isExpanded())
-				this.detailGridViewComponents[row[this.grid.keyFieldName]].expandCollapse();
+			if (this.detailGridViewComponents[this.getTempKeyValue(row)] && this.detailGridViewComponents[this.getTempKeyValue(row)].isExpanded())
+				this.detailGridViewComponents[this.getTempKeyValue(row)].expandCollapse();
 		}
 	}
 
@@ -440,6 +461,69 @@ export class GridViewComponent {
 		}
 
 		return this._displayData || [];
+	}
+
+	protected addRow() {
+		let newRow = {};
+		let args = new RowArguments();
+		args.row = newRow;
+		this.rowCreate.emit(args);
+		if (!args.cancel) {
+			this._displayData.splice(0, 0, newRow);
+			this.grid.data.splice(0, 0, newRow);
+			this.editingRows[this.getTempKeyValue(newRow)] = newRow;
+			this.newRows[this.getTempKeyValue(newRow)] = newRow;
+		}
+	}
+
+	private removeRowFromGrid(row: any) {
+		for (let i = 0; i < this._displayData.length; i++) {
+			if (this.getTempKeyValue(this._displayData[i]) == this.getTempKeyValue(row)) {
+				this._displayData.splice(i, 1);
+				break;
+			}
+		}
+		for (let i = 0; i < this.grid.data.length; i++) {
+			if (this.getTempKeyValue(this.grid.data[i]) == this.getTempKeyValue(row)) {
+				this.grid.data.splice(i, 1);
+				break;
+			}
+		}
+	}
+
+	protected editRow(row: any) {
+		this.editingRows[this.getTempKeyValue(row)] = {};
+		Object.assign(this.editingRows[this.getTempKeyValue(row)], row);
+	}
+
+	protected deleteRow(row: any) {
+		let args = new RowArguments();
+		args.row = row;
+		this.rowDelete.emit(args);
+		if (!args.cancel) {
+			this.removeRowFromGrid(row);
+			delete this.editingRows[this.getTempKeyValue(row)];
+			delete this.newRows[this.getTempKeyValue(row)];
+		}
+	}
+
+	protected saveEdit(row: any) {
+		let args = new RowArguments();
+		args.row = row;
+		this.rowSave.emit(args);
+		if (!args.cancel)
+			delete this.editingRows[this.getTempKeyValue(row)];
+	}
+
+	protected cancelEdit(row: any) {
+		if (this.newRows[this.getTempKeyValue(row)]) {
+			this.removeRowFromGrid(row);
+			delete this.newRows[this.getTempKeyValue(row)];
+		}
+		else
+			Object.assign(row, this.editingRows[this.getTempKeyValue(row)]);
+		delete this.editingRows[this.getTempKeyValue(row)];
+
 	}
 
 	refreshDataSource() {

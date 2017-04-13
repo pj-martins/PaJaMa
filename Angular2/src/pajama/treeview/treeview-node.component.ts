@@ -1,5 +1,5 @@
 ﻿import { Component, Input } from '@angular/core';
-import { TreeNode } from './treeview';
+import { TreeViewNode } from './treeview';
 
 @Component({
 	moduleId: module.id,
@@ -31,15 +31,15 @@ import { TreeNode } from './treeview';
 })
 export class TreeViewNodeComponent {
 	@Input()
-	nodes: Array<TreeNode>;
+	nodes: Array<TreeViewNode>;
 
-	protected expandCollapseNode(node: TreeNode) {
+	protected expandCollapseNode(node: TreeViewNode) {
 		node.isExpanded = !node.isExpanded;
 		if (node.isExpanded)
 			this.expandNode(node);
 	}
 
-	private expandNode(node: TreeNode, andChildren = false) {
+	private expandNode(node: TreeViewNode, andChildren = false) {
 		if (node.getChildNodes && !node.childNodes) {
 			node.getChildNodes(node.dataItem).subscribe(ns => {
 				node.childNodes = ns;
@@ -66,7 +66,7 @@ export class TreeViewNodeComponent {
 		}
 	}
 
-	private recursivelyCollapseAll(nodes: Array<TreeNode>) {
+	private recursivelyCollapseAll(nodes: Array<TreeViewNode>) {
 		for (let node of nodes) {
 			node.isExpanded = false;
 			if (node.childNodes)

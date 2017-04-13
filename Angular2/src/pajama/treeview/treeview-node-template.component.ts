@@ -1,5 +1,5 @@
-﻿import { TreeNode, ITreeViewNodeTemplateComponent } from './treeview';
+﻿import { TreeViewNode, ITreeViewNodeTemplateComponent } from './treeview';
 
 export abstract class TreeViewNodeTemplateComponent implements ITreeViewNodeTemplateComponent {
-	node: TreeNode;
+	node: TreeViewNode;
 }

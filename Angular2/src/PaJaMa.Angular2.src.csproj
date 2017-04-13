@@ -74,6 +74,7 @@
     <Content Include="pajama\bootstrap.css" />
     <Content Include="pajama\disable-edit\disable-edit.css" />
     <Content Include="pajama\gridview\gridview-datefilter.css" />
+    <Content Include="pajama\modal-dialog\modal-dialog.css" />
     <Content Include="pajama\styles.css" />
     <Content Include="pajama\treeview\treeview.css" />
     <Content Include="rooms.js" />
@@ -116,6 +117,7 @@
     <TypeScriptCompile Include="app\app.module.ts" />
     <TypeScriptCompile Include="app\app.routing.ts" />
     <TypeScriptCompile Include="app\classes\classes.ts" />
+    <TypeScriptCompile Include="app\demo\demo-modal.component.ts" />
     <TypeScriptCompile Include="app\demo\demo-tree.component.ts" />
     <TypeScriptCompile Include="app\demo\room.component.ts" />
     <TypeScriptCompile Include="app\demo\demo-editors.component.ts" />
@@ -132,6 +134,8 @@
     <TypeScriptCompile Include="pajama\disable-edit\disable-edit.directive.ts" />
     <TypeScriptCompile Include="pajama\disable-edit\disable-edit.component.ts" />
     <TypeScriptCompile Include="pajama\gridview\gridview-datefilter.component.ts" />
+    <TypeScriptCompile Include="pajama\modal-dialog\modal-dialog.component.ts" />
+    <TypeScriptCompile Include="pajama\modal-dialog\modal-dialog.module.ts" />
     <TypeScriptCompile Include="pajama\shared.ts" />
     <TypeScriptCompile Include="pajama\datetime-picker\datetime-picker.directive.ts" />
     <TypeScriptCompile Include="pajama\expand-collapse\expand-collapse.component.ts" />

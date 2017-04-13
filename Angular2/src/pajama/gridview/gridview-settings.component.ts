@@ -1,37 +1,36 @@
-﻿import { Component, Input, Output, EventEmitter } from '@angular/core';
+﻿import { Component, Input, ViewChild } from '@angular/core';
 import { GridView, ColumnBase, DataColumn } from './gridview';
+import { ModalDialogComponent } from '../modal-dialog/modal-dialog.component';
 
 @Component({
 	moduleId: module.id,
 	selector: 'gridview-settings',
-	styleUrls: ['gridview-settings.css'],
+	styleUrls: ['../styles.css', 'gridview-settings.css'],
 	template: `
 <div class='gridview-settings'>
 	<div *ngIf='parentGridView.saveGridStateToStorage || parentGridView.allowColumnCustomization' class='dropup'>
-		<button (click)='menuDown = !menuDown' class='btn btn-default'><span class='glyphicon glyphicon-cog'></span> Settings</button>
-		<button (click)='helping = !helping' class='btn btn-default'><span class='glyphicon glyphicon-question-sign'></span> Help</button>
-		<ul class='dropdown-menu' [style.display]="menuDown ? 'block' : 'none'">
-			<li class='dropdown-item' (click)='customizeColumns()'><span class='glyphicon glyphicon-wrench'></span> Customize Columns</li>
-			<li class='dropdown-item' *ngIf='parentGridView.saveGridStateToStorage' (click)='resetGridState()'><span class='glyphicon glyphicon-repeat'></span> Reset Grid</li>
+		<button (click)='openCloseSettings($event)' class='btn btn-default'><span class='glyphicon glyphicon-cog'></span> Settings</button>
+		<button (click)='helpModal.toggle()' class='btn btn-default'><span class='glyphicon glyphicon-question-sign'></span> Help</button>
+		
+	</div>
+</div>
+<modal-dialog #settingsModal [showFooter]="false" [showHeader]="false">
+	<ul class='dropdown-menu'>
+		<li class='dropdown-item' (click)='customizeColumns()'><span class='glyphicon glyphicon-wrench'></span> Customize Columns</li>
+		<li class='dropdown-item' *ngIf='parentGridView.saveGridStateToStorage' (click)='resetGridState()'><span class='glyphicon glyphicon-repeat'></span> Reset Grid</li>
+	</ul>
+</modal-dialog>
+<modal-dialog #customizeModal *ngIf='parentGridView'>
+	<div class='column-menu'>
+		<ul>
+			<li *ngFor='let col of parentGridView.columns' class='column-menu-item'>
+				&nbsp;&nbsp;&nbsp;<input type='checkbox' [(ngModel)]='col.visible' (ngModelChange)='visibilityChanged(col)' />
+				<span (click)='showHideColumn(col)'>&nbsp;&nbsp;{{col.getCaption()}}</span>
+			</li>
 		</ul>
 	</div>
-</div>
-<div *ngIf='parentGridView' [hidden]='!customizingColumns' class='column-menu'>
-	<div class='customize-header'>
-		<div class='column-close-button' (click)='customizingColumns = false'><span class='glyphicon glyphicon-remove'></span></div>
-	</div>
-	<ul [style.display]="customizingColumns ? 'block' : 'none'">
-		<li *ngFor='let col of parentGridView.columns' class='column-menu-item'>
-			&nbsp;&nbsp;&nbsp;<input type='checkbox' [(ngModel)]='col.visible' (ngModelChange)='visibilityChanged(col)' />
-			<span (click)='showHideColumn(col)'>&nbsp;&nbsp;{{col.getCaption()}}</span>
-		</li>
-	</ul>
-</div>
-<div [hidden]='!helping' class='help-text'>
-	<div class='help-text-header'>
-		<div class='help-text-close-button' (click)='helping = false'><span class='glyphicon glyphicon-remove'></span></div>
-	</div>
-	<div class='help-text-body' [style.display]="helping ? 'block' : 'none'">
+</modal-dialog>
+<modal-dialog #helpModal>
 		<strong>Sorting Columns:</strong><br />
 		To sort a column, click on the column's caption. If the column has not been sorted yet, it will sort ascending first, indicated by an arrow pointing down. 
 		Clicking a second time will sort descending, indicated by an arrow pointing up.
@@ -59,25 +58,24 @@ import { GridView, ColumnBase, DataColumn } from './gridview';
 		<br /><br />
 		<strong>Oh No!</strong><br />
 		You may get yourself into a pickle where you've lost your way around and have gotten the grid into an undesired state, no worries! To reset the grid, click on the button labeled "Settings" and click on "Reset" to reset to the default state.
-	</div>
-</div>
+</modal-dialog>
 `
 })
 export class GridViewSettingsComponent {
 
 	@Input() parentGridView: GridView;
 
-	protected menuDown = false;
-	protected customizingColumns = false;
+	@ViewChild("customizeModal") cutomizeModal: ModalDialogComponent;
+	@ViewChild("settingsModal") settingsModal: ModalDialogComponent;
 
 	protected resetGridState() {
 		this.parentGridView.resetGridState();
-		this.menuDown = false;
+		this.settingsModal.hide();
 	}
 
 	protected customizeColumns() {
-		this.customizingColumns = true;
-		this.menuDown = false;
+		this.cutomizeModal.show();
+		this.settingsModal.hide();
 	}
 
 	protected visibilityChanged(col: ColumnBase) {
@@ -90,5 +88,14 @@ export class GridViewSettingsComponent {
 	protected showHideColumn(col: ColumnBase) {
 		col.visible = !col.visible;
 		this.visibilityChanged(col);
+	}
+
+	protected openCloseSettings(evt: any) {
+		if (this.settingsModal.isShown) {
+			this.settingsModal.hide();
+		}
+		else {
+			this.settingsModal.show(null, 0, evt.clientX || evt.X, evt.clientY || evt.Y);
+		}
 	}
 }

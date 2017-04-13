@@ -12,7 +12,7 @@ export class CheckListItem {
 	template: `
 	<button (click)='dropdownVisible = !dropdownVisible' class="{{class}} checklist-button id_{{uniqueId}}">
 		<div class="checklist-button-text">{{selectedText}}</div>
-		<div class="drop-down-image checklist-button-image id_{{uniqueId}} {{ allSelected || !showFilterIcon ? 'arrow-down' : 'glyphicon glyphicon-filter'}}"></div>
+		<div class="drop-down-image icon-x-small checklist-button-image id_{{uniqueId}} {{ allSelected || !showFilterIcon ? 'icon-arrow-down-black' : 'icon-filter-black'}}"></div>
 	</button>
 	<div class='checklist'>
 		<div class='checklist-dropdown' [hidden]='!dropdownVisible'>
@@ -29,7 +29,7 @@ export class CheckListItem {
 	<!--<div class='checklist'>
 		<div class='input-button-container id_{{uniqueId}}'>
 			<button (click)='dropdownVisible = !dropdownVisible' class="input-button id_{{uniqueId}}">
-				<div class="drop-down-image id_{{uniqueId}} {{ allSelected || !showFilterIcon ? 'arrow-down' : 'glyphicon glyphicon-filter'}}"></div>
+				<div class="icon-arrow id_{{uniqueId}} {{ allSelected || !showFilterIcon ? 'icon-arrow-down-black' : 'icon-filter-black'}}"></div>
 			</button>
 		</div>
         <div class='checklist-dropdown' [hidden]='!dropdownVisible'>

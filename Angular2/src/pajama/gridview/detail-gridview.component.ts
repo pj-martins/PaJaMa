@@ -1,6 +1,6 @@
 ﻿import { forwardRef, Component, Input, Output, OnInit, EventEmitter } from '@angular/core';
 import { GridViewComponent } from './gridview.component';
-import { DataColumn, GridView, DetailGridView } from './gridview';
+import { DataColumn, GridView, DetailGridView, } from './gridview';
 
 @Component({
 	selector: 'detail-gridview',
@@ -17,7 +17,7 @@ export class DetailGridViewComponent implements OnInit {
 
 	ngOnInit() {
 		this.detailGridViewInstance = this.detailGridView.createInstance();
-		this.parentGridViewComponent.detailGridViewComponents[this.row[this.parentGridViewComponent.grid.keyFieldName]] = this;
+		this.parentGridViewComponent.detailGridViewComponents[this.parentGridViewComponent.getTempKeyValue(this.row)] = this;
 	}
 
 	isExpanded() {

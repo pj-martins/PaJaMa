@@ -4,6 +4,8 @@ import { OrderByPipe } from '../pipes/order-by.pipe';
 import { Observable } from 'rxjs/Observable';
 import { SortDirection } from '../shared';
 
+export const TEMP_KEY_VALUE = "tmp_key_value";
+
 export class GridView {
 	private _data: Array<any>;
 
@@ -26,11 +28,12 @@ export class GridView {
 	filterVisible: boolean;
 	disableFilterRow: boolean;
 	loading: boolean;
-	showNoResults: boolean = true;
+	showNoResults = true;
 	allowColumnOrdering = false;
 	allowColumnCustomization = false;
 	saveGridStateToStorage = false;
 	gridStateVersion = 0;
+	allowEdit = false;
 	name: string;
 
 	getRowClass: (row: any) => string;
@@ -41,6 +44,16 @@ export class GridView {
 			if (col instanceof DataColumn) {
 				cols.push(<DataColumn>col);
 			}
+		}
+		return cols;
+	}
+
+	getVisibleColumns(hideRowTemplate): Array<ColumnBase> {
+			
+		let cols = new Array<ColumnBase>();
+		for (let c of this.columns) {
+			if (c.visible && (!hideRowTemplate || !this.rowTemplate))
+				cols.push(c);
 		}
 		return cols;
 	}
@@ -280,7 +293,6 @@ export class ColumnBase {
 	}
 }
 export class DataColumn extends ColumnBase {
-	template: Type<IGridViewCellTemplateComponent>;
 	fieldType: FieldType = FieldType.String;
 	columnPipe: ColumnPipe;
 	sortIndex: number = 0;
@@ -289,6 +301,8 @@ export class DataColumn extends ColumnBase {
 	sortable: boolean;
 	disableWrapping: boolean;
 	filterMode: FilterMode = FilterMode.None;
+	template: Type<IGridViewCellTemplateComponent>;
+	editTemplate: Type<IGridViewCellTemplateComponent>;
 	filterTemplate: Type<IGridViewFilterCellTemplateComponent>;
 	filterDelayMilliseconds = 0;
 	sortDirection: SortDirection = SortDirection.None;
@@ -391,6 +405,10 @@ export class GridColumnState {
 	columnIndex: number;
 	filterValue: any;
 	visible: boolean;
+}
+export class RowArguments {
+	row: any;
+	cancel: boolean;
 }
 
 export interface IGridViewFilterCellTemplateComponent {

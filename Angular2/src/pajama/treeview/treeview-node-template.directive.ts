@@ -1,5 +1,5 @@
 ﻿import { Component, Input, Compiler, ViewContainerRef, ViewChild, Injectable, OnInit, Directive, ComponentFactoryResolver, ComponentRef } from '@angular/core';
-import { ITreeViewNodeTemplateComponent, TreeNode } from './treeview';
+import { ITreeViewNodeTemplateComponent, TreeViewNode } from './treeview';
 import { PipesModule } from '../pipes/pipes.module';
 
 @Directive({
@@ -7,7 +7,7 @@ import { PipesModule } from '../pipes/pipes.module';
 })
 export class TreeViewNodeTemplateDirective implements OnInit, ITreeViewNodeTemplateComponent {
 	private _component: ComponentRef<ITreeViewNodeTemplateComponent>;
-	@Input() node: TreeNode;
+	@Input() node: TreeViewNode;
 	constructor(private componentFactoryResolver: ComponentFactoryResolver, private viewContainerRef: ViewContainerRef) {
 	}
 

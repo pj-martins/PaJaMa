@@ -4,7 +4,9 @@ import { SortDirection } from '../../pajama/shared';
 import { TypeaheadModule } from '../../pajama/typeahead/typeahead.module';
 import { MultiTextboxModule } from '../../pajama/multi-textbox/multi-textbox.module';
 import { Event } from '../classes/classes';
-import { CustomerCellTemplateComponent, CoordinatorFilterCellTemplateComponent, EventTypeFilterCellTemplateComponent, RequestedByFilterCellTemplateComponent } from './grid-cell-templates.component';
+import {
+	CustomerCellTemplateComponent, CoordinatorFilterCellTemplateComponent, EventTypeFilterCellTemplateComponent, RequestedByFilterCellTemplateComponent, CustomerCellEditTemplateComponent
+} from './grid-cell-templates.component';
 import { RoomComponent } from './room.component';
 import { Observable } from 'rxjs/Observable';
 
@@ -15,6 +17,8 @@ declare var EVENTS: Array<Event>;
 	selector: 'demo-grid',
 	template: `
 <gridview [grid]='gridDemo' (pageChanged)='pageChanged()'></gridview>
+<br /><br /><br /><br />
+<input type="checkbox" [(ngModel)]='gridDemo.allowEdit' />Allow Edit
 `
 })
 export class DemoGridComponent implements OnInit {
@@ -43,18 +47,21 @@ export class DemoGridComponent implements OnInit {
 		custCol.sortable = true;
 		custCol.allowSizing = true;
 		custCol.template = CustomerCellTemplateComponent;
+		custCol.editTemplate = CustomerCellEditTemplateComponent;
 		this.gridDemo.columns.push(custCol);
 
 		let startCol = new DataColumn("eventStartDT", "Start");
 		startCol.fieldType = FieldType.Date;
 		startCol.sortable = true;
-        startCol.sortDirection = SortDirection.Desc;
+		startCol.sortDirection = SortDirection.Desc;
 		startCol.width = "110px";
+		startCol.filterMode = FilterMode.DateRange;
 		this.gridDemo.columns.push(startCol);
 
 		let endCol = new DataColumn("eventEndDT", "End");
 		endCol.fieldType = FieldType.Date;
 		endCol.width = "110px";
+		endCol.filterMode = FilterMode.DateRange;
 		this.gridDemo.columns.push(endCol);
 
 		this._coordinatorColumn = new DataColumn("coordinator");
@@ -80,9 +87,13 @@ export class DemoGridComponent implements OnInit {
 		let requestedByCol = new DataColumn("requestedBy");
 		requestedByCol.filterMode = FilterMode.DistinctList;
 		requestedByCol.filterValue = [];
-		requestedByCol.filterTemplate = RequestedByFilterCellTemplateComponent;
+		//requestedByCol.filterTemplate = RequestedByFilterCellTemplateComponent;
 		requestedByCol.sortable = true;
 		this.gridDemo.columns.push(requestedByCol);
+
+		let cancelledCol = new DataColumn("cancelled");
+		cancelledCol.fieldType = FieldType.Boolean;
+		this.gridDemo.columns.push(cancelledCol);
 
 		this.gridDemo.keyFieldName = "id";
 

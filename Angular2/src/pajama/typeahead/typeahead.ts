@@ -5,7 +5,7 @@ export const TYPEAHEAD_TEMPLATE = `
 	<div class='typeahead'>
 		<div class='input-button-container id_{{uniqueId}}' *ngIf='!typeahead.dataSourceFunction && !typeahead.hideButton'>
 			<button class='input-button id_{{uniqueId}}' (click)='typeahead.openByButton()' (keydown)='typeahead.keydown($event)' tabindex="-1">
-				<div class='typeahead-dropdown-image arrow-down id_{{uniqueId}}'></div>
+				<div class='icon-arrow-down-black icon-x-small id_{{uniqueId}}'></div>
 			</button>
 		</div>
 		<div class='input-button-container' *ngIf='typeahead.dataSourceFunction && typeahead.loading'>

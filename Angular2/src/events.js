@@ -39,6 +39,7 @@
 		"isPrimaryChoice": false,
 		"id": 33
 	}],
+	"cancelled": false,
 	"eventStartDT": "2016-09-15T07:45:00-07:00",
 	"eventEndDT": "2016-09-16T14:30:00-07:00",
 	"coordinator": "Winter Harrison",
@@ -73,6 +74,7 @@
 		"isPrimaryChoice": false,
 		"id": 127
 	}],
+	"cancelled": false,
 	"eventStartDT": "2016-09-22T09:00:00-07:00",
 	"eventEndDT": "2016-09-22T16:00:00-07:00",
 	"additionalDates": "If 9/22 is not available then one of 9/29, or 10/6",
@@ -108,6 +110,7 @@
 		"isPrimaryChoice": false,
 		"id": 15
 	}],
+	"cancelled": false,
 	"eventStartDT": "2016-02-03T08:00:00-08:00",
 	"eventEndDT": "2016-02-05T17:00:00-08:00",
 	"additionalDates": "Wednesday, Thursday Friday Feb 3-5. Also Feb 24-26 & March 9-10 all day 8AM-5pm",
@@ -143,6 +146,7 @@
 		"isPrimaryChoice": false,
 		"id": 17
 	}],
+	"cancelled": false,
 	"eventStartDT": "2016-02-24T08:00:00-08:00",
 	"eventEndDT": "2016-02-26T17:00:00-08:00",
 	"coordinator": "Vanda Bernard",
@@ -177,6 +181,7 @@
 		"isPrimaryChoice": false,
 		"id": 19
 	}],
+	"cancelled": false,
 	"eventStartDT": "2016-03-09T08:00:00-08:00",
 	"eventEndDT": "2016-03-10T17:00:00-08:00",
 	"coordinator": "Vanda Bernard",
@@ -203,6 +208,7 @@
 		"isPrimaryChoice": true,
 		"id": 110
 	}],
+	"cancelled": false,
 	"eventStartDT": "2016-06-15T11:00:00-07:00",
 	"eventEndDT": "2016-06-15T14:00:00-07:00",
 	"coordinator": "Lillian Frey",
@@ -238,6 +244,7 @@
 		"isPrimaryChoice": false,
 		"id": 125
 	}],
+	"cancelled": false,
 	"eventStartDT": "2016-09-13T09:00:00-07:00",
 	"eventEndDT": "2016-09-13T14:00:00-07:00",
 	"coordinator": "Lillian Frey",
@@ -264,6 +271,7 @@
 		"isPrimaryChoice": true,
 		"id": 24
 	}],
+	"cancelled": false,
 	"eventStartDT": "2015-12-09T07:00:00-08:00",
 	"eventEndDT": "2015-12-10T12:00:00-08:00",
 	"coordinator": "Eugenie Beck",
@@ -298,6 +306,7 @@
 		"isPrimaryChoice": false,
 		"id": 117
 	}],
+	"cancelled": false,
 	"eventStartDT": "2016-07-29T07:00:00-07:00",
 	"eventEndDT": "2016-07-29T12:30:00-07:00",
 	"coordinator": "Eugenie Beck",
@@ -333,6 +342,7 @@
 		"isPrimaryChoice": false,
 		"id": 78
 	}],
+	"cancelled": false,
 	"eventStartDT": "2016-04-07T00:00:00-07:00",
 	"eventEndDT": "2016-04-07T00:30:00-07:00",
 	"coordinator": "Jose Bryant",
@@ -360,6 +370,7 @@
 		"isPrimaryChoice": true,
 		"id": 65
 	}],
+	"cancelled": false,
 	"eventStartDT": "2016-04-27T17:00:00-07:00",
 	"eventEndDT": "2016-04-27T17:00:00-07:00",
 	"coordinator": "Keli Hammond",
@@ -387,6 +398,7 @@
 		"isPrimaryChoice": true,
 		"id": 66
 	}],
+	"cancelled": false,
 	"eventStartDT": "2016-04-28T07:00:00-07:00",
 	"eventEndDT": "2016-04-28T17:30:00-07:00",
 	"coordinator": "Hilde Rollins",
@@ -414,6 +426,7 @@
 		"isPrimaryChoice": true,
 		"id": 113
 	}],
+	"cancelled": false,
 	"eventStartDT": "2016-07-21T08:00:00-07:00",
 	"eventEndDT": "2016-07-21T17:00:00-07:00",
 	"coordinator": "Antonetta Singleton",
@@ -464,6 +477,7 @@
 		"isPrimaryChoice": true,
 		"id": 138
 	}],
+	"cancelled": false,
 	"eventStartDT": "2017-01-18T08:00:00-08:00",
 	"eventEndDT": "2017-01-18T15:30:00-08:00",
 	"coordinator": "Nathalie Phillips",
@@ -499,6 +513,7 @@
 		"isPrimaryChoice": false,
 		"id": 123
 	}],
+	"cancelled": false,
 	"eventStartDT": "2016-10-05T09:00:00-07:00",
 	"eventEndDT": "2016-10-05T12:30:00-07:00",
 	"coordinator": "Temika Navarro",
@@ -565,6 +580,7 @@
 		"isPrimaryChoice": false,
 		"id": 55
 	}],
+	"cancelled": false,
 	"eventStartDT": "2016-09-05T06:00:00-07:00",
 	"eventEndDT": "2016-09-08T12:00:00-07:00",
 	"coordinator": "Jack Warren",
@@ -631,6 +647,7 @@
 		"isPrimaryChoice": false,
 		"id": 61
 	}],
+	"cancelled": false,
 	"eventStartDT": "2016-12-19T06:00:00-08:00",
 	"eventEndDT": "2017-01-02T12:00:00-08:00",
 	"coordinator": "Jack Warren",
@@ -713,6 +730,7 @@
 		"isPrimaryChoice": false,
 		"id": 91
 	}],
+	"cancelled": false,
 	"eventStartDT": "2016-04-19T09:00:00-07:00",
 	"eventEndDT": "2016-04-19T13:00:00-07:00",
 	"coordinator": "Jack Warren",
@@ -795,6 +813,7 @@
 		"isPrimaryChoice": false,
 		"id": 99
 	}],
+	"cancelled": false,
 	"eventStartDT": "2016-04-20T08:00:00-07:00",
 	"eventEndDT": "2016-04-20T11:00:00-07:00",
 	"coordinator": "Jack Warren",
@@ -877,6 +896,7 @@
 		"isPrimaryChoice": false,
 		"id": 107
 	}],
+	"cancelled": false,
 	"eventStartDT": "2016-04-26T09:00:00-07:00",
 	"eventEndDT": "2016-04-26T13:00:00-07:00",
 	"coordinator": "Jack Warren",
@@ -911,6 +931,7 @@
 		"isPrimaryChoice": false,
 		"id": 119
 	}],
+	"cancelled": false,
 	"eventStartDT": "2016-09-28T07:00:00-07:00",
 	"eventEndDT": "2016-09-29T17:00:00-07:00",
 	"coordinator": "Leopoldo Davila",
@@ -946,6 +967,7 @@
 		"isPrimaryChoice": false,
 		"id": 121
 	}],
+	"cancelled": false,
 	"eventStartDT": "2016-09-28T08:00:00-07:00",
 	"eventEndDT": "2016-09-28T17:00:00-07:00",
 	"additionalDates": "09/29/2016",
@@ -974,6 +996,7 @@
 		"isPrimaryChoice": true,
 		"id": 146
 	}],
+	"cancelled": false,
 	"eventStartDT": "2017-04-25T08:00:00-07:00",
 	"eventEndDT": "2017-04-25T17:00:00-07:00",
 	"coordinator": "Celine Mcclure",
@@ -1009,6 +1032,7 @@
 		"isPrimaryChoice": false,
 		"id": 13
 	}],
+	"cancelled": false,
 	"eventStartDT": "2015-11-04T13:30:00-08:00",
 	"eventEndDT": "2015-11-04T16:00:00-08:00",
 	"coordinator": "Darla Moyer",
@@ -1035,6 +1059,7 @@
 		"isPrimaryChoice": true,
 		"id": 25
 	}],
+	"cancelled": false,
 	"eventStartDT": "2015-12-07T08:00:00-08:00",
 	"eventEndDT": "2015-12-08T17:00:00-08:00",
 	"additionalDates": "(needed for two days 12/7 & 12/8)",
@@ -1087,6 +1112,7 @@
 		"isPrimaryChoice": true,
 		"id": 29
 	}],
+	"cancelled": false,
 	"eventStartDT": "2016-10-29T09:00:00-07:00",
 	"eventEndDT": "2016-10-29T16:00:00-07:00",
 	"coordinator": "Sue Leblanc",
@@ -1114,6 +1140,7 @@
 		"isPrimaryChoice": true,
 		"id": 63
 	}],
+	"cancelled": false,
 	"eventStartDT": "2016-02-20T10:00:00-08:00",
 	"eventEndDT": "2016-02-20T13:00:00-08:00",
 	"additionalDates": "The 3rd Friday of each month",
@@ -1141,6 +1168,7 @@
 		"isPrimaryChoice": true,
 		"id": 39
 	}],
+	"cancelled": false,
 	"eventStartDT": "2016-02-10T10:00:00-08:00",
 	"eventEndDT": "2016-02-10T21:00:00-08:00",
 	"coordinator": "Chanel Rodgers",
@@ -1168,6 +1196,7 @@
 		"isPrimaryChoice": true,
 		"id": 3
 	}],
+	"cancelled": true,
 	"eventStartDT": "2015-09-24T05:00:00-07:00",
 	"eventEndDT": "2015-09-24T17:00:00-07:00",
 	"coordinator": "Vennie Hull",
@@ -1194,6 +1223,7 @@
 		"isPrimaryChoice": true,
 		"id": 8
 	}],
+	"cancelled": true,
 	"eventStartDT": "2015-10-07T11:30:00-07:00",
 	"eventEndDT": "2015-10-07T15:30:00-07:00",
 	"coordinator": "Vennie Hull",
@@ -1228,6 +1258,7 @@
 		"isPrimaryChoice": false,
 		"id": 129
 	}],
+	"cancelled": true,
 	"eventStartDT": "2016-12-07T00:00:00-08:00",
 	"eventEndDT": "2016-12-07T12:00:00-08:00",
 	"coordinator": "Vennie Hull",
@@ -1262,6 +1293,7 @@
 		"isPrimaryChoice": false,
 		"id": 23
 	}],
+	"cancelled": true,
 	"eventStartDT": "2015-11-13T11:30:00-08:00",
 	"eventEndDT": "2015-11-13T01:30:00-08:00",
 	"coordinator": "Avery Daniels",
@@ -1304,6 +1336,7 @@
 		"isPrimaryChoice": true,
 		"id": 132
 	}],
+	"cancelled": true,
 	"eventStartDT": "2016-09-08T10:30:00-07:00",
 	"eventEndDT": "2016-09-08T10:00:00-07:00",
 	"coordinator": "Mahalia Barry",
@@ -1338,6 +1371,7 @@
 		"isPrimaryChoice": true,
 		"id": 145
 	}],
+	"cancelled": true,
 	"eventStartDT": "2016-12-16T10:00:00-08:00",
 	"eventEndDT": "2016-12-16T15:00:00-08:00",
 	"coordinator": "Rueben Harrison",
@@ -1397,6 +1431,7 @@
 		"isPrimaryChoice": false,
 		"id": 76
 	}],
+	"cancelled": true,
 	"eventStartDT": "2016-05-18T20:00:00-07:00",
 	"eventEndDT": "2016-05-18T20:00:00-07:00",
 	"coordinator": "Janean Ruiz",
@@ -1431,6 +1466,7 @@
 		"isPrimaryChoice": false,
 		"id": 149
 	}],
+	"cancelled": true,
 	"eventStartDT": "2017-02-16T22:00:00-08:00",
 	"eventEndDT": "2017-02-16T22:00:00-08:00",
 	"coordinator": "Gwenda Green",
@@ -1457,6 +1493,7 @@
 		"isPrimaryChoice": true,
 		"id": 64
 	}],
+	"cancelled": true,
 	"eventStartDT": "2016-03-31T08:00:00-07:00",
 	"eventEndDT": "2016-03-31T18:00:00-07:00",
 	"coordinator": "Soon Morgan",
@@ -1483,6 +1520,7 @@
 		"isPrimaryChoice": true,
 		"id": 45
 	}],
+	"cancelled": true,
 	"eventStartDT": "2016-04-13T07:30:00-07:00",
 	"eventEndDT": "2016-04-13T07:30:00-07:00",
 	"coordinator": "Collen Conner",
@@ -1526,6 +1564,7 @@
 		"isPrimaryChoice": true,
 		"id": 11
 	}],
+	"cancelled": true,
 	"eventStartDT": "2016-10-01T08:00:00-07:00",
 	"eventEndDT": "2016-10-01T23:00:00-07:00",
 	"additionalDates": "10/8/16 or 10/29/16",
@@ -1562,6 +1601,7 @@
 		"isPrimaryChoice": true,
 		"id": 5
 	}],
+	"cancelled": true,
 	"eventStartDT": "2015-09-24T08:00:00-07:00",
 	"eventEndDT": "2015-09-24T13:00:00-07:00",
 	"coordinator": "Suellen Ewing",
@@ -1596,6 +1636,7 @@
 		"isPrimaryChoice": false,
 		"id": 7
 	}],
+	"cancelled": true,
 	"eventStartDT": "2015-11-04T16:00:00-08:00",
 	"eventEndDT": "2015-11-04T04:00:00-08:00",
 	"coordinator": "Margret Green",
@@ -1647,6 +1688,7 @@
 		"isPrimaryChoice": false,
 		"id": 37
 	}],
+	"cancelled": true,
 	"eventStartDT": "2015-12-18T06:00:00-08:00",
 	"eventEndDT": "2015-12-18T18:00:00-08:00",
 	"coordinator": "Waneta Levy",
@@ -1673,6 +1715,7 @@
 		"isPrimaryChoice": true,
 		"id": 43
 	}],
+	"cancelled": true,
 	"eventStartDT": "2016-05-04T17:30:00-07:00",
 	"eventEndDT": "2016-05-04T17:30:00-07:00",
 	"coordinator": "Waneta Levy",
@@ -1699,6 +1742,7 @@
 		"isPrimaryChoice": true,
 		"id": 44
 	}],
+	"cancelled": true,
 	"eventStartDT": "2016-11-02T17:30:00-07:00",
 	"eventEndDT": "2016-11-02T17:30:00-07:00",
 	"coordinator": "Waneta Levy",
@@ -1733,6 +1777,7 @@
 		"isPrimaryChoice": false,
 		"id": 80
 	}],
+	"cancelled": true,
 	"eventStartDT": "2016-05-03T07:30:00-07:00",
 	"eventEndDT": "2016-05-03T07:30:00-07:00",
 	"additionalDates": "Any day during this week will work",
@@ -1768,6 +1813,7 @@
 		"isPrimaryChoice": false,
 		"id": 47
 	}],
+	"cancelled": true,
 	"eventStartDT": "2016-02-23T08:00:00-08:00",
 	"eventEndDT": "2016-02-23T13:00:00-08:00",
 	"additionalDates": "02/24/2016",
@@ -1803,6 +1849,7 @@
 		"isPrimaryChoice": false,
 		"id": 69
 	}],
+	"cancelled": true,
 	"eventStartDT": "2016-04-07T08:00:00-07:00",
 	"eventEndDT": "2016-04-07T16:00:00-07:00",
 	"additionalDates": "",
@@ -1839,6 +1886,7 @@
 		"isPrimaryChoice": false,
 		"id": 71
 	}],
+	"cancelled": true,
 	"eventStartDT": "2016-04-14T07:30:00-07:00",
 	"eventEndDT": "2016-04-14T16:30:00-07:00",
 	"additionalDates": "If 4/14 not available, please check 4/13/16",
@@ -1874,6 +1922,7 @@
 		"isPrimaryChoice": false,
 		"id": 112
 	}],
+	"cancelled": true,
 	"eventStartDT": "2016-06-22T07:45:00-07:00",
 	"eventEndDT": "2016-06-24T17:30:00-07:00",
 	"additionalDates": "Wed, Thurs, Fri",
@@ -1910,6 +1959,7 @@
 		"isPrimaryChoice": true,
 		"id": 21
 	}],
+	"cancelled": true,
 	"eventStartDT": "2015-12-11T10:00:00-08:00",
 	"eventEndDT": "2015-12-11T16:00:00-08:00",
 	"coordinator": "Rueben Harrison",
@@ -1937,6 +1987,7 @@
 		"isPrimaryChoice": true,
 		"id": 42
 	}],
+	"cancelled": true,
 	"eventStartDT": "2016-02-05T08:30:00-08:00",
 	"eventEndDT": "2016-02-05T10:30:00-08:00",
 	"coordinator": "Terresa Horton",
@@ -1963,6 +2014,7 @@
 		"isPrimaryChoice": true,
 		"id": 67
 	}],
+	"cancelled": true,
 	"eventStartDT": "2016-05-07T08:30:00-07:00",
 	"eventEndDT": "2016-05-07T10:30:00-07:00",
 	"coordinator": "Terresa Horton",
@@ -1997,6 +2049,7 @@
 		"isPrimaryChoice": false,
 		"id": 115
 	}],
+	"cancelled": true,
 	"eventStartDT": "2016-06-20T17:30:00-07:00",
 	"eventEndDT": "2016-06-20T17:00:00-07:00",
 	"coordinator": "Kelsi Duncan",
@@ -2023,6 +2076,7 @@
 		"isPrimaryChoice": true,
 		"id": 142
 	}],
+	"cancelled": true,
 	"eventStartDT": "2016-12-05T10:00:00-08:00",
 	"eventEndDT": "2016-12-05T12:00:00-08:00",
 	"coordinator": "Veronika Small",
@@ -2049,6 +2103,7 @@
 		"isPrimaryChoice": true,
 		"id": 143
 	}],
+	"cancelled": true,
 	"eventStartDT": "2016-12-05T10:00:00-08:00",
 	"eventEndDT": "2016-12-05T12:00:00-08:00",
 	"coordinator": "Veronika Small",
@@ -2075,6 +2130,7 @@
 		"isPrimaryChoice": true,
 		"id": 147
 	}],
+	"cancelled": true,
 	"eventStartDT": "2017-02-07T08:00:00-08:00",
 	"eventEndDT": "2017-02-07T17:00:00-08:00",
 	"coordinator": "Kelsi Duncan",
@@ -2101,6 +2157,7 @@
 		"isPrimaryChoice": true,
 		"id": 62
 	}],
+	"cancelled": true,
 	"eventStartDT": "2016-02-29T17:30:00-08:00",
 	"eventEndDT": "2016-02-29T17:45:00-08:00",
 	"additionalDates": "3/28/2016, 4/25/2016,",
@@ -2137,6 +2194,7 @@
 		"isPrimaryChoice": false,
 		"id": 134
 	}],
+	"cancelled": true,
 	"eventStartDT": "2016-09-26T17:30:00-07:00",
 	"eventEndDT": "2016-09-26T17:00:00-07:00",
 	"additionalDates": "10/24/16, 11/21/16",
@@ -2165,6 +2223,7 @@
 		"isPrimaryChoice": true,
 		"id": 139
 	}],
+	"cancelled": true,
 	"eventStartDT": "2016-11-15T19:00:00-08:00",
 	"eventEndDT": "2016-11-15T20:00:00-08:00",
 	"additionalDates": "11/16/2016, 11/17/2016",
@@ -2201,6 +2260,7 @@
 		"isPrimaryChoice": false,
 		"id": 109
 	}],
+	"cancelled": true,
 	"eventStartDT": "2016-04-28T08:30:00-07:00",
 	"eventEndDT": "2016-04-28T16:30:00-07:00",
 	"coordinator": "Lianne Patton",
@@ -2228,6 +2288,7 @@
 		"isPrimaryChoice": true,
 		"id": 150
 	}],
+	"cancelled": true,
 	"eventStartDT": "2017-03-23T08:00:00-07:00",
 	"eventEndDT": "2017-03-24T17:00:00-07:00",
 	"coordinator": "Ardelle Zimmerman",
@@ -2271,6 +2332,7 @@
 		"isPrimaryChoice": false,
 		"id": 83
 	}],
+	"cancelled": true,
 	"eventStartDT": "2016-04-14T17:00:00-07:00",
 	"eventEndDT": "2016-04-14T17:00:00-07:00",
 	"coordinator": "Nakisha Casey",
@@ -2305,6 +2367,7 @@
 		"isPrimaryChoice": true,
 		"id": 141
 	}],
+	"cancelled": true,
 	"eventStartDT": "2016-12-16T04:00:00-08:00",
 	"eventEndDT": "2016-12-16T15:00:00-08:00",
 	"coordinator": "Demetra Kaiser",
@@ -2340,6 +2403,7 @@
 		"isPrimaryChoice": false,
 		"id": 41
 	}],
+	"cancelled": true,
 	"eventStartDT": "2015-12-18T16:00:00-08:00",
 	"eventEndDT": "2015-12-18T16:00:00-08:00",
 	"coordinator": "Omer Day",
@@ -2374,6 +2438,7 @@
 		"isPrimaryChoice": false,
 		"id": 49
 	}],
+	"cancelled": true,
 	"eventStartDT": "2016-01-14T16:00:00-08:00",
 	"eventEndDT": "2016-01-14T16:00:00-08:00",
 	"coordinator": "Omer Day",

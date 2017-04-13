@@ -1,5 +1,5 @@
 ﻿import { Component, Input, ViewChild } from '@angular/core';
-import { TreeNode } from './treeview';
+import { TreeViewNode } from './treeview';
 import { TreeViewNodeComponent } from './treeview-node.component';
 
 @Component({
@@ -14,7 +14,7 @@ import { TreeViewNodeComponent } from './treeview-node.component';
 })
 export class TreeViewComponent {
 	@Input()
-	nodes: Array<TreeNode>;
+	nodes: Array<TreeViewNode>;
 
 	@ViewChild(TreeViewNodeComponent)
 	protected treeViewNodeComponent: TreeViewNodeComponent;

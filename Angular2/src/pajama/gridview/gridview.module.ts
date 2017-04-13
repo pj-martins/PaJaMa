@@ -17,6 +17,7 @@ import { PipesModule } from '../pipes/pipes.module';
 import { TypeaheadModule } from '../typeahead/typeahead.module';
 import { CheckListModule } from '../checklist/checklist.module';
 import { DateTimePickerModule } from '../datetime-picker/datetime-picker.module';
+import { ModalDialogModule } from '../modal-dialog/modal-dialog.module';
 
 @NgModule({
     imports: [
@@ -25,7 +26,8 @@ import { DateTimePickerModule } from '../datetime-picker/datetime-picker.module'
 		PipesModule,
 		CheckListModule,
 		TypeaheadModule,
-		DateTimePickerModule
+		DateTimePickerModule,
+		ModalDialogModule
     ],
     declarations: [
         GridViewComponent,

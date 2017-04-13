@@ -1,7 +1,7 @@
 ﻿import { Component, OnInit, Type, ViewChild } from '@angular/core';
 import { Event, Customer } from '../classes/classes';
 import { RoomComponent } from './room.component';
-import { TreeNode } from '../../pajama/treeview/treeview';
+import { TreeViewNode } from '../../pajama/treeview/treeview';
 import { TreeViewComponent } from '../../pajama/treeview/treeview.component';
 import { RoomNodeTemplateComponent } from './treeview-templates.component';
 import { Observable } from 'rxjs/Observable';
@@ -20,17 +20,17 @@ declare var EVENTS: Array<Event>;
 `
 })
 export class DemoTreeComponent implements OnInit {
-	protected nodes: Array<TreeNode>;
+	protected nodes: Array<TreeViewNode>;
 
 	@ViewChild(TreeViewComponent)
 	treeViewComponent: TreeViewComponent;
 
 	ngOnInit() {
-		this.nodes = new Array<TreeNode>();
+		this.nodes = new Array<TreeViewNode>();
 		for (let i = 0; i < EVENTS.length; i++) {
 			let e = EVENTS[i];
 
-			let node: TreeNode;
+			let node: TreeViewNode;
 			for (let curr of this.nodes) {
 				if (curr.text == e.customer.customerName) {
 					node = curr;
@@ -39,23 +39,23 @@ export class DemoTreeComponent implements OnInit {
 			}
 
 			if (node == null) {
-				node = new TreeNode();
+				node = new TreeViewNode();
 				node.dataItem = e;
 				node.text = e.customer.customerName;
-				node.childNodes = new Array<TreeNode>();
+				node.childNodes = new Array<TreeViewNode>();
 				this.nodes.push(node);
 			}
 
-			let eventNode = new TreeNode();
+			let eventNode = new TreeViewNode();
 			eventNode.dataItem = e;
 			eventNode.class = "event-node";
 			eventNode.text = moment(e.eventStartDT).format("MM/DD/YYYY") + " - " + moment(e.eventEndDT).format("MM/DD/YYYY") + " " + e.requestedBy;
 
 			// synchronous
 			if (i < 5) {
-				eventNode.childNodes = new Array<TreeNode>();
+				eventNode.childNodes = new Array<TreeViewNode>();
 				for (let r of e.hallRequestRooms) {
-					let childNode = new TreeNode();
+					let childNode = new TreeViewNode();
 					childNode.dataItem = r;
 					childNode.text = r.hallRoom.roomName;
 					childNode.template = RoomNodeTemplateComponent;
@@ -66,9 +66,9 @@ export class DemoTreeComponent implements OnInit {
 			else if (i < 10) {
 				eventNode.getChildNodes = (parent: any) => {
 					let e = <Event>parent;
-					let childNodes = new Array<TreeNode>();
+					let childNodes = new Array<TreeViewNode>();
 					for (let r of e.hallRequestRooms) {
-						let childNode = new TreeNode();
+						let childNode = new TreeViewNode();
 						childNode.dataItem = r;
 						childNode.text = r.hallRoom.roomName;
 						childNode.template = RoomNodeTemplateComponent;

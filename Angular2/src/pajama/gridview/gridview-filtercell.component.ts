@@ -26,10 +26,7 @@ import { CheckListModule } from '../checklist/checklist.module';
 		</div>
 	</div>
 	<div class='gridview-filtercell-clear'>
-		<div class='clickable close-outer' (click)='clearFilter()'>
-			<div class='close-inner'>
-				<div class='close-icon'></div>
-			</div>
+		<div class='clickable icon-remove-black icon-small' (click)='clearFilter()'>
 		</div>
 	</div>
 </div>

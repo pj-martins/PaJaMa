@@ -24,14 +24,14 @@ import * as moment from 'moment'
 					<input type="number" [(ngModel)]="selectedYear" (change)="refreshCalendarDates()" />
 				</div>
 				<div class="arrow-up-down-container">
-					<div class="datetime-picker-top-spinner datetime-picker-clickable arrow-up" (click)="addYear()">
+					<div class="datetime-picker-top-spinner datetime-picker-clickable icon-arrow-up-black spinner-arrows" (click)="addYear()">
 					</div>
-					<div class="datetime-picker-bottom-spinner datetime-picker-clickable arrow-down" (click)="addYear(true)">
+					<div class="datetime-picker-bottom-spinner datetime-picker-clickable icon-arrow-down-black spinner-arrows" (click)="addYear(true)">
 					</div>
 				</div>
 				<div class="arrow-left-right-container">
-					<div class="arrow-left datetime-picker-clickable" (click)="addMonth(true)"></div>
-					<div class="arrow-right datetime-picker-clickable" (click)="addMonth()"></div>
+					<div class="icon-arrow-left-black icon-small datetime-picker-clickable" (click)="addMonth(true)"></div>
+					<div class="icon-arrow-right-black icon-small datetime-picker-clickable" (click)="addMonth()"></div>
 				</div>
 			</div>
 			<div class="datetime-picker-inner" *ngIf="!hideDate">
