@@ -15,10 +15,10 @@ import { Observable } from 'rxjs/Observable';
         <ng-content></ng-content>
 	</div>
 	<div class="modal-footer" *ngIf="showFooter">
-		<button type="button" *ngIf="buttons == button.OK || buttons == button.OKCancel" (click)="ok()">OK</button>
-		<button type="button" *ngIf="buttons == button.OKCancel" (click)="cancel()">Cancel</button>
-        <button type="button" *ngIf="buttons == button.YesNo" (click)="yes()">Yes</button>
-        <button type="button" *ngIf="buttons == button.YesNo" (click)="no()">No</button>
+		<button type="button" class="btn" *ngIf="buttons == button.OK || buttons == button.OKCancel" (click)="ok()">OK</button>
+		<button type="button" class="btn" *ngIf="buttons == button.OKCancel" (click)="cancel()">Cancel</button>
+        <button type="button" class="btn" *ngIf="buttons == button.YesNo" (click)="yes()">Yes</button>
+        <button type="button" class="btn" *ngIf="buttons == button.YesNo" (click)="no()">No</button>
 	</div>
 </div>
 <div class="modal-background" *ngIf="shown && showBackdrop"></div>

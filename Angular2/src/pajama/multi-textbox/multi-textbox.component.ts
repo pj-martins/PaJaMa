@@ -3,17 +3,17 @@
 export const MULTITEXTBOX_TEMPLATE = `
 <div class='multi-textbox'>
 	<div class='input-button-container component' [style.display]="currText && !typeahead ? 'inline' : 'none'">
-		<button (click)='addItem()' class="input-button" tabindex="-1">
-			<div class="glyphicon glyphicon-plus"></div>
-		</button>
+		<div class='multi-textbox-add'>
+			<button class='icon-plus-black icon-small icon-button' (click)='addItem()' tabindex="-1">
+			</button>
+		</div>
 	</div>
 	<div class='multi-textbox-item-container component' [style.padding-left]="(originalPaddingLeft <= 0 ? 0 : originalPaddingLeft - 1) + 'px'">
 		<div *ngFor='let item of items || []' class='multi-textbox-item'>
 			{{getObjectValue(item)}}
-			<div class='multi-textbox-remove close-outer' *ngIf='!isReadOnly' (click)='removeItem(item)'>
-				<div class='close-inner'>
-					<div class='close-icon'></div>
-				</div>
+			<div class='multi-textbox-remove'>
+				<button class='icon-remove-black icon-small icon-button' *ngIf='!isReadOnly' (click)='removeItem(item)'>
+				</button>
 			</div>
 		</div>
 	</div>

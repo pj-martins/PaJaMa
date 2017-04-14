@@ -72,11 +72,11 @@ import { Utils } from '../shared';
 			</div>
 			<div class="datetime-picker-controls-panel">
 				<div class="datetime-picker-buttons-panel id_{{uniqueId}}">
-					<button (click)="selectNow()">
+					<button class="btn btn-small btn-primary" (click)="selectNow()">
 						Now
 					</button>
 					&nbsp;
-					<button (click)="persistDate()">
+					<button class="btn btn-small btn-primary" (click)="persistDate()">
 						Select
 					</button>
 				</div>

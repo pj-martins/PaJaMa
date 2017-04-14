@@ -18,31 +18,14 @@ export class CheckListItem {
 	<div class='checklist'>
 		<div class='checklist-dropdown' [hidden]='!dropdownVisible'>
 			<div *ngIf='!disableAll' (click)='selectAll()' class='checklist-item checklist-item-all id_{{uniqueId}}'>
-				<div class="checklist-check glyphicon {{ allSelected ? 'glyphicon-ok' : 'glyphicon-none'}}"></div>(Select All)</div>
+				<div class="checklist-check icon-small {{ allSelected ? 'icon-check-black' : ''}}"></div>(Select All)</div>
 				<div *ngFor='let item of displayItems' (click)='selectItem(item)' class='checklist id_{{uniqueId}}'>
 				<div class='checklist-item id_{{uniqueId}}'>
-					<div class="checklist-check glyphicon {{ item.selected ? 'glyphicon-ok' : 'glyphicon-none'}}"></div>{{displayMember ? item.item[displayMember] : item.item}}
+					<div class="checklist-check icon-small {{ item.selected ? 'icon-check-black' : ''}}"></div>{{displayMember ? item.item[displayMember] : item.item}}
 				</div>
 			</div>
 		</div>
 	</div>
-
-	<!--<div class='checklist'>
-		<div class='input-button-container id_{{uniqueId}}'>
-			<button (click)='dropdownVisible = !dropdownVisible' class="input-button id_{{uniqueId}}">
-				<div class="icon-arrow id_{{uniqueId}} {{ allSelected || !showFilterIcon ? 'icon-arrow-down-black' : 'icon-filter-black'}}"></div>
-			</button>
-		</div>
-        <div class='checklist-dropdown' [hidden]='!dropdownVisible'>
-            <div *ngIf='!disableAll' (click)='selectAll()' class='checklist-item checklist-item-all id_{{uniqueId}}'>
-                <div class="checklist-check glyphicon {{ allSelected ? 'glyphicon-ok' : 'glyphicon-none'}}"></div>(Select All)</div>
-                <div *ngFor='let item of displayItems' (click)='selectItem(item)' class='checklist id_{{uniqueId}}'>
-                <div class='checklist-item id_{{uniqueId}}'>
-                    <div class="checklist-check glyphicon {{ item.selected ? 'glyphicon-ok' : 'glyphicon-none'}}"></div>{{displayMember ? item.item[displayMember] : item.item}}
-                </div>
-            </div>
-        </div>
-	</div>-->
 `,
 	styleUrls: ['../styles.css', 'checklist.css']
 })
