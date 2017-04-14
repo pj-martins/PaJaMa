@@ -1,6 +1,6 @@
-﻿import { forwardRef, Component, Input, Output, OnInit, EventEmitter } from '@angular/core';
+﻿import { forwardRef, Component, Input, Output, OnInit, EventEmitter, ViewChild } from '@angular/core';
 import { GridViewComponent } from './gridview.component';
-import { DataColumn, GridView, DetailGridView, } from './gridview';
+import { DataColumn, GridView, DetailGridView } from './gridview';
 
 @Component({
 	selector: 'detail-gridview',
@@ -11,12 +11,24 @@ export class DetailGridViewComponent implements OnInit {
 	@Input() detailGridView: DetailGridView;
 	@Input() row: any;
 
+	@ViewChild(GridViewComponent) gridViewComponent: GridViewComponent;
+
 	detailGridViewInstance: DetailGridView;
 	private _expanded: boolean;
 	private _inited: boolean;
 
+	private editParent() {
+		if (!this.parentGridViewComponent.editingRows[this.parentGridViewComponent.getTempKeyValue(this.row)])
+			this.parentGridViewComponent.editRow(this.row);
+	}
+
 	ngOnInit() {
 		this.detailGridViewInstance = this.detailGridView.createInstance();
+		if (this.detailGridView.allowEdit && this.parentGridViewComponent.grid.allowEdit) {
+			this.detailGridViewInstance.rowEdit.subscribe(re => this.editParent());
+			this.detailGridViewInstance.rowDelete.subscribe(re => this.editParent());
+			this.detailGridViewInstance.rowCreate.subscribe(re => this.editParent());
+		}
 		this.parentGridViewComponent.detailGridViewComponents[this.parentGridViewComponent.getTempKeyValue(this.row)] = this;
 	}
 

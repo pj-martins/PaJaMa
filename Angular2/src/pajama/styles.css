@@ -164,7 +164,8 @@ input.component {
 
 
 .icon-button {
-	width: 14px;
+	width: auto;
+	min-width: 14px;
 	height: 14px;
 	border: 0px;
 	border-radius: 3px;
@@ -178,4 +179,9 @@ input.component {
 	background-repeat: no-repeat;
 	width: 14px;
 	height: 10px;
+}
+
+.error-label {
+	font-weight: bold;
+	color: red;
 }

@@ -1,6 +1,7 @@
 ﻿import { Component, Input, Output, EventEmitter, OnInit, forwardRef, NgZone, Directive, Attribute, ElementRef } from '@angular/core';
 import { NG_VALUE_ACCESSOR, ControlValueAccessor, AbstractControl, NG_VALIDATORS, Validator, FormControl } from '@angular/forms';
 import * as moment from 'moment'
+import { Utils } from '../shared';
 
 @Component({
 	moduleId: module.id,
@@ -15,23 +16,21 @@ import * as moment from 'moment'
 	<div class="datetime-picker-dropdown component {{hideDate ? 'datetime-picker-timeonly-dropdown' : ''}} id_{{uniqueId}}" *ngIf="dropdownVisible">
 		<div class="datetime-picker-container id_{{uniqueId}}">
 			<div class="datetime-picker-controls-panel" *ngIf="!hideDate">
-				<div class="datetime-picker-month-year-panel">
+				<div class="datetime-picker-date-panel id_{{uniqueId}}">
 					<select [(ngModel)]="selectedMonth" (change)="refreshCalendarDates()">
 						<option *ngFor="let mo of months" [ngValue]="mo.number" class="month-option id_{{uniqueId}}">{{mo.name.substring(0, 3)}}</option>
 					</select>
-				</div>
-				<div class="datetime-picker-date-panel  datetime-picker-month-year-panel">
 					<input type="number" [(ngModel)]="selectedYear" (change)="refreshCalendarDates()" />
-				</div>
-				<div class="arrow-up-down-container">
-					<div class="datetime-picker-top-spinner datetime-picker-clickable icon-arrow-up-black spinner-arrows" (click)="addYear()">
+					<div class="arrow-up-down-container">
+						<div class="datetime-picker-top-spinner datetime-picker-clickable icon-arrow-up-black spinner-arrows" (click)="addYear()">
+						</div>
+						<div class="datetime-picker-bottom-spinner datetime-picker-clickable icon-arrow-down-black spinner-arrows" (click)="addYear(true)">
+						</div>
 					</div>
-					<div class="datetime-picker-bottom-spinner datetime-picker-clickable icon-arrow-down-black spinner-arrows" (click)="addYear(true)">
+					<div class="arrow-left-right-container">
+						<div class="icon-arrow-left-black icon-small datetime-picker-clickable" (click)="addMonth(true)"></div>
+						<div class="icon-arrow-right-black icon-small datetime-picker-clickable" (click)="addMonth()"></div>
 					</div>
-				</div>
-				<div class="arrow-left-right-container">
-					<div class="icon-arrow-left-black icon-small datetime-picker-clickable" (click)="addMonth(true)"></div>
-					<div class="icon-arrow-right-black icon-small datetime-picker-clickable" (click)="addMonth()"></div>
 				</div>
 			</div>
 			<div class="datetime-picker-inner" *ngIf="!hideDate">
@@ -49,17 +48,21 @@ import * as moment from 'moment'
 					</tr>
 				</table>
 			</div>
-			<div class="datetime-picker-controls-panel row" *ngIf="!hideTime">
-				<div class="col-md-12 datetime-picker-time-panel id_{{uniqueId}}">
+			<div class="datetime-picker-controls-panel" *ngIf="!hideTime">
+				<div class="datetime-picker-time-panel id_{{uniqueId}}">
 					<input type="text" [(ngModel)]="selectedHour" (keydown)="hourMinuteKeydown(12, selectedHour)" />
-					<div class="datetime-picker-top-spinner datetime-picker-clickable glyphicon glyphicon-triangle-top" (click)="addHour()">
-					</div>
-					<div class="datetime-picker-bottom-spinner datetime-picker-clickable glyphicon glyphicon-triangle-bottom" (click)="addHour(true)">
+					<div class="arrow-up-down-container">
+						<div class="datetime-picker-top-spinner datetime-picker-clickable icon-arrow-up-black spinner-arrows" (click)="addHour()">
+						</div>
+						<div class="datetime-picker-bottom-spinner datetime-picker-clickable icon-arrow-down-black spinner-arrows" (click)="addHour(true)">
+						</div>
 					</div>
 					<input type="text" [(ngModel)]="selectedMinute" (keydown)="hourMinuteKeydown(59, selectedMinute)" (blur)="formatMinute()" />
-					<div class="datetime-picker-top-spinner datetime-picker-clickable glyphicon glyphicon-triangle-top" (click)="addMinute()">
-					</div>
-					<div class="datetime-picker-bottom-spinner datetime-picker-clickable glyphicon glyphicon-triangle-bottom" (click)="addMinute(true)">
+					<div class="arrow-up-down-container">
+						<div class="datetime-picker-top-spinner datetime-picker-clickable icon-arrow-up-black spinner-arrows" (click)="addMinute()">
+						</div>
+						<div class="datetime-picker-bottom-spinner datetime-picker-clickable icon-arrow-down-black spinner-arrows" (click)="addMinute(true)">
+						</div>
 					</div>
 					<select [(ngModel)]="selectedAMPM">
 						<option class="ampm-option id_{{uniqueId}}" [ngValue]="'AM'">AM</option>
@@ -67,13 +70,13 @@ import * as moment from 'moment'
 					</select>
 				</div>
 			</div>
-			<div class="datetime-picker-controls-panel row">
-				<div class="col-md-12 datetime-picker-buttons-panel id_{{uniqueId}}">
-					<button class="btn btn-default" (click)="selectNow()">
+			<div class="datetime-picker-controls-panel">
+				<div class="datetime-picker-buttons-panel id_{{uniqueId}}">
+					<button (click)="selectNow()">
 						Now
 					</button>
 					&nbsp;
-					<button class="btn btn-primary" (click)="persistDate()">
+					<button (click)="persistDate()">
 						Select
 					</button>
 				</div>
@@ -133,7 +136,7 @@ export class DateTimePickerComponent implements OnInit { // implements ControlVa
 	protected selectedMinute: string;
 	protected selectedAMPM: string;
 	protected dropdownVisible: boolean = false;
-	protected uniqueId = Math.floor((1 + Math.random()) * 0x10000).toString();
+	protected uniqueId = Utils.newGuid();
 
 	constructor(private zone: NgZone, public elementRef: ElementRef) { }
 

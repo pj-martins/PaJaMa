@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { GridView, DataColumn, FilterMode, FieldType } from 'pajama/gridview/gridview';
 import { GridViewCellTemplateComponent, GridViewFilterCellTemplateComponent } from 'pajama/gridview/gridview-templates.component';
+import { Event, Customer } from '../classes/classes';
 
 @Component({
 	moduleId: module.id,
@@ -35,7 +36,36 @@ export class RequestedByFilterCellTemplateComponent extends GridViewFilterCellTe
 	moduleId: module.id,
 	selector: 'customer-cell',
 	template: `
-<strong>{{row.customer.customerName}}</strong>
+<strong>{{row.customer?.customerName}}</strong>
 `
 })
 export class CustomerCellTemplateComponent extends GridViewCellTemplateComponent { }
+
+declare var EVENTS: Array<Event>;
+
+@Component({
+	moduleId: module.id,
+	selector: 'customer-cell-edit',
+	template: `
+<input type="text" [(ngModel)]='row.customer' typeahead [dataSource]='customers' displayMember='customerName' />
+`
+})
+export class CustomerCellEditTemplateComponent extends GridViewCellTemplateComponent {
+	protected customers = new Array<Customer>();
+	constructor() {
+		super();
+		for (let e of EVENTS) {
+			if (e.customer) {
+				let exists = false;
+				for (let c of this.customers) {
+					if (e.customer.id == c.id) {
+						exists = true;
+						break;
+					}
+				}
+				if (!exists)
+					this.customers.push(e.customer);
+			}
+		}
+	}
+}

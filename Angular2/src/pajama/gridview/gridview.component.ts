@@ -5,6 +5,7 @@ import { DetailGridViewComponent } from './detail-gridview.component';
 import { GridViewPagerComponent } from './gridview-pager.component';
 import { GridViewHeaderCellComponent } from './gridview-headercell.component';
 import { ParserService } from '../services/parser.service';
+import { Utils } from '../shared';
 
 @Component({
 	moduleId: module.id,
@@ -81,10 +82,17 @@ import { ParserService } from '../services/parser.service';
 						<gridview-cell [column]="col" [row]="row" [last]='last' [first]='first' [index]='i' [parentGridViewComponent]="self" [parentGridView]="grid"></gridview-cell>
 					</td>
 					<td *ngIf='grid.allowEdit'>
-						<button *ngIf="!editing(row)" class="icon-pencil-black icon-small icon-button" (click)="editRow(row)"></button>
-						<button *ngIf="!editing(row)" class="icon-remove-black icon-small icon-button" (click)="deleteRow(row)"></button>
+						<button *ngIf="!editing(row) && !promptConfirm[getTempKeyValue(row)]" class="icon-pencil-black icon-small icon-button" (click)="editRow(row)"></button>
+						<button *ngIf="!editing(row) && !promptConfirm[getTempKeyValue(row)]" class="icon-remove-black icon-small icon-button" (click)="confirmDelete(row)"></button>
 						<button *ngIf="editing(row)" class="icon-check-black icon-small icon-button" (click)="saveEdit(row)"></button>
 						<button *ngIf="editing(row)" class="icon-cancel-black icon-small icon-button" (click)="cancelEdit(row)"></button>
+					</td>
+                </tr>
+				<tr *ngIf='promptConfirm[getTempKeyValue(row)]'>
+                    <td [attr.colspan]="getVisibleColumnCount() + 2" class="prompt-confirm-td">
+						Are you sure?&nbsp;&nbsp;
+						<button class="icon-check-black icon-small icon-button" (click)="deleteRow(row)">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Yes</button>&nbsp;&nbsp;
+						<button class="icon-cancel-black icon-small icon-button" (click)="cancelDelete(row)">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;No</button>&nbsp;&nbsp;
 					</td>
                 </tr>
                 <tr *ngIf='!grid.loading && grid.rowTemplate'>
@@ -174,15 +182,15 @@ export class GridViewComponent {
 	@Output() filterChanged = new EventEmitter<DataColumn>();
 	@Output() pageChanged = new EventEmitter<any>();
 	@Output() selectionChanged = new EventEmitter<any[]>();
-	@Output() rowSave = new EventEmitter<RowArguments>();
-	@Output() rowCreate = new EventEmitter<RowArguments>();
-	@Output() rowDelete = new EventEmitter<RowArguments>();
-
 	constructor(public parserService: ParserService, private zone: NgZone) { }
 
 	editingRows: { [tempKeyValue: string]: any } = {};
-	newRows: { [tempKeyValue: string]: any } = {};
 	detailGridViewComponents: { [tempKeyValue: string]: DetailGridViewComponent } = {};
+	showRequired: { [tempKeyValue: string]: boolean } = {};
+
+	private newRows: { [tempKeyValue: string]: any } = {};
+	protected promptConfirm: { [templateKeyValue: string]: boolean } = {};
+
 	protected self: GridViewComponent = this;
 	protected sortDirection = SortDirection;
 	protected fieldType = FieldType;
@@ -238,7 +246,7 @@ export class GridViewComponent {
 
 	getTempKeyValue(row) {
 		if (!row[TEMP_KEY_VALUE])
-			row[TEMP_KEY_VALUE] = Math.floor((1 + Math.random()) * 0x10000).toString();
+			row[TEMP_KEY_VALUE] = Utils.newGuid();
 		return row[TEMP_KEY_VALUE];
 	}
 
@@ -463,19 +471,6 @@ export class GridViewComponent {
 		return this._displayData || [];
 	}
 
-	protected addRow() {
-		let newRow = {};
-		let args = new RowArguments();
-		args.row = newRow;
-		this.rowCreate.emit(args);
-		if (!args.cancel) {
-			this._displayData.splice(0, 0, newRow);
-			this.grid.data.splice(0, 0, newRow);
-			this.editingRows[this.getTempKeyValue(newRow)] = newRow;
-			this.newRows[this.getTempKeyValue(newRow)] = newRow;
-		}
-	}
-
 	private removeRowFromGrid(row: any) {
 		for (let i = 0; i < this._displayData.length; i++) {
 			if (this.getTempKeyValue(this._displayData[i]) == this.getTempKeyValue(row)) {
@@ -491,31 +486,97 @@ export class GridViewComponent {
 		}
 	}
 
-	protected editRow(row: any) {
-		this.editingRows[this.getTempKeyValue(row)] = {};
-		Object.assign(this.editingRows[this.getTempKeyValue(row)], row);
+	addRow() {
+		let newRow = {};
+
+		if (this.grid.detailGridView) {
+			window.setTimeout(() => {
+				let dgvc = this.detailGridViewComponents[this.getTempKeyValue(newRow)];
+				dgvc.expandCollapse();
+			}, 100)
+			
+		}
+
+		let args = new RowArguments();
+		args.row = newRow;
+		this.grid.rowCreate.emit(args);
+		if (!args.cancel) {
+			this._displayData.splice(0, 0, newRow);
+			this.grid.data.splice(0, 0, newRow);
+			this.editingRows[this.getTempKeyValue(newRow)] = newRow;
+			this.newRows[this.getTempKeyValue(newRow)] = newRow;
+		}
 	}
 
-	protected deleteRow(row: any) {
+	editRow(row: any) {
 		let args = new RowArguments();
 		args.row = row;
-		this.rowDelete.emit(args);
+		this.grid.rowEdit.emit(args);
+		if (!args.cancel) {
+			this.editingRows[this.getTempKeyValue(row)] = {};
+			Object.assign(this.editingRows[this.getTempKeyValue(row)], row);
+		}
+	}
+
+	protected confirmDelete(row: any) {
+		this.promptConfirm[this.getTempKeyValue(row)] = true;
+	}
+
+	protected cancelDelete(row: any) {
+		delete this.promptConfirm[this.getTempKeyValue(row)];
+	}
+
+	deleteRow(row: any) {
+		let args = new RowArguments();
+		args.row = row;
+		this.grid.rowDelete.emit(args);
 		if (!args.cancel) {
 			this.removeRowFromGrid(row);
 			delete this.editingRows[this.getTempKeyValue(row)];
 			delete this.newRows[this.getTempKeyValue(row)];
+			delete this.promptConfirm[this.getTempKeyValue(row)];
 		}
 	}
 
-	protected saveEdit(row: any) {
+	saveEdit(row: any): boolean {
+		delete this.showRequired[this.getTempKeyValue((row))];
+		for (let col of this.grid.getDataColumns()) {
+			if (col.fieldName && col.required && !this.parserService.getObjectValue(col.fieldName, row)) {
+				this.showRequired[this.getTempKeyValue((row))] = true;
+				return false;
+			}
+		}
+
+		if (this.grid.detailGridView) {
+			let dgvc = this.detailGridViewComponents[this.getTempKeyValue(row)];
+			if (dgvc) {
+				for (let row of dgvc.detailGridViewInstance.data) {
+					if (!dgvc.gridViewComponent.saveEdit(row))
+						return false;
+				}
+			}
+		}
+
 		let args = new RowArguments();
 		args.row = row;
-		this.rowSave.emit(args);
-		if (!args.cancel)
+		this.grid.rowSave.emit(args);
+		if (!args.cancel) {
 			delete this.editingRows[this.getTempKeyValue(row)];
+			return true;
+		}
+		return false;
 	}
 
-	protected cancelEdit(row: any) {
+	cancelEdit(row: any) {
+		if (this.grid.detailGridView) {
+			let dgvc = this.detailGridViewComponents[this.getTempKeyValue(row)];
+			if (dgvc) {
+				for (let row of dgvc.detailGridViewInstance.data) {
+					dgvc.gridViewComponent.cancelEdit(row);
+				}
+			}
+		}
+
 		if (this.newRows[this.getTempKeyValue(row)]) {
 			this.removeRowFromGrid(row);
 			delete this.newRows[this.getTempKeyValue(row)];
@@ -523,7 +584,6 @@ export class GridViewComponent {
 		else
 			Object.assign(row, this.editingRows[this.getTempKeyValue(row)]);
 		delete this.editingRows[this.getTempKeyValue(row)];
-
 	}
 
 	refreshDataSource() {

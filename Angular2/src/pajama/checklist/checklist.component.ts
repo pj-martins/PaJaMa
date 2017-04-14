@@ -1,4 +1,5 @@
 import { Component, Input, Output, EventEmitter, OnInit, NgZone, ElementRef } from '@angular/core';
+import { Utils } from '../shared';
 
 export class CheckListItem {
 	selected: boolean;
@@ -97,7 +98,7 @@ export class CheckListComponent implements OnInit {
 	selectedText: string;
 	dropdownVisible: boolean;
 	private currentonclick: any;
-	protected uniqueId = Math.floor((1 + Math.random()) * 0x10000).toString();
+	protected uniqueId = Utils.newGuid();
 
 	private updateSelection(init = false) {
 		if (init) {

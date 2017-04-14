@@ -3,6 +3,7 @@ import { Routes, RouterModule, RouterOutletMap } from '@angular/router';
 import { DemoGridComponent } from './demo/demo-grid.component';
 import { DemoTreeComponent } from './demo/demo-tree.component';
 import { DemoEditorsComponent } from './demo/demo-editors.component';
+import { DemoModalComponent } from './demo/demo-modal.component';
 import { SandboxComponent } from './sandbox/sandbox.component';
 
 const appRoutes: Routes = [
@@ -19,12 +20,16 @@ const appRoutes: Routes = [
 		component: DemoEditorsComponent
 	},
 	{
+		path: 'modal',
+		component: DemoModalComponent
+	},
+	{
 		path: 'sandbox',
 		component: SandboxComponent
 	},
 	{
 		path: '',
-		redirectTo: 'grid',
+		redirectTo: 'modal',
 		pathMatch: 'full'
 	}
 ];

@@ -1,5 +1,6 @@
 ﻿import { EventEmitter, NgZone } from '@angular/core';
 import { ParserService } from '../services/parser.service';
+import { Utils } from '../shared';
 
 export const TYPEAHEAD_TEMPLATE = `
 	<div class='typeahead'>
@@ -77,7 +78,7 @@ export class Typeahead {
 	waitMs = 0;
 	hideButton = false;
 	itemSelected = new EventEmitter<any>();
-	uniqueId = Math.floor((1 + Math.random()) * 0x10000).toString();
+	uniqueId = Utils.newGuid();
 
 
 	typeaheadError = false;

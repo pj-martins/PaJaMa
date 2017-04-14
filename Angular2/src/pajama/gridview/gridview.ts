@@ -2,7 +2,7 @@
 import { ParserService } from '../services/parser.service';
 import { OrderByPipe } from '../pipes/order-by.pipe';
 import { Observable } from 'rxjs/Observable';
-import { SortDirection } from '../shared';
+import { SortDirection, Utils } from '../shared';
 
 export const TEMP_KEY_VALUE = "tmp_key_value";
 
@@ -22,6 +22,10 @@ export class GridView {
 	pagingType: PagingType = PagingType.Auto;
 	height: string;
 	dataChanged: EventEmitter<any> = new EventEmitter<any>();
+	rowEdit = new EventEmitter<RowArguments>();
+	rowSave = new EventEmitter<RowArguments>();
+	rowCreate = new EventEmitter<RowArguments>();
+	rowDelete = new EventEmitter<RowArguments>();
 	rowTemplate: Type<IGridViewRowTemplateComponent>;
 	customProps: { [name: string]: any; } = {};
 	customEvents: any = {};
@@ -288,7 +292,7 @@ export class ColumnBase {
 
 	getIdentifier(): string {
 		if (!this.name)
-			this.name = Math.floor((1 + Math.random()) * 0x10000).toString();
+			this.name = Utils.newGuid();
 		return this.name;
 	}
 }
@@ -308,6 +312,7 @@ export class DataColumn extends ColumnBase {
 	sortDirection: SortDirection = SortDirection.None;
 	customSort: (obj1: any, obj2: any) => number;
 	customFilter: (obj: any) => boolean;
+	required = false;
 
 	private _filterOptions: any[];
 	get filterOptions(): any[] {

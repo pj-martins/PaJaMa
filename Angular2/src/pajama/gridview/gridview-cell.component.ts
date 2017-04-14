@@ -18,6 +18,7 @@ import { ParserService } from '../services/parser.service';
 				[innerHTML]="getObjectValue() == null ? '' : getObjectValue() | moment:(column.format ? column.format : 'MM/DD/YYYY')"></div>
 		<!-- TODO: determine when to hide time/date -->
 		<input type="text" dateTimePicker style="width:100%" *ngIf="parentGridView.allowEdit && editing" [(ngModel)]="row[column.fieldName]" />
+		<div class="error-label" *ngIf="!row[column.fieldName] && showRequired">{{column.caption}} is required!</div>
 	</div>
 	<div *ngIf="!column.format && column.fieldType == fieldType.Boolean">
 		<div *ngIf="!parentGridView.allowEdit || !editing" [ngClass]="{ 'glyphicon glyphicon-ok' : getObjectValue(false) == true }"></div>
@@ -30,6 +31,7 @@ import { ParserService } from '../services/parser.service';
 	<div *ngIf="column.fieldType != fieldType.Date && column.fieldType != fieldType.Boolean && !column.format && !column.click">
 		<div *ngIf="!parentGridView.allowEdit || !editing" [innerHTML]="getObjectValue('')"></div>
 		<input type="text" style="width:100%" *ngIf="parentGridView.allowEdit && editing" [(ngModel)]="row[column.fieldName]" />
+		<div class="error-label" *ngIf="!row[column.fieldName] && showRequired">{{column.caption}} is required!</div>
 	</div>
 </div>
 <div *ngIf="editing && column.editTemplate">
@@ -52,6 +54,10 @@ export class GridViewCellComponent {
 
 	protected get editing(): boolean {
 		return this.parentGridViewComponent.editingRows[this.parentGridViewComponent.getTempKeyValue(this.row)];
+	}
+
+	protected get showRequired(): boolean {
+		return this.parentGridViewComponent.showRequired[this.parentGridViewComponent.getTempKeyValue(this.row)];
 	}
 
 	constructor(protected parserService: ParserService) { }

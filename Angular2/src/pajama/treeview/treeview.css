@@ -25,6 +25,12 @@
 	margin-right: 3px;
 }*/
 
+.treenode-button {
+	display: inline-block;
+	vertical-align: top;
+	margin-right: 3px;
+}
+
 .treenode-content {
 	display: inline-block;
 	margin-bottom: 4px;

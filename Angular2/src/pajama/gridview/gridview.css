@@ -107,3 +107,7 @@
 .resize-border {
 	border-right: 1px solid white;
 }
+
+.prompt-confirm-td {
+	text-align: right;
+}

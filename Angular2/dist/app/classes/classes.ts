@@ -14,6 +14,7 @@ export class Event {
 	eventStartDT: Date;
 	eventEndDT: Date;
 	requestedBy: string;
+	cancelled: boolean;
 }
 
 export class Room {

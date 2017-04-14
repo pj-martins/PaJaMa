@@ -8,11 +8,9 @@ import { TreeViewNode } from './treeview';
 	template: `
 <div *ngFor='let n of nodes'>
 	<div class='treenode'>
-		<div class="expandcollapse-button-container">
-		  <button class="expandcollapse-button" *ngIf='n.setChildNodes || (n.childNodes && n.childNodes.length > 0)' (click)='expandCollapseNode(n)'>
-			<div class="expandcollapse-horizontal"></div>
-			<div class="expandcollapse-vertical" *ngIf='!n.isExpanded'></div>
-		  </button>
+		<div class='treenode-button'>
+			<button class="{{n.isExpanded ? 'icon-minus-black' : 'icon-plus-black'}} icon-small icon-button" *ngIf='n.setChildNodes || (n.childNodes && n.childNodes.length > 0)' (click)='expandCollapseNode(n)'>
+			</button>
 		</div>
 		<div class='treenode-content'>
 			<div *ngIf="n.template">
