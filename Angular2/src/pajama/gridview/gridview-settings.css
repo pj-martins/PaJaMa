@@ -2,11 +2,11 @@
 	margin-right: 20px;
 }
 
-	.gridview-settings .dropdown-menu {
+	.gridview-settings .settings-dropdown-menu {
 		margin-left: -65px;
 	}
 
-	.gridview-settings .dropdown-item {
+	.gridview-settings .settings-dropdown-item {
 		padding: 5px 5px 5px 10px;
 		margin-left: 5px;
 		margin-right: 5px;
@@ -14,7 +14,7 @@
 		white-space: nowrap;
 	}
 
-		.gridview-settings .dropdown-item:hover {
+		.gridview-settings .settings-dropdown-item:hover {
 			background-color: #e6e6e6;
 		}
 

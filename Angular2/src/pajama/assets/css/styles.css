@@ -1,0 +1,41 @@
+﻿.component {
+	font: 14px Helvetica,Arial,sans-serif;
+}
+
+input.component {
+	padding-left: 6px;
+	width: 100% !important;
+}
+
+.input-button-container {
+	display: block;
+	position: absolute;
+	top: -20px;
+	right: 0px;
+}
+
+.input-button {
+	border: 0px;
+	vertical-align: top;
+	margin-top: 1px;
+	height: 18px;
+	width: 23px;
+	background-color: rgba(255, 255, 255, 0.5);
+	cursor: pointer;
+}
+
+.clickable {
+	cursor: pointer;
+}
+
+.spinner-arrows {
+	background-size: 14px 10px !important;
+	background-repeat: no-repeat;
+	width: 14px;
+	height: 10px;
+}
+
+.error-label {
+	font-weight: bold;
+	color: red;
+}

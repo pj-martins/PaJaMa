@@ -7,7 +7,7 @@ import { TYPEAHEAD_TEMPLATE, Typeahead } from './typeahead';
 	moduleId: module.id,
 	selector: 'typeahead',
 	template: TYPEAHEAD_TEMPLATE,
-	styleUrls: ['../styles.css', 'typeahead.css']
+	styleUrls: ['../assets/css/styles.css', '../assets/css/icons.css', '../assets/css/buttons.css', 'typeahead.css']
 })
 export class TypeaheadComponent implements OnInit {
 	

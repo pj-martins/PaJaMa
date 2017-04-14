@@ -1,4 +1,4 @@
-﻿.modal-dialog {
+﻿.modal-dialog-container {
 	position: fixed;
 	font-size: 14px;
 	text-align: left;
@@ -16,13 +16,14 @@
 	z-index: 1001;
 }
 
-.modal-header {
+.modal-dialog-header {
 	background-color: #e3e6e8;
-	height: 30px;
+	height: 34px;
+	padding: 1px 5px;
 }
 
-.modal-body {
-	padding: 5px;
+.modal-dialog-body {
+	padding: 15px;
 }
 
 .modal-background {
@@ -34,25 +35,26 @@
 	height: 100%;
 	width: 100%;
 	background-color: #808080;
-	opacity: 0.3;
+	opacity: 0.6;
 }
 
 .modal-close-button {
 	float: right;
 	margin-top: 8px;
 	margin-right: 8px;
-	display:inline-block;
+	display: inline-block;
 }
 
-.modal-footer {
+.modal-dialog-footer {
 	width: 100%;
 	text-align: right;
+	padding: 10px;
 }
 
-	.modal-footer button {
-		margin-right: 5px;
-		margin-bottom: 5px;
-	}
+.modal-footer button {
+	margin-right: 5px;
+	margin-bottom: 5px;
+}
 
 .modal-title {
 	margin-top: 7px;

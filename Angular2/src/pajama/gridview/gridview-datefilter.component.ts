@@ -5,7 +5,7 @@ import { IGridViewFilterCellTemplateComponent, DataColumn, IGridViewFilterCellCo
 @Component({
 	moduleId: module.id,
 	selector: 'datefilter',
-	styleUrls: ['../styles.css', 'gridview-datefilter.css'],
+	styleUrls: ['../assets/css/styles.css', '../assets/css/icons.css', '../assets/css/buttons.css', 'gridview-datefilter.css'],
 	template: `
 <div class='date-filter-picker'>
 	<div class='col-md-12 date-filter-from'>

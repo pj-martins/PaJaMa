@@ -5,16 +5,16 @@ import { Observable } from 'rxjs/Observable';
 	moduleId: module.id,
 	selector: 'modal-dialog',
 	template: `
-<div class="modal-dialog component" *ngIf='shown' [style.left]="overrideLeft" [style.top]="overrideTop">
-	<div class="modal-header" *ngIf="showFooter">
+<div class="modal-dialog-container component" *ngIf='shown' [style.left]="overrideLeft" [style.top]="overrideTop">
+	<div class="modal-dialog-header" *ngIf="showFooter">
 		<button class="icon-remove-black icon-small icon-button modal-close-button" *ngIf="!hideCloseButton"  (click)="hide()">
         </button>
         <div class="modal-title"><strong>{{headerText}}</strong></div>
 	</div>
-    <div class="modal-body">
+    <div class="modal-dialog-body">
         <ng-content></ng-content>
 	</div>
-	<div class="modal-footer" *ngIf="showFooter">
+	<div class="modal-dialog-footer" *ngIf="showFooter">
 		<button type="button" class="btn" *ngIf="buttons == button.OK || buttons == button.OKCancel" (click)="ok()">OK</button>
 		<button type="button" class="btn" *ngIf="buttons == button.OKCancel" (click)="cancel()">Cancel</button>
         <button type="button" class="btn" *ngIf="buttons == button.YesNo" (click)="yes()">Yes</button>
@@ -23,7 +23,7 @@ import { Observable } from 'rxjs/Observable';
 </div>
 <div class="modal-background" *ngIf="shown && showBackdrop"></div>
 `,
-	styleUrls: ['../styles.css', 'modal-dialog.css']
+	styleUrls: ['../assets/css/styles.css', '../assets/css/icons.css', '../assets/css/buttons.css', 'modal-dialog.css']
 })
 export class ModalDialogComponent {
 	private currObserver: any;

@@ -10,7 +10,7 @@ import { Utils } from '../shared';
 @Component({
 	moduleId: module.id,
 	selector: 'gridview',
-	styleUrls: ['../styles.css', 'gridview.css'],
+	styleUrls: ['../assets/css/styles.css', '../assets/css/icons.css', '../assets/css/buttons.css', 'gridview.css'],
 	template: `
 <div *ngIf="grid" class='gridview component'>
     <div class='header-button' *ngIf='hasFilterRow()' (click)='toggleFilter()'><div class='icon-filter-black icon-small'></div><strong>&nbsp;&nbsp;Filter</strong></div>
@@ -91,8 +91,8 @@ import { Utils } from '../shared';
 				<tr *ngIf='promptConfirm[getTempKeyValue(row)]'>
                     <td [attr.colspan]="getVisibleColumnCount() + 2" class="prompt-confirm-td">
 						Are you sure?&nbsp;&nbsp;
-						<button class="icon-check-black icon-small icon-button" (click)="deleteRow(row)">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Yes</button>&nbsp;&nbsp;
-						<button class="icon-cancel-black icon-small icon-button" (click)="cancelDelete(row)">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;No</button>&nbsp;&nbsp;
+						<button class="icon-button" (click)="deleteRow(row)"><span class="icon-check-black icon-small"></span> Yes</button>&nbsp;&nbsp;
+						<button class="icon-button" (click)="cancelDelete(row)"><span class="icon-cancel-black icon-small"></span> No</button>&nbsp;&nbsp;
 					</td>
                 </tr>
                 <tr *ngIf='!grid.loading && grid.rowTemplate'>

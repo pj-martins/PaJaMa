@@ -7,7 +7,7 @@ import { ParserService } from '../services/parser.service';
 	moduleId: module.id,
 	selector: 'multi-typeahead',
 	template: TYPEAHEAD_TEMPLATE + MULTITEXTBOX_TEMPLATE,
-	styleUrls: ['../styles.css', '../multi-textbox/multi-textbox.css', 'typeahead.css']
+	styleUrls: ['../assets/css/styles.css', '../assets/css/icons.css', '../assets/css/buttons.css', '../multi-textbox/multi-textbox.css', 'typeahead.css']
 })
 export class MultiTypeaheadComponent extends MultiTextboxComponent {
 

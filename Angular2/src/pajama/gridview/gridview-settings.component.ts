@@ -5,20 +5,22 @@ import { ModalDialogComponent } from '../modal-dialog/modal-dialog.component';
 @Component({
 	moduleId: module.id,
 	selector: 'gridview-settings',
-	styleUrls: ['../styles.css', 'gridview-settings.css'],
+	styleUrls: ['../assets/css/styles.css', '../assets/css/icons.css', '../assets/css/buttons.css', 'gridview-settings.css'],
 	template: `
 <div class='gridview-settings'>
 	<div *ngIf='parentGridView.saveGridStateToStorage || parentGridView.allowColumnCustomization' class='dropup'>
-		<button (click)='openCloseSettings($event)' class='btn btn-default'><span class='glyphicon glyphicon-cog'></span> Settings</button>
-		<button (click)='helpModal.toggle()' class='btn btn-default'><span class='glyphicon glyphicon-question-sign'></span> Help</button>
+		<button (click)='openCloseSettings($event)' class='btn btn-default icon-button'><span class='icon-gear-black icon-small'></span> Settings</button>
+		<button (click)='helpModal.toggle()' class='btn btn-default icon-button'><span class='icon-question-black icon-small'></span> Help</button>
 		
 	</div>
 </div>
 <modal-dialog #settingsModal [showFooter]="false" [showHeader]="false">
-	<ul class='dropdown-menu'>
-		<li class='dropdown-item' (click)='customizeColumns()'><span class='glyphicon glyphicon-wrench'></span> Customize Columns</li>
-		<li class='dropdown-item' *ngIf='parentGridView.saveGridStateToStorage' (click)='resetGridState()'><span class='glyphicon glyphicon-repeat'></span> Reset Grid</li>
-	</ul>
+	<div class='column-menu'>
+		<ul class='settings-dropdown-menu'>
+			<li class='settings-dropdown-item icon-button' (click)='customizeColumns()'><span class='icon-wrench-black icon-small'></span> Customize Columns</li>
+			<li class='settings-dropdown-item icon-button' *ngIf='parentGridView.saveGridStateToStorage' (click)='resetGridState()'><span class='icon-refresh-black icon-small'></span> Reset Grid</li>
+		</ul>
+	</div>
 </modal-dialog>
 <modal-dialog #customizeModal *ngIf='parentGridView'>
 	<div class='column-menu'>

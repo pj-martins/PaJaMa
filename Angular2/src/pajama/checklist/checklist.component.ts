@@ -27,7 +27,7 @@ export class CheckListItem {
 		</div>
 	</div>
 `,
-	styleUrls: ['../styles.css', 'checklist.css']
+	styleUrls: ['../assets/css/styles.css', '../assets/css/icons.css', 'checklist.css']
 })
 export class CheckListComponent implements OnInit {
 	@Input()

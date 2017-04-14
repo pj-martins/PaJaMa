@@ -85,7 +85,7 @@ import { Utils } from '../shared';
 	</div>
 </div>
 `,
-	styleUrls: ['../styles.css', 'datetime-picker.css']
+	styleUrls: ['../assets/css/styles.css', '../assets/css/icons.css', '../assets/css/buttons.css', 'datetime-picker.css']
 })
 export class DateTimePickerComponent implements OnInit { // implements ControlValueAccessor, OnInit {
 

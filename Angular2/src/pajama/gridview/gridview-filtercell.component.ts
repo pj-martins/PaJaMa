@@ -6,7 +6,7 @@ import { CheckListModule } from '../checklist/checklist.module';
 @Component({
 	moduleId: module.id,
 	selector: 'gridview-filtercell',
-	styleUrls: ['../styles.css', 'gridview-filtercell.css'],
+	styleUrls: ['../assets/css/styles.css', '../assets/css/icons.css', '../assets/css/buttons.css', 'gridview-filtercell.css'],
 	template: `
 <div class='gridview-filtercell'>
 	<div class='gridview-filtercell-content'>

@@ -24,7 +24,7 @@ export const MULTITEXTBOX_TEMPLATE = `
 	moduleId: module.id,
 	selector: 'multi-textbox',
 	template: MULTITEXTBOX_TEMPLATE,
-	styleUrls: ['../styles.css', 'multi-textbox.css']
+	styleUrls: ['../assets/css/styles.css', '../assets/css/icons.css', '../assets/css/buttons.css', 'multi-textbox.css']
 })
 export class MultiTextboxComponent implements OnInit {
 
