@@ -73,8 +73,8 @@ namespace PaJaMa.DatabaseStudio.Compare.Classes
 				if (propInf.HasAttribute<IgnoreAttribute>())
 					continue;
 
-				var targetVal = propInf.GetValue(target);
-				var sourceVal = propInf.GetValue(databaseObject);
+				var targetVal = propInf.GetValue(target, null);
+				var sourceVal = propInf.GetValue(databaseObject, null);
 
 				if (targetVal is DatabaseObjectBase)
 					targetVal = (targetVal as DatabaseObjectBase).ObjectName;
