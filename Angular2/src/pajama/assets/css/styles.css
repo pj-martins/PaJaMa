@@ -29,10 +29,10 @@ input.component {
 }
 
 .spinner-arrows {
-	background-size: 14px 10px !important;
+	background-size: 9px 6px !important;
 	background-repeat: no-repeat;
-	width: 14px;
-	height: 10px;
+	width: 9px;
+	height: 6px;
 }
 
 .error-label {

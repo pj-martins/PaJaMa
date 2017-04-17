@@ -48,10 +48,15 @@
 }
 
 .datetime-picker-top-spinner {
-	margin-top: 3px;
+	margin-top: 5px;
 }
 
 .datetime-picker-bottom-spinner {
+	margin-top: 3px;
+}
+
+.datetime-picker-month-spinner {
+	display:inline-block;
 }
 
 .datetime-picker-controls-panel input::-webkit-outer-spin-button,

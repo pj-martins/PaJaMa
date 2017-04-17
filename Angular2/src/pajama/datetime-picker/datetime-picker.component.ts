@@ -28,8 +28,8 @@ import { Utils } from '../shared';
 						</div>
 					</div>
 					<div class="arrow-left-right-container">
-						<div class="icon-arrow-left-black icon-small datetime-picker-clickable" (click)="addMonth(true)"></div>
-						<div class="icon-arrow-right-black icon-small datetime-picker-clickable" (click)="addMonth()"></div>
+						<div class="icon-arrow-left-black icon-x-small datetime-picker-month-spinner datetime-picker-clickable" (click)="addMonth(true)"></div>
+						<div class="icon-arrow-right-black icon-x-small datetime-picker-month-spinner datetime-picker-clickable" (click)="addMonth()"></div>
 					</div>
 				</div>
 			</div>
