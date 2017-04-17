@@ -4,7 +4,7 @@ export const MULTITEXTBOX_TEMPLATE = `
 <div class='multi-textbox'>
 	<div class='input-button-container component' [style.display]="currText && !typeahead ? 'inline' : 'none'">
 		<div class='multi-textbox-add'>
-			<button class='icon-plus-black icon-small icon-button' (click)='addItem()' tabindex="-1">
+			<button class='icon-plus-black icon-x-small icon-button' (click)='addItem()' tabindex="-1">
 			</button>
 		</div>
 	</div>
@@ -12,7 +12,7 @@ export const MULTITEXTBOX_TEMPLATE = `
 		<div *ngFor='let item of items || []' class='multi-textbox-item'>
 			{{getObjectValue(item)}}
 			<div class='multi-textbox-remove'>
-				<button class='icon-remove-black icon-small icon-button' *ngIf='!isReadOnly' (click)='removeItem(item)'>
+				<button class='icon-remove-black icon-x-small icon-button' *ngIf='!isReadOnly' (click)='removeItem(item)'>
 				</button>
 			</div>
 		</div>

@@ -9,7 +9,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PaJaMa.Angular2.dist", "Ang
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PaJaMa.Angular2.Deploy", "Angular2\Deploy\PaJaMa.Angular2.Deploy.csproj", "{8E9FB998-C51E-4516-AC5D-CB745A109391}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PaJaMa.BytesToBase64", "PaJaMa.BytesToBase64\PaJaMa.BytesToBase64.csproj", "{CBA7E082-DC7C-4AAE-8C05-A539FAF38C3B}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PaJaMa.BytesToBase64", "BytesToBase64\PaJaMa.BytesToBase64.csproj", "{CBA7E082-DC7C-4AAE-8C05-A539FAF38C3B}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

@@ -494,7 +494,7 @@ export class GridViewComponent {
 				let dgvc = this.detailGridViewComponents[this.getTempKeyValue(newRow)];
 				dgvc.expandCollapse();
 			}, 100)
-			
+
 		}
 
 		let args = new RowArguments();
@@ -511,6 +511,13 @@ export class GridViewComponent {
 	editRow(row: any) {
 		let args = new RowArguments();
 		args.row = row;
+
+		if (this.grid.detailGridView) {
+			let dgvc = this.detailGridViewComponents[this.getTempKeyValue(row)];
+			dgvc.expandCollapse();
+
+		}
+
 		this.grid.rowEdit.emit(args);
 		if (!args.cancel) {
 			this.editingRows[this.getTempKeyValue(row)] = {};
