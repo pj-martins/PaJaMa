@@ -10,7 +10,7 @@ import { Utils } from '../shared';
 <div class='datetime-picker'>
 	<div class="input-button-container component id_{{uniqueId}}">
 		<button class="input-button datetime-picker-button id_{{uniqueId}}" (click)="showDropdown()">
-			<div class="datetime-picker-calendar-icon glyphicon glyphicon-calendar id_{{uniqueId}}"></div>
+			<div class="icon-calendar-black icon-small id_{{uniqueId}}"></div>
 		</button>
 	</div>
 	<div class="datetime-picker-dropdown component {{hideDate ? 'datetime-picker-timeonly-dropdown' : ''}} id_{{uniqueId}}" *ngIf="dropdownVisible">

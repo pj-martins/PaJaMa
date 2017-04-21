@@ -1,4 +1,4 @@
-﻿.sort-arrow {
+﻿/*.sort-arrow {
 	margin-top: 6px !important;
 }
 
@@ -10,10 +10,6 @@
 		margin-top: 2px !important;
 	}
 
-.input-button-container {
-	top: -27px !important;
-	right: 8px !important;
-}
 
 .datetime-picker-calendar-icon {
 	border: none !important;
@@ -23,9 +19,6 @@
 	margin-right: 4px;
 }
 
-.multi-textbox-item-container {
-	margin-top: -28px !important;
-}
 
 
 .checklist-button.form-control {
@@ -37,6 +30,11 @@
 	right: 15px !important;
 }
 
+
+.drop-down-image.glyphicon-filter {
+	margin-top: 1px !important;
+}*/
+
 .gridview-filtercell .input-button-container {
 	top: -23px !important;
 	right: 1px !important;
@@ -46,6 +44,16 @@
 	height: 24px !important;
 }
 
-.drop-down-image.glyphicon-filter {
-	margin-top: 1px !important;
+.gridview-filtercell .checklist-button-image {
+	top: 6px !important;
+}
+
+.input-button-container {
+	top: -27px !important;
+	right: 8px !important;
+}
+
+
+.multi-textbox-item-container {
+	margin-top: -28px !important;
 }

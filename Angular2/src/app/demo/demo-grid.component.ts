@@ -19,6 +19,8 @@ declare var EVENTS: Array<Event>;
 <gridview [grid]='gridDemo' (pageChanged)='pageChanged()'></gridview>
 <br /><br /><br /><br />
 <input type="checkbox" [(ngModel)]='gridDemo.allowEdit' />Allow Edit
+<br />
+Height: <input type="text" [(ngModel)]='gridDemo.height' />
 `
 })
 export class DemoGridComponent implements OnInit {
@@ -36,6 +38,7 @@ export class DemoGridComponent implements OnInit {
 
 	private initGrid() {
 		this.gridDemo = new GridView();
+		this.gridDemo.pageSize = 20;
 		this.gridDemo.filterVisible = true;
 		this.gridDemo.allowColumnOrdering = true;
 		this.gridDemo.saveGridStateToStorage = true;

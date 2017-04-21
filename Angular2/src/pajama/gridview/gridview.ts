@@ -21,6 +21,7 @@ export class GridView {
 	disableAutoFilter: boolean;
 	pagingType: PagingType = PagingType.Auto;
 	height: string;
+	width: string;
 	dataChanged: EventEmitter<any> = new EventEmitter<any>();
 	rowEdit = new EventEmitter<RowArguments>();
 	rowSave = new EventEmitter<RowArguments>();
@@ -37,7 +38,9 @@ export class GridView {
 	allowColumnCustomization = false;
 	saveGridStateToStorage = false;
 	gridStateVersion = 0;
+	allowAdd = false;
 	allowEdit = false;
+	allowDelete = false;
 	name: string;
 
 	getRowClass: (row: any) => string;

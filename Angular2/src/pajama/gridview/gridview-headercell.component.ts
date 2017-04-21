@@ -1,4 +1,4 @@
-﻿import { Component, Input, Output, EventEmitter, ElementRef, NgZone } from '@angular/core';
+﻿import { Component, Input, Output, EventEmitter, ElementRef, NgZone, AfterViewInit } from '@angular/core';
 import { GridView, DataColumn, FieldType, ColumnBase } from './gridview';
 import { SortDirection } from '../shared';
 import { GridViewComponent } from './gridview.component';
@@ -24,9 +24,10 @@ import { ParserService } from '../services/parser.service';
 <div class='resize-div' *ngIf='column.allowSizing && !last' (mousedown)='startResize($event)'>|</div>
 `
 })
-export class GridViewHeaderCellComponent {
+export class GridViewHeaderCellComponent implements AfterViewInit {
 	@Input() column: DataColumn;
 	@Input() parentGridView: GridView;
+	@Input() parentGridViewComponent: GridViewComponent;
 	@Input() columnIndex: number;
 	@Input() first: boolean;
 	@Input() last: boolean;
@@ -35,6 +36,10 @@ export class GridViewHeaderCellComponent {
 
 
 	constructor(public elementRef: ElementRef, private zone: NgZone) { }
+
+	ngAfterViewInit() {
+		this._parentTH = this.elementRef.nativeElement.parentElement;
+	}
 
 	sortDirection = SortDirection;
 
@@ -93,7 +98,6 @@ export class GridViewHeaderCellComponent {
 		this._origMove = window.onmousemove;
 		this._origUp = window.onmouseup;
 		this._lockedColumns = [];
-		this._parentTH = this.elementRef.nativeElement.parentElement;
 		this._origWidth = this._parentTH.offsetWidth;
 		var next = this._parentTH.nextElementSibling;
 		while (next != null) {
@@ -113,14 +117,14 @@ export class GridViewHeaderCellComponent {
 				break;
 			}
 			else {
-				this._lockedColumns.push(new LockedColumn(next, next.offsetWidth));
+				this._lockedColumns.push(new LockedColumn(next.id, next.offsetWidth));
 				next = next.nextElementSibling;
 			}
 		}
 
 		let prev = this._parentTH.previousElementSibling;
 		while (prev != null) {
-			this._lockedColumns.push(new LockedColumn(prev, prev.offsetWidth));
+			this._lockedColumns.push(new LockedColumn(prev.id, prev.offsetWidth));
 			prev = prev.previousElementSibling;
 		}
 
@@ -142,7 +146,8 @@ export class GridViewHeaderCellComponent {
 					col.width = this._parentTH.offsetWidth.toString() + 'px';
 				else {
 					for (let l of this._lockedColumns) {
-						if (col.getIdentifier() == l.parentTH.children[0].children[0].id) {
+						let parentTH = document.getElementById(l.parentId);
+						if (parentTH.children.length > 0 && col.getIdentifier() == parentTH.children[0].children[0].id) {
 							col.width = l.originalWidth.toString() + 'px';
 						}
 					}
@@ -162,7 +167,8 @@ export class GridViewHeaderCellComponent {
 			let delta = event.clientX - this._origX;
 			this._parentTH.style.width = (this._origWidth + delta).toString() + 'px';
 			for (let locked of this._lockedColumns) {
-				locked.parentTH.width = locked.originalWidth;
+				let parentTH = document.getElementById(locked.parentId);
+				parentTH.style.width = locked.originalWidth;
 			}
 			this._resized = true;
 		}
@@ -241,5 +247,5 @@ export class GridViewHeaderCellComponent {
 }
 
 class LockedColumn {
-	constructor(public parentTH: any, public originalWidth: any) { }
+	constructor(public parentId: string, public originalWidth: any) { }
 }

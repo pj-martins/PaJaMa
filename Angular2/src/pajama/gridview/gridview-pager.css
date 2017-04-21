@@ -30,3 +30,14 @@
 	color: #fff !important;
 	background-color: #337ab7 !important;
 }
+
+.jump-to-page {
+	display: inline-block;
+	vertical-align: top;
+	margin-top: 4px;
+	margin-left: 20px;
+}
+
+.jump-to-page input {
+	width: 50px;
+}

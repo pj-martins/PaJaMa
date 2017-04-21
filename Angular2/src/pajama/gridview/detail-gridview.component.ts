@@ -18,7 +18,7 @@ export class DetailGridViewComponent implements OnInit {
 	private _inited: boolean;
 
 	private editParent() {
-		if (!this.parentGridViewComponent.editingRows[this.parentGridViewComponent.getTempKeyValue(this.row)])
+		if (!this.parentGridViewComponent.editingRows[this.parentGridViewComponent.getKeyValue(this.row)])
 			this.parentGridViewComponent.editRow(this.row);
 	}
 
@@ -29,7 +29,7 @@ export class DetailGridViewComponent implements OnInit {
 			this.detailGridViewInstance.rowDelete.subscribe(re => this.editParent());
 			this.detailGridViewInstance.rowCreate.subscribe(re => this.editParent());
 		}
-		this.parentGridViewComponent.detailGridViewComponents[this.parentGridViewComponent.getTempKeyValue(this.row)] = this;
+		this.parentGridViewComponent.detailGridViewComponents[this.parentGridViewComponent.getKeyValue(this.row)] = this;
 	}
 
 	isExpanded() {

@@ -100,7 +100,10 @@ export class DemoGridComponent implements OnInit {
 		let roomsDetailGridView = new DetailGridView();
 		roomsDetailGridView.rowTemplate = RoomComponent;
 		roomsDetailGridView.getChildData = (parentRow: any) => {
-			return Observable.create(o => o.next((<Event>parentRow).hallRequestRooms));
+			let evt = <Event>parentRow;
+			if (!evt.hallRequestRooms)
+				evt.hallRequestRooms = [];
+			return Observable.create(o => o.next(evt.hallRequestRooms));
 		}
 		this.gridDemo.detailGridView = roomsDetailGridView;
 

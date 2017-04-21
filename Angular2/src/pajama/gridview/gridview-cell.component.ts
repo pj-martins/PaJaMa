@@ -53,11 +53,11 @@ export class GridViewCellComponent {
 	protected fieldType = FieldType;
 
 	protected get editing(): boolean {
-		return this.parentGridViewComponent.editingRows[this.parentGridViewComponent.getTempKeyValue(this.row)];
+		return this.parentGridViewComponent.editingRows[this.parentGridViewComponent.getKeyValue(this.row)];
 	}
 
 	protected get showRequired(): boolean {
-		return this.parentGridViewComponent.showRequired[this.parentGridViewComponent.getTempKeyValue(this.row)];
+		return this.parentGridViewComponent.showRequired[this.parentGridViewComponent.getKeyValue(this.row)];
 	}
 
 	constructor(protected parserService: ParserService) { }
