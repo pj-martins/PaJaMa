@@ -62,3 +62,8 @@
 	margin-left: 8px;
 	display: inline-block;
 }
+
+
+.error-label {
+	color: #f00;
+}

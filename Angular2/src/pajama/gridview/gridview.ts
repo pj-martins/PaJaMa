@@ -4,8 +4,6 @@ import { OrderByPipe } from '../pipes/order-by.pipe';
 import { Observable } from 'rxjs/Observable';
 import { SortDirection, Utils } from '../shared';
 
-export const TEMP_KEY_VALUE = "tmp_key_value";
-
 export class GridView {
 	private _data: Array<any>;
 
@@ -316,6 +314,7 @@ export class DataColumn extends ColumnBase {
 	customSort: (obj1: any, obj2: any) => number;
 	customFilter: (obj: any) => boolean;
 	required = false;
+	readonly: boolean;
 
 	private _filterOptions: any[];
 	get filterOptions(): any[] {
@@ -417,6 +416,7 @@ export class GridColumnState {
 export class RowArguments {
 	row: any;
 	cancel: boolean;
+	observable: Observable<any>;
 }
 
 export interface IGridViewFilterCellTemplateComponent {

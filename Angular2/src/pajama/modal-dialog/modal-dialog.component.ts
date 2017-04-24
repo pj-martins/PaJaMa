@@ -1,4 +1,4 @@
-﻿import { Component, Input, Output, ElementRef } from '@angular/core'
+﻿import { Component, Input, Output, ElementRef, EventEmitter } from '@angular/core'
 import { Observable } from 'rxjs/Observable';
 
 @Component({
@@ -12,7 +12,11 @@ import { Observable } from 'rxjs/Observable';
         <div class="modal-title"><strong>{{headerText}}</strong></div>
 	</div>
     <div class="modal-dialog-body">
-        <ng-content></ng-content>
+		<div *ngIf="!bodyContent">
+			<ng-content></ng-content>
+		</div>
+		<div *ngIf="bodyContent" [innerHtml]="bodyContent">
+		</div>
 	</div>
 	<div class="modal-dialog-footer" *ngIf="showFooter">
 		<button type="button" class="btn" *ngIf="buttons == button.OK || buttons == button.OKCancel" (click)="ok()">OK</button>
@@ -49,6 +53,12 @@ export class ModalDialogComponent {
 
 	@Input()
 	showFooter = true;
+
+	@Input()
+	bodyContent: string;
+
+	@Output()
+	closing = new EventEmitter<ClosingArgs>();
 
 	protected ok() {
 		this._hide(DialogResult.OK);
@@ -94,11 +104,40 @@ export class ModalDialogComponent {
 		return Observable.create(o => this.currObserver = o);
 	}
 
+	showResult(headerText: string, bodyContent: string, hideAfter: number = 0): Observable<DialogResult> {
+		this.headerText = headerText;
+		this.bodyContent = bodyContent;
+		return this.show(Button.OK, hideAfter).map(s => {
+			this.headerText = null;
+			this.bodyContent = null;
+			return s;
+		});
+	}
+
+	showError(headerText: string, bodyContent: string): Observable<DialogResult> {
+		return this.showResult(headerText, `<div class='error-label'>${bodyContent}</div>`);
+	}
+
+	showYesNo(headerText: string, bodyContent: string): Observable<DialogResult> {
+		this.headerText = headerText;
+		this.bodyContent = bodyContent;
+		return this.show(Button.YesNo).map(s => {
+			this.headerText = null;
+			this.bodyContent = null;
+			return s;
+		});
+	}
+
 	hide() {
 		this._hide();
 	}
 
 	private _hide(dialogResult: DialogResult = DialogResult.Cancel) {
+		let args = new ClosingArgs();
+		args.dialogResult = dialogResult;
+		this.closing.emit(args);
+		if (args.cancel) return;
+
 		this.shown = false;
 		this.overrideTop = null;
 		this.overrideLeft = null;
@@ -122,4 +161,9 @@ export enum DialogResult {
 	Cancel,
 	Yes,
 	No
+}
+
+export class ClosingArgs {
+	dialogResult: DialogResult;
+	cancel: boolean;
 }
