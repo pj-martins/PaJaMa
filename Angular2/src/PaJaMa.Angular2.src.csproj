@@ -165,6 +165,7 @@
     <TypeScriptCompile Include="app\sandbox\test.component.ts" />
     <TypeScriptCompile Include="app\vendor.ts" />
     <TypeScriptCompile Include="pajama\checklist\checklist.directive.ts" />
+    <TypeScriptCompile Include="pajama\disable-edit\disable-edit.directiveold.ts" />
     <TypeScriptCompile Include="pajama\disable-edit\disable-edit.directive.ts" />
     <TypeScriptCompile Include="pajama\disable-edit\disable-edit.component.ts" />
     <TypeScriptCompile Include="pajama\gridview\gridview-datefilter.component.ts" />

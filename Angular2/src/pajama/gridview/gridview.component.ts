@@ -27,10 +27,10 @@ import { Observable } from 'rxjs/Observable';
                     <gridview-headercell (sortChanged)='handleSortChanged($event)' [first]='first' [last]='last' [columnIndex]='i' [column]='col' [parentGridView]="grid" [parentGridViewComponent]="self"></gridview-headercell>
                 </th>
 				<th *ngIf='grid.allowAdd || grid.allowEdit || grid.allowDelete' style='width:45px' id="header_edit_{{uniqueId}}">
-					<button *ngIf='grid.allowAdd && newRowCount <= 0' (click)='addRow()' class='icon-plus-white icon-small icon-button'></button>
+					<button *ngIf='grid.allowAdd && !newRow' (click)='addRow()' class='icon-plus-white icon-small icon-button'></button>
 				</th>
             </tr>
-            <tr *ngIf='hasFilterRow() && grid.filterVisible'>
+            <tr *ngIf='grid.filterVisible && hasFilterRow()'>
                 <td class="filter-td" *ngIf='grid.detailGridView && !grid.detailGridView.hideExpandButton' style='width:20px'></td>
                 <td class="filter-td" *ngIf='grid.allowRowSelect'></td>
                 <td class="filter-td" *ngFor="let col of grid.getVisibleColumns() | orderBy:['columnIndex']" id="filter_{{i}}_{{uniqueId}}">
@@ -78,7 +78,7 @@ import { Observable } from 'rxjs/Observable';
 					</td>
                 </tr>
 				<tr *ngIf='promptConfirm[row[grid.keyFieldName]]'>
-                    <td [attr.colspan]="getVisibleColumnCount() + 2" class="prompt-confirm-td">
+                    <td [attr.colspan]="getVisibleColumnCount() + 1" class="prompt-confirm-td">
 						Are you sure?&nbsp;&nbsp;
 						<button class="icon-button" (click)="deleteRow(row)"><span class="icon-check-black icon-small"></span> Yes</button>&nbsp;&nbsp;
 						<button class="icon-button" (click)="cancelDelete(row)"><span class="icon-cancel-black icon-small"></span> No</button>&nbsp;&nbsp;
@@ -194,10 +194,7 @@ export class GridViewComponent implements AfterViewInit {
 	@Output() selectionChanged = new EventEmitter<any[]>();
 	constructor(public parserService: ParserService, private zone: NgZone, public elementRef: ElementRef) { }
 
-	newRows: { [tempKeyValue: string]: any } = {};
-	get newRowCount(): number {
-		return Object.keys(this.newRows).length;
-	}
+	newRow: any;
 
 	editingRows: { [tempKeyValue: string]: any } = {};
 	detailGridViewComponents: { [tempKeyValue: string]: DetailGridViewComponent } = {};
@@ -535,7 +532,7 @@ export class GridViewComponent implements AfterViewInit {
 			this._displayData.splice(0, 0, args.row);
 			this.grid.data.splice(0, 0, args.row);
 			this.editingRows[args.row[this.grid.keyFieldName]] = args.row;
-			this.newRows[args.row[this.grid.keyFieldName]] = args.row;
+			this.newRow = args.row;
 			if (this.grid.detailGridView) {
 				window.setTimeout(() => {
 					let dgvc = this.detailGridViewComponents[args.row[this.grid.keyFieldName]];
@@ -574,7 +571,7 @@ export class GridViewComponent implements AfterViewInit {
 	private deleteSuccess(row: any) {
 		this.removeRowFromGrid(row);
 		delete this.editingRows[row[this.grid.keyFieldName]];
-		delete this.newRows[row[this.grid.keyFieldName]];
+		this.newRow = null;
 		delete this.promptConfirm[row[this.grid.keyFieldName]];
 	}
 
@@ -618,10 +615,15 @@ export class GridViewComponent implements AfterViewInit {
 		if (!args.cancel) {
 			if (!args.observable) {
 				delete this.editingRows[row[this.grid.keyFieldName]];
+				if (row == this.newRow) this.newRow = null;
 			}
 			else {
 				args.observable.subscribe(() => {
 					delete this.editingRows[row[this.grid.keyFieldName]];
+					if (row == this.newRow) {
+						this.newRow = null;
+						console.log('isnew');
+					}
 				});
 			}
 		}
@@ -637,9 +639,9 @@ export class GridViewComponent implements AfterViewInit {
 			}
 		}
 
-		if (this.newRows[row[this.grid.keyFieldName]]) {
+		if (row == this.newRow) {
 			this.removeRowFromGrid(row);
-			delete this.newRows[row[this.grid.keyFieldName]];
+			this.newRow = null;
 		}
 		else
 			Object.assign(row, this.editingRows[row[this.grid.keyFieldName]]);

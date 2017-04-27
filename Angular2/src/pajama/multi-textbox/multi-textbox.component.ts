@@ -12,7 +12,7 @@ export const MULTITEXTBOX_TEMPLATE = `
 		<div *ngFor='let item of items || []' class='multi-textbox-item'>
 			{{getObjectValue(item)}}
 			<div class='multi-textbox-remove'>
-				<button class='icon-remove-black icon-x-small icon-button' *ngIf='!isReadOnly' (click)='removeItem(item)'>
+				<button class='icon-remove-black icon-x-small icon-button' *ngIf='!isReadOnly' (click)='removeItem(item)' tabindex="-1">
 				</button>
 			</div>
 		</div>

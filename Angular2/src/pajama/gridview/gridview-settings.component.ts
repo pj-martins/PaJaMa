@@ -11,7 +11,6 @@ import { ModalDialogComponent } from '../modal-dialog/modal-dialog.component';
 	<div *ngIf='parentGridView.saveGridStateToStorage || parentGridView.allowColumnCustomization' class='dropup'>
 		<button (click)='openCloseSettings($event)' class='btn btn-default icon-button'><span class='icon-gear-black icon-small'></span> Settings</button>
 		<button (click)='helpModal.toggle()' class='btn btn-default icon-button'><span class='icon-question-black icon-small'></span> Help</button>
-		
 	</div>
 </div>
 <modal-dialog #settingsModal [showFooter]="false" [showHeader]="false">
@@ -47,17 +46,23 @@ import { ModalDialogComponent } from '../modal-dialog/modal-dialog.component';
 		<strong>Filtering</strong><br />
 		If filtering is desired, you may check the "Filter" checkbox located above the grid to the right. This will toggle a filter row where you may apply desired filter. Only some columns allow filtering.
 		<br /><br />
-		<strong>Showing &amp; Hiding Columns</strong><br />
-		To show or hide a column, open up the settings panel by clicking on the button labeled "Settings" and selecting "Customize Columns". A popup will appear where you may select or unselect
-		columns to be shown or hidden.
-		<br /><br />
-		<strong>Resizing Columns</strong><br />
-		Columns that are resizable will have a white bar to the right of the column's caption. To resize, click and hold the white bar to the right of the column you'd like to resize, and drag your cursor to the left or right. 
-		<br /><br />
-		<strong>Re-ordering Columns</strong><br />
-		To re-order columns, click and hold the caption of the column you'd like to be re-ordered and drag the column on to another column where you'd like the dragged column to be inserted. If you drag to the left, the column will appear
-		before the column it is dropped on. If you drag to the right it will appear after the column it is dropped on.
-		<br /><br />
+		<div *ngIf="parentGridView.allowColumnCustomization">
+			<strong>Showing &amp; Hiding Columns</strong><br />
+			To show or hide a column, open up the settings panel by clicking on the button labeled "Settings" and selecting "Customize Columns". A popup will appear where you may select or unselect
+			columns to be shown or hidden.
+			<br /><br />
+		</div>
+		<div *ngIf="columnsSizable">
+			<strong>Resizing Columns</strong><br />
+			Columns that are resizable will have a white bar to the right of the column's caption. To resize, click and hold the white bar to the right of the column you'd like to resize, and drag your cursor to the left or right. 
+			<br /><br />
+		</div>
+		<div *ngIf="parentGridView.allowColumnOrdering">
+			<strong>Re-ordering Columns</strong><br />
+			To re-order columns, click and hold the caption of the column you'd like to be re-ordered and drag the column on to another column where you'd like the dragged column to be inserted. If you drag to the left, the column will appear
+			before the column it is dropped on. If you drag to the right it will appear after the column it is dropped on.
+			<br /><br />
+		</div>
 		<strong>Oh No!</strong><br />
 		You may get yourself into a pickle where you've lost your way around and have gotten the grid into an undesired state, no worries! To reset the grid, click on the button labeled "Settings" and click on "Reset" to reset to the default state.
 </modal-dialog>
@@ -69,6 +74,8 @@ export class GridViewSettingsComponent {
 
 	@ViewChild("customizeModal") cutomizeModal: ModalDialogComponent;
 	@ViewChild("settingsModal") settingsModal: ModalDialogComponent;
+
+	protected columnsSizable = false;
 
 	protected resetGridState() {
 		this.parentGridView.resetGridState();
@@ -97,6 +104,13 @@ export class GridViewSettingsComponent {
 			this.settingsModal.hide();
 		}
 		else {
+			this.columnsSizable = false;
+			for (let col of this.parentGridView.columns) {
+				if (col.allowSizing) {
+					this.columnsSizable = true;
+					break;
+				}
+			}
 			this.settingsModal.show(null, 0, evt.clientX || evt.X, evt.clientY || evt.Y);
 		}
 	}

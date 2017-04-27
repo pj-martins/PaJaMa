@@ -206,7 +206,8 @@ export class Typeahead {
 
 	protected processSelection(charCode) {
 		if (this.activeIndex >= 0) {
-			this.selectItem(this.items[this.activeIndex]);
+			if (this.dropdownVisible)
+				this.selectItem(this.items[this.activeIndex]);
 			if (charCode == 13)
 				event.preventDefault();
 		}

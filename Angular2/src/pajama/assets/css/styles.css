@@ -39,3 +39,27 @@ input.component {
 	font-weight: bold;
 	color: red;
 }
+
+.disable-edit {
+	font-weight: bold;
+	border: 0px !important;
+	background-color: rgb(240,240,240);
+}
+
+	.disable-edit + multi-typeahead .multi-textbox-item {
+		font-weight: bold;
+		border-right: 1px solid black;
+		border-radius: 0px;
+	}
+
+		.disable-edit + multi-typeahead .multi-textbox-item:last-child {
+			border-right: 0px;
+		}
+
+	.disable-edit + multi-typeahead .multi-textbox-item-container {
+		padding-left: 4px !important;
+	}
+
+	.disable-edit + * .input-button-container {
+		display:none !important;
+	}
