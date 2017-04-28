@@ -90,6 +90,11 @@ namespace PaJaMa.DatabaseStudio.Compare.Helpers
 										copy.NotifyAfter = 500;
 										copy.SqlRowsCopied += delegate(object sender, SqlRowsCopiedEventArgs e)
 										{
+                                            if (_worker.CancellationPending)
+                                            {
+                                                e.Abort = true;
+                                                return;
+                                            }
 											_worker.ReportProgress(100 * i / counts, string.Format("Copying: [{0}].[{1}] {2} of {3}", 
 												table.SourceTable.Schema.SchemaName, table.SourceTable.TableName, e.RowsCopied, rowCount));
 										};

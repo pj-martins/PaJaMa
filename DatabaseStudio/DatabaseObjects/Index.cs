@@ -46,7 +46,11 @@ namespace PaJaMa.DatabaseStudio.DatabaseObjects
 							{
 								index = rdr.ToObject<Index>();
 								index.IndexColumns = new List<IndexColumn>();
-								index.Table = schema.Tables.First(t => t.TableName == tableName);
+
+                                // stale index?
+								index.Table = schema.Tables.FirstOrDefault(t => t.TableName == tableName);
+                                if (index.Table == null) continue;
+
 								index.Table.Indexes.Add(index);
 								indexes.Add(index);
 							}

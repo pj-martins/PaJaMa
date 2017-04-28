@@ -198,26 +198,6 @@ namespace PaJaMa.DatabaseStudio.Compare
 
 
 			gridTables.AutoGenerateColumns = false;
-
-            if (gridTables.DataSource != null)
-            {
-                var currws = (gridTables.DataSource as BindingList<TableWorkspace>).ToList();
-                foreach (var curr in currws)
-                {
-                    var newws = lst.Workspaces.FirstOrDefault(ws => ws.SourceObject.ToString() == curr.SourceObject.ToString());
-                    if (newws != null)
-                    {
-                        if (curr.Select) newws.Select = curr.Select;
-                        if (curr.SelectTableForData) newws.SelectTableForData = curr.SelectTableForData;
-                        if (curr.Delete) newws.Delete = curr.Delete;
-                        if (curr.KeepIdentity) newws.KeepIdentity = curr.KeepIdentity;
-                        if (curr.RemoveAddIndexes) newws.RemoveAddIndexes = curr.RemoveAddIndexes;
-                        if (curr.RemoveAddKeys) newws.RemoveAddKeys = curr.RemoveAddKeys;
-                        if (curr.Truncate) newws.Truncate = curr.Truncate;
-                    }
-                }
-            }
-
 			gridTables.DataSource = new BindingList<TableWorkspace>(lst.Workspaces.OrderBy(w => w.SourceTable.ToString()).ToList());
 		}
 
