@@ -46,6 +46,7 @@ namespace PaJaMa.DatabaseStudio.Compare
 			new GridHelper().DecorateGrid(gridTables);
 			new GridHelper().DecorateGrid(gridObjects);
 			new GridHelper().DecorateGrid(gridDropObjects);
+			new GridHelper().DecorateGrid(gridDatabases):
 		}
 
 		private void refreshConnStrings()
@@ -217,6 +218,47 @@ namespace PaJaMa.DatabaseStudio.Compare
                     }
                 }
             }
+
+			gridTables.DataSource = new BindingList<TableWorkspace>(lst.Workspaces.OrderBy(w => w.SourceTable.ToString()).ToList());
+		}
+
+		private void refreshDatabases(List<DropWorkspace> dropWorkspaces)
+		{
+			var lst = TableWorkspaceList.GetTableWorkspaces(_compareHelper);
+
+			foreach (var dw in lst.DropWorkspaces)
+			{
+				dropWorkspaces.Add(dw);
+			}
+
+			TargetTable.Items.Clear();
+			TargetTable.Items.Add(string.Empty);
+			var toTbls = from s in _compareHelper.ToDatabase.Schemas
+						 from t in s.Tables
+						 select t;
+			TargetTable.Items.AddRange(toTbls.OrderBy(t => t.TableName).ToArray());
+
+
+			gridTables.AutoGenerateColumns = false;
+
+			if (gridTables.DataSource != null)
+			{
+				var currws = (gridTables.DataSource as BindingList<TableWorkspace>).ToList();
+				foreach (var curr in currws)
+				{
+					var newws = lst.Workspaces.FirstOrDefault(ws => ws.SourceObject.ToString() == curr.SourceObject.ToString());
+					if (newws != null)
+					{
+						if (curr.Select) newws.Select = curr.Select;
+						if (curr.SelectTableForData) newws.SelectTableForData = curr.SelectTableForData;
+						if (curr.Delete) newws.Delete = curr.Delete;
+						if (curr.KeepIdentity) newws.KeepIdentity = curr.KeepIdentity;
+						if (curr.RemoveAddIndexes) newws.RemoveAddIndexes = curr.RemoveAddIndexes;
+						if (curr.RemoveAddKeys) newws.RemoveAddKeys = curr.RemoveAddKeys;
+						if (curr.Truncate) newws.Truncate = curr.Truncate;
+					}
+				}
+			}
 
 			gridTables.DataSource = new BindingList<TableWorkspace>(lst.Workspaces.OrderBy(w => w.SourceTable.ToString()).ToList());
 		}

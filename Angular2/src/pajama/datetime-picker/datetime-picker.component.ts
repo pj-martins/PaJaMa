@@ -50,14 +50,14 @@ import { Utils } from '../shared';
 			</div>
 			<div class="datetime-picker-controls-panel" *ngIf="!hideTime">
 				<div class="datetime-picker-time-panel id_{{uniqueId}}">
-					<input type="text" [(ngModel)]="selectedHour" (keydown)="hourMinuteKeydown(12, selectedHour)" />
+					<input type="text" [(ngModel)]="selectedHour" (blur)="formatHour()" />
 					<div class="arrow-up-down-container">
 						<div class="datetime-picker-top-spinner datetime-picker-clickable icon-arrow-up-black spinner-arrows" (click)="addHour()">
 						</div>
 						<div class="datetime-picker-bottom-spinner datetime-picker-clickable icon-arrow-down-black spinner-arrows" (click)="addHour(true)">
 						</div>
 					</div>
-					<input type="text" [(ngModel)]="selectedMinute" (keydown)="hourMinuteKeydown(59, selectedMinute)" (blur)="formatMinute()" />
+					<input type="text" [(ngModel)]="selectedMinute" (blur)="formatMinute()" />
 					<div class="arrow-up-down-container">
 						<div class="datetime-picker-top-spinner datetime-picker-clickable icon-arrow-up-black spinner-arrows" (click)="addMinute()">
 						</div>
@@ -132,7 +132,7 @@ export class DateTimePickerComponent implements OnInit { // implements ControlVa
 	protected calendarDates: Array<Array<Date>>;
 	protected selectedMonth: number;
 	protected selectedYear: number;
-	protected selectedHour: number;
+	protected selectedHour: string;
 	protected selectedMinute: string;
 	protected selectedAMPM: string;
 	protected dropdownVisible: boolean = false;
@@ -183,15 +183,16 @@ export class DateTimePickerComponent implements OnInit { // implements ControlVa
 			this.selectedYear = this.selectedDate.getFullYear();
 
 		if (!this.selectedHour) {
-			this.selectedHour = this.selectedDate.getHours();
-			if (this.selectedHour >= 12) {
-				if (this.selectedHour > 12)
-					this.selectedHour -= 12;
+			let hour = this.selectedDate.getHours();
+			if (hour >= 12) {
+				if (hour > 12)
+					hour -= 12;
 				this.selectedAMPM = 'PM';
 			}
 			else {
 				this.selectedAMPM = 'AM';
 			}
+			this.selectedHour = hour.toString();
 		}
 
 		if (!this.selectedMinute) {
@@ -223,6 +224,18 @@ export class DateTimePickerComponent implements OnInit { // implements ControlVa
 	protected formatMinute() {
 		let currMinute = this.getMinuteInt();
 		this.selectedMinute = "00".substring(0, 2 - currMinute.toString().length) + currMinute.toString();
+	}
+
+	private getHourInt() {
+		let currHour = parseInt(this.selectedHour);
+		if (isNaN(currHour))
+			currHour = 0;
+		return currHour;
+	}
+
+	protected formatHour() {
+		let currHour = this.getHourInt();
+		this.selectedHour = currHour.toString();
 	}
 
 	protected selectNow() {
@@ -271,24 +284,27 @@ export class DateTimePickerComponent implements OnInit { // implements ControlVa
 	}
 
 	protected addHour(backwards) {
-		this.selectedHour += (backwards ? -1 : 1);
+		var hour = this.getHourInt();
+		hour += (backwards ? -1 : 1);
 		let toggleAMPM = false;
 		if (!backwards) {
-			if (this.selectedHour > 12) {
-				this.selectedHour = 1;
+			if (hour > 12) {
+				hour = 1;
 			}
-			else if (this.selectedHour > 11) {
+			else if (hour > 11) {
 				toggleAMPM = true;
 			}
 		}
 		else {
-			if (this.selectedHour < 1) {
-				this.selectedHour = 12;
+			if (hour < 1) {
+				hour = 12;
 			}
-			else if (this.selectedHour == 11) {
+			else if (hour == 11) {
 				toggleAMPM = true;
 			}
 		}
+
+		this.selectedHour = hour.toString();
 
 		if (toggleAMPM) {
 			this.selectedAMPM = this.selectedAMPM == 'AM' ? 'PM' : 'AM';
@@ -320,7 +336,7 @@ export class DateTimePickerComponent implements OnInit { // implements ControlVa
 
 		if (!this.hideTime) {
 			if (!fromInput) {
-				var hourToAdd = this.selectedHour;
+				var hourToAdd = this.getHourInt();
 				if (this.selectedAMPM == 'PM' && hourToAdd < 12) {
 					hourToAdd += 12;
 				}
@@ -329,7 +345,7 @@ export class DateTimePickerComponent implements OnInit { // implements ControlVa
 				}
 
 				selectedDate.setHours(hourToAdd);
-				selectedDate.setMinutes(this.selectedMinute);
+				selectedDate.setMinutes(this.getMinuteInt());
 			}
 		}
 		else {
