@@ -32,6 +32,7 @@ import { ModalDialogComponent } from '../modal-dialog/modal-dialog.component';
 	</div>
 </modal-dialog>
 <modal-dialog #helpModal>
+	<div class='settings-body'>
 		<strong>Sorting Columns:</strong><br />
 		To sort a column, click on the column's caption. If the column has not been sorted yet, it will sort ascending first, indicated by an arrow pointing down. 
 		Clicking a second time will sort descending, indicated by an arrow pointing up.
@@ -65,6 +66,7 @@ import { ModalDialogComponent } from '../modal-dialog/modal-dialog.component';
 		</div>
 		<strong>Oh No!</strong><br />
 		You may get yourself into a pickle where you've lost your way around and have gotten the grid into an undesired state, no worries! To reset the grid, click on the button labeled "Settings" and click on "Reset" to reset to the default state.
+	</div>
 </modal-dialog>
 `
 })

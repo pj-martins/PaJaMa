@@ -165,15 +165,31 @@ export class GridViewHeaderCellComponent implements AfterViewInit {
 	private resize(event: any) {
 		if (this._origX && event.buttons == 1) {
 			let delta = event.clientX - this._origX;
-			this._parentTH.style.width = (this._origWidth + delta).toString() + 'px';
+			this.setColumnSize(this._parentTH, (this._origWidth + delta).toString() + 'px');
 			for (let locked of this._lockedColumns) {
 				let parentTH = document.getElementById(locked.parentId);
-				parentTH.style.width = locked.originalWidth;
+				this.setColumnSize(parentTH, locked.originalWidth);
 			}
 			this._resized = true;
 		}
 		else {
 			this.endResize();
+		}
+	}
+
+	private setColumnSize(parentTH: any, width: any) {
+		parentTH.style.width = width;
+		let idMatch = parentTH.id.match("header_(.*?)_(.*)");
+		if (idMatch && idMatch.length == 3) {
+			let tds = document.querySelectorAll("[id^='cell_" + idMatch[1] + "_']");
+			if (tds) {
+				for (let i = 0; i < tds.length; i++) {
+					let td = tds[i];
+					if (td.id.endsWith(idMatch[2])) {
+						td["style"].width = width;
+					}
+				}
+			}
 		}
 	}
 
@@ -213,8 +229,8 @@ export class GridViewHeaderCellComponent implements AfterViewInit {
 			}
 		}
 
-		if (!sourceCol) throw sourceIdentifier + " not found!";
-		if (!targetCol) throw targetIdentifier + " not found!";
+		if (!sourceCol) return;
+		if (!targetCol) return;
 
 		let targetIndex = targetCol.columnIndex;
 		if (sourceCol.columnIndex <= targetCol.columnIndex) {

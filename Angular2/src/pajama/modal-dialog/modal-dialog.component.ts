@@ -1,21 +1,22 @@
-﻿import { Component, Input, Output, ElementRef, EventEmitter } from '@angular/core'
+﻿import { Component, Input, Output, ElementRef, EventEmitter, NgZone } from '@angular/core'
 import { Observable } from 'rxjs/Observable';
+import { Utils } from '../shared';
 
 @Component({
 	moduleId: module.id,
 	selector: 'modal-dialog',
 	template: `
-<div class="modal-dialog-container component" *ngIf='shown' [style.left]="overrideLeft" [style.top]="overrideTop">
+<div class="modal-dialog-container component" *ngIf='shown' [style.left]="overrideLeft" [style.top]="overrideTop" id="id_{{uniqueId}}">
 	<div class="modal-dialog-header" *ngIf="showFooter">
 		<button class="icon-remove-black icon-small icon-button modal-close-button" *ngIf="!hideCloseButton"  (click)="hide()">
         </button>
         <div class="modal-title"><strong>{{headerText}}</strong></div>
 	</div>
-    <div class="modal-dialog-body">
-		<div *ngIf="!bodyContent">
-			<ng-content></ng-content>
-		</div>
-		<div *ngIf="bodyContent" [innerHtml]="bodyContent">
+	<div *ngIf="!bodyContent">
+		<ng-content></ng-content>
+	</div>
+	<div *ngIf="bodyContent" class="modal-dialog-body">
+		<div [innerHtml]="bodyContent">
 		</div>
 	</div>
 	<div class="modal-dialog-footer" *ngIf="showFooter">
@@ -60,6 +61,9 @@ export class ModalDialogComponent {
 	@Output()
 	closing = new EventEmitter<ClosingArgs>();
 
+	private currentonclick: any;
+	protected uniqueId = Utils.newGuid();
+
 	protected ok() {
 		this._hide(DialogResult.OK);
 	}
@@ -80,7 +84,7 @@ export class ModalDialogComponent {
 		return this.shown;
 	}
 
-	constructor(private elementRef: ElementRef) { }
+	constructor(private elementRef: ElementRef, private zone: NgZone) { }
 
 	toggle() {
 		if (!this.shown)
@@ -101,7 +105,36 @@ export class ModalDialogComponent {
 			window.setTimeout(() => this._hide(DialogResult.OK),
 				hideAfter + 200);
 		}
-		return Observable.create(o => this.currObserver = o);
+
+		window.setTimeout(() => {
+			// TODO: hackish, need to find a better way to hide drop down when they click off of it, can't use blur
+			// since blur will fire when the dropdown div is clicked in which case we don't want to hide the dropdown
+			let self = this;
+			this.currentonclick = document.onclick;
+			document.onclick = (event: any) => {
+				if (this.currentonclick) this.currentonclick(event);
+
+				if (self.shown && event.target && !self.hideCloseButton) {
+					let isInModal = false;
+					let curr = 3;
+					let el = event.target;
+					while (curr-- > 0 && el != null) {
+						if (el.id == `id_${this.uniqueId}`) {
+							isInModal = true;
+							break;
+						}
+						el = el.offsetParent;
+					}
+					if (!isInModal)
+						self.zone.run(() => self._hide());
+				}
+			};
+		}, 200);
+
+		return Observable.create(o => {
+			this.currObserver = o;
+
+		});
 	}
 
 	showResult(headerText: string, bodyContent: string, hideAfter: number = 0): Observable<DialogResult> {
@@ -146,6 +179,8 @@ export class ModalDialogComponent {
 			this.currObserver.next(dialogResult);
 			this.currObserver.complete();
 		}
+
+		document.onclick = this.currentonclick;
 	}
 }
 
