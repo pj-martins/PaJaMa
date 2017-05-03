@@ -9,7 +9,7 @@ import { Utils } from '../shared';
 	template: `
 <div class='datetime-picker'>
 	<div class="input-button-container component id_{{uniqueId}}">
-		<button class="input-button datetime-picker-button id_{{uniqueId}}" (click)="showDropdown()">
+		<button class="input-button datetime-picker-button id_{{uniqueId}}" (click)="showDropdown()" tabindex="-1">
 			<div class="icon-calendar-black icon-small id_{{uniqueId}}"></div>
 		</button>
 	</div>

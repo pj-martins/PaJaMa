@@ -136,8 +136,9 @@ export class DateTimePickerDirective implements OnInit, OnChanges, Validator {
 				date = new Date(datePart + ' ' + formattedDate);
 				valid = !isNaN(date.getTime());
 				if (!valid) {
-					this.ngModel = null;
+					//this.ngModel = null;
 					//this.formatDate(this.ngModel);
+					this.ngModelChange.emit(null);
 					return;
 				}
 			}
