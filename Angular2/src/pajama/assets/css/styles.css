@@ -70,9 +70,16 @@ input[type="checkbox"].disable-edit, input[type="checkbox"]:not(:checked).disabl
 	display: none;
 }
 
+/* WARNING! copied from icons.css */
 input[type="radio"]:checked.disable-edit + span,
 input[type="checkbox"]:checked.disable-edit + span {
     font-weight: bold;
+	background: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABgAAAAYCAYAAADgdz34AAAABmJLR0QA/wD/AP+gvaeTAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAB3RJTUUH4QUDEg80chfdfQAAAB1pVFh0Q29tbWVudAAAAAAAQ3JlYXRlZCB3aXRoIEdJTVBkLmUHAAACVUlEQVRIx6XWS4iNcRjH8c+ZOeNaLhOFIowSpZFJhmxkIWYrhVEkC4spsWBrxSwYjHJZKErsLCRkRCmljGZnMrnXyAKDkevMsfC89e81TueYp97F+V+e3/t+/8/z+5+CP1GHJqzHFAyrLmrwGkdRwFwM4m2WvBOlUTzfsDyEWvAR3VgIzaNMXsKq+JKl+JKM3ywGlixKeBrqQxWgKeAa7mMydmFsMj8JjieKfRiv+qjBZvQnuT5jBXQkg5f9XyzCyxy2/SgW44CyGPqP5PNxBnPi9yB6cAq12YJnoXqxyuQTcQhfY/9XnMP0OPDd2cK18fbVCNRGgbyK5EO4F6U5Do/ifDXGhi24UIXAQvQmzPuxKfrqbIx1iO7biyLmVZh8Nq5Ex5ei9g+GC7Qloh1FjMGRGDhdQfIJaA2sBfzEjXCDAazMb7iTKLYGv3KNtRrPkz3dWJCsuZh+gfCNtNFaonFGisV4kKx/i22Bd0SBGlxNJhuwLxjnYxbaw3XhO86HVfwqx3QmXuSc8QKmJWvGRyF8SkrydtR7Pv5CVMA6/EgmBnEY9bFpDR7H3DAeZj5TiUBDiGzFmxzf7WEBKfd32JlzzbIC7dgY5bojEpeC6xN0BbZScD+Tw5ePy3mBE3gfnTkVJxNcwyGUce/6RwGkZ9WXCBwv4kMkvhudfCKaZVmgq43NvTgQd++GQJr3pqZAnsVA/srsCS9Zlbx59hyLJlySuxbLPc0jXfqXIlFbguoWZkSjvasweSfqCiP8bamPg3wdBtYYOPqxJzAOl7k6B3A9LOTnb3jc+BJ+HmkTAAAAAElFTkSuQmCC);
+	background-size: 16px 16px !important;
+	width: 16px;
+	height: 16px;
+	background-repeat: no-repeat !important;
+	padding-left: 10px;
 }
 
 .modal-dialog-body {

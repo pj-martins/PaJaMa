@@ -88,6 +88,8 @@
     <Content Include="pajama\assets\img\icon-cancel-white.png" />
     <Content Include="pajama\assets\img\icon-check-black.png" />
     <Content Include="pajama\assets\img\icon-check-white.png" />
+    <Content Include="pajama\assets\img\icon-checkbox-black.png" />
+    <Content Include="pajama\assets\img\icon-checkbox-white.png" />
     <Content Include="pajama\assets\img\icon-filter-black.png" />
     <Content Include="pajama\assets\img\icon-filter-white.png" />
     <Content Include="pajama\assets\img\icon-gear-black.png" />
