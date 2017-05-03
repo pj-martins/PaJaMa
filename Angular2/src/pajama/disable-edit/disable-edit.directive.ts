@@ -1,6 +1,6 @@
 ﻿import { Directive, Input, ElementRef, ViewEncapsulation, AfterViewInit } from '@angular/core';
 
-// make sure shared styles.css are reference
+// make sure shared styles.css are reference, for radios, use span to apply visibility/boldness
 @Directive({
 	selector: '[disableEdit]'
 })
@@ -34,8 +34,15 @@ export class DisableEditDirective implements AfterViewInit {
 				else if (this.disableEdit && el.className.indexOf(cls) < 0) {
 					el.className = cls + el.className;
 				}
-				el.readOnly = this.disableEdit;
-				el.disabled = this.disableEdit;
+				if (el.tagName.toLowerCase() == 'checklist') {
+					for (let btn of el.getElementsByTagName("button")) {
+						btn.disabled = this.disableEdit;
+					}
+				}
+				else {
+					el.readOnly = this.disableEdit;
+					el.disabled = this.disableEdit;
+				}
 			}
 		}, 100);
 	}
@@ -50,7 +57,7 @@ export class DisableEditDirective implements AfterViewInit {
 			this.elements.push(this.el.nativeElement.getElementsByClassName("checklist-button")[0]);
 		}
 		else {
-			this.elements = this.el.nativeElement.querySelectorAll("input,textarea");
+			this.elements = this.el.nativeElement.querySelectorAll("input,textarea,checklist");
 		}
 		this._inited = true;
 		this.addRemoveStyles();

@@ -40,11 +40,12 @@ input.component {
 	color: red;
 }
 
-.disable-edit {
+.disable-edit, checklist.disable-edit button {
 	font-weight: bold;
 	border: 0px !important;
-	background-color: rgb(240,240,240);
+	background-color: rgb(240,240,240) !important;
 }
+
 
 	.disable-edit + multi-typeahead .multi-textbox-item {
 		font-weight: bold;
@@ -60,6 +61,28 @@ input.component {
 		padding-left: 4px !important;
 	}
 
-	.disable-edit + * .input-button-container {
-		display:none !important;
+	.disable-edit + * .input-button-container, checklist.disable-edit .checklist-button-image {
+		display: none !important;
 	}
+
+input[type="radio"].disable-edit, input[type="radio"]:not(:checked).disable-edit + span,
+input[type="checkbox"].disable-edit, input[type="checkbox"]:not(:checked).disable-edit + span {
+	display: none;
+}
+
+input[type="radio"]:checked.disable-edit + span,
+input[type="checkbox"]:checked.disable-edit + span {
+    font-weight: bold;
+}
+
+.modal-dialog-body {
+	padding: 15px;
+}
+
+.medium-modal-dialog-body {
+	width: 800px;
+}
+
+.large-modal-dialog-body {
+	width: 1000px;
+}

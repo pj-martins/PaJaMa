@@ -7,13 +7,14 @@ import { ModalDialogComponent, DialogResult, Button } from 'pajama/modal-dialog/
 	selector: 'demo-modal',
 	template: `
 <button (click)='basicModal.show()'>Basic Modal</button>
-<modal-dialog #basicModal headerText='Basic'>
-Here is a basic modal
+<modal-dialog #basicModal headerText='Basic' bodyContent='Here is a basic modal'>
 </modal-dialog>
 
 <button (click)='showYesNoModal()'>Yes No Modal</button>
 <modal-dialog #yesNoModal [hideCloseButton]='true' [showBackdrop]='true' headerText='Yes No Modal'>
-	<strong>This is a yes no modal</strong>
+	<div style="padding:15px:">
+		<strong>This is a yes no modal</strong>
+	</div>
 </modal-dialog>
 
 {{statusText}}

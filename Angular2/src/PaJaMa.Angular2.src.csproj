@@ -106,7 +106,6 @@
     <Content Include="pajama\assets\img\icon-remove-white.png" />
     <Content Include="pajama\assets\img\icon-wrench-black.png" />
     <Content Include="pajama\assets\img\icon-wrench-white.png" />
-    <Content Include="pajama\disable-edit\disable-edit.css" />
     <Content Include="pajama\gridview\gridview-datefilter.css" />
     <Content Include="pajama\modal-dialog\modal-dialog.css" />
     <Content Include="pajama\assets\css\styles.css" />
