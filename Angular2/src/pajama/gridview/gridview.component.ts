@@ -1,5 +1,5 @@
 ﻿import { Component, Input, Output, EventEmitter, NgZone, AfterViewInit, ViewChild, ViewChildren, QueryList, ElementRef } from '@angular/core';
-import { GridView, DataColumn, FilterMode, PagingType, FieldType, SelectMode, ColumnBase, GridState, RowArguments } from './gridview';
+import { GridView, DataColumn, FilterMode, PagingType, FieldType, SelectMode, ColumnBase, GridState, RowArguments, TEMP_KEY_FIELD } from './gridview';
 import { SortDirection } from '../shared';
 import { DetailGridViewComponent } from './detail-gridview.component';
 import { GridViewPagerComponent } from './gridview-pager.component';
@@ -137,13 +137,13 @@ export class GridViewComponent implements AfterViewInit {
 		this._grid = value;
 		if (this._grid != null) {
 			if (this._grid.detailGridView && !this._grid.keyFieldName) {
-				throw "Grids with detail grids require a key field name";
+				this._grid.setTempKeyField();
 			}
 			if (this._grid.selectMode > 0 && !this._grid.keyFieldName) {
-				throw "Grids with row select enable require a key field name";
+				this._grid.setTempKeyField();
 			}
 			if (this._grid.allowEdit && !this._grid.keyFieldName) {
-				throw "Editable grids require a key field name";
+				this._grid.setTempKeyField();
 			}
 			this._grid.dataChanged.subscribe(() => this.resetData());
 			this.initPager();
@@ -527,6 +527,10 @@ export class GridViewComponent implements AfterViewInit {
 	addRow() {
 		let args = new RowArguments();
 		args.row = {};
+		if (this._grid.keyFieldName == TEMP_KEY_FIELD) {
+			args.row[TEMP_KEY_FIELD] = Utils.newGuid();
+		}
+		args.grid = this.grid;
 		this.grid.rowCreate.emit(args);
 		if (!args.cancel) {
 			this._displayData.splice(0, 0, args.row);
@@ -546,10 +550,12 @@ export class GridViewComponent implements AfterViewInit {
 	editRow(row: any) {
 		let args = new RowArguments();
 		args.row = row;
+		args.grid = this.grid;
 
 		if (this.grid.detailGridView) {
 			let dgvc = this.detailGridViewComponents[row[this.grid.keyFieldName]];
-			dgvc.expandCollapse();
+			if (!dgvc.isExpanded())
+				dgvc.expandCollapse();
 
 		}
 
@@ -578,6 +584,8 @@ export class GridViewComponent implements AfterViewInit {
 	deleteRow(row: any) {
 		let args = new RowArguments();
 		args.row = row;
+		args.grid = this.grid;
+
 		this.grid.rowDelete.emit(args);
 		if (!args.cancel) {
 			if (!args.observable)
@@ -599,18 +607,19 @@ export class GridViewComponent implements AfterViewInit {
 			}
 		}
 
-		// TODO:
-		//if (this.grid.detailGridView) {
-		//	let dgvc = this.detailGridViewComponents[row[this.grid.keyFieldName]];
-		//	if (dgvc) {
-		//		for (let row of dgvc.detailGridViewInstance.data) {
-		//			return dgvc.gridViewComponent.saveEdit(row);
-		//		}
-		//	}
-		//}
+		if (this.grid.detailGridView) {
+			let dgvc = this.detailGridViewComponents[row[this.grid.keyFieldName]];
+			if (dgvc) {
+				for (let row of dgvc.detailGridViewInstance.data) {
+					dgvc.gridViewComponent.saveEdit(row);
+				}
+			}
+		}
 
 		let args = new RowArguments();
 		args.row = row;
+		args.grid = this.grid;
+
 		this.grid.rowSave.emit(args);
 		if (!args.cancel) {
 			if (!args.observable) {

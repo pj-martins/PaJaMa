@@ -4,9 +4,12 @@ import { OrderByPipe } from '../pipes/order-by.pipe';
 import { Observable } from 'rxjs/Observable';
 import { SortDirection, Utils } from '../shared';
 
+export const TEMP_KEY_FIELD: string = "_tmp_key_field";
+
 export class GridView {
 	private _data: Array<any>;
 
+	
 	pageSize: number = 10;
 	currentPage: number = 1;
 	totalRecords: number;
@@ -94,14 +97,15 @@ export class GridView {
 		this.setFilterOptions();
 	}
 
-	set data(data: Array<any>) {
-		this._data = data;
-		this.refreshData();
-	}
-
 	get data(): Array<any> {
 		return this._data;
 	}
+	set data(data: Array<any>) {
+		this._data = data;
+		this.populateTempKey();
+		this.refreshData();
+	}
+
 
 	private _stateLoaded = false;
 	private _defaultState: GridState;
@@ -151,6 +155,19 @@ export class GridView {
 
 			this.columns = copies;
 			this.refreshData();
+		}
+	}
+
+	setTempKeyField() {
+		this.keyFieldName = TEMP_KEY_FIELD;
+		this.populateTempKey();
+	}
+
+	private populateTempKey() {
+		if (this.keyFieldName != TEMP_KEY_FIELD || !this.data) return;
+		for (let d of this.data) {
+			if (!d[this.keyFieldName])
+				d[this.keyFieldName] = Utils.newGuid();
 		}
 	}
 
@@ -388,11 +405,13 @@ export enum FieldType {
 export class DetailGridView extends GridView {
 
 	getChildData: (parent: any) => Observable<Array<any>>;
+	parentRow: any;
 	hideExpandButton: boolean;
 
-	createInstance(): DetailGridView {
+	createInstance(parentRow: any): DetailGridView {
 		let grid = new DetailGridView();
 		Object.assign(grid, this);
+		grid.parentRow = parentRow;
 		return grid;
 	}
 }
@@ -414,6 +433,7 @@ export class GridColumnState {
 	visible: boolean;
 }
 export class RowArguments {
+	grid: GridView;
 	row: any;
 	cancel: boolean;
 	observable: Observable<any>;
