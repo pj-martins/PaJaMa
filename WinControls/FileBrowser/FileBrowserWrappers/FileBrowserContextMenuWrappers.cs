@@ -10,7 +10,7 @@ using System.Threading;
 using System.ComponentModel;
 using System.IO;
 
-namespace PaJaMaWinControls
+namespace PaJaMa.WinControls.FileBrowser
 {
     /// <summary>
     /// This class takes care of showing ContextMenu's for a FileBrowserTreeView

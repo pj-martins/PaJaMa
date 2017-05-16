@@ -7,6 +7,7 @@ import { GridViewFilterCellComponent } from './gridview-filtercell.component';
 import { GridViewFilterCellTemplateDirective } from './gridview-filtercell-template.directive';
 import { GridViewCellComponent } from './gridview-cell.component';
 import { GridViewCellTemplateDirective } from './gridview-cell-template.directive';
+import { GridViewTextAreaCellComponent } from './gridview-cell-templates.component';
 import { GridViewRowTemplateDirective } from './gridview-row-template.directive';
 import { GridViewHeaderCellComponent } from './gridview-headercell.component';
 import { GridViewPagerComponent } from './gridview-pager.component';
@@ -36,6 +37,7 @@ import { ModalDialogModule } from '../modal-dialog/modal-dialog.module';
 		GridViewPagerComponent,
 		GridViewSettingsComponent,
 		GridViewHeaderCellComponent,
+		GridViewTextAreaCellComponent,
 		GridViewRowTemplateDirective,
 		GridViewCellTemplateDirective,
 		GridViewFilterCellTemplateDirective,
@@ -45,7 +47,8 @@ import { ModalDialogModule } from '../modal-dialog/modal-dialog.module';
     exports: [
         GridViewComponent,
         GridViewCellComponent,
-        GridViewFilterCellComponent,
+		GridViewFilterCellComponent,
+		GridViewTextAreaCellComponent,
 		GridViewRowTemplateDirective,
 		GridViewCellTemplateDirective,
 		GridViewFilterCellTemplateDirective

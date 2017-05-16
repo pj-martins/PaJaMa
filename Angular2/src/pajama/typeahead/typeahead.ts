@@ -10,7 +10,7 @@ export const TYPEAHEAD_TEMPLATE = `
 			</button>
 		</div>
 		<div class='input-button-container' *ngIf='typeahead.dataSourceFunction && typeahead.loading'>
-			<span class='glyphicon glyphicon-refresh refresh-icon'></span>
+			<span class='icon-small icon-refresh-black typeahead-refresh-icon'></span>
 		</div>
 		<div [hidden]='!typeahead.dropdownVisible' class='typeahead-popup component'>
 			<div *ngFor='let item of typeahead.items; let i = index' [hidden]='typeahead.itemHidden(item)'>
@@ -99,6 +99,8 @@ export class Typeahead {
 	}
 
 	private isMatch(item: any): boolean {
+		// assumes data source function filters correctly
+		if (this.dataSourceFunction) return true;
 		if (this.textValue) {
 			let objValues = [];
 			if (this.matchOn) {

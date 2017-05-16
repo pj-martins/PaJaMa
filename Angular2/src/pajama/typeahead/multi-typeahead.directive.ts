@@ -66,6 +66,14 @@ export class MultiTypeaheadDirective implements OnInit {
 		this._component.instance.typeahead.waitMs = v;
 	}
 
+	@Output()
+	get itemSelected(): EventEmitter<any> {
+		return this._component.instance.typeahead.itemSelected;
+	}
+	set itemSelected(v: EventEmitter<any>) {
+		this._component.instance.typeahead.itemSelected = v;
+	}
+
 	constructor(private componentFactoryResolver: ComponentFactoryResolver, private viewContainerRef: ViewContainerRef, private elementRef: ElementRef,
 		private parserService: ParserService) {
 		this.elementRef.nativeElement.style.boxSizing = "border-box";

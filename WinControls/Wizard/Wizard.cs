@@ -7,7 +7,7 @@ using System.Data;
 using System.Windows.Forms;
 using System.Diagnostics;
 
-namespace PaJaMaWinControls
+namespace PaJaMa.WinControls.Wizard
 {
 	/// <summary>
 	/// A wizard is the control added to a form to provide a step by step functionality.
@@ -15,9 +15,9 @@ namespace PaJaMaWinControls
 	/// are containers for other controls. Only one wizard page is shown at a time in the client
 	/// are of the wizard.
 	/// </summary>
-	[Designer(typeof(PaJaMaWinControls.WizardDesigner))]
+	[Designer(typeof(WizardDesigner))]
 	[ToolboxItem(true)]
-	[ToolboxBitmap(typeof(PaJaMaWinControls.Wizard))]
+	[ToolboxBitmap(typeof(Wizard))]
 	public class Wizard : System.Windows.Forms.UserControl
 	{
 		protected internal System.Windows.Forms.Panel pnlButtons;

@@ -34,7 +34,7 @@ namespace PaJaMa.DatabaseStudio.Query
 		private void ucWorkspace_Load(object sender, EventArgs e)
 		{
 			List<Type> types = new List<Type>() {
-				typeof(System.Data.SqlClient.SqlConnection), 
+				typeof(System.Data.SqlClient.SqlConnection),
 				typeof(System.Data.OleDb.OleDbConnection),
 				typeof(System.Data.Odbc.OdbcConnection)
 			};
@@ -302,7 +302,7 @@ namespace PaJaMa.DatabaseStudio.Query
 		{
 			var conns = Properties.Settings.Default.ConnectionStrings.Split('|');
 			txtConnectionString.Items.Clear();
-			txtConnectionString.Items.AddRange(conns);
+			txtConnectionString.Items.AddRange(conns.OrderBy(c => c).ToArray());
 		}
 
 		private void ucWorkspace_FormClosing(object sender, FormClosingEventArgs e)
@@ -507,5 +507,25 @@ namespace PaJaMa.DatabaseStudio.Query
 			}
 		}
 
+		private void buildQueryToolStripMenuItem_Click(object sender, EventArgs e)
+		{
+			if (_currentConnection is SqlConnection)
+			{
+				string databaseName = _currentConnection.Database;
+				if (treeTables.SelectedNode.Tag is Database)
+					databaseName = (treeTables.SelectedNode.Tag as Database).DatabaseName;
+				var builder = new QueryBuilder.frmQueryBuilder(new QueryBuilder.QueryBuilderHelper(_currentConnection.ConnectionString, databaseName));
+				var dlgResult = builder.ShowDialog();
+				if (dlgResult == DialogResult.OK)
+				{
+					var output = addQueryOutput(string.Empty);
+					output.PopulateScript(builder.GetQuery(), treeTables.SelectedNode);
+				}
+			}
+			else
+			{
+				MessageBox.Show("Only SQL connections supported.");
+			}
+		}
 	}
 }

@@ -56,8 +56,3 @@
 	overflow-y: auto;
 	max-height: 600px;
 }
-
-.glyphicon-none:before {
-	content: "\2122";
-	color: transparent !important;
-}

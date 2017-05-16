@@ -6,7 +6,7 @@ using System.Data;
 using System.Windows.Forms;
 using System.Windows.Forms.Design;
 
-namespace PaJaMaWinControls
+namespace PaJaMa.WinControls.Wizard
 {
 	/// <summary>
 	/// Summary description for UserControl1.

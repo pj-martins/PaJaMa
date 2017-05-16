@@ -9,9 +9,10 @@
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>PaJaMa.DatabaseStudio</RootNamespace>
     <AssemblyName>DatabaseStudio</AssemblyName>
-    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
-    <TargetFrameworkProfile>Client</TargetFrameworkProfile>
+    <TargetFrameworkProfile>
+    </TargetFrameworkProfile>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <PlatformTarget>AnyCPU</PlatformTarget>
@@ -22,6 +23,7 @@
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <PlatformTarget>AnyCPU</PlatformTarget>
@@ -31,6 +33,7 @@
     <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <PropertyGroup>
     <ApplicationIcon>Database.ico</ApplicationIcon>
@@ -324,6 +327,44 @@
     </Compile>
     <Compile Include="Query\Classes\ExternalTypes.cs" />
     <Compile Include="Query\Classes\SchemaHelper.cs" />
+    <Compile Include="Query\QueryBuilder\frmQueryBuilder.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Query\QueryBuilder\frmQueryBuilder.Designer.cs">
+      <DependentUpon>frmQueryBuilder.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Query\QueryBuilder\IOptions.cs" />
+    <Compile Include="Query\QueryBuilder\QueryBuilderHelper.cs" />
+    <Compile Include="Query\QueryBuilder\SelectOptions\frmColumnOptions.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Query\QueryBuilder\SelectOptions\frmColumnOptions.Designer.cs">
+      <DependentUpon>frmColumnOptions.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Query\QueryBuilder\SelectOptions\ucColumn.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Query\QueryBuilder\SelectOptions\ucColumn.Designer.cs">
+      <DependentUpon>ucColumn.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Query\QueryBuilder\SelectOptions\ucColumnJoin.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Query\QueryBuilder\SelectOptions\ucColumnJoin.Designer.cs">
+      <DependentUpon>ucColumnJoin.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Query\QueryBuilder\SelectOptions\ucFromJoin.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Query\QueryBuilder\SelectOptions\ucFromJoin.Designer.cs">
+      <DependentUpon>ucFromJoin.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Query\QueryBuilder\SelectOptions\ucSelectOptions.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Query\QueryBuilder\SelectOptions\ucSelectOptions.Designer.cs">
+      <DependentUpon>ucSelectOptions.cs</DependentUpon>
+    </Compile>
     <Compile Include="Query\ucQueryOutput.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -392,6 +433,21 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Monitor\ucMonitor.resx">
       <DependentUpon>ucMonitor.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Query\QueryBuilder\frmQueryBuilder.resx">
+      <DependentUpon>frmQueryBuilder.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Query\QueryBuilder\SelectOptions\ucColumn.resx">
+      <DependentUpon>ucColumn.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Query\QueryBuilder\SelectOptions\ucColumnJoin.resx">
+      <DependentUpon>ucColumnJoin.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Query\QueryBuilder\SelectOptions\ucFromJoin.resx">
+      <DependentUpon>ucFromJoin.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Query\QueryBuilder\SelectOptions\ucSelectOptions.resx">
+      <DependentUpon>ucSelectOptions.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Query\ucQueryOutput.resx">
       <DependentUpon>ucQueryOutput.cs</DependentUpon>

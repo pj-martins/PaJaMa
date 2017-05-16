@@ -1,7 +1,7 @@
 using System;
 using System.Windows.Forms.Design;
 
-namespace PaJaMaWinControls
+namespace PaJaMa.WinControls.Wizard
 {
 	/// <summary>
 	/// 

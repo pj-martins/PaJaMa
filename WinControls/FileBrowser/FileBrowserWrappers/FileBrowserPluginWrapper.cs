@@ -11,7 +11,7 @@ using System.Security.Policy;
 using System.Drawing;
 using System.ComponentModel;
 
-namespace PaJaMaWinControls
+namespace PaJaMa.WinControls.FileBrowser
 {
     public class FileBrowserPluginWrapper : Component
     {

@@ -26,7 +26,7 @@ import { Observable } from 'rxjs/Observable';
                 <th *ngFor="let col of grid.getVisibleColumns() | orderBy:['columnIndex'];let i = index;let last = last; let first = first" id="header_{{i}}_{{uniqueId}}" [style.width]="col.width" [ngClass]="!last ? 'resize-border' : ''">
                     <gridview-headercell (sortChanged)='handleSortChanged($event)' [first]='first' [last]='last' [columnIndex]='i' [column]='col' [parentGridView]="grid" [parentGridViewComponent]="self"></gridview-headercell>
                 </th>
-				<th *ngIf='grid.allowAdd || grid.allowEdit || grid.allowDelete' style='width:45px' id="header_edit_{{uniqueId}}">
+				<th *ngIf='grid.allowAdd || grid.allowEdit || grid.allowDelete' style='width:45px' id="header_edit_{{uniqueId}}" class="edit-th">
 					<button *ngIf='grid.allowAdd && !newRow' (click)='addRow()' class='icon-plus-white icon-small icon-button'></button>
 				</th>
             </tr>
@@ -58,13 +58,6 @@ import { Observable } from 'rxjs/Observable';
             <ng-template ngFor let-row [ngForOf]="displayData" let-i="index">
                 <tr *ngIf='!grid.loading && !grid.rowTemplate' [ngClass]="(grid.getRowClass ? grid.getRowClass(row) : '') + (i % 2 != 0 ? ' gridview-alternate-row' : '') + (grid.selectMode > 0 ? ' selectable-row' : '') + (selectedKeys[row[grid.keyFieldName]] ? ' selected-row' : '')" (click)='rowClick(row)'>
                     <td *ngIf='grid.detailGridView && !grid.detailGridView.hideExpandButton'>
-						<!--<button class="glyphicon glyphicon-small {{detailGridViewComponents[row[grid.keyFieldName]] && detailGridViewComponents[row[grid.keyFieldName]].isExpanded() ? 'glyphicon-minus' : 'glyphicon-plus'}}" (click)='expandCollapse(row[grid.keyFieldName])'></button>-->
-						<!--<div class="expandcollapse-button-container">
-						  <button class="expandcollapse-button" (click)='expandCollapse(row[grid.keyFieldName])'>
-							<div class="expandcollapse-horizontal"></div>
-							<div class="expandcollapse-vertical" *ngIf='!detailGridViewComponents[row[grid.keyFieldName]] || !detailGridViewComponents[row[grid.keyFieldName]].isExpanded()'></div>
-						  </button>
-						</div>-->
 						<button class="{{detailGridViewComponents[row[grid.keyFieldName]] && detailGridViewComponents[row[grid.keyFieldName]].isExpanded() ? 'icon-minus-black' : 'icon-plus-black'}} icon-small icon-button" (click)="expandCollapse(row[grid.keyFieldName])"></button>
 					</td>
                     <td *ngFor="let col of grid.getVisibleColumns(true) | orderBy:['columnIndex'];let last = last; let first = first; let j = index" id="cell_{{j}}_{{i}}_{{uniqueId}}" [ngClass]="col.getRowCellClass ? col.getRowCellClass(row) : (col.disableWrapping ? 'no-wrap' : '')" [style.width]="col.width">
@@ -210,7 +203,6 @@ export class GridViewComponent implements AfterViewInit {
 	private _displayData: Array<any>;
 
 	private resetData(resetPage: boolean = false) {
-
 		let expandedKeys: Array<string> = [];
 		if (this.detailGridViewComponents) {
 			for (let k of Object.keys(this.detailGridViewComponents)) {
@@ -494,6 +486,10 @@ export class GridViewComponent implements AfterViewInit {
 
 	protected get displayData(): Array<any> {
 		if (this._displayData == null && this.unpagedData != null) {
+			if (this.grid.data && this.grid.data.length > 0 && this.grid.autoPopulateColumns && this.grid.columns.length < 1) {
+				this.grid.populateColumns();
+			}
+
 			var rawData = this.unpagedData;
 			if (this.grid.pageSize == 0 || this.grid.pagingType != PagingType.Auto) {
 				// make copy as to not hinder original

@@ -17,12 +17,12 @@ import { ParserService } from '../services/parser.service';
 		<div *ngIf="!editing || column.readonly" 
 				[innerHTML]="getObjectValue() == null ? '' : getObjectValue() | moment:(column.format ? column.format : 'MM/DD/YYYY')"></div>
 		<!-- TODO: determine when to hide time/date -->
-		<input type="text" dateTimePicker style="width:100%" *ngIf="(parentGridView.allowEdit || parentGridView.allowAdd) && !column.readonly &&  editing" [(ngModel)]="row[column.fieldName]" />
+		<input type="text" dateTimePicker [hideTime]="true" style="width:100%" *ngIf="(parentGridView.allowEdit || parentGridView.allowAdd) && !column.readonly &&  editing" [(ngModel)]="row[column.fieldName]" (ngModelChange)="parentGridView.cellValueChanged.emit(self)" />
 		<div class="error-label" *ngIf="!row[column.fieldName] && showRequired">{{column.caption}} is required!</div>
 	</div>
 	<div *ngIf="!column.format && column.fieldType == fieldType.Boolean">
-		<div *ngIf="!editing || column.readonly" [ngClass]="{ 'glyphicon glyphicon-ok' : getObjectValue(false) == true }"></div>
-		<input type="checkbox" *ngIf="(parentGridView.allowEdit || parentGridView.allowAdd) && !column.readonly && editing" [(ngModel)]="row[column.fieldName]" />
+		<div *ngIf="!editing || column.readonly" [ngClass]="{ 'icon-small icon-check-black' : getObjectValue(false) == true }"></div>
+		<input type="checkbox" *ngIf="(parentGridView.allowEdit || parentGridView.allowAdd) && !column.readonly && editing" [(ngModel)]="row[column.fieldName]" (ngModelChange)="parentGridView.cellValueChanged.emit(self)" />
 	</div>
 	<div *ngIf="column.click">
 		<button class="{{column.class}}" (click)="column.click.emit(row)">{{getObjectValue('')}}</button>
@@ -30,7 +30,8 @@ import { ParserService } from '../services/parser.service';
 	<!-- TODO: should we allow links to above items? duplication here too -->
 	<div *ngIf="column.fieldType != fieldType.Date && column.fieldType != fieldType.Boolean && !column.format && !column.click">
 		<div *ngIf="!editing || column.readonly" [innerHTML]="getObjectValue('')"></div>
-		<input type="text" style="width:100%" *ngIf="(parentGridView.allowEdit || parentGridView.allowAdd) && !column.readonly && editing" [(ngModel)]="row[column.fieldName]" />
+		<input type="text" style="width:100%" *ngIf="(parentGridView.allowEdit || parentGridView.allowAdd) && !column.readonly && editing && column.fieldType != fieldType.Numeric" [(ngModel)]="row[column.fieldName]" (ngModelChange)="parentGridView.cellValueChanged.emit(self)" />
+		<input type="number" style="width:100%" *ngIf="(parentGridView.allowEdit || parentGridView.allowAdd) && !column.readonly && editing && column.fieldType == fieldType.Numeric" [(ngModel)]="row[column.fieldName]" (ngModelChange)="parentGridView.cellValueChanged.emit(self)" />
 		<div class="error-label" *ngIf="!row[column.fieldName] && showRequired">{{column.caption}} is required!</div>
 	</div>
 </div>
@@ -49,6 +50,8 @@ export class GridViewCellComponent {
 	@Input() last: boolean;
 
 	@Input() index: number;
+
+	protected self = this;
 
 	protected fieldType = FieldType;
 

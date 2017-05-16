@@ -69,6 +69,7 @@
 			this.selectToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.selectTop1000ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.setBatchSizeToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+			this.diffTables = new PaJaMa.DatabaseStudio.Compare.ucDifferences();
 			this.tabObjects = new System.Windows.Forms.TabPage();
 			this.splitContainer3 = new System.Windows.Forms.SplitContainer();
 			this.gridObjects = new System.Windows.Forms.DataGridView();
@@ -76,24 +77,18 @@
 			this.ObjectType = new System.Windows.Forms.DataGridViewTextBoxColumn();
 			this.ProgTargetObject = new System.Windows.Forms.DataGridViewTextBoxColumn();
 			this.dataGridViewCheckBoxColumn2 = new System.Windows.Forms.DataGridViewCheckBoxColumn();
+			this.diffObjects = new PaJaMa.DatabaseStudio.Compare.ucDifferences();
 			this.tabDrop = new System.Windows.Forms.TabPage();
 			this.splitContainer2 = new System.Windows.Forms.SplitContainer();
 			this.gridDropObjects = new System.Windows.Forms.DataGridView();
 			this.dataGridViewTextBoxColumn3 = new System.Windows.Forms.DataGridViewTextBoxColumn();
 			this.ObjectType2 = new System.Windows.Forms.DataGridViewTextBoxColumn();
 			this.dataGridViewCheckBoxColumn1 = new System.Windows.Forms.DataGridViewCheckBoxColumn();
+			this.diffDrops = new PaJaMa.DatabaseStudio.Compare.ucDifferences();
 			this.menuStrip1 = new System.Windows.Forms.MenuStrip();
 			this.fileToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.openToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.saveToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-			this.tabDatabases = new System.Windows.Forms.TabPage();
-			this.gridDatabases = new System.Windows.Forms.DataGridView();
-			this.diffTables = new PaJaMa.DatabaseStudio.Compare.ucDifferences();
-			this.diffObjects = new PaJaMa.DatabaseStudio.Compare.ucDifferences();
-			this.diffDrops = new PaJaMa.DatabaseStudio.Compare.ucDifferences();
-			this.dataGridViewTextBoxColumn4 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-			this.dataGridViewTextBoxColumn6 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-			this.dataGridViewCheckBoxColumn3 = new System.Windows.Forms.DataGridViewCheckBoxColumn();
 			this.panel1.SuspendLayout();
 			this.panel2.SuspendLayout();
 			this.tabMain.SuspendLayout();
@@ -117,8 +112,6 @@
 			this.splitContainer2.SuspendLayout();
 			((System.ComponentModel.ISupportInitialize)(this.gridDropObjects)).BeginInit();
 			this.menuStrip1.SuspendLayout();
-			this.tabDatabases.SuspendLayout();
-			((System.ComponentModel.ISupportInitialize)(this.gridDatabases)).BeginInit();
 			this.SuspendLayout();
 			// 
 			// panel1
@@ -379,7 +372,6 @@
 			// tabMain
 			// 
 			this.tabMain.Controls.Add(this.tabTables);
-			this.tabMain.Controls.Add(this.tabDatabases);
 			this.tabMain.Controls.Add(this.tabObjects);
 			this.tabMain.Controls.Add(this.tabDrop);
 			this.tabMain.Dock = System.Windows.Forms.DockStyle.Fill;
@@ -560,6 +552,16 @@
 			this.setBatchSizeToolStripMenuItem.Visible = false;
 			this.setBatchSizeToolStripMenuItem.Click += new System.EventHandler(this.setBatchSizeToolStripMenuItem_Click);
 			// 
+			// diffTables
+			// 
+			this.diffTables.CompareHelper = null;
+			this.diffTables.Dock = System.Windows.Forms.DockStyle.Fill;
+			this.diffTables.Location = new System.Drawing.Point(0, 0);
+			this.diffTables.Name = "diffTables";
+			this.diffTables.Size = new System.Drawing.Size(296, 482);
+			this.diffTables.TabIndex = 0;
+			this.diffTables.Workspace = null;
+			// 
 			// tabObjects
 			// 
 			this.tabObjects.Controls.Add(this.splitContainer3);
@@ -639,6 +641,16 @@
 			this.dataGridViewCheckBoxColumn2.HeaderText = "Select";
 			this.dataGridViewCheckBoxColumn2.Name = "dataGridViewCheckBoxColumn2";
 			// 
+			// diffObjects
+			// 
+			this.diffObjects.CompareHelper = null;
+			this.diffObjects.Dock = System.Windows.Forms.DockStyle.Fill;
+			this.diffObjects.Location = new System.Drawing.Point(0, 0);
+			this.diffObjects.Name = "diffObjects";
+			this.diffObjects.Size = new System.Drawing.Size(303, 482);
+			this.diffObjects.TabIndex = 0;
+			this.diffObjects.Workspace = null;
+			// 
 			// tabDrop
 			// 
 			this.tabDrop.Controls.Add(this.splitContainer2);
@@ -705,6 +717,16 @@
 			this.dataGridViewCheckBoxColumn1.HeaderText = "Select";
 			this.dataGridViewCheckBoxColumn1.Name = "dataGridViewCheckBoxColumn1";
 			// 
+			// diffDrops
+			// 
+			this.diffDrops.CompareHelper = null;
+			this.diffDrops.Dock = System.Windows.Forms.DockStyle.Fill;
+			this.diffDrops.Location = new System.Drawing.Point(0, 0);
+			this.diffDrops.Name = "diffDrops";
+			this.diffDrops.Size = new System.Drawing.Size(297, 482);
+			this.diffDrops.TabIndex = 1;
+			this.diffDrops.Workspace = null;
+			// 
 			// menuStrip1
 			// 
 			this.menuStrip1.BackColor = System.Drawing.Color.Transparent;
@@ -738,86 +760,6 @@
 			this.saveToolStripMenuItem.Size = new System.Drawing.Size(103, 22);
 			this.saveToolStripMenuItem.Text = "&Save";
 			this.saveToolStripMenuItem.Click += new System.EventHandler(this.saveToolStripMenuItem_Click);
-			// 
-			// tabDatabases
-			// 
-			this.tabDatabases.Controls.Add(this.gridDatabases);
-			this.tabDatabases.Location = new System.Drawing.Point(4, 22);
-			this.tabDatabases.Name = "tabDatabases";
-			this.tabDatabases.Padding = new System.Windows.Forms.Padding(3);
-			this.tabDatabases.Size = new System.Drawing.Size(1057, 488);
-			this.tabDatabases.TabIndex = 3;
-			this.tabDatabases.Text = "Databases";
-			this.tabDatabases.UseVisualStyleBackColor = true;
-			// 
-			// gridDatabases
-			// 
-			this.gridDatabases.AllowUserToAddRows = false;
-			this.gridDatabases.AllowUserToDeleteRows = false;
-			this.gridDatabases.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-			this.gridDatabases.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
-            this.dataGridViewTextBoxColumn4,
-            this.dataGridViewTextBoxColumn6,
-            this.dataGridViewCheckBoxColumn3});
-			this.gridDatabases.Dock = System.Windows.Forms.DockStyle.Fill;
-			this.gridDatabases.Location = new System.Drawing.Point(3, 3);
-			this.gridDatabases.Name = "gridDatabases";
-			this.gridDatabases.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-			this.gridDatabases.Size = new System.Drawing.Size(1051, 482);
-			this.gridDatabases.TabIndex = 12;
-			// 
-			// diffTables
-			// 
-			this.diffTables.CompareHelper = null;
-			this.diffTables.Dock = System.Windows.Forms.DockStyle.Fill;
-			this.diffTables.Location = new System.Drawing.Point(0, 0);
-			this.diffTables.Name = "diffTables";
-			this.diffTables.Size = new System.Drawing.Size(296, 482);
-			this.diffTables.TabIndex = 0;
-			this.diffTables.Workspace = null;
-			// 
-			// diffObjects
-			// 
-			this.diffObjects.CompareHelper = null;
-			this.diffObjects.Dock = System.Windows.Forms.DockStyle.Fill;
-			this.diffObjects.Location = new System.Drawing.Point(0, 0);
-			this.diffObjects.Name = "diffObjects";
-			this.diffObjects.Size = new System.Drawing.Size(303, 482);
-			this.diffObjects.TabIndex = 0;
-			this.diffObjects.Workspace = null;
-			// 
-			// diffDrops
-			// 
-			this.diffDrops.CompareHelper = null;
-			this.diffDrops.Dock = System.Windows.Forms.DockStyle.Fill;
-			this.diffDrops.Location = new System.Drawing.Point(0, 0);
-			this.diffDrops.Name = "diffDrops";
-			this.diffDrops.Size = new System.Drawing.Size(297, 482);
-			this.diffDrops.TabIndex = 1;
-			this.diffDrops.Workspace = null;
-			// 
-			// dataGridViewTextBoxColumn4
-			// 
-			this.dataGridViewTextBoxColumn4.DataPropertyName = "Source";
-			this.dataGridViewTextBoxColumn4.HeaderText = "Database";
-			this.dataGridViewTextBoxColumn4.Name = "dataGridViewTextBoxColumn4";
-			this.dataGridViewTextBoxColumn4.ReadOnly = true;
-			this.dataGridViewTextBoxColumn4.Width = 220;
-			// 
-			// dataGridViewTextBoxColumn6
-			// 
-			this.dataGridViewTextBoxColumn6.DataPropertyName = "Target";
-			this.dataGridViewTextBoxColumn6.HeaderText = "Target";
-			this.dataGridViewTextBoxColumn6.Name = "dataGridViewTextBoxColumn6";
-			this.dataGridViewTextBoxColumn6.ReadOnly = true;
-			this.dataGridViewTextBoxColumn6.Resizable = System.Windows.Forms.DataGridViewTriState.True;
-			this.dataGridViewTextBoxColumn6.Width = 220;
-			// 
-			// dataGridViewCheckBoxColumn3
-			// 
-			this.dataGridViewCheckBoxColumn3.DataPropertyName = "Select";
-			this.dataGridViewCheckBoxColumn3.HeaderText = "Select";
-			this.dataGridViewCheckBoxColumn3.Name = "dataGridViewCheckBoxColumn3";
 			// 
 			// ucCompare
 			// 
@@ -854,8 +796,6 @@
 			((System.ComponentModel.ISupportInitialize)(this.gridDropObjects)).EndInit();
 			this.menuStrip1.ResumeLayout(false);
 			this.menuStrip1.PerformLayout();
-			this.tabDatabases.ResumeLayout(false);
-			((System.ComponentModel.ISupportInitialize)(this.gridDatabases)).EndInit();
 			this.ResumeLayout(false);
 			this.PerformLayout();
 
@@ -923,11 +863,6 @@
 		private System.Windows.Forms.DataGridViewTextBoxColumn TransferBatchSize;
 		private System.Windows.Forms.DataGridViewButtonColumn DataDetails;
 		private System.Windows.Forms.ToolStripMenuItem setBatchSizeToolStripMenuItem;
-		private System.Windows.Forms.TabPage tabDatabases;
-		private System.Windows.Forms.DataGridView gridDatabases;
-		private System.Windows.Forms.DataGridViewTextBoxColumn dataGridViewTextBoxColumn4;
-		private System.Windows.Forms.DataGridViewTextBoxColumn dataGridViewTextBoxColumn6;
-		private System.Windows.Forms.DataGridViewCheckBoxColumn dataGridViewCheckBoxColumn3;
 	}
 }
 

@@ -2,7 +2,7 @@ using System;
 using System.Collections;
 using System.Windows.Forms;
 
-namespace PaJaMaWinControls
+namespace PaJaMa.WinControls.Wizard
 {
 	/// <summary>
 	/// Summary description for PanelCollection.

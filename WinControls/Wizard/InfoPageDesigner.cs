@@ -3,7 +3,7 @@ using System.Windows.Forms.Design;
 //If you are misssing ParentControlDesigner, then don't forget that you need a reference in
 //this project to System.Design
 
-namespace PaJaMaWinControls
+namespace PaJaMa.WinControls.Wizard
 {
 	/// <summary>
 	/// 

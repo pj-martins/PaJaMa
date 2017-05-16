@@ -31,6 +31,7 @@
 			this.components = new System.ComponentModel.Container();
 			this.txtConnectionString = new System.Windows.Forms.ComboBox();
 			this.pnlConnect = new System.Windows.Forms.Panel();
+			this.chkUseDummyDA = new System.Windows.Forms.CheckBox();
 			this.label1 = new System.Windows.Forms.Label();
 			this.btnConnect = new System.Windows.Forms.Button();
 			this.cboServer = new System.Windows.Forms.ComboBox();
@@ -48,7 +49,7 @@
 			this.scriptCreateToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.splitMain = new System.Windows.Forms.SplitContainer();
 			this.tabOutputs = new System.Windows.Forms.TabControl();
-			this.chkUseDummyDA = new System.Windows.Forms.CheckBox();
+			this.buildQueryToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.pnlConnect.SuspendLayout();
 			this.pnlControls.SuspendLayout();
 			this.mnuTree.SuspendLayout();
@@ -79,6 +80,17 @@
 			this.pnlConnect.Name = "pnlConnect";
 			this.pnlConnect.Size = new System.Drawing.Size(755, 44);
 			this.pnlConnect.TabIndex = 5;
+			// 
+			// chkUseDummyDA
+			// 
+			this.chkUseDummyDA.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+			this.chkUseDummyDA.AutoSize = true;
+			this.chkUseDummyDA.Location = new System.Drawing.Point(381, 13);
+			this.chkUseDummyDA.Name = "chkUseDummyDA";
+			this.chkUseDummyDA.Size = new System.Drawing.Size(106, 17);
+			this.chkUseDummyDA.TabIndex = 5;
+			this.chkUseDummyDA.Text = "Init Data Adapter";
+			this.chkUseDummyDA.UseVisualStyleBackColor = true;
 			// 
 			// label1
 			// 
@@ -204,29 +216,30 @@
 			this.mnuTree.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.selectToolStripMenuItem,
             this.selectTop1000ToolStripMenuItem,
-            this.scriptCreateToolStripMenuItem});
+            this.scriptCreateToolStripMenuItem,
+            this.buildQueryToolStripMenuItem});
 			this.mnuTree.Name = "mnuTree";
-			this.mnuTree.Size = new System.Drawing.Size(157, 70);
+			this.mnuTree.Size = new System.Drawing.Size(156, 114);
 			this.mnuTree.Opening += new System.ComponentModel.CancelEventHandler(this.mnuTree_Opening);
 			// 
 			// selectToolStripMenuItem
 			// 
 			this.selectToolStripMenuItem.Name = "selectToolStripMenuItem";
-			this.selectToolStripMenuItem.Size = new System.Drawing.Size(156, 22);
+			this.selectToolStripMenuItem.Size = new System.Drawing.Size(155, 22);
 			this.selectToolStripMenuItem.Text = "Select";
 			this.selectToolStripMenuItem.Click += new System.EventHandler(this.selectToolStripMenuItem_Click);
 			// 
 			// selectTop1000ToolStripMenuItem
 			// 
 			this.selectTop1000ToolStripMenuItem.Name = "selectTop1000ToolStripMenuItem";
-			this.selectTop1000ToolStripMenuItem.Size = new System.Drawing.Size(156, 22);
+			this.selectTop1000ToolStripMenuItem.Size = new System.Drawing.Size(155, 22);
 			this.selectTop1000ToolStripMenuItem.Text = "Select Top 1000";
 			this.selectTop1000ToolStripMenuItem.Click += new System.EventHandler(this.selectTop1000ToolStripMenuItem_Click);
 			// 
 			// scriptCreateToolStripMenuItem
 			// 
 			this.scriptCreateToolStripMenuItem.Name = "scriptCreateToolStripMenuItem";
-			this.scriptCreateToolStripMenuItem.Size = new System.Drawing.Size(156, 22);
+			this.scriptCreateToolStripMenuItem.Size = new System.Drawing.Size(155, 22);
 			this.scriptCreateToolStripMenuItem.Text = "Script &Create";
 			this.scriptCreateToolStripMenuItem.Click += new System.EventHandler(this.scriptCreateToolStripMenuItem_Click);
 			// 
@@ -258,16 +271,12 @@
 			this.tabOutputs.Size = new System.Drawing.Size(755, 533);
 			this.tabOutputs.TabIndex = 0;
 			// 
-			// chkUseDummyDA
+			// buildQueryToolStripMenuItem
 			// 
-			this.chkUseDummyDA.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-			this.chkUseDummyDA.AutoSize = true;
-			this.chkUseDummyDA.Location = new System.Drawing.Point(381, 13);
-			this.chkUseDummyDA.Name = "chkUseDummyDA";
-			this.chkUseDummyDA.Size = new System.Drawing.Size(106, 17);
-			this.chkUseDummyDA.TabIndex = 5;
-			this.chkUseDummyDA.Text = "Init Data Adapter";
-			this.chkUseDummyDA.UseVisualStyleBackColor = true;
+			this.buildQueryToolStripMenuItem.Name = "buildQueryToolStripMenuItem";
+			this.buildQueryToolStripMenuItem.Size = new System.Drawing.Size(155, 22);
+			this.buildQueryToolStripMenuItem.Text = "&Build Query";
+			this.buildQueryToolStripMenuItem.Click += new System.EventHandler(this.buildQueryToolStripMenuItem_Click);
 			// 
 			// ucWorkspace
 			// 
@@ -314,6 +323,7 @@
 		private System.Windows.Forms.Button btnAdd;
 		private System.Windows.Forms.ToolStripMenuItem scriptCreateToolStripMenuItem;
 		private System.Windows.Forms.CheckBox chkUseDummyDA;
+		private System.Windows.Forms.ToolStripMenuItem buildQueryToolStripMenuItem;
 	}
 }
 

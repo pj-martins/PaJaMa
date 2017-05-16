@@ -3,7 +3,7 @@ using System.Windows.Forms.Design;
 using System.ComponentModel.Design;
 
 
-namespace PaJaMaWinControls
+namespace PaJaMa.WinControls.Wizard
 {
 	/// <summary>
 	/// Summary description for WizardPageDesigner.

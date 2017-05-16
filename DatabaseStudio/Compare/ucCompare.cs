@@ -46,7 +46,6 @@ namespace PaJaMa.DatabaseStudio.Compare
 			new GridHelper().DecorateGrid(gridTables);
 			new GridHelper().DecorateGrid(gridObjects);
 			new GridHelper().DecorateGrid(gridDropObjects);
-			new GridHelper().DecorateGrid(gridDatabases):
 		}
 
 		private void refreshConnStrings()

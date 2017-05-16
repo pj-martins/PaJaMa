@@ -18,6 +18,7 @@ export * from './expand-collapse/expand-collapse.component';
 export * from './gridview/gridview.module';
 export * from './gridview/gridview.component';
 export * from './gridview/gridview-templates.component';
+export * from './gridview/gridview-cell-templates.component';
 export * from './gridview/gridview';
 export * from './treeview/treeview.module';
 export * from './treeview/treeview.component';

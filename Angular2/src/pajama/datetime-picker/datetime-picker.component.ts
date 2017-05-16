@@ -316,7 +316,7 @@ export class DateTimePickerComponent implements OnInit { // implements ControlVa
 			return;
 
 		this.selectedDate = date;
-		if (this.selectOnCalendarClick || fromInput) {
+		if (this.selectOnCalendarClick || fromInput || this.hideTime) {
 			this.persistDate(true, fromInput);
 		}
 	}

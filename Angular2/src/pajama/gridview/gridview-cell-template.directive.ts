@@ -23,5 +23,6 @@ export class GridViewCellTemplateDirective implements OnInit, IGridViewCellTempl
 		this._component.instance.column = this.column;
 		this._component.instance.parentGridView = this.parentGridView;
 		this._component.instance.parentGridViewComponent = this.parentGridViewComponent;
+		this._component.instance.column.templateInit.emit(this._component.instance);
 	}
 }

@@ -9,7 +9,7 @@ export const TEMP_KEY_FIELD: string = "_tmp_key_field";
 export class GridView {
 	private _data: Array<any>;
 
-	
+
 	pageSize: number = 10;
 	currentPage: number = 1;
 	totalRecords: number;
@@ -28,6 +28,7 @@ export class GridView {
 	rowSave = new EventEmitter<RowArguments>();
 	rowCreate = new EventEmitter<RowArguments>();
 	rowDelete = new EventEmitter<RowArguments>();
+	cellValueChanged = new EventEmitter<CellArguments>();
 	rowTemplate: Type<IGridViewRowTemplateComponent>;
 	customProps: { [name: string]: any; } = {};
 	customEvents: any = {};
@@ -42,6 +43,7 @@ export class GridView {
 	allowAdd = false;
 	allowEdit = false;
 	allowDelete = false;
+	autoPopulateColumns = false;
 	name: string;
 
 	getRowClass: (row: any) => string;
@@ -57,7 +59,7 @@ export class GridView {
 	}
 
 	getVisibleColumns(hideRowTemplate): Array<ColumnBase> {
-			
+
 		let cols = new Array<ColumnBase>();
 		for (let c of this.columns) {
 			if (c.visible && (!hideRowTemplate || !this.rowTemplate))
@@ -128,6 +130,34 @@ export class GridView {
 			return true;
 		}
 		return false;
+	}
+
+	private getFieldName(obj: any, currField: string): string {
+		let objVal = obj[currField];
+		if (typeof objVal == "object") {
+			for (let p in objVal) {
+				return currField + "." + this.getFieldName(objVal, p);
+			}
+		}
+		return currField;
+	}
+
+	populateColumns() {
+		if (!this.data || this.data.length < 1) return;
+		this.columns = [];
+		let first = this.data[0];
+		let parserService = new ParserService();
+		for (let p in first) {
+			let fldName = this.getFieldName(first, p);
+			let col = new DataColumn(fldName);
+			let firstVal = parserService.getObjectValue(fldName, first);
+			switch (typeof firstVal) {
+				case "boolean":
+					col.fieldType = FieldType.Boolean;
+					break;
+			}
+			this.columns.push(col);
+		}
 	}
 
 	saveGridState() {
@@ -325,6 +355,7 @@ export class DataColumn extends ColumnBase {
 	filterMode: FilterMode = FilterMode.None;
 	template: Type<IGridViewCellTemplateComponent>;
 	editTemplate: Type<IGridViewCellTemplateComponent>;
+	templateInit = new EventEmitter<IGridViewCellTemplateComponent>();
 	filterTemplate: Type<IGridViewFilterCellTemplateComponent>;
 	filterDelayMilliseconds = 0;
 	sortDirection: SortDirection = SortDirection.None;
@@ -399,6 +430,7 @@ export class ColumnPipe {
 export enum FieldType {
 	String,
 	Boolean,
+	Numeric,
 	Date,
 	Html
 }
@@ -438,7 +470,10 @@ export class RowArguments {
 	cancel: boolean;
 	observable: Observable<any>;
 }
-
+export class CellArguments {
+	row: any;
+	column: ColumnBase;
+}
 export interface IGridViewFilterCellTemplateComponent {
 	column: DataColumn;
 	parentGridView: GridView;

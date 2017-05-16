@@ -2,7 +2,7 @@ using System;
 using System.Windows.Forms;
 using System.ComponentModel;
 
-namespace PaJaMaWinControls
+namespace PaJaMa.WinControls.Wizard
 {
 	/// <summary>
 	/// Delegate definition for handling NextPageEvents

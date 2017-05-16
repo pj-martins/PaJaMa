@@ -10,7 +10,7 @@ using System.Drawing.Drawing2D;
 using System.Globalization;
 using System.ComponentModel;
 
-namespace PaJaMaWinControls
+namespace PaJaMa.WinControls.FileBrowser
 {
     #region TreeView
 

@@ -6,7 +6,7 @@ using System.Runtime.InteropServices;
 using System.Windows.Forms;
 using System.Drawing;
 
-namespace PaJaMaWinControls
+namespace PaJaMa.WinControls.FileBrowser
 {
     /// <summary>
     /// This class takes care of every drag operation in a FileBrowserTreeView

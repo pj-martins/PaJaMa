@@ -12,7 +12,7 @@ using System.Runtime.InteropServices;
 using ShellDll;
 using System.IO;
 
-namespace PaJaMaWinControls
+namespace PaJaMa.WinControls.FileBrowser
 {
     #region Delegates
 

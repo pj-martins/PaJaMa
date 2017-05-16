@@ -1,4 +1,4 @@
-namespace PaJaMaWinControls
+namespace PaJaMa.WinControls.FileBrowser
 {
 	partial class FileBrowser
     {
@@ -30,9 +30,9 @@ namespace PaJaMaWinControls
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(FileBrowser));
             this.browseSplitter = new System.Windows.Forms.SplitContainer();
-			this.folderView = new PaJaMaWinControls.FileBrowserTreeView();
+			this.folderView = new PaJaMa.WinControls.FileBrowser.FileBrowserTreeView();
             this.viewSplitContainer = new System.Windows.Forms.SplitContainer();
-			this.fileView = new PaJaMaWinControls.FileBrowserListView();
+			this.fileView = new PaJaMa.WinControls.FileBrowser.FileBrowserListView();
             this.browseToolStrip = new System.Windows.Forms.ToolStripContainer();
             this.navigationBar = new System.Windows.Forms.ToolStrip();
             this.navBackButton = new System.Windows.Forms.ToolStripSplitButton();
@@ -41,7 +41,7 @@ namespace PaJaMaWinControls
             this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
             this.navFoldersButton = new System.Windows.Forms.ToolStripButton();
             this.navAddressLabel = new System.Windows.Forms.ToolStripLabel();
-			this.navAddressBox = new PaJaMaWinControls.FileBrowserComboBox();
+			this.navAddressBox = new PaJaMa.WinControls.FileBrowser.FileBrowserComboBox();
             this.browseSplitter.Panel1.SuspendLayout();
             this.browseSplitter.Panel2.SuspendLayout();
             this.browseSplitter.SuspendLayout();
@@ -173,7 +173,7 @@ namespace PaJaMaWinControls
             // 
             this.navBackButton.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
             this.navBackButton.Enabled = false;
-            this.navBackButton.Image = global::PaJaMaWinControls.FileBrowserResources.BrowserBack;
+            this.navBackButton.Image = global::PaJaMa.WinControls.FileBrowser.FileBrowserResources.BrowserBack;
             this.navBackButton.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.navBackButton.Name = "navBackButton";
             this.navBackButton.Size = new System.Drawing.Size(40, 28);
@@ -186,7 +186,7 @@ namespace PaJaMaWinControls
             // 
             this.navForwardButton.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
             this.navForwardButton.Enabled = false;
-			this.navForwardButton.Image = global::PaJaMaWinControls.FileBrowserResources.BrowserForward;
+			this.navForwardButton.Image = global::PaJaMa.WinControls.FileBrowser.FileBrowserResources.BrowserForward;
             this.navForwardButton.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.navForwardButton.Name = "navForwardButton";
             this.navForwardButton.Size = new System.Drawing.Size(40, 28);

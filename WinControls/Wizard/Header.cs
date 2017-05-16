@@ -5,7 +5,7 @@ using System.Drawing;
 using System.Data;
 using System.Windows.Forms;
 
-namespace PaJaMaWinControls
+namespace PaJaMa.WinControls.Wizard
 {
 	/// <summary>
 	/// Summary description for WizardHeader.
@@ -209,6 +209,23 @@ namespace PaJaMaWinControls
 			set
 			{
 				picIcon.Image = value;
+				ResizeImageAndText();
+			}
+		}
+
+		/// <summary>
+		/// Gets/Sets the Icon
+		/// </summary>
+		[Category("Appearance")]
+		public bool ImageVisible
+		{
+			get
+			{
+				return picIcon.Visible;
+			}
+			set
+			{
+				picIcon.Visible = value;
 				ResizeImageAndText();
 			}
 		}

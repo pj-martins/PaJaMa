@@ -1,41 +1,4 @@
-﻿/*.sort-arrow {
-	margin-top: 6px !important;
-}
-
-	.sort-arrow.bottom-empty {
-		margin-top: 12px !important;
-	}
-
-	.sort-arrow.top-empty {
-		margin-top: 2px !important;
-	}
-
-
-.datetime-picker-calendar-icon {
-	border: none !important;
-}
-
-.refresh-icon {
-	margin-right: 4px;
-}
-
-
-
-.checklist-button.form-control {
-	height:34px !important;
-}
-
-.checklist-button.form-control .checklist-button-image {
-	top: 10px !important;
-	right: 15px !important;
-}
-
-
-.drop-down-image.glyphicon-filter {
-	margin-top: 1px !important;
-}*/
-
-.gridview-filtercell .input-button-container {
+﻿.gridview-filtercell .input-button-container {
 	top: -23px !important;
 	right: 1px !important;
 }
@@ -48,13 +11,14 @@
 	top: 6px !important;
 }
 
-.input-button-container {
+.form-control + datetime-picker .input-button-container,
+.form-control + typeahead .input-button-container {
 	top: -27px !important;
 	right: 8px !important;
 }
 
 
-.multi-textbox-item-container {
+.form-control + multi-typeahead .multi-textbox-item-container {
 	margin-top: -28px !important;
 }
 

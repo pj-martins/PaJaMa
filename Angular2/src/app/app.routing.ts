@@ -29,7 +29,7 @@ const appRoutes: Routes = [
 	},
 	{
 		path: '',
-		redirectTo: 'modal',
+		redirectTo: 'grid',
 		pathMatch: 'full'
 	}
 ];

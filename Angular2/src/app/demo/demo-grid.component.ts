@@ -1,4 +1,5 @@
 ﻿import { Component, OnInit, Type } from '@angular/core';
+import { ActivatedRoute } from '@angular/router';
 import { GridView, DataColumn, FilterMode, FieldType, DetailGridView } from '../../pajama/gridview/gridview';
 import { SortDirection } from '../../pajama/shared';
 import { TypeaheadModule } from '../../pajama/typeahead/typeahead.module';
@@ -27,13 +28,19 @@ export class DemoGridComponent implements OnInit {
 	protected gridDemo: GridView;
 	private _coordinatorColumn: DataColumn;
 
-	constructor() {
+	constructor(private route: ActivatedRoute) {
 		this.initGrid();
 	}
 
 	ngOnInit() {
 		this.gridDemo.data = EVENTS;
-		this._coordinatorColumn.customProps["coordinators"] = this.gridDemo.getDistinctValues(this._coordinatorColumn);
+		if (this._coordinatorColumn)
+			this._coordinatorColumn.customProps["coordinators"] = this.gridDemo.getDistinctValues(this._coordinatorColumn);
+
+		if (this.gridDemo.autoPopulateColumns)
+			window.setTimeout(() => {
+				this.gridDemo.loadGridState();
+			}, 100);
 	}
 
 	private initGrid() {
@@ -43,60 +50,66 @@ export class DemoGridComponent implements OnInit {
 		this.gridDemo.allowColumnOrdering = true;
 		this.gridDemo.saveGridStateToStorage = true;
 		this.gridDemo.allowColumnCustomization = true;
-		this.gridDemo.name = "gridDemo";
 
-		let custCol = new DataColumn("customer.customerName");
-		custCol.filterMode = FilterMode.DistinctList;
-		custCol.sortable = true;
-		custCol.allowSizing = true;
-		custCol.template = CustomerCellTemplateComponent;
-		custCol.editTemplate = CustomerCellEditTemplateComponent;
-		this.gridDemo.columns.push(custCol);
+		if (!this.route.snapshot.params['auto']) {
+			this.gridDemo.name = "gridDemo";
+			let custCol = new DataColumn("customer.customerName");
+			custCol.filterMode = FilterMode.DistinctList;
+			custCol.sortable = true;
+			custCol.allowSizing = true;
+			custCol.template = CustomerCellTemplateComponent;
+			custCol.editTemplate = CustomerCellEditTemplateComponent;
+			this.gridDemo.columns.push(custCol);
 
-		let startCol = new DataColumn("eventStartDT", "Start");
-		startCol.fieldType = FieldType.Date;
-		startCol.sortable = true;
-		startCol.sortDirection = SortDirection.Desc;
-		startCol.width = "110px";
-		startCol.filterMode = FilterMode.DateRange;
-		this.gridDemo.columns.push(startCol);
+			let startCol = new DataColumn("eventStartDT", "Start");
+			startCol.fieldType = FieldType.Date;
+			startCol.sortable = true;
+			startCol.sortDirection = SortDirection.Desc;
+			startCol.width = "110px";
+			startCol.filterMode = FilterMode.DateRange;
+			this.gridDemo.columns.push(startCol);
 
-		let endCol = new DataColumn("eventEndDT", "End");
-		endCol.fieldType = FieldType.Date;
-		endCol.width = "110px";
-		endCol.filterMode = FilterMode.DateRange;
-		this.gridDemo.columns.push(endCol);
+			let endCol = new DataColumn("eventEndDT", "End");
+			endCol.fieldType = FieldType.Date;
+			endCol.width = "110px";
+			endCol.filterMode = FilterMode.DateRange;
+			this.gridDemo.columns.push(endCol);
 
-		this._coordinatorColumn = new DataColumn("coordinator");
+			this._coordinatorColumn = new DataColumn("coordinator");
 
-		this._coordinatorColumn.filterMode = FilterMode.Equals;
-		this._coordinatorColumn.filterTemplate = CoordinatorFilterCellTemplateComponent;
-		this._coordinatorColumn.sortable = true;
-		this._coordinatorColumn.allowSizing = true;
-		this.gridDemo.columns.push(this._coordinatorColumn);
+			this._coordinatorColumn.filterMode = FilterMode.Equals;
+			this._coordinatorColumn.filterTemplate = CoordinatorFilterCellTemplateComponent;
+			this._coordinatorColumn.sortable = true;
+			this._coordinatorColumn.allowSizing = true;
+			this.gridDemo.columns.push(this._coordinatorColumn);
 
-		let phoneNumberCol = new DataColumn("phoneNumber");
-		phoneNumberCol.width = "160px";
-		phoneNumberCol.filterMode = FilterMode.Contains;
-		this.gridDemo.columns.push(phoneNumberCol);
+			let phoneNumberCol = new DataColumn("phoneNumber");
+			phoneNumberCol.width = "160px";
+			phoneNumberCol.filterMode = FilterMode.Contains;
+			this.gridDemo.columns.push(phoneNumberCol);
 
-		let evtTypeCol = new DataColumn("hallEventType.eventTypeName", "Event Type");
-		evtTypeCol.filterMode = FilterMode.DynamicList;
-		evtTypeCol.filterValue = [];
-		evtTypeCol.filterTemplate = EventTypeFilterCellTemplateComponent;
-		evtTypeCol.allowSizing = true;
-		this.gridDemo.columns.push(evtTypeCol);
+			let evtTypeCol = new DataColumn("hallEventType.eventTypeName", "Event Type");
+			evtTypeCol.filterMode = FilterMode.DynamicList;
+			evtTypeCol.filterValue = [];
+			evtTypeCol.filterTemplate = EventTypeFilterCellTemplateComponent;
+			evtTypeCol.allowSizing = true;
+			this.gridDemo.columns.push(evtTypeCol);
 
-		let requestedByCol = new DataColumn("requestedBy");
-		requestedByCol.filterMode = FilterMode.DistinctList;
-		requestedByCol.filterValue = [];
-		//requestedByCol.filterTemplate = RequestedByFilterCellTemplateComponent;
-		requestedByCol.sortable = true;
-		this.gridDemo.columns.push(requestedByCol);
+			let requestedByCol = new DataColumn("requestedBy");
+			requestedByCol.filterMode = FilterMode.DistinctList;
+			requestedByCol.filterValue = [];
+			//requestedByCol.filterTemplate = RequestedByFilterCellTemplateComponent;
+			requestedByCol.sortable = true;
+			this.gridDemo.columns.push(requestedByCol);
 
-		let cancelledCol = new DataColumn("cancelled");
-		cancelledCol.fieldType = FieldType.Boolean;
-		this.gridDemo.columns.push(cancelledCol);
+			let cancelledCol = new DataColumn("cancelled");
+			cancelledCol.fieldType = FieldType.Boolean;
+			this.gridDemo.columns.push(cancelledCol);
+		}
+		else {
+			this.gridDemo.name = "autoGridDemo";
+			this.gridDemo.autoPopulateColumns = true;
+		}
 
 		this.gridDemo.keyFieldName = "id";
 
@@ -110,7 +123,8 @@ export class DemoGridComponent implements OnInit {
 		}
 		this.gridDemo.detailGridView = roomsDetailGridView;
 
-		this.gridDemo.loadGridState();
+		if (!this.gridDemo.autoPopulateColumns)
+			this.gridDemo.loadGridState();
 	}
 
 	pageChanged() {

@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace PaJaMaWinControls {
+namespace PaJaMa.WinControls.FileBrowser {
     using System;
     
     

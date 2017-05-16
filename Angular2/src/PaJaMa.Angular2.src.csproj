@@ -170,6 +170,7 @@
     <TypeScriptCompile Include="pajama\disable-edit\disable-edit.directive.ts" />
     <TypeScriptCompile Include="pajama\disable-edit\disable-edit.component.ts" />
     <TypeScriptCompile Include="pajama\gridview\gridview-datefilter.component.ts" />
+    <TypeScriptCompile Include="pajama\gridview\gridview-cell-templates.component.ts" />
     <TypeScriptCompile Include="pajama\modal-dialog\modal-dialog.component.ts" />
     <TypeScriptCompile Include="pajama\modal-dialog\modal-dialog.module.ts" />
     <TypeScriptCompile Include="pajama\shared.ts" />

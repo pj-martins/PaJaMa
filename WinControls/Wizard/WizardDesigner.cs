@@ -6,7 +6,7 @@ using System.Windows.Forms.Design;
 using System.ComponentModel.Design;
 using System.Diagnostics;
 
-namespace PaJaMaWinControls
+namespace PaJaMa.WinControls.Wizard
 {
 	/// <summary>
 	/// Summary description for WizardDesigner.
@@ -28,9 +28,9 @@ namespace PaJaMaWinControls
 		//				// Get the control under the mouse
 		//				ISelectionService ss = (ISelectionService)GetService(typeof(ISelectionService));
 		//				
-		//				if (ss.PrimarySelection is PaJaMaWinControls.Wizard)
+		//				if (ss.PrimarySelection is PaJaMa.WinControls.Wizard)
 		//				{
-		//					 PaJaMaWinControls.Wizard wizard =  (PaJaMaWinControls.Wizard) ss.PrimarySelection;
+		//					 PaJaMa.WinControls.Wizard wizard =  (PaJaMa.WinControls.Wizard) ss.PrimarySelection;
 		//					// Extract the mouse position
 		//					int xPos = (short)((uint)msg.LParam & 0x0000FFFF);
 		//					int yPos = (short)(((uint)msg.LParam & 0xFFFF0000) >> 16);

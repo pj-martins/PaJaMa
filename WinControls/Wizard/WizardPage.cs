@@ -5,12 +5,12 @@ using System.ComponentModel.Design;
 
 using System.Diagnostics;
 
-namespace PaJaMaWinControls
+namespace PaJaMa.WinControls.Wizard
 {
 	/// <summary>
 	/// 
 	/// </summary>
-	[Designer(typeof(PaJaMaWinControls.WizardPageDesigner))]
+	[Designer(typeof(WizardPageDesigner))]
 	public class WizardPage : Panel
 	{
 
