@@ -15,269 +15,222 @@ using System.Windows.Forms;
 
 namespace PaJaMa.DatabaseStudio.Compare.Helpers
 {
-	public class CompareHelper
-	{
-		public bool IsFrom2000OrLess { get; private set; }
-		public bool IsTo2000OrLess { get; private set; }
-		public List<TableWorkspace> TablesToSync { get; private set; }
+    public class CompareHelper
+    {
+        public bool IsFrom2000OrLess { get; private set; }
+        public bool IsTo2000OrLess { get; private set; }
+        public List<TableWorkspace> TablesToSync { get; private set; }
 
-		public Database FromDatabase { get; private set; }
-		public Database ToDatabase { get; private set; }
+        public Database FromDatabase { get; private set; }
+        public Database ToDatabase { get; private set; }
 
-		public CompareHelper(string fromConnectionString, string toConnectionString, BackgroundWorker worker)
-		{
-			FromDatabase = new Database(fromConnectionString);
-			ToDatabase = new Database(toConnectionString);
-			FromDatabase.PopulateChildren(false, worker);
-			ToDatabase.PopulateChildren(false, worker);
-		}
+        public CompareHelper(string fromConnectionString, string toConnectionString, BackgroundWorker worker)
+        {
+            FromDatabase = new Database(fromConnectionString);
+            ToDatabase = new Database(toConnectionString);
+            FromDatabase.PopulateChildren(false, worker);
+            ToDatabase.PopulateChildren(false, worker);
+        }
 
-		public void Init(BackgroundWorker worker)
-		{
-			FromDatabase = new Database(FromDatabase.ConnectionString);
-			ToDatabase = new Database(ToDatabase.ConnectionString);
-			FromDatabase.PopulateChildren(false, worker);
-			ToDatabase.PopulateChildren(false, worker);
-		}
+        public void Init(BackgroundWorker worker)
+        {
+            FromDatabase = new Database(FromDatabase.ConnectionString);
+            ToDatabase = new Database(ToDatabase.ConnectionString);
+            FromDatabase.PopulateChildren(false, worker);
+            ToDatabase.PopulateChildren(false, worker);
+        }
 
-		public bool Synchronize(BackgroundWorker worker, List<WorkspaceBase> workspaces, DbTransaction trans)
-		{
-			Dictionary<WorkspaceBase, List<string>> scriptStrings = new Dictionary<WorkspaceBase, List<string>>();
+        public bool Synchronize(BackgroundWorker worker, List<WorkspaceBase> workspaces, DbTransaction trans)
+        {
+            Dictionary<WorkspaceBase, List<string>> scriptStrings = new Dictionary<WorkspaceBase, List<string>>();
 
-			int totalProgress = 0;
-			bool ignorePrompt = false;
-			foreach (var ws in getSortedWorkspaces(workspaces))
-			{
-				if (!ws.SynchronizationItems.Any()) continue;
+            int totalProgress = 0;
+            bool ignorePrompt = false;
 
-				scriptStrings.Add(ws, new List<string>());
-				var allScripts = new Dictionary<int, StringBuilder>();
-				foreach (var item in ws.SynchronizationItems)
-				{
-					if (item.Omit)
-						continue;
+            // create tables first
+            List<SynchronizationItem> foreignKeys = new List<SynchronizationItem>();
 
-					// TODO: need others?
-					if (ws is DropWorkspace)
-					{
-						if (item.DatabaseObject.Synchronized)
-							continue;
+            foreach (var ws in workspaces)
+            {
+                if (!ws.SynchronizationItems.Any()) continue;
 
-						item.DatabaseObject.Synchronized = true;
-					}
+                scriptStrings.Add(ws, new List<string>());
+                var allScripts = new Dictionary<int, StringBuilder>();
+                foreach (var item in ws.SynchronizationItems)
+                {
+                    if (!item.Omit && item.DatabaseObject is ForeignKey)
+                    {
+                        foreignKeys.Add(item);
+                        totalProgress++;
+                        item.Omit = true;
+                    }
 
-					foreach (var kvp in item.Scripts)
-					{
-						if (kvp.Value.Length <= 0) continue;
-						if (!allScripts.ContainsKey(kvp.Key)) allScripts.Add(kvp.Key, new StringBuilder());
-						allScripts[kvp.Key].AppendLine(kvp.Value.ToString());
-					}
-				}
-				foreach (var kvp in allScripts.OrderBy(s => s.Key))
-				{
-					if (kvp.Value.Length <= 0) continue;
-					totalProgress++;
-					scriptStrings[ws].Add(kvp.Value.ToString());
-				}
-			}
+                    if (item.Omit)
+                        continue;
 
-			try
-			{
-				using (var cmd = trans.Connection.CreateCommand())
-				{
-					cmd.Transaction = trans;
+                    // TODO: need others?
+                    if (ws is DropWorkspace)
+                    {
+                        if (item.DatabaseObject.Synchronized)
+                            continue;
 
-					int i = 0;
-					foreach (var kvp in scriptStrings)
-					{
-						foreach (var script in kvp.Value)
-						{
-							i++;
-							worker.ReportProgress(100 * i / totalProgress, string.Format("Synchronizing {0} {1} of {2}", kvp.Key.ToString(), i.ToString(), totalProgress.ToString()));
-							cmd.CommandText = script;
-							cmd.CommandTimeout = 600;
-							try
-							{
-								cmd.ExecuteNonQuery();
-							}
-							catch (Exception ex)
-							{
-								if (!ignorePrompt)
-								{
-									var dlgResult = PaJaMa.WinControls.YesNoMessageDialog.Show("Failed to synchronize \"" + (kvp.Key is WorkspaceWithSourceBase && kvp.Key.TargetObject == null ? (kvp.Key as WorkspaceWithSourceBase).SourceObject.ObjectName : kvp.Key.TargetObject.ObjectName)
-										+ "\": " + ex.Message + ". Would you like to continue?", "Error!", showNoToAll: false, showCancel: false);
-									switch (dlgResult)
-									{
-										case WinControls.YesNoMessageDialogResult.No:
-											return false;
-										case WinControls.YesNoMessageDialogResult.YesToAll:
-											ignorePrompt = true;
-											break;
-									}
+                        item.DatabaseObject.Synchronized = true;
+                    }
 
-									//var dlgResult = MessageBox.Show("Failed to synchronize \"" + (kvp.Key is WorkspaceWithSourceBase && kvp.Key.TargetObject == null ? (kvp.Key as WorkspaceWithSourceBase).SourceObject.ObjectName : kvp.Key.TargetObject.ObjectName)
-									//	+ "\": " + ex.Message + ". Would you like to continue?", "Error!", MessageBoxButtons.YesNo);
-									//if (dlgResult != DialogResult.Yes)
-									//	return false;
-								}
-							}
-						}
-					}
-				}
+                    foreach (var kvp in item.Scripts)
+                    {
+                        if (kvp.Value.Length <= 0) continue;
+                        if (!allScripts.ContainsKey(kvp.Key)) allScripts.Add(kvp.Key, new StringBuilder());
+                        allScripts[kvp.Key].AppendLine(kvp.Value.ToString());
+                    }
+                }
+                foreach (var kvp in allScripts.OrderBy(s => s.Key))
+                {
+                    if (kvp.Value.Length <= 0) continue;
+                    totalProgress++;
+                    scriptStrings[ws].Add(kvp.Value.ToString());
+                }
+            }
 
-				//foreach (var ws in workspaces.OfType<TableWorkspace>())
-				//{
-				//	ws.TargetTable
-				//}
-			}
-			catch (Exception ex)
-			{
-				MessageBox.Show("Failed to synchronize: " + ex.Message);
-				return false;
-			}
-			return true;
-		}
+            try
+            {
+                using (var cmd = trans.Connection.CreateCommand())
+                {
+                    cmd.Transaction = trans;
 
-		private List<WorkspaceBase> getSortedWorkspaces(List<WorkspaceBase> workspaces)
-		{
-			var sortedWorkspaces = new List<WorkspaceBase>();
+                    int i = 0;
+                    foreach (var kvp in scriptStrings)
+                    {
+                        foreach (var script in kvp.Value)
+                        {
+                            i++;
+                            worker.ReportProgress(100 * i / totalProgress, string.Format("Synchronizing {0} {1} of {2}", kvp.Key.ToString(), i.ToString(), totalProgress.ToString()));
+                            cmd.CommandText = script;
+                            cmd.CommandTimeout = 600;
+                            try
+                            {
+                                cmd.ExecuteNonQuery();
+                            }
+                            catch (Exception ex)
+                            {
+                                if (!ignorePrompt)
+                                {
+                                    var dlgResult = PaJaMa.WinControls.YesNoMessageDialog.Show("Failed to synchronize \"" + (kvp.Key is WorkspaceWithSourceBase && kvp.Key.TargetObject == null ? (kvp.Key as WorkspaceWithSourceBase).SourceObject.ObjectName : kvp.Key.TargetObject.ObjectName)
+                                        + "\": " + ex.Message + ". Would you like to continue?", "Error!", showNoToAll: false, showCancel: false);
+                                    switch (dlgResult)
+                                    {
+                                        case WinControls.YesNoMessageDialogResult.No:
+                                            return false;
+                                        case WinControls.YesNoMessageDialogResult.YesToAll:
+                                            ignorePrompt = true;
+                                            break;
+                                    }
 
-			// make copy
-			var currentWorkspaces = workspaces.ToList();
+                                    //var dlgResult = MessageBox.Show("Failed to synchronize \"" + (kvp.Key is WorkspaceWithSourceBase && kvp.Key.TargetObject == null ? (kvp.Key as WorkspaceWithSourceBase).SourceObject.ObjectName : kvp.Key.TargetObject.ObjectName)
+                                    //	+ "\": " + ex.Message + ". Would you like to continue?", "Error!", MessageBoxButtons.YesNo);
+                                    //if (dlgResult != DialogResult.Yes)
+                                    //	return false;
+                                }
+                            }
+                        }
+                    }
 
-			while (currentWorkspaces.Count > 0)
-			{
-				foreach (var ws in currentWorkspaces)
-				{
-					var missing = new Dictionary<DatabaseObjectBase, List<DatabaseObjectBase>>();
-					var tempSelected = sortedWorkspaces.ToList();
-					tempSelected.Add(ws);
-					populateMissingDependencies(tempSelected, missing);
-					if (!missing.Any())
-					{
-						sortedWorkspaces.Add(ws);
-						currentWorkspaces.Remove(ws);
-						break;
-					}
-				}
-			}
+                    foreach (var key in foreignKeys)
+                    {
+                        i++;
+                        worker.ReportProgress(100 * i / totalProgress, string.Format("Synchronizing {0} {1} of {2}", key.ToString(), i.ToString(), totalProgress.ToString()));
+                        foreach (var script in key.Scripts.OrderBy(s => s.Key))
+                        {
+                            cmd.CommandText = script.Value.ToString();
+                            cmd.CommandTimeout = 600;
+                            try
+                            {
+                                cmd.ExecuteNonQuery();
+                            }
+                            catch (Exception ex)
+                            {
+                                if (!ignorePrompt)
+                                {
+                                    var dlgResult = PaJaMa.WinControls.YesNoMessageDialog.Show("Failed to synchronize \"" + key.ToString()
+                                        + "\": " + ex.Message + ". Would you like to continue?", "Error!", showNoToAll: false, showCancel: false);
+                                    switch (dlgResult)
+                                    {
+                                        case WinControls.YesNoMessageDialogResult.No:
+                                            return false;
+                                        case WinControls.YesNoMessageDialogResult.YesToAll:
+                                            ignorePrompt = true;
+                                            break;
+                                    }
 
-			return sortedWorkspaces;
-		}
+                                    //var dlgResult = MessageBox.Show("Failed to synchronize \"" + (kvp.Key is WorkspaceWithSourceBase && kvp.Key.TargetObject == null ? (kvp.Key as WorkspaceWithSourceBase).SourceObject.ObjectName : kvp.Key.TargetObject.ObjectName)
+                                    //	+ "\": " + ex.Message + ". Would you like to continue?", "Error!", MessageBoxButtons.YesNo);
+                                    //if (dlgResult != DialogResult.Yes)
+                                    //	return false;
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Failed to synchronize: " + ex.Message);
+                return false;
+            }
+            return true;
+        }
 
-		//private List<DropWorkspace> getSortedDrops(List<DropWorkspace> objects)
-		//{
-		//	//var sortedObjects = new List<DropWorkspace>();
+        public Dictionary<DatabaseObjectBase, List<DatabaseObjectBase>> GetMissingDependencies(List<WorkspaceBase> selectedWorkspaces)
+        {
+            var missing = new Dictionary<DatabaseObjectBase, List<DatabaseObjectBase>>();
+            populateMissingDependencies(selectedWorkspaces, missing);
+            return missing;
+        }
 
-		//	//// make copy
-		//	//var currentObjects = objects.ToList();
+        private void populateMissingDependencies(List<WorkspaceBase> selectedWorkspaces, Dictionary<DatabaseObjectBase, List<DatabaseObjectBase>> missing)
+        {
+            foreach (var ws in selectedWorkspaces)
+            {
+                recursivelyPopulateMissingDependencies(ws is WorkspaceWithSourceBase ? (ws as WorkspaceWithSourceBase).SourceObject : ws.TargetObject,
+                    selectedWorkspaces, missing, new List<DatabaseObjectBase>(), ws is DropWorkspace);
+            }
+        }
 
-		//	//while (currentObjects.Count > 0)
-		//	//{
-		//	//	foreach (var obj in currentObjects)
-		//	//	{
-		//	//		var missing = new Dictionary<DatabaseObjectBase, List<DatabaseObjectBase>>();
-		//	//		var tempSelected = sortedObjects.ToList();
-		//	//		tempSelected.Add(obj);
-		//	//		populateMissingObjectDependencies(tempSelected.Select(s => (DatabaseObjectBase)s.DatabaseObject).ToList(), missing, true);
-		//	//		if (!missing.Any())
-		//	//		{
-		//	//			sortedObjects.Add(obj);
-		//	//			currentObjects.Remove(obj);
-		//	//			break;
-		//	//		}
-		//	//	}
-		//	//}
+        private void recursivelyPopulateMissingDependencies(DatabaseObjectBase parent, List<WorkspaceBase> selectedWorkspaces, Dictionary<DatabaseObjectBase, List<DatabaseObjectBase>> missing,
+            List<DatabaseObjectBase> checkedObjects, bool isForDrop)
+        {
+            if (checkedObjects.Contains(parent)) return;
 
-		//	//return sortedObjects;
-		//	return objects;
-		//}
+            checkedObjects.Add(parent);
 
-		//public bool DropObjects(List<DropWorkspace> objects, DbTransaction trans)
-		//{
-		//	using (var cmd = trans.Connection.CreateCommand())
-		//	{
-		//		cmd.Transaction = trans;
+            var toObjects = ToDatabase.GetDatabaseObjects(false).ConvertAll(s => (DatabaseObjectBase)s);
+            toObjects.AddRange(from s in ToDatabase.Schemas
+                               from t in s.Tables
+                               select t);
 
-		//		int i = 0;
-		//		foreach (var obj in getSortedDrops(objects.Where(t => t.Drop).ToList()))
-		//		{
-		//			i++;
-		//			cmd.CommandText = obj.DatabaseObject.GetDropScript();
+            var selectedItems = from ws in selectedWorkspaces
+                                from si in ws.SynchronizationItems
+                                where !si.Omit
+                                select si;
 
-		//			// object was dropped by previous script
-		//			if (string.IsNullOrEmpty(cmd.CommandText))
-		//				continue;
+            var sync = DatabaseObjectSynchronizationBase.GetSynchronization(parent);
 
-		//			try
-		//			{
-		//				cmd.ExecuteNonQuery();
-		//			}
-		//			catch (Exception ex)
-		//			{
-		//				//if (!prompted)
-		//				var dlgResult = MessageBox.Show("Failed to drop \"" + obj.DatabaseObject.Description
-		//									+ "\": " + ex.Message + ". Would you like to continue?", "Error!", MessageBoxButtons.YesNo);
-		//				if (dlgResult != DialogResult.Yes)
-		//					return false;
-		//			}
-		//		}
-		//	}
+            var missingDendencies = sync.GetMissingDependencies(toObjects, selectedItems.ToList(), isForDrop);
+            foreach (var child in missingDendencies)
+            {
+                if (checkedObjects.Contains(child))
+                    continue;
 
-		//	return true;
-		//}
+                checkedObjects.Add(child);
 
-		public Dictionary<DatabaseObjectBase, List<DatabaseObjectBase>> GetMissingDependencies(List<WorkspaceBase> selectedWorkspaces)
-		{
-			var missing = new Dictionary<DatabaseObjectBase, List<DatabaseObjectBase>>();
-			populateMissingDependencies(selectedWorkspaces, missing);
-			return missing;
-		}
+                if (!missing.ContainsKey(parent))
+                    missing.Add(parent, new List<DatabaseObjectBase>());
 
-		private void populateMissingDependencies(List<WorkspaceBase> selectedWorkspaces, Dictionary<DatabaseObjectBase, List<DatabaseObjectBase>> missing)
-		{
-			foreach (var ws in selectedWorkspaces)
-			{
-				recursivelyPopulateMissingDependencies(ws is WorkspaceWithSourceBase ? (ws as WorkspaceWithSourceBase).SourceObject : ws.TargetObject,
-					selectedWorkspaces, missing, new List<DatabaseObjectBase>(), ws is DropWorkspace);
-			}
-		}
+                if (!missing[parent].Contains(child))
+                    missing[parent].Add(child);
 
-		private void recursivelyPopulateMissingDependencies(DatabaseObjectBase parent, List<WorkspaceBase> selectedWorkspaces, Dictionary<DatabaseObjectBase, List<DatabaseObjectBase>> missing,
-			List<DatabaseObjectBase> checkedObjects, bool isForDrop)
-		{
-			if (checkedObjects.Contains(parent)) return;
-
-			checkedObjects.Add(parent);
-
-			var toObjects = ToDatabase.GetDatabaseObjects(false).ConvertAll(s => (DatabaseObjectBase)s);
-			toObjects.AddRange(from s in ToDatabase.Schemas
-							   from t in s.Tables
-							   select t);
-
-			var selectedItems = from ws in selectedWorkspaces
-								from si in ws.SynchronizationItems
-								where !si.Omit
-								select si;
-
-			var sync = DatabaseObjectSynchronizationBase.GetSynchronization(parent);
-
-			var missingDendencies = sync.GetMissingDependencies(toObjects, selectedItems.ToList(), isForDrop);
-			foreach (var child in missingDendencies)
-			{
-				if (checkedObjects.Contains(child))
-					continue;
-
-				checkedObjects.Add(child);
-
-				if (!missing.ContainsKey(parent))
-					missing.Add(parent, new List<DatabaseObjectBase>());
-
-				if (!missing[parent].Contains(child))
-					missing[parent].Add(child);
-
-				recursivelyPopulateMissingDependencies(child, selectedWorkspaces, missing, checkedObjects, isForDrop);
-			}
-		}
-	}
+                recursivelyPopulateMissingDependencies(child, selectedWorkspaces, missing, checkedObjects, isForDrop);
+            }
+        }
+    }
 }

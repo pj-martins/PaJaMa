@@ -33,10 +33,6 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="AutoMapper, Version=5.1.1.0, Culture=neutral, PublicKeyToken=be96cd2c38ef1005, processorArchitecture=MSIL">
-      <HintPath>..\packages\AutoMapper.5.1.1\lib\net45\AutoMapper.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
     <Reference Include="EntityFramework, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
       <HintPath>..\packages\EntityFramework.6.1.3\lib\net45\EntityFramework.dll</HintPath>
       <Private>True</Private>
@@ -113,7 +109,6 @@
     <Compile Include="ApiGetControllerBase.cs" />
     <Compile Include="ApiControllerBase.cs" />
     <Compile Include="Authorization.cs" />
-    <Compile Include="Interfaces.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Repository.cs" />
   </ItemGroup>
@@ -129,14 +124,6 @@
     <ProjectReference Include="..\Data\PaJaMa.Data.csproj">
       <Project>{de4cf9b2-3751-4d1c-950d-01d210d17ddd}</Project>
       <Name>PaJaMa.Data</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Dto\PaJaMa.Dto.csproj">
-      <Project>{92961b8c-2e52-460e-863d-acc06ab7ac06}</Project>
-      <Name>PaJaMa.Dto</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Recipes\Dto\PaJaMa.Recipes.Dto.csproj">
-      <Project>{24447d8a-21fd-4799-a5e2-fbfac6ca8243}</Project>
-      <Name>PaJaMa.Recipes.Dto</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

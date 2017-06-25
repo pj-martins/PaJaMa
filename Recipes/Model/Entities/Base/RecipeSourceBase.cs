@@ -26,6 +26,9 @@ namespace PaJaMa.Recipes.Model.Entities.Base
             this.Recipes = new HashSet<Recipe>();
         }
     
+    	[System.ComponentModel.DataAnnotations.Schema.NotMapped]
+    	public override int ID { get { return RecipeSourceID; } set { RecipeSourceID = value; } }
+    
         [Key]
         public virtual int RecipeSourceID { get; set; }
         public virtual string RecipeSourceName { get; set; }

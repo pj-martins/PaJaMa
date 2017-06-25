@@ -28,6 +28,9 @@ namespace PaJaMa.Recipes.Model.Entities.Base
             this.RecipeIngredientMeasurements = new HashSet<RecipeIngredientMeasurement>();
         }
     
+    	[System.ComponentModel.DataAnnotations.Schema.NotMapped]
+    	public override int ID { get { return IngredientMeasurementID; } set { IngredientMeasurementID = value; } }
+    
         [Key]
         public virtual int IngredientMeasurementID { get; set; }
         public virtual int IngredientID { get; set; }

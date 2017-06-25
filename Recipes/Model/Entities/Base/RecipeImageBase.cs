@@ -21,6 +21,9 @@ namespace PaJaMa.Recipes.Model.Entities.Base
         
     public abstract class RecipeImageBase : EntityBase
     {
+    	[System.ComponentModel.DataAnnotations.Schema.NotMapped]
+    	public override int ID { get { return RecipeImageID; } set { RecipeImageID = value; } }
+    
         [Key]
         public virtual int RecipeImageID { get; set; }
         public virtual int RecipeID { get; set; }

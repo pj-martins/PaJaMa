@@ -21,6 +21,9 @@ namespace PaJaMa.Recipes.Model.Entities.Base
         
     public abstract class IngredientMeasurementAlternateBase : EntityBase
     {
+    	[System.ComponentModel.DataAnnotations.Schema.NotMapped]
+    	public override int ID { get { return IngredientMeasurementAlternateID; } set { IngredientMeasurementAlternateID = value; } }
+    
         [Key]
         public virtual int IngredientMeasurementAlternateID { get; set; }
         public virtual int FromIngredientMeasurementID { get; set; }

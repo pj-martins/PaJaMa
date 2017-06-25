@@ -40,7 +40,7 @@ namespace Crawler
 		protected abstract string baseURL { get; }
 		protected virtual string allURL { get { return string.Empty; } }
 
-		protected abstract string recipesXPath { get; }
+		protected virtual string recipesXPath { get { return string.Empty; } }
 		protected virtual Tuple<string, string> getRecipeURL(HtmlNode node)
 		{
 			return new Tuple<string, string>(node.Attributes["href"].Value, node.InnerText.Trim());
@@ -108,7 +108,7 @@ namespace Crawler
 
 		protected virtual PageNumbers pageNumberURLRegex { get { return null; } }
 
-		protected Dictionary<string, string> getRecipeURLs(HtmlDocument doc)
+		protected virtual Dictionary<string, string> getRecipeURLs(HtmlDocument doc)
 		{
 			var dict = new Dictionary<string, string>();
 
@@ -163,7 +163,7 @@ namespace Crawler
 				catch
 				{
 					tries--;
-					System.Threading.Thread.Sleep(100);
+					System.Threading.Thread.Sleep(2500);
 				}
 			}
 			return html;
@@ -206,32 +206,37 @@ namespace Crawler
 			{
 				Console.WriteLine(myAttribute.RecipeSourceName + " - Keyword " + keywordPage);
 
-				int tempInt = 0;
-				if (pageNumberURLRegex == null)
-					crawlPage(keywordPage, 0, ref tempInt);
-				else
-				{
-					html = getHTML(keywordPage);
-					MatchCollection mc2 = Regex.Matches(html, pageNumberURLRegex.MaxPageRegexPattern, RegexOptions.Singleline);
-					if (mc2.Count < 1)
-					{
-						tempInt = 1;
-						crawlPage(keywordPage, 1, ref tempInt);
-					}
-					else
-					{
-						float temp = 0;
-						int maxPage = getMaxPage((from m2 in mc2.OfType<Match>()
-												  where float.TryParse(m2.Groups[1].Value.Replace(",", ""), out temp)
-												  select float.Parse(m2.Groups[1].Value.Replace(",", ""))).Max());
+				int tempInt = 1;
+                if (pageNumberURLRegex == null || string.IsNullOrEmpty(pageNumberURLRegex.MaxPageRegexPattern))
+                {
+                    for (int i = 0; i < tempInt; i++)
+                    {
+                        crawlPage(getPageURL(keywordPage, i), i, ref tempInt);
+                    }
+                }
+                else
+                {
+                    html = getHTML(keywordPage);
+                    MatchCollection mc2 = Regex.Matches(html, pageNumberURLRegex.MaxPageRegexPattern, RegexOptions.Singleline);
+                    if (mc2.Count < 1)
+                    {
+                        tempInt = 1;
+                        crawlPage(keywordPage, 1, ref tempInt);
+                    }
+                    else
+                    {
+                        float temp = 0;
+                        int maxPage = getMaxPage((from m2 in mc2.OfType<Match>()
+                                                  where float.TryParse(m2.Groups[1].Value.Replace(",", ""), out temp)
+                                                  select float.Parse(m2.Groups[1].Value.Replace(",", ""))).Max());
 
-						for (int i = startPage; i <= maxPage; i++)
-						{
-							Console.WriteLine(myAttribute.RecipeSourceName + " - Page " + i + " of " + maxPage);
-							crawlPage(getPageURL(keywordPage, i), i, ref maxPage);
-						}
-					}
-				}
+                        for (int i = startPage; i <= maxPage; i++)
+                        {
+                            Console.WriteLine(myAttribute.RecipeSourceName + " - Page " + i + " of " + maxPage);
+                            crawlPage(getPageURL(keywordPage, i), i, ref maxPage);
+                        }
+                    }
+                }
 
 			}
 		}
@@ -242,7 +247,7 @@ namespace Crawler
 
 		protected virtual string getPageURL(string keywordPage, int pageNum)
 		{
-			return keywordPage + string.Format(pageNumberURLRegex.URLFormat, pageNum);
+			return keywordPage + (pageNumberURLRegex == null ? string.Empty : string.Format(pageNumberURLRegex.URLFormat, pageNum));
 		}
 
 		protected virtual void crawlPage(string url, int pageNum, ref int maxPage)
@@ -321,6 +326,12 @@ namespace Crawler
 			}
 			rec.Rating = getRating(doc.DocumentNode);
 
+
+
+            // FOR SMALLER DBS:
+            if (rec.Rating != null && rec.Rating.Value < 4)
+                return null;
+
 			var servingsNode = doc.DocumentNode.SelectSingleNode(servingsXPath);
 			if (servingsNode == null) servingsNode = doc.DocumentNode.SelectSingleNode(servings2XPath);
 			if (servingsNode != null)
@@ -372,7 +383,7 @@ namespace Crawler
 			return new List<HtmlNode>() { node };
 		}
 
-		protected List<RecipeImage> getRecipeImages(HtmlNode node)
+		protected virtual List<RecipeImage> getRecipeImages(HtmlNode node)
 		{
 			var pageNodes = getRecipeImagesPageNodes(node);
 			List<RecipeImage> images = new List<RecipeImage>();
@@ -423,11 +434,11 @@ namespace Crawler
 			return (int)maxPageMatch;
 		}
 
-		protected virtual string getImageURL(HtmlNode node)
-		{
-			var attr = node.Attributes["content"];
-			if (attr != null) return attr.Value;
-			return node.Attributes["src"].Value;
+        protected virtual string getImageURL(HtmlNode node)
+        {
+            var attr = node.Attributes["content"];
+            if (attr != null) return attr.Value;
+            return (node.Attributes["src"] ?? node.Attributes["data-src"]).Value;
 		}
 
 		protected virtual List<string> getKeywordPages(HtmlDocument document)

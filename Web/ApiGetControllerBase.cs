@@ -1,5 +1,4 @@
 ﻿using PaJaMa.Data;
-using PaJaMa.Dto;
 using System;
 using System.Net;
 using System.Net.Http;
@@ -9,10 +8,9 @@ using System.Web.Http.OData.Extensions;
 
 namespace PaJaMa.Web
 {
-	public abstract class ApiGetControllerBase<TDtoMapper, TEntity, TEntityDto> : ApiController
+	public abstract class ApiGetControllerBase<TDbContext, TEntity> : ApiController
 		where TEntity : class, IEntity
-		where TEntityDto : class, IEntityDto
-		where TDtoMapper : DtoMapperBase
+		where TDbContext : DbContextBase
 	{
 		protected IRepository repository { get; set; }
 
@@ -22,9 +20,9 @@ namespace PaJaMa.Web
 			repository = getNewRepository();
 		}
 
-		protected virtual Repository<TDtoMapper, TEntity, TEntityDto> getNewRepository()
+		protected virtual Repository<TDbContext, TEntity> getNewRepository()
 		{
-			return new Repository<TDtoMapper, TEntity, TEntityDto>();
+			return new Repository<TDbContext, TEntity>();
 		}
 
 		public int? GetUserId()
@@ -50,10 +48,10 @@ namespace PaJaMa.Web
 		// when we use odata filter, the count from entities will return the count of all entries prefiltered thus the following method
 		// to give us a count after the data has been filtered
 		[HttpGet]
-		public virtual PageResult<IEntityDto> EntitiesOData()
+		public virtual PageResult<IEntity> EntitiesOData()
 		{
 			var entities = repository.GetEntitiesOData(Request);
-			return new PageResult<IEntityDto>(entities, Request.ODataProperties().NextLink,
+			return new PageResult<IEntity>(entities, Request.ODataProperties().NextLink,
 				 Request.ODataProperties().TotalCount);
 		}
 

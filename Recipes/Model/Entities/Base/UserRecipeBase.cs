@@ -21,6 +21,9 @@ namespace PaJaMa.Recipes.Model.Entities.Base
         
     public abstract class UserRecipeBase : EntityBase
     {
+    	[System.ComponentModel.DataAnnotations.Schema.NotMapped]
+    	public override int ID { get { return UserRecipeID; } set { UserRecipeID = value; } }
+    
         [Key]
         public virtual int UserRecipeID { get; set; }
         public virtual int UserID { get; set; }

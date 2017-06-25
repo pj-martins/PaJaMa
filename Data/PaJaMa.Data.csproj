@@ -66,6 +66,7 @@
     <Compile Include="DbContextBase.cs" />
     <Compile Include="EntityBase.cs" />
     <Compile Include="IEntity.cs" />
+    <Compile Include="OperationResult.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ValidationError.cs" />
   </ItemGroup>

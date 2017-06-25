@@ -1,6 +1,5 @@
 ﻿using Newtonsoft.Json.Linq;
 using PaJaMa.Data;
-using PaJaMa.Dto;
 using System;
 using System.Net;
 using System.Net.Http;
@@ -9,10 +8,9 @@ using System.Web.Http.OData.Extensions;
 
 namespace PaJaMa.Web
 {
-	public abstract class ApiControllerBase<TDtoMapper, TEntity, TEntityDto> : ApiGetControllerBase<TDtoMapper, TEntity, TEntityDto>
+	public abstract class ApiControllerBase<TDbContext, TEntity> : ApiGetControllerBase<TDbContext, TEntity>
 		where TEntity : class, IEntity
-		where TEntityDto : class, IEntityDto
-		where TDtoMapper : DtoMapperBase
+		where TDbContext : DbContextBase
 	{
 		public ApiControllerBase()
 			: base()
@@ -28,8 +26,8 @@ namespace PaJaMa.Web
 				if (result.Failed)
 					return Request.CreateErrorResponse(HttpStatusCode.InternalServerError, result.GetExceptionText());
 
-				var response = Request.CreateResponse(HttpStatusCode.Created, result.EntityDto);
-				string uri = Url.Link("DefaultApi", new { ID = result.EntityDto.ID });
+				var response = Request.CreateResponse(HttpStatusCode.Created, result.Entity);
+				string uri = Url.Link("DefaultApi", new { ID = result.Entity.ID });
 				if (uri != null)
 					response.Headers.Location = new Uri(uri);
 				return response;
@@ -48,7 +46,7 @@ namespace PaJaMa.Web
 				var result = repository.UpdateEntity(dto);
 				if (result.Failed)
 					return Request.CreateErrorResponse(HttpStatusCode.InternalServerError, result.GetExceptionText());
-				return Request.CreateResponse(HttpStatusCode.Accepted, result.EntityDto);
+				return Request.CreateResponse(HttpStatusCode.Accepted, result.Entity);
 			}
 			catch (UnauthorizedAccessException)
 			{

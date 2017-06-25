@@ -10,11 +10,11 @@
 					currRecipe.numberOfServings = 0;
 				for (i = 0; i < currRecipe.recipeIngredientMeasurements.length; i++) {
 					var ri = currRecipe.recipeIngredientMeasurements[i];
-					if (ri.alternates.length > 0) {
-						var orig = { toIngredientMeasurement: ri.ingredientMeasurement, multiplier: 1 };
-						ri.alternates.splice(0, 0, orig);
-						ri.activeAlternate = orig;
-					}
+					//if (ri.alternates.length > 0) {
+					//	var orig = { toIngredientMeasurement: ri.ingredientMeasurement, multiplier: 1 };
+					//	ri.alternates.splice(0, 0, orig);
+					//	ri.activeAlternate = orig;
+					//}
 				}
 
 

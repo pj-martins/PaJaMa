@@ -140,10 +140,6 @@
       <Project>{de4cf9b2-3751-4d1c-950d-01d210d17ddd}</Project>
       <Name>PaJaMa.Data</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\Dto\PaJaMa.Dto.csproj">
-      <Project>{92961b8c-2e52-460e-863d-acc06ab7ac06}</Project>
-      <Name>PaJaMa.Dto</Name>
-    </ProjectReference>
     <ProjectReference Include="..\Model\PaJaMa.Recipes.Model.csproj">
       <Project>{3527e786-7f99-48d5-a514-0c2a2930de55}</Project>
       <Name>PaJaMa.Recipes.Model</Name>

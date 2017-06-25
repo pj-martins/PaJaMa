@@ -42,10 +42,6 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="AutoMapper, Version=5.1.1.0, Culture=neutral, PublicKeyToken=be96cd2c38ef1005, processorArchitecture=MSIL">
-      <HintPath>..\..\..\packages\AutoMapper.5.1.1\lib\net45\AutoMapper.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
     <Reference Include="DotNetOpenAuth.Core, Version=4.3.0.0, Culture=neutral, PublicKeyToken=2780ccd10d57b246, processorArchitecture=MSIL">
       <HintPath>..\..\..\packages\DotNetOpenAuth.Core.4.3.4.13329\lib\net45-full\DotNetOpenAuth.Core.dll</HintPath>
       <Private>True</Private>
@@ -214,17 +210,9 @@
       <Project>{de4cf9b2-3751-4d1c-950d-01d210d17ddd}</Project>
       <Name>PaJaMa.Data</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\..\Dto\PaJaMa.Dto.csproj">
-      <Project>{92961b8c-2e52-460e-863d-acc06ab7ac06}</Project>
-      <Name>PaJaMa.Dto</Name>
-    </ProjectReference>
     <ProjectReference Include="..\..\..\Web\PaJaMa.Web.csproj">
       <Project>{11858057-9f8b-4caa-b4d4-6d6c00ea4fba}</Project>
       <Name>PaJaMa.Web</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\..\Dto\PaJaMa.Recipes.Dto.csproj">
-      <Project>{24447d8a-21fd-4799-a5e2-fbfac6ca8243}</Project>
-      <Name>PaJaMa.Recipes.Dto</Name>
     </ProjectReference>
     <ProjectReference Include="..\..\Model\PaJaMa.Recipes.Model.csproj">
       <Project>{3527e786-7f99-48d5-a514-0c2a2930de55}</Project>

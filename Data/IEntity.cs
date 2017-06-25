@@ -10,6 +10,9 @@ namespace PaJaMa.Data
 	public interface IEntity
 	{
 		int ID { get; }
+		// TODO:
+		//string ModifiedBy { get; set; }
+		//DateTime ModifiedDT { get; set; }
 		IEntity CloneEntity(DbContextBase context);
         List<ValidationError> Validate();
     }

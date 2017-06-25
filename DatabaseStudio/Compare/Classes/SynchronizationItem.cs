@@ -57,7 +57,12 @@ namespace PaJaMa.DatabaseStudio.Compare.Classes
 				Scripts.Add(level, new StringBuilder());
 			Scripts[level].AppendLine(script);
 		}
-	}
+
+        public override string ToString()
+        {
+            return ObjectName;
+        }
+    }
 
 	public class SerializableSynchronizationItem
 	{

@@ -89,6 +89,9 @@ using System.ComponentModel.DataAnnotations;
 			if (ef.IsKey(edmProperty))
 			{
 #>
+	[System.ComponentModel.DataAnnotations.Schema.NotMapped]
+	public override int ID { get { return <#=edmProperty.Name#>; } set { <#=edmProperty.Name#> = value; } }
+
     [Key]
 <#
 			}

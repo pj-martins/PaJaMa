@@ -1,7 +1,5 @@
-﻿using AutoMapper.QueryableExtensions;
-using Newtonsoft.Json.Linq;
+﻿using Newtonsoft.Json.Linq;
 using PaJaMa.Data;
-using PaJaMa.Dto;
 using System;
 using System.Linq;
 using System.Web;
@@ -11,91 +9,55 @@ using System.Web.Http.OData.Query;
 
 namespace PaJaMa.Web
 {
-	public class Repository<TDtoMapper, TEntity, TEntityDto> : IRepository
+	public class Repository<TDbContext, TEntity> : IRepository
 		where TEntity : class, IEntity
-		where TEntityDto : class, IEntityDto
-		where TDtoMapper : DtoMapperBase
+		where TDbContext : DbContextBase
 	{
-		protected TDtoMapper mapper { get; private set; }
+		protected TDbContext context { get; private set; }
+
+		public DbContextBase Context { get { return context; } }
 
 		public Repository()
 		{
-			mapper = Activator.CreateInstance<TDtoMapper>();
+			createContext();
 		}
 
-		private DbContextBase createContext()
+		private void createContext()
 		{
-			var context = mapper.GetDbContext();
-			context.ModifiedBy = HttpContext.Current.Request.LogonUserIdentity.Name;
-			return context;
+			context = Activator.CreateInstance<TDbContext>();
+			// when authentication is used
+			// context.ModifiedBy = HttpContext.Current.Request.LogonUserIdentity.Name;
 		}
 
-		protected virtual bool isUnauthorized(AuthorizationType authorizationType, object source)
+		public virtual IQueryable<TEntity> GetEntities()
 		{
-			// by default we'll only alow gets, override the repository if you want to do inserts, updates, deletes
-			return (int)authorizationType > (int)AuthorizationType.GetEntity;
+			return context.GetEntities<TEntity>();
 		}
 
-		public virtual IQueryable<TEntityDto> GetEntities()
+		public virtual IQueryable<TEntity> GetEntitiesOData(System.Net.Http.HttpRequestMessage request)
 		{
-			if (isUnauthorized(AuthorizationType.GetEntities, null))
-				throw new UnauthorizedAccessException();
-
-			var context = createContext();
-			var dbSet = context.Set<TEntity>().AsQueryable();
-			return dbSet.ProjectTo<TEntityDto>(mapper.MapperConfig);
-		}
-
-		public virtual IQueryable<TEntityDto> GetEntitiesOData(System.Net.Http.HttpRequestMessage request)
-		{
-			if (isUnauthorized(AuthorizationType.GetEntities, null))
-				throw new UnauthorizedAccessException();
-
 			var modelBuilder = new ODataConventionModelBuilder();
-			modelBuilder.EntitySet<TEntityDto>(typeof(TEntityDto).Name);
-			var castedOptions = new ODataQueryOptions<TEntityDto>(new ODataQueryContext(modelBuilder.GetEdmModel(), typeof(TEntityDto))
+			modelBuilder.EntitySet<TEntity>(typeof(TEntity).Name);
+			var castedOptions = new ODataQueryOptions<TEntity>(new ODataQueryContext(modelBuilder.GetEdmModel(), typeof(TEntity))
 				, request);
-			var entities = GetEntities() as IQueryable<TEntityDto>;
+			var entities = GetEntities() as IQueryable<TEntity>;
 
 			if (entities == null) return null;
 
-			var filtered = castedOptions.ApplyTo(entities) as IQueryable<TEntityDto>;
+			var filtered = castedOptions.ApplyTo(entities) as IQueryable<TEntity>;
 			return filtered;
 		}
 
-		protected virtual TEntity getEntity(int id)
+		public virtual TEntity GetEntity(int id)
 		{
-			var context = createContext();
 			return context.GetEntity<TEntity>(id);
 		}
-
-		public virtual TEntityDto GetEntity(int id)
+		
+		public virtual OperationResult InsertEntity(TEntity entity)
 		{
-			var entity = getEntity(id);
-			var context = createContext();
-			var mapperInstance = mapper.MapperConfig.CreateMapper();
-			var dto = mapperInstance.Map<TEntity, TEntityDto>(entity);
-
-			if (isUnauthorized(AuthorizationType.GetEntity, dto))
-				throw new UnauthorizedAccessException();
-
-			return dto;
-		}
-
-		public virtual OperationResult InsertEntity(TEntityDto dto)
-		{
-			if (isUnauthorized(AuthorizationType.GetEntity, dto))
-				throw new UnauthorizedAccessException();
-
-			TEntity entity = null;
 			try
 			{
-				entity = Activator.CreateInstance<TEntity>();
-				var context = createContext();
-				dto.MapToEntity(context, entity);
-				context.Set<TEntity>().Add(entity);
-				context.SaveChanges();
-				mapper.MapperConfig.CreateMapper().Map<TEntity, TEntityDto>(entity, dto);
+				entity = context.InsertEntity<TEntity>(entity);
 			}
 			catch (Exception ex)
 			{
@@ -103,31 +65,30 @@ namespace PaJaMa.Web
 				{
 					Exception = ex,
 					Failed = true,
-					EntityDto = dto,
 					Entity = entity
 				};
 			}
 
 			return new OperationResult()
 			{
-				EntityDto = dto,
 				Entity = entity
 			};
 		}
 
-		public virtual OperationResult UpdateEntity(TEntityDto dto)
+		public virtual OperationResult UpdateEntity(TEntity entity)
 		{
-			if (isUnauthorized(AuthorizationType.GetEntity, dto))
-				throw new UnauthorizedAccessException();
-
-			TEntity entity = null;
 			try
 			{
-				entity = getEntity(dto.ID);
-				var context = createContext();
-				dto.MapToEntity(context, entity);
-				context.SaveChanges();
-				mapper.MapperConfig.CreateMapper().Map<TEntity, TEntityDto>(entity, dto);
+				// TODO: some concerns here that may require cleanup:
+				// 1: The only real reason we need the original at this point is so that we may
+				// delete any orphaned children, although this might change if we want to narrow update statements to only
+				// modified properties but no harm in leaving that as is.
+				// 2: We are retrieving the original entity here so that we may get our includes to determine which child
+				// collections to update if any. Ideally this should be done in the DataContext itself in which case we'd
+				// need to come up with an alternate way to determine which children to include
+				var newRepo = Activator.CreateInstance(this.GetType()) as Repository<TDbContext, TEntity>;
+				var origEntity = newRepo.GetEntity(entity.ID);
+				entity = context.UpdateEntity<TEntity>(entity, origEntity);
 			}
 			catch (Exception ex)
 			{
@@ -135,32 +96,21 @@ namespace PaJaMa.Web
 				{
 					Exception = ex,
 					Failed = true,
-					EntityDto = dto,
 					Entity = entity
 				};
 			}
 
 			return new OperationResult()
 			{
-				EntityDto = dto,
 				Entity = entity
 			};
 		}
 
 		public virtual OperationResult DeleteEntity(int id)
 		{
-			if (isUnauthorized(AuthorizationType.DeleteEntity, id))
-				throw new UnauthorizedAccessException();
-
 			try
 			{
-				var entity = getEntity(id);
-				if (entity != null)
-				{
-					var context = createContext();
-					context.Set<TEntity>().Remove(entity);
-					context.SaveChanges();
-				}
+				context.DeleteEntity<TEntity>(id);
 			}
 			catch (Exception ex)
 			{
@@ -187,32 +137,43 @@ namespace PaJaMa.Web
 			return new OperationResult();
 		}
 
-		IQueryable<IEntityDto> IRepository.GetEntities()
+		IQueryable<IEntity> IRepository.GetEntities()
 		{
 			return GetEntities();
 		}
 
 
-		IQueryable<IEntityDto> IRepository.GetEntitiesOData(System.Net.Http.HttpRequestMessage request)
+		IQueryable<IEntity> IRepository.GetEntitiesOData(System.Net.Http.HttpRequestMessage request)
 		{
 			return GetEntitiesOData(request);
 		}
 
 
-		IEntityDto IRepository.GetEntity(int id)
+		IEntity IRepository.GetEntity(int id)
 		{
 			return GetEntity(id);
 		}
 
 
-		OperationResult IRepository.InsertEntity(JObject dto)
+		OperationResult IRepository.InsertEntity(JObject entity)
 		{
-			return InsertEntity(dto.ToObject<TEntityDto>());
+			return InsertEntity(entity.ToObject<TEntity>());
 		}
 
-		OperationResult IRepository.UpdateEntity(JObject dto)
+		OperationResult IRepository.UpdateEntity(JObject entity)
 		{
-			return UpdateEntity(dto.ToObject<TEntityDto>());
+			return UpdateEntity(entity.ToObject<TEntity>());
 		}
+	}
+
+	public interface IRepository
+	{
+		DbContextBase Context { get; }
+		IQueryable<IEntity> GetEntities();
+		IQueryable<IEntity> GetEntitiesOData(System.Net.Http.HttpRequestMessage request);
+		IEntity GetEntity(int id);
+		OperationResult InsertEntity(JObject entity);
+		OperationResult UpdateEntity(JObject entity);
+		OperationResult DeleteEntity(int id);
 	}
 }
