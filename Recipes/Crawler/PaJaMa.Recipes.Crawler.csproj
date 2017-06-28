@@ -69,6 +69,36 @@
     <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
     <Prefer32Bit>true</Prefer32Bit>
   </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'DebugThread1|AnyCPU'">
+    <DebugSymbols>true</DebugSymbols>
+    <OutputPath>bin\DebugThread1\</OutputPath>
+    <DefineConstants>TRACE;DEBUG;Thread1</DefineConstants>
+    <DebugType>full</DebugType>
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+    <Prefer32Bit>true</Prefer32Bit>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'DebugThread2|AnyCPU'">
+    <DebugSymbols>true</DebugSymbols>
+    <OutputPath>bin\DebugThread2\</OutputPath>
+    <DefineConstants>TRACE;DEBUG;Thread2</DefineConstants>
+    <DebugType>full</DebugType>
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+    <Prefer32Bit>true</Prefer32Bit>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'DebugThread3|AnyCPU'">
+    <DebugSymbols>true</DebugSymbols>
+    <OutputPath>bin\DebugThread3\</OutputPath>
+    <DefineConstants>TRACE;DEBUG;Thread3</DefineConstants>
+    <DebugType>full</DebugType>
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+    <Prefer32Bit>true</Prefer32Bit>
+  </PropertyGroup>
   <ItemGroup>
     <Reference Include="EntityFramework, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
       <HintPath>..\..\packages\EntityFramework.6.1.3\lib\net45\EntityFramework.dll</HintPath>
@@ -124,6 +154,7 @@
     <Compile Include="Crawlers\CooksCrawler.cs" />
     <Compile Include="CrawlerHelper.cs" />
     <Compile Include="Crawlers\CountryCrockCrawler.cs" />
+    <Compile Include="Crawlers\DelishCrawler.cs" />
     <Compile Include="Crawlers\DrinksMixerCrawler.cs" />
     <Compile Include="Crawlers\EatingWellCrawler.cs" />
     <Compile Include="Crawlers\EpicuriousCrawler.cs" />
@@ -209,6 +240,8 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Keywords.txt" />
+    <Content Include="SQLScripts\CheckDupsBySource.sql" />
+    <Content Include="SQLScripts\DeleteDupsUnused.sql" />
     <Content Include="ThirdParty\HtmlAgilityPack.dll" />
   </ItemGroup>
   <ItemGroup>

@@ -19,59 +19,71 @@ namespace Crawler
     {
         static void Main(string[] args)
         {
-            List<Task> runningTasks = new List<Task>();
+			//List<Task> runningTasks = new List<Task>();
 
-            Queue<CrawlerBase> crawlers = new Queue<CrawlerBase>();
+			//Queue<CrawlerBase> crawlers = new Queue<CrawlerBase>();
 
-            var crawlerTypes = from t in typeof(CrawlerHelper).Assembly.GetTypes()
-                               where !t.IsAbstract && isCrawlerBase(t)
-                               let rsa = t.GetCustomAttributes(typeof(RecipeSourceAttribute), true).FirstOrDefault() as RecipeSourceAttribute
-                               where rsa != null && !rsa.IgnoreAuto
-                               orderby t.Name
-                               select t;
+			//var crawlerTypes = from t in typeof(CrawlerHelper).Assembly.GetTypes()
+			//                   where !t.IsAbstract && isCrawlerBase(t)
+			//                   let rsa = t.GetCustomAttributes(typeof(RecipeSourceAttribute), true).FirstOrDefault() as RecipeSourceAttribute
+			//                   where rsa != null && !rsa.IgnoreAuto
+			//                   orderby t.Name
+			//                   select t;
 
-            foreach (var t in crawlerTypes)
-            {
-                // DEBUG
-                if (true
-                                //&& !t.Name.Contains("FoodNetworkCrawler")
-                                //&& !t.Name.Contains("BigOven")
-                                //  && !t.Name.Contains("AllRecipesCrawler")
-                                //&& !t.Name.Contains("MyRecipes")
-                                && !t.Name.Contains("FoodCrawler")
-                    //&& !t.Name.Contains("BodyBuilding")
+			//foreach (var t in crawlerTypes)
+			//{
+			//    // DEBUG
+			//    if (true
+			//                    //&& !t.Name.Contains("FoodNetworkCrawler")
+			//                    //&& !t.Name.Contains("BigOven")
+			//                    //  && !t.Name.Contains("AllRecipesCrawler")
+			//                    //&& !t.Name.Contains("MyRecipes")
+			//                    && !t.Name.Contains("EpicuriousCrawler")
+			//        //&& !t.Name.Contains("BodyBuilding")
 
-                    ) continue;
+			//        ) continue;
 
-                crawlers.Enqueue(Activator.CreateInstance(t) as CrawlerBase);
-            }
+			//    //crawlers.Enqueue(Activator.CreateInstance(t) as CrawlerBase);
+			//}
 
-            while (true)
-            {
-                while (runningTasks.Count < 5 && crawlers.Any())
-                {
-                    var crawler = crawlers.Dequeue();
-                    var task = Task.Factory.StartNew(() => crawler.Crawl(getDbContext()));
-                    runningTasks.Add(task);
-                }
+#if Thread1
+            new FoodNetworkCrawler().Crawl(getDbContext());
+#endif
+#if Thread2
+			// new AllRecipesCrawler().Crawl(getDbContext());
+			new TheKitchnCrawler().Crawl(getDbContext());
+#endif
+#if Thread3
+            // new EpicuriousCrawler().Crawl(getDbContext());
+            new SeriousEatsCrawler().Crawl(getDbContext());
+#endif
 
-                for (int i = runningTasks.Count - 1; i >= 0; i--)
-                {
-                    if (runningTasks[i].Status == TaskStatus.RanToCompletion)
-                    {
-                        runningTasks[i].Dispose();
-                        runningTasks.RemoveAt(i);
-                    }
-                }
+            //while (true)
+            //{
+            //    while (runningTasks.Count < 5 && crawlers.Any())
+            //    {
+            //        var crawler = crawlers.Dequeue();
+            //        var task = Task.Factory.StartNew(() => crawler.Crawl(getDbContext()));
+            //        runningTasks.Add(task);
+            //    }
 
-                if (runningTasks.Count < 1 && !crawlers.Any())
-                    break;
+            //    for (int i = runningTasks.Count - 1; i >= 0; i--)
+            //    {
+            //        if (runningTasks[i].Status == TaskStatus.RanToCompletion)
+            //        {
+            //            runningTasks[i].Dispose();
+            //            runningTasks.RemoveAt(i);
+            //        }
+            //    }
 
-                Thread.Sleep(5000);
-            }
+            //    if (runningTasks.Count < 1 && !crawlers.Any())
+            //        break;
+
+            //    Thread.Sleep(5000);
+            //}
 
 
-            Task.WaitAll(runningTasks.ToArray());
+            //Task.WaitAll(runningTasks.ToArray());
 
             //Cleanup.DownloadMissingImages(df);
         }

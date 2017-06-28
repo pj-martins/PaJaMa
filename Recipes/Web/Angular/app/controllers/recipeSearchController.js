@@ -209,10 +209,12 @@
 		};
 
 		$scope.openRecipe = function (recipe) {
-			$uibModal.open({
+            var modal = $uibModal.open({
 				templateUrl: 'app/views/modalRecipe.html',
 				controller: function ($scope) {
-					$scope.recipe = recipe;
+				    $scope.recipe = recipe;
+				    console.log(modal);
+				    $scope.modal = modal;
 				}
 			});
 		};

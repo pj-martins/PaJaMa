@@ -1,20 +1,70 @@
-﻿//using System;
-//using System.Collections.Generic;
-//using System.Linq;
-//using System.Text;
-//using System.Text.RegularExpressions;
-//using System.Threading.Tasks;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Text.RegularExpressions;
+using System.Threading.Tasks;
+using HtmlAgilityPack;
 
-//namespace Crawler.Crawlers
-//{
-//    [RecipeSource("The Kitchn")]
-//    public class TheKitchnCrawler : CrawlerBase
-//    {
-//        protected override string baseURL
-//        {
-//            get { return "http://www.thekitchn.com"; }
-//        }
+namespace Crawler.Crawlers
+{
+	[RecipeSource("The Kitchn")]
+	public class TheKitchnCrawler : CrawlerBase
+	{
+		protected override string baseURL
+		{
+			get { return "http://www.thekitchn.com"; }
+		}
 
+		protected override string allURL
+		{
+			get { return "/categories"; }
+		}
+
+		protected override List<string> getKeywordPages(HtmlDocument document)
+		{
+			return document.DocumentNode.SelectNodes("//a[@class='level-3']").Select(n => n.Attributes["href"].Value).ToList();
+		}
+
+		protected override PageNumbers pageNumberURLRegex
+		{
+			get { return new PageNumbers() { URLFormat = "?page={0}" }; }
+		}
+
+		protected override string recipesXPath
+		{
+			get { return "//a[@class='SimpleTeaser']"; }
+		}
+
+		protected override string directionsXPath
+		{
+			get { return "//p/span[@itemprop='ingredients']/parent::p/following-sibling::p"; }
+		}
+
+		protected override void updateMaxPage(HtmlDocument doc, ref int maxPage)
+		{
+			// TODO:
+			base.updateMaxPage(doc, ref maxPage);
+			maxPage++;
+		}
+
+		protected override void crawlPage(string url, int pageNum, ref int maxPage)
+		{
+			try
+			{
+				base.crawlPage(url, pageNum, ref maxPage);
+			}
+			catch (Exception ex)
+			{
+				if (ex.Message.Contains("404"))
+					maxPage = 0;
+				else
+					throw ex;
+			}
+		}
+	}
+}
+#region OLD
 //        protected override string allURL
 //        {
 //            get { return "/recipes"; }
@@ -67,3 +117,4 @@
 //        }
 //    }
 //}
+#endregion

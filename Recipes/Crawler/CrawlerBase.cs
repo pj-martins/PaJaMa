@@ -163,6 +163,7 @@ namespace Crawler
 				catch
 				{
 					tries--;
+					if (tries == 0) throw;
 					System.Threading.Thread.Sleep(2500);
 				}
 			}
@@ -247,7 +248,7 @@ namespace Crawler
 
 		protected virtual string getPageURL(string keywordPage, int pageNum)
 		{
-			return keywordPage + (pageNumberURLRegex == null ? string.Empty : string.Format(pageNumberURLRegex.URLFormat, pageNum));
+			return keywordPage + (pageNumberURLRegex == null || pageNum == 0 ? string.Empty : string.Format(pageNumberURLRegex.URLFormat, pageNum));
 		}
 
 		protected virtual void crawlPage(string url, int pageNum, ref int maxPage)
@@ -329,7 +330,7 @@ namespace Crawler
 
 
             // FOR SMALLER DBS:
-            if (rec.Rating != null && rec.Rating.Value < 4)
+            if (rec.Rating.GetValueOrDefault() > 0 && rec.Rating.Value < 4)
                 return null;
 
 			var servingsNode = doc.DocumentNode.SelectSingleNode(servingsXPath);

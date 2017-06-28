@@ -61,7 +61,7 @@ namespace PaJaMa.Recipes.Web.Api.Repository
             if (!string.IsNullOrEmpty(includes))
             {
                 string[] parts = includes.Split(';');
-                sbSQL.AppendLine("and r.RecipeID in (");
+                sbSQL.AppendLine("and (r.RecipeID in (");
 
                 for (int i = 0; i < parts.Length; i++)
                 {
@@ -86,7 +86,11 @@ namespace PaJaMa.Recipes.Web.Api.Repository
                 //	paramz.Add(new SqlParameter("@RestIncludes", "\"" + rest.Replace(" ", "*\" AND \"") + "*\""));
                 //}
 
-                sbSQL.AppendLine(")");
+                sbSQL.AppendLine(") or (");
+
+                sbSQL.AppendLine(string.Join(" and ", parts.Select(p => "RecipeName like '%" + p + "%'")));
+                sbSQL.AppendLine("))");
+
             }
 
             if (!string.IsNullOrEmpty(excludes))
@@ -113,14 +117,33 @@ namespace PaJaMa.Recipes.Web.Api.Repository
             return new Tuple<string, object[]>(sbSQL.ToString(), paramz.ToArray());
         }
 
-        public IQueryable<Recipe> SearchRecipes(string includes, string excludes, float? rating,
+        private IQueryable<object> getRecipes(List<int> ids)
+        {
+            return context.Recipes
+                    //.Include("RecipeImages")
+                    //.Include("RecipeIngredientMeasurements.IngredientMeasurement.Ingredient")
+                    .Select(r => new
+                    {
+                        ID = r.RecipeID,
+                        r.RecipeID,
+                        r.RecipeName,
+                        r.Rating,
+                        ImageURL = r.RecipeImages.Select(ri => ri.ImageURL).FirstOrDefault(),
+                        Ingredients = r.RecipeIngredientMeasurements
+                            .Select(rim => rim.IngredientMeasurement.Ingredient.IngredientName)
+                    })
+                    .Where(r => ids.Contains(r.RecipeID))
+                    .OrderBy(r => r.RecipeName);
+        }
+
+        public IQueryable<object> SearchRecipes(string includes, string excludes, float? rating,
             bool bookmarked, int? recipeSourceID, bool picturesOnly, int page, int pageSize, out int count)
         {
             // we're doing two database hits, one to get the result count, a second to get the paged results. Since parameters have to be
             // unique within each database hit, we need to retrieve a new set of parameters for each hit
 
             var qryParams = getQueryParameters(includes, excludes, rating, bookmarked, recipeSourceID, picturesOnly);
-            List<long> ids = new List<long>();
+            List<int> ids = new List<int>();
             using (var cmd = context.Database.Connection.CreateCommand())
             {
                 cmd.CommandText = qryParams.Item1;
@@ -132,7 +155,7 @@ namespace PaJaMa.Recipes.Web.Api.Repository
                     {
                         while (rdr.Read())
                         {
-                            ids.Add(Convert.ToInt64(rdr[0]));
+                            ids.Add(Convert.ToInt32(rdr[0]));
                         }
                     }
                 }
@@ -140,26 +163,20 @@ namespace PaJaMa.Recipes.Web.Api.Repository
             }
             count = ids.Count();
 
-            return context.Recipes
-                    .Include("RecipeImages")
-                    // .Include("RecipeIngredientMeasurements.IngredientMeasurement.Ingredient")
-                    .Where(r => ids.Contains(r.RecipeID))
-                    .OrderBy(r => r.RecipeName)
-                    .Skip((page - 1) * pageSize)
+            return getRecipes(ids)
+                .Skip((page - 1) * pageSize)
                     .Take(pageSize);
         }
 
-        public IQueryable<Recipe> GetRandomRecipes(int numberOfRecipes)
+        public IQueryable<object> GetRandomRecipes(int numberOfRecipes)
         {
-            int[] ids = context.Recipes
+            var ids = context.Recipes
                 .Where(r => r.Rating > 4 && r.RecipeImages.Any())
                 .OrderBy(r => Guid.NewGuid())
                 .Take(numberOfRecipes)
-                .Select(r => r.RecipeID).ToArray();
+                .Select(r => r.RecipeID).ToList();
 
-            return context.Recipes
-                .Include("RecipeImages")
-                .Where(r => ids.Contains(r.RecipeID));
+            return getRecipes(ids);
         }
     }
 }
