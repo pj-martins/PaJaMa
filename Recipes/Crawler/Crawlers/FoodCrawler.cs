@@ -22,37 +22,40 @@ namespace Crawler.Crawlers
         protected override string directionsXPath => "//div[@data-module='recipeDirections']//li";
         protected override string servingsXPath => "//li[@id='yield-servings']//span";
         protected override string ingredientsXPath => "//li[@data-ingredient]";
-
-        protected override PageNumbers pageNumberURLRegex => new PageNumbers() { URLFormat = "/?pn={0}" };
+		protected override string ratingXPath => "//span[@class='fd-rating-percent']";
+		protected override PageNumbers pageNumberURLRegex => new PageNumbers() { URLFormat = "?pn={0}" };
 
         protected override List<string> getKeywordPages(HtmlDocument document)
         {
-            List<HtmlNode> childNodes = new List<HtmlNode>();
-            childNodes.Add(document.DocumentNode);
-            var nodes = document.DocumentNode.SelectNodes("//section[@class='letter-index']//a");
-            foreach (var node in nodes)
-            {
-                string html = getHTML(node.Attributes["href"].Value);
-                var doc = new HtmlDocument();
-                doc.LoadHtml(html);
-                childNodes.Add(doc.DocumentNode);
-            }
+			//return new List<string>()
+			//{
+			//	"http://www.food.com/services/mobile/fdc/search/all"
+			//};
+			List<HtmlNode> childNodes = new List<HtmlNode>();
+			childNodes.Add(document.DocumentNode);
+			var nodes = document.DocumentNode.SelectNodes("//section[@class='letter-index']//a");
+			foreach (var node in nodes)
+			{
+				string html = getHTML(node.Attributes["href"].Value);
+				var doc = new HtmlDocument();
+				doc.LoadHtml(html);
+				childNodes.Add(doc.DocumentNode);
+			}
 
-            List<string> keywordPages = new List<string>();
-            foreach (var childNode in childNodes)
-            {
-                var keynodes = childNode.SelectNodes("//section[@class='topic-index-items']//a");
-                if (keynodes == null) continue;
-                keywordPages.AddRange(keynodes.Select(n => n.Attributes["href"].Value));
+			List<string> keywordPages = new List<string>();
+			foreach (var childNode in childNodes)
+			{
+				var keynodes = childNode.SelectNodes("//section[@class='topic-index-items']//a");
+				if (keynodes == null) continue;
+				keywordPages.AddRange(keynodes.Select(n => n.Attributes["href"].Value));
 
-            }
+			}
 
+			// TEM PTEMP TEMP
+			keywordPages = keywordPages.OrderBy(kp => kp.ToLower().Contains("indian") ? 0 : 1).ToList();
 
-            // TEMP TEMP TEMP
-            keywordPages = keywordPages.OrderBy(kp => kp.ToLower().Contains("indian") ? 0 : 1).ToList();
-
-            return keywordPages;
-        }
+			return keywordPages;
+		}
 
         protected override void updateMaxPage(HtmlDocument doc, ref int maxPage)
         {
@@ -63,8 +66,14 @@ namespace Crawler.Crawlers
 
         protected override Dictionary<string, string> getRecipeURLs(HtmlDocument doc)
         {
+			if (string.IsNullOrWhiteSpace(doc.DocumentNode.InnerHtml))
+			{
+				_hasMore = false;
+				return new Dictionary<string, string>();
+			}
             var match = Regex.Match(doc.DocumentNode.InnerHtml, "var searchResults = (.*);");
             var searchResults = Newtonsoft.Json.JsonConvert.DeserializeObject<Api>(match.Groups[1].Value);
+			Console.WriteLine("Total results: " + searchResults.Response.TotalResultsCount.ToString());
             _hasMore = searchResults.HasMore;
 
             var urls = new Dictionary<string, string>();
@@ -74,6 +83,8 @@ namespace Crawler.Crawlers
                 if (result.main_rating > 0 && result.main_rating < 4) continue;
                 urls.Add(result.record_url, result.main_title);
             }
+			//if (!urls.Any())
+			//	_hasMore = false;
             return urls;
         }
 

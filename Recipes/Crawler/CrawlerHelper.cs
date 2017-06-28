@@ -125,11 +125,10 @@ namespace Crawler
 				qtyString += parts[i].Trim() + " ";
 			}
 
-			qtyString = qtyString.Trim();
-
 			float qty = 0;
 			if (!string.IsNullOrEmpty(qtyString))
 			{
+				qtyString = qtyString.Trim();
 				if (qtyString.Contains("/") || qtyString.Contains("¼") || qtyString.Contains("½") || qtyString.Contains("¾") || qtyString.Contains("⅓"))
 				{
 					if (!PaJaMa.Common.Common.TryParseFraction(qtyString, out qty))

@@ -71,3 +71,4 @@ Packages
 /Angular2/dist/pajama/**/*.js.map
 /Angular2/dist/pajama/npm-debug.log
 /Angular2/dist/npm-debug.log
+**/Angular2/typings/
