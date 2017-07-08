@@ -3,8 +3,9 @@ import { Http, Response } from '@angular/http';
 import { Observable } from 'rxjs/Rx';
 import 'rxjs/add/operator/map';
 import 'rxjs/add/operator/catch';
-import { AppSettings } from '../constants/appsettings';
 import { EntityBase } from '../dto/entity-base';
+
+declare var appSettings: any;
 
 @Injectable()
 export abstract class DataService {
@@ -12,7 +13,7 @@ export abstract class DataService {
 	constructor(protected http: Http) { }
 
 	post<TObject>(url: string, body: TObject = null): Observable<TObject> {
-		return this.http.post(AppSettings.API_ENDPOINT + url, body)
+		return this.http.post(appSettings.API_ENDPOINT + url, body)
 			.map((res: Response) => {
 				if (!res.text())
 					return null;
@@ -22,7 +23,7 @@ export abstract class DataService {
 	}
 
 	put<TObject>(url: string, body: TObject): Observable<TObject> {
-		return this.http.put(AppSettings.API_ENDPOINT + url, body)
+		return this.http.put(appSettings.API_ENDPOINT + url, body)
 			.map((res: Response) => {
 				if (!res.text())
 					return null;
@@ -32,7 +33,7 @@ export abstract class DataService {
 	}
 
 	delete(url: string): Observable<boolean> {
-		return this.http.delete(AppSettings.API_ENDPOINT + url + `/deleteEntity`)
+		return this.http.delete(appSettings.API_ENDPOINT + url + `/deleteEntity`)
 			.map((res: Response) => {
 				if (!res.text())
 					return null;
@@ -42,7 +43,7 @@ export abstract class DataService {
 	}
 
 	getItems<TObject>(url: string): Observable<Items<TObject>> {
-		return this.http.get(AppSettings.API_ENDPOINT + url)
+		return this.http.get(appSettings.API_ENDPOINT + url)
 			.map((res: Response) => {
 				let results = new Items<TObject>();
 				results.results = res.json();
@@ -53,7 +54,7 @@ export abstract class DataService {
 	}
 
 	getItem<TObject>(url: string): Observable<TObject> {
-		return this.http.get(AppSettings.API_ENDPOINT + url)
+		return this.http.get(appSettings.API_ENDPOINT + url)
 			.map((res: Response) => {
 				return res.json();
 			})

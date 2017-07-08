@@ -47,6 +47,7 @@ namespace Crawler
 			//}
 
 #if Thread1
+			// new ChowCrawler().Crawl(getDbContext());
             new FoodNetworkCrawler().Crawl(getDbContext());
 #endif
 #if Thread2
@@ -54,39 +55,44 @@ namespace Crawler
 			new TheKitchnCrawler().Crawl(getDbContext());
 #endif
 #if Thread3
-            // new EpicuriousCrawler().Crawl(getDbContext());
-            new SeriousEatsCrawler().Crawl(getDbContext());
+			// new EpicuriousCrawler().Crawl(getDbContext());
+			// new SeriousEatsCrawler().Crawl(getDbContext());
+			new YummlyCrawler().Crawl(getDbContext());
+#endif
+#if Thread4
+			new AllRecipesCrawler().Crawl(getDbContext());
+			// new FoodCrawler().Crawl(getDbContext());
 #endif
 
-            //while (true)
-            //{
-            //    while (runningTasks.Count < 5 && crawlers.Any())
-            //    {
-            //        var crawler = crawlers.Dequeue();
-            //        var task = Task.Factory.StartNew(() => crawler.Crawl(getDbContext()));
-            //        runningTasks.Add(task);
-            //    }
+			//while (true)
+			//{
+			//    while (runningTasks.Count < 5 && crawlers.Any())
+			//    {
+			//        var crawler = crawlers.Dequeue();
+			//        var task = Task.Factory.StartNew(() => crawler.Crawl(getDbContext()));
+			//        runningTasks.Add(task);
+			//    }
 
-            //    for (int i = runningTasks.Count - 1; i >= 0; i--)
-            //    {
-            //        if (runningTasks[i].Status == TaskStatus.RanToCompletion)
-            //        {
-            //            runningTasks[i].Dispose();
-            //            runningTasks.RemoveAt(i);
-            //        }
-            //    }
+			//    for (int i = runningTasks.Count - 1; i >= 0; i--)
+			//    {
+			//        if (runningTasks[i].Status == TaskStatus.RanToCompletion)
+			//        {
+			//            runningTasks[i].Dispose();
+			//            runningTasks.RemoveAt(i);
+			//        }
+			//    }
 
-            //    if (runningTasks.Count < 1 && !crawlers.Any())
-            //        break;
+			//    if (runningTasks.Count < 1 && !crawlers.Any())
+			//        break;
 
-            //    Thread.Sleep(5000);
-            //}
+			//    Thread.Sleep(5000);
+			//}
 
 
-            //Task.WaitAll(runningTasks.ToArray());
+			//Task.WaitAll(runningTasks.ToArray());
 
-            //Cleanup.DownloadMissingImages(df);
-        }
+			//Cleanup.DownloadMissingImages(df);
+		}
 
         static bool isCrawlerBase(Type type)
         {

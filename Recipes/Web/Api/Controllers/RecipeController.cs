@@ -59,5 +59,12 @@ namespace PaJaMa.Recipes.Web.Api.Controllers
         //	//var db = new RecipesEntities();
         //	//RecipeDtoHelper.DeleteRecipe(db, id);
         //}
+
+		[HttpPost]
+		public HttpResponseMessage BookmarkRecipe([FromBody]int id)
+		{
+			(repository as RecipeRepository).BookmarkRecipe(id);
+			return Request.CreateResponse(HttpStatusCode.OK);
+		}
     }
 }

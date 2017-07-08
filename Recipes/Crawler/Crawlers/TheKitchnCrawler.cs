@@ -5,6 +5,7 @@ using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using HtmlAgilityPack;
+using PaJaMa.Common;
 
 namespace Crawler.Crawlers
 {
@@ -28,7 +29,7 @@ namespace Crawler.Crawlers
 
 		protected override PageNumbers pageNumberURLRegex
 		{
-			get { return new PageNumbers() { URLFormat = "?page={0}" }; }
+			get { return new PageNumbers() { URLFormat = "?page={0}", UnknownTotalPages = true }; }
 		}
 
 		protected override string recipesXPath
@@ -39,28 +40,6 @@ namespace Crawler.Crawlers
 		protected override string directionsXPath
 		{
 			get { return "//p/span[@itemprop='ingredients']/parent::p/following-sibling::p"; }
-		}
-
-		protected override void updateMaxPage(HtmlDocument doc, ref int maxPage)
-		{
-			// TODO:
-			base.updateMaxPage(doc, ref maxPage);
-			maxPage++;
-		}
-
-		protected override void crawlPage(string url, int pageNum, ref int maxPage)
-		{
-			try
-			{
-				base.crawlPage(url, pageNum, ref maxPage);
-			}
-			catch (Exception ex)
-			{
-				if (ex.Message.Contains("404"))
-					maxPage = 0;
-				else
-					throw ex;
-			}
 		}
 	}
 }

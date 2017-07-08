@@ -1,5 +1,5 @@
 ﻿import { ModuleWithProviders } from '@angular/core';
-import { Routes, RouterModule, RouterOutletMap } from '@angular/router';
+import { Routes, RouterModule } from '@angular/router';
 import { RecipesComponent } from './recipes/recipes.component';
 
 const appRoutes: Routes = [

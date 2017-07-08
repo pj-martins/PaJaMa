@@ -6,20 +6,20 @@ import { AppComponent } from './app.component';
 import { RecipesComponent } from './recipes/recipes.component';
 import { ApiService } from './shared/services/api.service';
 import { RouterModule } from '@angular/router';
-import { MultiSelectTextboxModule } from './shared/pjm/multi-select-textbox.module'
-import { TypeaheadModule } from './shared/pjm/typeahead.module'
+import { TypeaheadModule, OverlayModule } from 'pajama'
 import { routing } from './app.routing';
 
 @NgModule({
-    imports: [
-        BrowserModule,
-        FormsModule,
+	imports: [
+		BrowserModule,
+		FormsModule,
 		HttpModule,
-		MultiSelectTextboxModule,
 		TypeaheadModule,
-        routing],
+		OverlayModule,
+		routing
+	],
 	providers: [ApiService],
 	declarations: [AppComponent, RecipesComponent],
-    bootstrap: [AppComponent]
+	bootstrap: [AppComponent]
 })
 export class AppModule { }

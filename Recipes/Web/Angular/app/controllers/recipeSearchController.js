@@ -2,6 +2,7 @@
 	var RecipeSearchController = function ($scope, $http, $uibModal, $sce, localStorageService, appSettings, templateFactory, entityFactory) {
 		$scope.keyword = "";
 		$scope.rating = 0;
+		$scope.recipeName = "";
 		$scope.bookmarked = false;
 		$scope.picturesOnly = false;
 		$scope.searchResults = null;
@@ -120,38 +121,38 @@
 			if (page < 1) page = 1;
 			$scope.page = page;
 
-			if ($scope.gridKeywords.data.length <= 0 && !$scope.picturesOnly) {
-				var filt = '1 eq 1';
+			//if ($scope.gridKeywords.data.length <= 0 && !$scope.picturesOnly) {
+			//	var filt = '1 eq 1';
 
-				if ($scope.rating != 0) filt += ' and Rating ge ' + $scope.rating;
-				if ($scope.bookmarked) filt += ' and IsBookmarked eq true';
-				if ($scope.source) filt += ' and RecipeSourceID eq ' + $scope.source.id;
+			//	if ($scope.rating != 0) filt += ' and Rating ge ' + $scope.rating;
+			//	if ($scope.bookmarked) filt += ' and IsBookmarked eq true';
+			//	if ($scope.source) filt += ' and RecipeSourceID eq ' + $scope.source.id;
 				
-				if (filt == '1 eq 1') return;
+			//	if (filt == '1 eq 1') return;
 
-				$('#loadingDiv').show();
-				entityFactory.getEntities('RecipeSearch', { baseUrl: appSettings.apiUrl, filter: filt, pageSize: $scope.pageSize, pageNumber: $scope.page, includeCount: true, orderBy: 'RecipeName' }).then(function (data) {
-					if ($scope.searchResults == null || page < 2) {
-						window.scrollTo(0, 0);
-						$scope.searchResults = data.results;
-						$scope.totalRecords = data.totalRecords;
-					}
-					else
-						$scope.searchResults = $scope.searchResults.concat(data.results);
+			//	$('#loadingDiv').show();
+			//	entityFactory.getEntities('RecipeSearch', { baseUrl: appSettings.apiUrl, filter: filt, pageSize: $scope.pageSize, pageNumber: $scope.page, includeCount: true, orderBy: 'RecipeName' }).then(function (data) {
+			//		if ($scope.searchResults == null || page < 2) {
+			//			window.scrollTo(0, 0);
+			//			$scope.searchResults = data.results;
+			//			$scope.totalRecords = data.totalRecords;
+			//		}
+			//		else
+			//			$scope.searchResults = $scope.searchResults.concat(data.results);
 
-					if ($scope.totalRecords == 0)
-						$scope.resultsText = "No recipes found matching your criteria.";
-					else
-						$scope.resultsText = $scope.totalRecords + " recipes found.";
+			//		if ($scope.totalRecords == 0)
+			//			$scope.resultsText = "No recipes found matching your criteria.";
+			//		else
+			//			$scope.resultsText = $scope.totalRecords + " recipes found.";
 
-					$scope.disableScrolling = data.results.length < $scope.pageSize;
-					$('#loadingDiv').hide();
-				}, function (data) {
-					alert('error: ' + JSON.stringify(data));
-					$('#loadingDiv').hide();
-				});
-				return;
-			}
+			//		$scope.disableScrolling = data.results.length < $scope.pageSize;
+			//		$('#loadingDiv').hide();
+			//	}, function (data) {
+			//		alert('error: ' + JSON.stringify(data));
+			//		$('#loadingDiv').hide();
+			//	});
+			//	return;
+			//}
 
 
 			var params = '?pageSize=' + $scope.pageSize + '&page=' + $scope.page;
@@ -177,6 +178,7 @@
 			}
 			if (includeExcludes != '') params += '&excludes=' + includeExcludes;
 
+			if ($scope.recipeName) params += "&recipeName=" + $scope.recipeName;
 			if ($scope.rating != 0) params += '&rating=' + $scope.rating;
 			if ($scope.bookmarked) params += '&bookmarked=' + true;
 			if ($scope.source != null && $scope.source != '') params += '&recipeSourceID=' + $scope.source.id;
@@ -213,14 +215,14 @@
 				templateUrl: 'app/views/modalRecipe.html',
 				controller: function ($scope) {
 				    $scope.recipe = recipe;
-				    console.log(modal);
 				    $scope.modal = modal;
 				}
 			});
 		};
 
 		$scope.canBookmark = function () {
-			return localStorageService.get('loginData') != null;
+			return true;
+			// return localStorageService.get('loginData') != null;
 		};
 
 		$scope.baseUrl = function () {

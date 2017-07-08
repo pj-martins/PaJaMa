@@ -44,6 +44,7 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Content Include="config.js" />
     <Content Include="index.html" />
     <Content Include="src\app\app.component.html" />
     <Content Include="src\app\recipes\recipes.component.html" />
@@ -51,9 +52,6 @@
       <Generator>TextTemplatingFileGenerator</Generator>
       <LastGenOutput>modelapi.ts</LastGenOutput>
     </Content>
-    <Content Include="src\app\shared\pjm\checklist.css" />
-    <Content Include="src\app\shared\pjm\gridview.css" />
-    <Content Include="src\app\shared\pjm\typeahead.css" />
     <Content Include="src\img\staremptyleft.png" />
     <Content Include="src\img\staremptyright.png" />
     <Content Include="src\img\starleft.png" />
@@ -75,31 +73,12 @@
     <TypeScriptCompile Include="src\app\app.component.ts" />
     <TypeScriptCompile Include="src\app\app.module.ts" />
     <TypeScriptCompile Include="src\app\app.routing.ts" />
-    <TypeScriptCompile Include="src\app\shared\constants\appsettings.ts" />
     <TypeScriptCompile Include="src\app\main.ts" />
     <TypeScriptCompile Include="src\app\recipes\recipes.component.ts" />
     <TypeScriptCompile Include="src\app\shared\dto\entities.ts" />
     <TypeScriptCompile Include="src\app\shared\dto\entity-base.ts" />
     <TypeScriptCompile Include="src\app\shared\dto\enums.ts" />
     <TypeScriptCompile Include="src\app\shared\dto\interfaces.ts" />
-    <TypeScriptCompile Include="src\app\shared\pjm\checklist.component.ts" />
-    <TypeScriptCompile Include="src\app\shared\pjm\checklist.ts" />
-    <TypeScriptCompile Include="src\app\shared\pjm\column-caption.pipe.ts" />
-    <TypeScriptCompile Include="src\app\shared\pjm\detail-gridview.component.ts" />
-    <TypeScriptCompile Include="src\app\shared\pjm\gridview.cell.ts" />
-    <TypeScriptCompile Include="src\app\shared\pjm\gridview.component.ts" />
-    <TypeScriptCompile Include="src\app\shared\pjm\gridview.filtercell.ts" />
-    <TypeScriptCompile Include="src\app\shared\pjm\gridview.module.ts" />
-    <TypeScriptCompile Include="src\app\shared\pjm\gridview.rowtemplate.ts" />
-    <TypeScriptCompile Include="src\app\shared\pjm\gridview.ts" />
-    <TypeScriptCompile Include="src\app\shared\pjm\moment.pipe.ts" />
-    <Content Include="src\app\shared\pjm\multi-select-textbox.css" />
-    <TypeScriptCompile Include="src\app\shared\pjm\multi-select-textbox.component.ts" />
-    <TypeScriptCompile Include="src\app\shared\pjm\typeahead.module.ts" />
-    <TypeScriptCompile Include="src\app\shared\pjm\multi-select-textbox.module.ts" />
-    <TypeScriptCompile Include="src\app\shared\pjm\parser.service.ts" />
-    <TypeScriptCompile Include="src\app\shared\pjm\template.builder.ts" />
-    <TypeScriptCompile Include="src\app\shared\pjm\typeahead.component.ts" />
     <TypeScriptCompile Include="src\app\shared\services\api.service.ts" />
     <TypeScriptCompile Include="src\app\shared\services\data.service.ts" />
     <TypeScriptCompile Include="modelapi.ts">
@@ -110,9 +89,6 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="typings.json" />
-  </ItemGroup>
-  <ItemGroup>
-    <Content Include="packages.config" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

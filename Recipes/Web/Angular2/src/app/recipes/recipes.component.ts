@@ -10,19 +10,24 @@ import 'rxjs/add/operator/map';
 	templateUrl: 'recipes.component.html'
 })
 export class RecipesComponent implements OnInit {
-	recipes: Array<IRecipeCover>;
-	recipeSources: Array<IRecipeSource>;
-	totalResults = 0;
+	protected recipes: Array<IRecipeCover>;
+	protected recipeSources: Array<IRecipeSource>;
+	protected totalResults = 0;
 
-	includes: Array<string> = [];
-	excludes: Array<string> = [];
-	rating = 0;
-	recipeSourceID: number;
+	protected includes: Array<string> = [];
+	protected excludes: Array<string> = [];
+	protected rating = 0;
+	protected recipeSourceID: number;
+	protected bookmarked = false;
+	protected picturesOnly = false;
+
+	protected loading = false;
 
 	constructor(private apiService: ApiService) { }
 
 	ngOnInit() {
-		this.apiService.getRandomRecipes(20).subscribe(x => {
+		this.loading = true;
+		this.apiService.getRandomRecipes(50).subscribe(x => {
 			this.recipes = x.results;
 			this.recipes.sort((a, b) => {
 				if (a.recipeName > b.recipeName) {
@@ -37,6 +42,7 @@ export class RecipesComponent implements OnInit {
 			});
 
 			this.totalResults = x.totalRecords;
+			this.loading = false;
 		});
 
 		this.apiService.getRecipeSources().subscribe((rs: Items<IRecipeSource>) => {
@@ -46,26 +52,29 @@ export class RecipesComponent implements OnInit {
 
 	// we have to define the function as a lambda in order for "this" to refer to the component
 	// rather than the js function
-	getIngredients = (partial: string) => {
+	protected getIngredients = (partial: string) => {
 		let args = new GetArguments();
 		args.filter = `indexof(IngredientName, '${partial.replace("'", "\\'")}') ge 0`;
+		args.pageSize = 50;
 		return this.apiService.getIngredients(args).map((i: Items<any>) => {
 			return i.results;
 		});
 	}
 
-	search() {
-
-
+	protected search() {
+		this.loading = true;
 		this.apiService.searchRecipes(
 			this.includes.length > 0 ? this.includes.join(';') : '',
 			this.excludes.length > 0 ? this.excludes.join(';') : '',
 			this.rating,
-			false,
+			this.bookmarked,
 			this.recipeSourceID,
-			false,
+			this.picturesOnly,
 			1,
 			20
-		).subscribe((r: Items<IRecipeCover>) => this.recipes = r.results);
+		).subscribe((r: Items<IRecipeCover>) => {
+			this.loading = false;
+			this.recipes = r.results;
+		});
 	}
 }

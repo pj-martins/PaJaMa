@@ -166,7 +166,7 @@
     <Content Include="app\pjm\gridView.js" />
     <Content Include="app\pjm\mathFilters.js" />
     <Content Include="app\pjm\pjm.js" />
-    <Content Include="app\services\appSettings.js" />
+    <Content Include="config.js" />
     <Content Include="app\services\pdfService.js" />
     <Content Include="app\services\emailService.js" />
     <Content Include="app\services\quantityDisplayService.js" />

@@ -35,7 +35,8 @@
 				};
 
 				$scope.isLoggedIn = function () {
-					return localStorageService.get('loginData') != null;
+					return true;
+					// return localStorageService.get('loginData') != null;
 				};
 
 				$scope.doneEditingNotes = function () {
@@ -83,6 +84,18 @@
 				$scope.permalink = function () {
 					window.open('#/recipe/' + $scope.recipe.id);
 				};
+
+				$scope.bookmark = function () {
+					$http.post(appSettings.apiUrl + '/api/recipe/bookmarkRecipe', $scope.recipe.id)
+						.success(function (data, status, headers, config) {
+							alert('recipe bookmarked');
+						})
+						.error(function (data, status, headers, config) {
+							alert('error: \n' + JSON.stringify(data) + '\n' + JSON.stringify(status) + '\n' + JSON.stringify(headers) + '\n' + JSON.stringify(config));
+						});
+				}
+
+
 
 				recipeFactory.getRecipe($scope.recipeId, $scope.modal).then(function (recipe) {
 					$scope.recipe = recipe;

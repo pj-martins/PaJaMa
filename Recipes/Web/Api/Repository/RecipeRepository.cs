@@ -23,5 +23,30 @@ namespace PaJaMa.Recipes.Web.Api.Repository
                 .Include("RecipeIngredientMeasurements.IngredientMeasurement.Measurement")
                 .Where(r => r.RecipeID == id).First();
         }
+
+		private UserRecipe getUserRecipe(int recipeId)
+		{
+			// TODO: actual user
+			var userId = context.Users.First(u => u.UserName == "PJ").UserID;
+
+			var ur = context.UserRecipes.FirstOrDefault(x => x.UserID == userId && x.RecipeID == recipeId);
+			if (ur == null)
+			{
+				ur = new UserRecipe();
+				ur.UserID = userId;
+				ur.RecipeID = recipeId;
+				context.UserRecipes.Add(ur);
+			}
+			else
+				context.Entry(ur).State = EntityState.Modified;
+			return ur;
+		}
+
+		public void BookmarkRecipe(int recipeId)
+		{
+			var ur = getUserRecipe(recipeId);
+			ur.IsBookmarked = !ur.IsBookmarked;
+			context.SaveChanges();
+		}
     }
 }

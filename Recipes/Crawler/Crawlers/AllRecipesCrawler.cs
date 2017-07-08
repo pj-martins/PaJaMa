@@ -46,7 +46,7 @@ namespace Crawler.Crawlers
             get { return "//*[@class='ingredient-name']"; }
         }
 
-        protected override Tuple<string, string> getRecipeURL(HtmlNode node)
+		protected override Tuple<string, string> getRecipeURL(HtmlNode node)
         {
             var baseUrl = base.getRecipeURL(node);
             return new Tuple<string, string>(baseUrl.Item1,
@@ -58,52 +58,58 @@ namespace Crawler.Crawlers
             return keywordPage + (pageNum > 0 ? "?page=" + pageNum.ToString() : "");
         }
 
-        //protected override List<RecipeImage> getRecipeImages(HtmlNode node)
-        //{
-        //    var imageNode = node.SelectSingleNode("//a[@title='See Recipe Pictures']");
-        //    var doc = new HtmlDocument();
-        //    doc.LoadHtml(getHTML(baseURL + imageNode.Attributes["href"].Value));
-        //    var imageNodes = doc.DocumentNode.SelectNodes("//img[contains(@src, '/userphotos/')]");
-        //    List<string> imageURLs = new List<string>();
-        //    var images = new List<RecipeImage>();
-        //    foreach (var imgNode in imageNodes)
-        //    {
-        //        var imageURL = getImageURL(imgNode);
-        //        if (imageURL == null) continue;
-        //        if (!imageURL.StartsWith(baseURL) && !imageURL.StartsWith("http://") && !imageURL.StartsWith("https://") && !imageURL.StartsWith("//"))
-        //            imageURL = baseURL + imageURL;
+		protected override int? getServings(HtmlNode node)
+		{
+			var servingNode = node.SelectSingleNode("//meta[@itemprop='recipeYield']");
+			return servingNode == null ? (int?)null : Convert.ToInt16(servingNode.Attributes["content"].Value);
+		}
 
-        //        if (imageURLs.Contains(imageURL)) continue;
-        //        imageURLs.Add(imageURL);
+		//protected override List<RecipeImage> getRecipeImages(HtmlNode node)
+		//{
+		//    var imageNode = node.SelectSingleNode("//a[@title='See Recipe Pictures']");
+		//    var doc = new HtmlDocument();
+		//    doc.LoadHtml(getHTML(baseURL + imageNode.Attributes["href"].Value));
+		//    var imageNodes = doc.DocumentNode.SelectNodes("//img[contains(@src, '/userphotos/')]");
+		//    List<string> imageURLs = new List<string>();
+		//    var images = new List<RecipeImage>();
+		//    foreach (var imgNode in imageNodes)
+		//    {
+		//        var imageURL = getImageURL(imgNode);
+		//        if (imageURL == null) continue;
+		//        if (!imageURL.StartsWith(baseURL) && !imageURL.StartsWith("http://") && !imageURL.StartsWith("https://") && !imageURL.StartsWith("//"))
+		//            imageURL = baseURL + imageURL;
 
-        //        RecipeImage img = new RecipeImage();
-        //        img.ImageURL = imageURL;
-        //        img.LocalImagePath = null;
-        //        images.Add(img);
-        //    }
+		//        if (imageURLs.Contains(imageURL)) continue;
+		//        imageURLs.Add(imageURL);
 
-        //    return images;
-        //}
+		//        RecipeImage img = new RecipeImage();
+		//        img.ImageURL = imageURL;
+		//        img.LocalImagePath = null;
+		//        images.Add(img);
+		//    }
 
-        //protected override List<HtmlNode> getRecipeImagesPageNodes(HtmlNode node)
-        //{
-        //    var imagesPageNode = node.SelectSingleNode("//a[@title='See Recipe Pictures']");
-        //    var doc = new HtmlDocument();
-        //    doc.LoadHtml(getHTML(baseURL + imagesPageNode.Attributes["href"].Value));
-        //    List<HtmlNode> imageNodes = new List<HtmlNode>();
-        //    var photoNodes = doc.DocumentNode.SelectNodes("//img[contains(@src, '/userphotos/')]");
-        //    if (photoNodes == null) return new List<HtmlNode>();
-        //    foreach (var imageNode in photoNodes)
-        //    {
-        //        var doc2 = new HtmlDocument();
-        //        doc2.LoadHtml(getHTML(imageNode.Attributes["href"].Value));
-        //        imageNodes.Add(doc2.DocumentNode);
-        //    }
+		//    return images;
+		//}
 
-        //    return imageNodes;
-        //}
+		//protected override List<HtmlNode> getRecipeImagesPageNodes(HtmlNode node)
+		//{
+		//    var imagesPageNode = node.SelectSingleNode("//a[@title='See Recipe Pictures']");
+		//    var doc = new HtmlDocument();
+		//    doc.LoadHtml(getHTML(baseURL + imagesPageNode.Attributes["href"].Value));
+		//    List<HtmlNode> imageNodes = new List<HtmlNode>();
+		//    var photoNodes = doc.DocumentNode.SelectNodes("//img[contains(@src, '/userphotos/')]");
+		//    if (photoNodes == null) return new List<HtmlNode>();
+		//    foreach (var imageNode in photoNodes)
+		//    {
+		//        var doc2 = new HtmlDocument();
+		//        doc2.LoadHtml(getHTML(imageNode.Attributes["href"].Value));
+		//        imageNodes.Add(doc2.DocumentNode);
+		//    }
 
-        protected override void updateMaxPage(HtmlDocument doc, ref int maxPage)
+		//    return imageNodes;
+		//}
+
+		protected override void updateMaxPage(HtmlDocument doc, ref int maxPage)
         {
             base.updateMaxPage(doc, ref maxPage);
             maxPage++;
