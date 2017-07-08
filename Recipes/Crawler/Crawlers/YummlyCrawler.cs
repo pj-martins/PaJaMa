@@ -25,80 +25,97 @@ namespace Crawler.Crawlers
 
 		protected override void crawl(int startPage)
 		{
-			int pageSize = 36;
-			int i = startPage;
-			while (true)
+			var allRecipesURLS = DbContext.Recipes.Where(r => r.RecipeURL.Contains("allrecipes"))
+				.Select(r => r.RecipeURL).ToList();
+
+			var keywords = Properties.Resources.Keywords
+				.ToLower()
+				.Split(new string[] { "\r\n" }, StringSplitOptions.RemoveEmptyEntries)
+				.Union(
+					 Properties.Resources.Keywords
+					.ToLower()
+					.Split(new string[] { "\r\n", " " }, StringSplitOptions.RemoveEmptyEntries)
+				)
+				.Distinct();
+			foreach (var kw in keywords)
 			{
-				int tries = 3;
-				var json = string.Empty;
-				while (tries > 0)
+				startPage = 1;
+				int pageSize = 36;
+				int i = startPage;
+				while (true)
 				{
-					json = getHTML($"https://mapi.yummly.com/mapi/v15/content/search?start={startPage}&maxResult={pageSize}&fetchUserCollections=false&allowedContent[]=single_recipe&allowedContent[]=suggested_source&allowedContent[]=suggested_search&allowedContent[]=related_search&allowedContent[]=article&allowedContent[]=video&facetField[]=diet&facetField[]=holiday&facetField[]=technique&facetField[]=cuisine&facetField[]=course&facetField[]=source&facetField[]=brand&facetField[]=difficulty&facetField[]=dish&facetField[]=adtag&guided-search=true&solr.view_type=search_internal");
-					if (!string.IsNullOrEmpty(json))
+					int tries = 3;
+					var json = string.Empty;
+					while (tries > 0)
+					{
+						json = getHTML($"https://mapi.yummly.com/mapi/v15/content/search?q={kw}&start={startPage}&maxResult={pageSize}&fetchUserCollections=false&allowedContent[]=single_recipe&allowedContent[]=suggested_source&allowedContent[]=suggested_search&allowedContent[]=related_search&allowedContent[]=article&allowedContent[]=video&facetField[]=diet&facetField[]=holiday&facetField[]=technique&facetField[]=cuisine&facetField[]=course&facetField[]=source&facetField[]=brand&facetField[]=difficulty&facetField[]=dish&facetField[]=adtag&guided-search=true&solr.view_type=search_internal");
+						if (!string.IsNullOrEmpty(json))
+							break;
+						tries--;
+					}
+					var yummlyResult = JsonConvert.DeserializeObject<YummlyResult>(json);
+					if (yummlyResult.feed.Count < 1)
 						break;
-					tries--;
-				}
-				var yummlyResult = JsonConvert.DeserializeObject<YummlyResult>(json);
-				if (yummlyResult.feed.Count < 1)
-					break;
 
-				foreach (var feed in yummlyResult.feed)
-				{
-					string display = $"{i++} of {yummlyResult.totalMatchCount} - Yummly - {feed.content.details.name}";
-
-					if (existingRecipes.Contains(feed.content.details.attribution.url))
+					foreach (var feed in yummlyResult.feed)
 					{
+						string display = $"{i++} of {yummlyResult.totalMatchCount} - Yummly - {feed.content.details.name}";
+
 						Console.WriteLine(display);
-						continue;
-					}
-
-					if (feed.content.ingredientLines.Count < 1) continue;
-
-					Console.WriteLine("* " + display);
-
-					Recipe rec = new Recipe();
-					rec.RecipeSourceID = recipeSource.RecipeSourceID;
-					rec.RecipeName = feed.content.details.name;
-					rec.RecipeURL = feed.content.details.attribution.url;
-
-					rec.Directions = feed.content.preparationSteps == null ? feed.content.details.directionsUrl : string.Join("\r\n", feed.content.preparationSteps);
-					rec.Rating = feed.content.details.rating;
-
-					if (rec.Rating.GetValueOrDefault() > 0 && rec.Rating.GetValueOrDefault() < 4)
-						continue;
-
-					rec.NumberOfServings = feed.content.details.numberOfServings;
-
-					foreach (var ingredient in feed.content.ingredientLines)
-					{
-						if (ingredient.ingredient == null && string.IsNullOrEmpty(ingredient.wholeLine)) continue;
-
-						if (ingredient.ingredient == null)
+						if (existingRecipes.Contains(feed.content.details.attribution.url) ||
+							allRecipesURLS.Contains(feed.content.details.attribution.url))
 						{
-							var ing = CrawlerHelper.GetIngredientQuantity(DbContext, ingredient.wholeLine, false, false);
-							rec.RecipeIngredientMeasurements.Add(CrawlerHelper.GetIngredient(DbContext, ing.Item1, ing.Item2, ing.Item3));
+							continue;
 						}
-						else
-							rec.RecipeIngredientMeasurements.Add(CrawlerHelper.GetIngredient(DbContext, ingredient.ingredient,
-								ingredient.unit == null ? null : CrawlerHelper.GetMeasurement(DbContext, ingredient.unit, true),
-								(double)ingredient.quantity.GetValueOrDefault()));
+
+						if (feed.content.ingredientLines.Count < 1) continue;
+
+						Recipe rec = new Recipe();
+						rec.RecipeSourceID = recipeSource.RecipeSourceID;
+						rec.RecipeName = feed.content.details.name;
+						rec.RecipeURL = feed.content.details.attribution.url;
+
+						rec.Directions = feed.content.preparationSteps == null ? feed.content.details.directionsUrl : string.Join("\r\n", feed.content.preparationSteps);
+						rec.Rating = feed.content.details.rating;
+
+						if (rec.Rating.GetValueOrDefault() > 0 && rec.Rating.GetValueOrDefault() < 4)
+							continue;
+
+						Console.WriteLine("****");
+
+						rec.NumberOfServings = feed.content.details.numberOfServings;
+
+						foreach (var ingredient in feed.content.ingredientLines)
+						{
+							if (ingredient.ingredient == null && string.IsNullOrEmpty(ingredient.wholeLine)) continue;
+
+							if (ingredient.ingredient == null)
+							{
+								var ing = CrawlerHelper.GetIngredientQuantity(DbContext, ingredient.wholeLine, false, false);
+								rec.RecipeIngredientMeasurements.Add(CrawlerHelper.GetIngredient(DbContext, ing.Item1, ing.Item2, ing.Item3));
+							}
+							else
+								rec.RecipeIngredientMeasurements.Add(CrawlerHelper.GetIngredient(DbContext, ingredient.ingredient,
+									ingredient.unit == null ? null : CrawlerHelper.GetMeasurement(DbContext, ingredient.unit, true),
+									(double)ingredient.quantity.GetValueOrDefault()));
+						}
+
+						foreach (var im in feed.content.details.images)
+						{
+							RecipeImage img = new RecipeImage();
+							img.ImageURL = im.hostedLargeUrl;
+							img.LocalImagePath = null;
+							rec.RecipeImages.Add(img);
+						}
+
+						DbContext.Recipes.Add(rec);
+						DbContext.SaveChanges();
+
+						existingRecipes.Add(rec.RecipeURL);
 					}
 
-					foreach (var im in feed.content.details.images)
-					{
-						RecipeImage img = new RecipeImage();
-						img.ImageURL = im.hostedLargeUrl;
-						img.LocalImagePath = null;
-						rec.RecipeImages.Add(img);
-					}
-
-					DbContext.Recipes.Add(rec);
-					DbContext.SaveChanges();
-
-					existingRecipes.Add(rec.RecipeURL);
+					startPage += pageSize;
 				}
-
-				startPage += pageSize;
 			}
 		}
 
