@@ -32,7 +32,7 @@ namespace Crawler.Crawlers
             return pages;
         }
 
-        protected override void crawlPage(string url, int pageNum, ref int maxPage)
+        protected override void crawlPage(string url, string keywordPage, int pageNum, ref int maxPage)
         {
             var doc = new HtmlDocument();
             doc.LoadHtml(getHTML(url));

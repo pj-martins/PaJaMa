@@ -15,10 +15,10 @@ using PaJaMa.Recipes.Model.Entities;
 
 namespace Crawler
 {
-    class Program
-    {
-        static void Main(string[] args)
-        {
+	class Program
+	{
+		static void Main(string[] args)
+		{
 			//List<Task> runningTasks = new List<Task>();
 
 			//Queue<CrawlerBase> crawlers = new Queue<CrawlerBase>();
@@ -48,20 +48,30 @@ namespace Crawler
 
 #if Thread1
 			// new ChowCrawler().Crawl(getDbContext());
-            new FoodNetworkCrawler().Crawl(getDbContext());
+			// new FoodNetworkCrawler().Crawl(getDbContext());
+			new TasteOfHomeCrawler().Crawl();
 #endif
 #if Thread2
-			// new AllRecipesCrawler().Crawl(getDbContext());
-			new TheKitchnCrawler().Crawl(getDbContext());
+			// new TheKitchnCrawler().Crawl(getDbContext());
+			//Cleanup.YummlyToOriginal("http://www.foodnetwork.com/", "Food Network", new FoodNetworkCrawler());
+			// Cleanup.YummlyToOriginal("http://www.epicurious.com/", "Epicurious", new EpicuriousCrawler());
+			//Cleanup.YummlyToOriginal("http://www.seriouseats.com/", "Serious Eats", new SeriousEatsCrawler());
+			// Cleanup.YummlyToOriginal("http://www.food.com/", "Food.com", new FoodCrawler());
+			// Cleanup.YummlyToOriginal("http://www.tasteofhome.com/", "Taste Of Home", new TasteOfHomeCrawler());
+			// Cleanup.Keywords();
+			// new AllRecipesCrawler().Crawl();
+			// new CooksCrawler().Crawl();
+			new AllRecipesCrawler().Crawl();
+
 #endif
 #if Thread3
-			// new EpicuriousCrawler().Crawl(getDbContext());
+			new EpicuriousCrawlerApi().Crawl();
 			// new SeriousEatsCrawler().Crawl(getDbContext());
-			new YummlyCrawler().Crawl(getDbContext());
+			// new YummlyCrawler().Crawl();
 #endif
 #if Thread4
-			new AllRecipesCrawler().Crawl(getDbContext());
-			// new FoodCrawler().Crawl(getDbContext());
+			new FoodCrawlerApi().Crawl();
+
 #endif
 
 			//while (true)
@@ -94,37 +104,37 @@ namespace Crawler
 			//Cleanup.DownloadMissingImages(df);
 		}
 
-        static bool isCrawlerBase(Type type)
-        {
-            while (type != null)
-            {
-                if (type.Equals(typeof(CrawlerBase)))
-                    return true;
+		static bool isCrawlerBase(Type type)
+		{
+			while (type != null)
+			{
+				if (type.Equals(typeof(CrawlerBase)))
+					return true;
 
-                type = type.BaseType;
-            }
+				type = type.BaseType;
+			}
 
-            return false;
-        }
+			return false;
+		}
 
-        static RecipesContext getDbContext()
-        {
-            var context = new RecipesContext();
-            context.Configuration.AutoDetectChangesEnabled = false;
-            context.Database.CommandTimeout = 120;
-            return context;
-        }
+		static RecipesContext getDbContext()
+		{
+			var context = new RecipesContext();
+			context.Configuration.AutoDetectChangesEnabled = false;
+			context.Database.CommandTimeout = 120;
+			return context;
+		}
 
-        //		static DataFactory getDataFactory()
-        //		{
-        //#if DEBUG
-        //			string connString = "server=petjak.com;database=Recipes;trusted_connection=yes";
-        //#else
-        //			string connString = "server=localhost;database=Recipes;trusted_connection=yes";
-        //#endif
-        //			var asm = typeof(Recipe).Assembly;
+		//		static DataFactory getDataFactory()
+		//		{
+		//#if DEBUG
+		//			string connString = "server=petjak.com;database=Recipes;trusted_connection=yes";
+		//#else
+		//			string connString = "server=localhost;database=Recipes;trusted_connection=yes";
+		//#endif
+		//			var asm = typeof(Recipe).Assembly;
 
-        //			return new DataFactory(connString, asm) { TimeoutSeconds = 90 };
-        //		}
-    }
+		//			return new DataFactory(connString, asm) { TimeoutSeconds = 90 };
+		//		}
+	}
 }

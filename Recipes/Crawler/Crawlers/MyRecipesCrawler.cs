@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace Crawler.Crawlers
 {
-    [RecipeSource("MyRecipes", StartPage = 0)]
+    [RecipeSource("MyRecipes", StartsAt0 = true)]
     public class MyRecipesCrawler : CrawlerBase
     {
         protected override string baseURL

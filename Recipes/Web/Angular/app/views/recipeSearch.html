@@ -6,7 +6,7 @@
     <div class="horizontal-align search-controls">
 		<div class="row">
 			<div class="col-md-12">
-				<input type="text" ng-model="recipeName" class="form-control" placeholder="Recipe Name" />
+				<input type="text" ng-model="recipeName" class="form-control" ng-enter="startSearch(1)" placeholder="Recipe Name" />
 			</div>
 		</div>
 		<br />
@@ -71,36 +71,43 @@
         </div>
     </div>
     <div class="horizontal-align search-results">
-        <div infinite-scroll="scrollNext()" infinite-scroll-distance="1" infinite-scroll-disabled="busy">
-            <div class="recipes">
-                <div class="resultsText">{{resultsText}}</div>
-                <ul>
-                    <li ng-repeat="rec in searchResults" style="height:250px; cursor:pointer" ng-click="openRecipe(rec);">
-                        <div uib-tooltip-html="getIngredientList(rec)" tooltip-placement="bottom">
-                            <div class="thumbnailContainer imageContainer">
-                                <img class="image" ng-src="{{rec.imageURL}}" /><br />
-                            </div>
-                            <div style="width:220px">{{rec.recipeName}}</div>
-                            <ul class="ratingList">
-                                <li ng-repeat="rat in [1,2,3,4,5,6,7,8,9,10]">
-                                    <div ng-switch="rec.rating >= rat / 2">
-                                        <img ng-switch-when="true" ng-click="setFilterRating(rat / 2);" ng-src="{{rat % 2 == 1 ? 'img/starleft.png' : 'img/starright.png'}}" />
-                                        <img ng-switch-when="false" ng-click="setFilterRating(rat / 2);" ng-src="{{rat % 2 == 1 ? 'img/staremptyleft.png' : 'img/staremptyright.png'}}" />
-                                    </div>
-                                </li>
-                            </ul>
-                        </div>
-                    </li>
-                </ul>
-                <script type="text/ng-template" id="Recipe">
-                    <div class="modal-body recipe">
-                        <recipe></recipe>
-                    </div>
-                    <div class="modal-footer">
-                        <button class="btn btn-warning" ng-click="ok()">Ok</button>
-                    </div>
-                </script>
-            </div>
-        </div>
+        <!--<div infinite-scroll="scrollNext()" infinite-scroll-distance="0" infinite-scroll-disabled="busy">-->
+		<div>
+			<div class="recipes">
+				<div class="resultsText">{{resultsText}}</div>
+				<ul>
+					<li ng-repeat="rec in searchResults" style="height:250px; cursor:pointer" ng-click="openRecipe(rec);">
+						<div uib-tooltip-html="getIngredientList(rec)" tooltip-placement="bottom">
+							<div class="thumbnailContainer imageContainer">
+								<img class="image" ng-src="{{rec.coverImageURL}}" /><br />
+							</div>
+							<div style="width:220px">{{rec.recipeName}}</div>
+							<ul class="ratingList">
+								<li ng-repeat="rat in [1,2,3,4,5,6,7,8,9,10]">
+									<div ng-switch="rec.rating >= rat / 2">
+										<img ng-switch-when="true" ng-click="setFilterRating(rat / 2);" ng-src="{{rat % 2 == 1 ? 'img/starleft.png' : 'img/starright.png'}}" />
+										<img ng-switch-when="false" ng-click="setFilterRating(rat / 2);" ng-src="{{rat % 2 == 1 ? 'img/staremptyleft.png' : 'img/staremptyright.png'}}" />
+									</div>
+								</li>
+							</ul>
+						</div>
+					</li>
+				</ul>
+				<script type="text/ng-template" id="Recipe">
+					<div class="modal-body recipe">
+						<recipe></recipe>
+					</div>
+					<div class="modal-footer">
+						<button class="btn btn-warning" ng-click="ok()">Ok</button>
+					</div>
+				</script>
+			</div>
+			<div class="row">
+				<div class="col-md-4"></div>
+				<div class="col-md-8">
+					<button ng-click="scrollNext()" ng-show="!disableScrolling">More</button>
+				</div>
+			</div>
+		</div>
     </div>
 </div>

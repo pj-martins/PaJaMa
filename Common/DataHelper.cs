@@ -10,6 +10,16 @@ namespace PaJaMa.Common
 {
 	public static class DataHelper
 	{
+		public static List<T> ToObjects<T>(this DataTable dt) where T : class
+		{
+			List<T> objs = new List<T>();
+			foreach (DataRow dr in dt.Rows)
+			{
+				objs.Add(dr.ToObject<T>());
+			}
+			return objs;
+		}
+
 		public static T ToObject<T>(this DataRow dr) where T : class
 		{
 			var obj = Activator.CreateInstance<T>();

@@ -25,12 +25,12 @@ namespace PaJaMa.Recipes.Model
 
 			modelBuilder.Entity<IngredientMeasurementAlternate>()
 				.HasRequired(ima => ima.FromIngredientMeasurement)
-				.WithMany(im => im.FromIngredientMeasurementAlternates)
+				.WithMany(im => im.IngredientMeasurementAlternates)
 				.HasForeignKey(ima => ima.FromIngredientMeasurementID);
 
 			modelBuilder.Entity<IngredientMeasurementAlternate>()
 				.HasRequired(ima => ima.ToIngredientMeasurement)
-				.WithMany(im => im.ToIngredientMeasurementAlternates)
+				.WithMany(im => im.IngredientMeasurementAlternates1)
 				.HasForeignKey(ima => ima.ToIngredientMeasurementID);
 		}
 	}

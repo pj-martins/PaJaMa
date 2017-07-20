@@ -32,6 +32,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".nuget", ".nuget", "{6A3EFE
 		.nuget\packages.config = .nuget\packages.config
 	EndProjectSection
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PaJaMa.Templates", "Templates\PaJaMa.Templates.csproj", "{D380A33B-8493-4709-ABC8-BCF636EACED4}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -303,6 +305,30 @@ Global
 		{84FF538B-36E3-48E2-B622-A0F70A6FE4CF}.Release|Any CPU.Build.0 = Release|Any CPU
 		{84FF538B-36E3-48E2-B622-A0F70A6FE4CF}.Release|x86.ActiveCfg = Release|Any CPU
 		{84FF538B-36E3-48E2-B622-A0F70A6FE4CF}.Release|x86.Build.0 = Release|Any CPU
+		{D380A33B-8493-4709-ABC8-BCF636EACED4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D380A33B-8493-4709-ABC8-BCF636EACED4}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D380A33B-8493-4709-ABC8-BCF636EACED4}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{D380A33B-8493-4709-ABC8-BCF636EACED4}.Debug|x86.Build.0 = Debug|Any CPU
+		{D380A33B-8493-4709-ABC8-BCF636EACED4}.DebugThread1|Any CPU.ActiveCfg = Debug|Any CPU
+		{D380A33B-8493-4709-ABC8-BCF636EACED4}.DebugThread1|Any CPU.Build.0 = Debug|Any CPU
+		{D380A33B-8493-4709-ABC8-BCF636EACED4}.DebugThread1|x86.ActiveCfg = Debug|Any CPU
+		{D380A33B-8493-4709-ABC8-BCF636EACED4}.DebugThread1|x86.Build.0 = Debug|Any CPU
+		{D380A33B-8493-4709-ABC8-BCF636EACED4}.DebugThread2|Any CPU.ActiveCfg = Debug|Any CPU
+		{D380A33B-8493-4709-ABC8-BCF636EACED4}.DebugThread2|Any CPU.Build.0 = Debug|Any CPU
+		{D380A33B-8493-4709-ABC8-BCF636EACED4}.DebugThread2|x86.ActiveCfg = Debug|Any CPU
+		{D380A33B-8493-4709-ABC8-BCF636EACED4}.DebugThread2|x86.Build.0 = Debug|Any CPU
+		{D380A33B-8493-4709-ABC8-BCF636EACED4}.DebugThread3|Any CPU.ActiveCfg = Debug|Any CPU
+		{D380A33B-8493-4709-ABC8-BCF636EACED4}.DebugThread3|Any CPU.Build.0 = Debug|Any CPU
+		{D380A33B-8493-4709-ABC8-BCF636EACED4}.DebugThread3|x86.ActiveCfg = Debug|Any CPU
+		{D380A33B-8493-4709-ABC8-BCF636EACED4}.DebugThread3|x86.Build.0 = Debug|Any CPU
+		{D380A33B-8493-4709-ABC8-BCF636EACED4}.DebugThread4|Any CPU.ActiveCfg = Debug|Any CPU
+		{D380A33B-8493-4709-ABC8-BCF636EACED4}.DebugThread4|Any CPU.Build.0 = Debug|Any CPU
+		{D380A33B-8493-4709-ABC8-BCF636EACED4}.DebugThread4|x86.ActiveCfg = Debug|Any CPU
+		{D380A33B-8493-4709-ABC8-BCF636EACED4}.DebugThread4|x86.Build.0 = Debug|Any CPU
+		{D380A33B-8493-4709-ABC8-BCF636EACED4}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D380A33B-8493-4709-ABC8-BCF636EACED4}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D380A33B-8493-4709-ABC8-BCF636EACED4}.Release|x86.ActiveCfg = Release|Any CPU
+		{D380A33B-8493-4709-ABC8-BCF636EACED4}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

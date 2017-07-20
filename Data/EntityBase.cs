@@ -27,13 +27,6 @@ namespace PaJaMa.Data
             return attr.Prop;
         }
 
-        //[NotMapped]
-        //public int ID
-        //{
-        //	get { return (int)getKeyProp().GetValue(this); }
-        //	internal set { getKeyProp().SetValue(this, value); }
-        //}
-
         // TODO:
         //public string ModifiedBy { get; set; }
         //public DateTime ModifiedDT { get; set; }

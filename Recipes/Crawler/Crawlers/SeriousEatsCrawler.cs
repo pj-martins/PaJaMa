@@ -22,7 +22,7 @@ namespace Crawler.Crawlers
 			get { return "http://www.seriouseats.com"; }
 		}
 
-		protected override void crawl(int startPage)
+		protected override void crawl()
 		{
 			var eats = JsonConvert.DeserializeObject<SeriousEats>(System.IO.File.ReadAllText("eats.json"));
 			// var eats = JsonConvert.DeserializeObject<SeriousEats>(getHTML(baseURL + "/topics/search?index=recipe&count=1"));
@@ -74,10 +74,10 @@ namespace Crawler.Crawlers
 
 				foreach (var ingredient in eat.ingredients)
 				{
-					var ing = CrawlerHelper.GetIngredientQuantity(DbContext, ingredient, false, true);
+					var ing = CrawlerHelper.GetIngredientQuantity(dbContext, ingredient, false, true);
 					if (ing == null || string.IsNullOrEmpty(ing.Item1))
 						continue;
-					rec.RecipeIngredientMeasurements.Add(CrawlerHelper.GetIngredient(DbContext, ing.Item1, ing.Item2, ing.Item3));
+					rec.RecipeIngredientMeasurements.Add(CrawlerHelper.GetIngredient(dbContext, ing.Item1, ing.Item2, ing.Item3));
 				}
 
 				if (eat.thumbnail_750 != null)
@@ -88,8 +88,8 @@ namespace Crawler.Crawlers
 					rec.RecipeImages.Add(img);
 				}
 
-				DbContext.Recipes.Add(rec);
-				DbContext.SaveChanges();
+				dbContext.Recipes.Add(rec);
+				dbContext.SaveChanges();
 
 				existingRecipes.Add(eat.permalink);
 			}

@@ -1,0 +1,298 @@
+﻿<#@ template debug="false" hostspecific="true" language="C#" #>
+<#@ assembly name="System.Core" #>
+<#@ assembly name="System.Xml" #>
+<#@ import namespace="System.Linq" #>
+<#@ import namespace="System.IO" #>
+<#@ import namespace="System.Text" #>
+<#@ import namespace="System.Xml" #>
+<#@ import namespace="System.Collections.Generic" #>
+<#@ assembly name="EnvDTE" #>
+<#@ import namespace="EnvDTE" #>
+<#@ assembly name="System.Configuration" #>
+<#@ import namespace="System.Configuration" #>
+<#@ assembly name="System.Data" #>
+<#@ import namespace="System.Data" #>
+<#@ import namespace="System.Data.SqlClient" #>
+<#@ output extension=".cs" #>
+<#
+var serviceProvider = this.Host as IServiceProvider;
+var dte = serviceProvider.GetService(typeof(DTE)) as DTE;
+var sbContext = new StringBuilder();
+
+DirectoryInfo projectDinf = null;
+var nameSpace = "";
+
+foreach (Project p in dte.Solution.Projects) 
+{
+	if (string.IsNullOrEmpty(p.FullName)) continue;
+	projectDinf = new DirectoryInfo(Path.GetDirectoryName(p.FullName));
+	if (!File.Exists(Path.Combine(projectDinf.FullName, "Model.xml"))) continue;
+	nameSpace = p.Name;
+	break;
+}
+
+var configFileMap = new System.Configuration.ExeConfigurationFileMap();
+var conf = Path.Combine(projectDinf.FullName, "Web.Config");
+if (!File.Exists(conf))
+	conf = Path.Combine(projectDinf.FullName, "App.Config");
+configFileMap.ExeConfigFilename = conf;
+
+var config = System.Configuration.ConfigurationManager.OpenMappedExeConfiguration(configFileMap, ConfigurationUserLevel.None);
+var connectionString = config.ConnectionStrings.ConnectionStrings[0].ConnectionString;
+var contextName = config.ConnectionStrings.ConnectionStrings[0].Name;
+
+var doc = new XmlDocument();
+doc.LoadXml(File.ReadAllText(Path.Combine(projectDinf.FullName, "Model.xml")));
+
+var allTables = doc.DocumentElement.SelectNodes("table").OfType<XmlNode>().ToList();
+
+sbContext.AppendLine($@"using {nameSpace}.Entities;
+using PaJaMa.Data;
+
+using System.Data.Entity;
+using System.Data.Entity.Infrastructure;
+using System.Data.Entity.ModelConfiguration.Conventions;
+using System.Linq;
+
+namespace {nameSpace}
+{{
+	public abstract class {contextName}Base : DbContextBase
+	{{
+		public {contextName}Base() : base(""name={contextName}"")
+		{{
+			Database.SetInitializer<{contextName}>(null);
+		}}
+		");
+	
+var helper = new DatabaseStructureHelper(connectionString);
+var misMatches = new List<Tuple<string, string>>();
+foreach (var table in allTables)
+{
+	var tableName = table.Attributes["name"].Value;
+	sbContext.AppendLine($"		public DbSet<Entities.{tableName}> {tableName}{(tableName.EndsWith("s") ? "" : "s")} {{ get; set; }}");
+	var dt = helper.GetEmptyTableWithSchema(tableName);
+	misMatches.AddRange(GenerateHelper.GenerateClass(dt, nameSpace, table, projectDinf, helper, allTables.Select(t => t.Attributes["name"].Value).ToList()));
+}
+
+if (misMatches.Any())
+{
+	sbContext.AppendLine(@"
+		protected override void OnModelCreating(System.Data.Entity.DbModelBuilder modelBuilder)
+		{
+			base.OnModelCreating(modelBuilder);
+");
+
+	foreach (var fkm in misMatches)
+	{
+		sbContext.AppendLine($@"			modelBuilder.Entity<Model.Entities.{fkm.Item2}>()
+					.HasOptional(x => x.{fkm.Item1.Substring(0, fkm.Item1.Length - 2)})
+					.WithMany(x => x.{fkm.Item2}s)
+					.HasForeignKey(x => x.{fkm.Item1});
+					");
+	}
+
+	sbContext.AppendLine("		}");
+}
+
+sbContext.AppendLine(@"	}
+}");
+
+var contextFile = Path.Combine(projectDinf.FullName, $"{contextName}Base.cs");
+File.WriteAllText(contextFile, sbContext.ToString());
+contextFile = Path.Combine(projectDinf.FullName, $"{contextName}.cs");
+if (!File.Exists(contextFile))
+{
+	File.WriteAllText(contextFile, $@"namespace {nameSpace}
+{{
+	public class {contextName} : {contextName}Base
+	{{
+
+	}}
+}}");
+}
+#>
+<#+
+public class DatabaseStructureHelper
+{
+	private SqlConnection _conn;
+
+	public DatabaseStructureHelper(string connectionString)
+	{
+		_conn = new SqlConnection(connectionString);
+	}
+	
+	public DataTable GetEmptyTableWithSchema(string tableName)
+	{
+		var ds = new DataSet();
+		var da = new SqlDataAdapter($"select * from [{tableName}] where 1 = 2", _conn);
+		da.FillSchema(ds, SchemaType.Mapped);
+		string sql = string.Empty;
+		return ds.Tables[0];
+	}
+
+	private string _foreignKeySQL = @"
+SELECT 
+							ChildTable = FK.TABLE_NAME,
+	ChildKey = CU.COLUMN_NAME,
+	ParentTable = PK.TABLE_NAME,
+	ParentKey = PT.COLUMN_NAME,
+	Constraint_Name = C.CONSTRAINT_NAME
+	FROM INFORMATION_SCHEMA.REFERENTIAL_CONSTRAINTS C
+	INNER JOIN INFORMATION_SCHEMA.TABLE_CONSTRAINTS FK ON C.CONSTRAINT_NAME = FK.CONSTRAINT_NAME
+	INNER JOIN INFORMATION_SCHEMA.TABLE_CONSTRAINTS PK ON C.UNIQUE_CONSTRAINT_NAME = PK.CONSTRAINT_NAME
+	INNER JOIN INFORMATION_SCHEMA.KEY_COLUMN_USAGE CU ON C.CONSTRAINT_NAME = CU.CONSTRAINT_NAME
+	INNER JOIN (
+	SELECT i1.TABLE_NAME, i2.COLUMN_NAME
+	FROM INFORMATION_SCHEMA.TABLE_CONSTRAINTS i1
+	INNER JOIN INFORMATION_SCHEMA.KEY_COLUMN_USAGE i2 ON i1.CONSTRAINT_NAME = i2.CONSTRAINT_NAME
+	WHERE i1.CONSTRAINT_TYPE = 'PRIMARY KEY'
+	) PT ON PT.TABLE_NAME = PK.TABLE_NAME
+";
+
+	public List<Tuple<string, string, string, string>> GetParentTables(string tableName)
+	{
+		var dt = new DataTable();
+		var da = new SqlDataAdapter($"{_foreignKeySQL} where FK.TABLE_NAME = '{tableName}'", _conn);
+		da.Fill(dt);
+		var rtv = new List<Tuple<string, string, string, string>>();
+		foreach (DataRow dr in dt.Rows)
+		{
+			rtv.Add(new Tuple<string, string, string, string>(dr["ParentTable"].ToString(), dr["ChildKey"].ToString(), dr["ParentKey"].ToString(), dr["ChildTable"].ToString()));
+		}
+		return rtv;
+	}
+
+	public List<Tuple<string, string>> GetChildTables(string tableName)
+	{
+		var dt = new DataTable();
+		var da = new SqlDataAdapter($"{_foreignKeySQL} where PK.TABLE_NAME = '{tableName}'", _conn);
+		da.Fill(dt);
+		var rtv = new List<Tuple<string, string>>();
+		foreach (DataRow dr in dt.Rows)
+		{
+			rtv.Add(new Tuple<string, string>(dr["ChildTable"].ToString(), dr["ChildKey"].ToString()));
+		}
+		return rtv;
+	}
+}
+
+public class GenerateHelper
+{
+	public static List<Tuple<string, string>> GenerateClass(DataTable dt, string nameSpace, XmlNode table, DirectoryInfo projectDinf, DatabaseStructureHelper helper, List<string> allTables)
+	{
+		var foreignKeyMismatches = new List<Tuple<string, string>>();
+		var sbBaseClass = new StringBuilder();
+		var sbClass = new StringBuilder();
+
+		var tableName = table.Attributes["name"].Value;
+
+		sbBaseClass.AppendLine($@"using PaJaMa.Data;
+using System.ComponentModel.DataAnnotations.Schema;
+using System.ComponentModel.DataAnnotations;
+
+namespace {nameSpace}.Entities.Base
+{{
+	[Table(""{tableName}"")]
+	public abstract class {tableName}Base : EntityBase
+	{{");
+
+		sbClass.AppendLine($@"using {nameSpace}.Entities.Base;
+using System;
+
+namespace {nameSpace}.Entities
+{{
+	public class {tableName} : {tableName}Base
+	{{");
+
+		foreach (DataColumn dc in dt.Columns)
+		{
+			generateProperty(sbBaseClass, dc, table);
+		}
+
+		var tbls = helper.GetParentTables(tableName)
+			.Where(t => allTables.Contains(t.Item1));
+		if (tbls.Any())
+		{
+			sbBaseClass.AppendLine();
+			foreach (var tbl in tbls)
+			{
+				sbBaseClass.AppendLine($@"		public virtual {tbl.Item1} {tbl.Item2.Substring(0, tbl.Item2.Length - 2)} {{ get; set; }}");
+				sbBaseClass.AppendLine();
+				if (tbl.Item3 != tbl.Item2)
+				{
+					foreignKeyMismatches.Add(new Tuple<string, string>(tbl.Item2, tbl.Item4));
+				}
+			}
+		}
+
+		var childTbls = helper.GetChildTables(tableName)
+			.Where(t => allTables.Contains(t.Item1));
+		if (childTbls.Any())
+		{
+			sbBaseClass.AppendLine();
+			List<string> generatedChildren = new List<string>();
+				foreach (var tbl in childTbls)
+			{
+				var cnt = generatedChildren.Count(c => c == tbl.Item1);
+				generatedChildren.Add(tbl.Item1);
+				sbBaseClass.AppendLine($@"		public virtual System.Collections.Generic.ICollection<{tbl.Item1}> {tbl.Item1}s{(cnt == 0 ? string.Empty : cnt.ToString())} {{ get; set; }}");
+				sbBaseClass.AppendLine();
+			}
+		}
+	
+		sbBaseClass.AppendLine(@"	}
+}");
+
+		sbClass.AppendLine(@"	}
+}");
+
+		var fileName = Path.Combine(projectDinf.FullName, "Entities", "Base", $"{tableName}Base.cs");
+		if (!Directory.Exists(Path.GetDirectoryName(fileName)))
+			Directory.CreateDirectory(Path.GetDirectoryName(fileName));
+		File.WriteAllText(fileName, sbBaseClass.ToString());
+		fileName = Path.Combine(projectDinf.FullName, "Entities", $"{tableName}.cs");
+		if (!File.Exists(fileName))
+			File.WriteAllText(fileName, sbClass.ToString());
+
+		return foreignKeyMismatches;
+	}
+
+	private static void generateProperty(StringBuilder sb, DataColumn dc, XmlNode table)
+	{
+		if (dc.ColumnName == "ModifiedBy" || dc.ColumnName == "ModifiedDT") return;
+
+		var type = dc.DataType.ToString();
+		var colNode = table.SelectNodes("column").OfType<XmlNode>().FirstOrDefault(c => c.Attributes["name"].Value == dc.ColumnName);
+		bool isEnum = false;
+		if (colNode != null && colNode.Attributes["enumtype"] != null) 
+		{
+			type = colNode.Attributes["enumtype"].Value;
+			isEnum = true;
+		}
+
+		if (dc.Table.PrimaryKey.Any(k => k.ColumnName == dc.ColumnName))
+		{
+			sb.AppendLine("		[NotMapped]");
+			sb.AppendLine($"		public override int ID {{ get {{ return {dc.ColumnName}; }} set {{ {dc.ColumnName} = value; }} }}");
+			sb.AppendLine();
+		}
+
+		if (dc.AutoIncrement)
+			sb.AppendLine("		[DatabaseGenerated(DatabaseGeneratedOption.Identity)]");
+		if (dc.Table.PrimaryKey.Any(k => k.ColumnName == dc.ColumnName))
+		{
+			sb.AppendLine("		[Key]");
+		}
+
+		sb.AppendLine("		[Column]");
+		
+		sb.AppendLine($@"		public virtual {type}{(dc.AllowDBNull && dc.DataType != typeof(System.String) ? "?" : "")} {dc.ColumnName} {{ get; set; }}");
+
+		if (isEnum) 
+		{
+			sb.AppendLine("		[NotMapped]");
+			sb.AppendLine($@"		public virtual string {dc.ColumnName}String {{ get {{ return PaJaMa.Common.EnumHelper.GetEnumDisplay({dc.ColumnName}); }} }}");
+		}
+	}
+}
+#>

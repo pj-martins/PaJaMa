@@ -19,4 +19,14 @@ namespace PaJaMa.Recipes.Model.Entities
             get { return RecipeSource == null ? string.Empty : RecipeSource.RecipeSourceName; }
         }
     }
+
+	public class RecipeSearch
+	{
+		public int ID { get; set; }
+		public int RecipeID { get; set; }
+		public string RecipeName { get; set; }
+		public string IngredientString { get; set; }
+		public float? Rating { get; set; }
+		public string CoverImageURL { get; set; }
+	}
 }

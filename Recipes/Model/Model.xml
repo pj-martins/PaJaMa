@@ -1,0 +1,24 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<tables>
+	<table name="Recipe">
+		<column name="RecipeType" enumtype="RecipeType"></column>
+	</table>
+	<table name="RecipeImage">
+	</table>
+	<table name="RecipeIngredientMeasurement">
+	</table>
+	<table name="IngredientMeasurement">
+	</table>
+	<table name="IngredientMeasurementAlternate">
+	</table>
+	<table name="Ingredient">
+	</table>
+	<table name="Measurement">
+	</table>
+	<table name="RecipeSource">
+	</table>
+	<table name="User">
+	</table>
+	<table name="UserRecipe">
+	</table>
+</tables>

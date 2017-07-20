@@ -96,7 +96,7 @@
 		var ingredientLists = { };
 		$scope.getIngredientList = function (recipe) {
 			if (!ingredientLists[recipe.id])
-				ingredientLists[recipe.id] = $sce.trustAsHtml(recipe.ingredients.join('<br />'));
+				ingredientLists[recipe.id] = recipe.ingredientString ? $sce.trustAsHtml(recipe.ingredientString.replace(/ __ /g, '<br />')) : '';
 			return ingredientLists[recipe.id];
 		}
 
@@ -108,6 +108,8 @@
 			$scope.picturesOnly = false;
 			$scope.searchResults = null;
 			$scope.source = null;
+			$scope.recipeName = null;
+			$scope.disableScrolling = true;
 			$scope.resultsText = "No recipes found.";
 		};
 

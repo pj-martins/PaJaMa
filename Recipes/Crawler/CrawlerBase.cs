@@ -32,7 +32,7 @@ namespace Crawler
 			}
 		}
 
-		public RecipesContext DbContext { get; set; }
+		protected RecipesContext dbContext { get; private set; }
 		protected WebClient webClient { get; private set; }
 		protected RecipeSource recipeSource { get; private set; }
 		protected List<string> existingRecipes { get; private set; }
@@ -48,12 +48,7 @@ namespace Crawler
 
 		protected virtual string servingsXPath
 		{
-			get { return "//*[@itemprop='yield']"; }
-		}
-
-		protected virtual string servings2XPath
-		{
-			get { return "//*[@itemprop='recipeYield']"; }
+			get { return "//*[@itemprop='yield' or @itemprop='recipeYield' or @itemprop='recipeyield']"; }
 		}
 
 		protected virtual string recipeNameXPath
@@ -63,12 +58,7 @@ namespace Crawler
 
 		protected virtual string directionsXPath
 		{
-			get { return "//*[@itemprop='instructions']"; }
-		}
-
-		protected virtual string directions2XPath
-		{
-			get { return "//*[@itemprop='recipeInstructions']"; }
+			get { return "//*[@itemprop='instructions' or @itemprop='recipeInstructions']"; }
 		}
 
 		protected virtual string ingredientsXPath
@@ -88,22 +78,12 @@ namespace Crawler
 
 		protected virtual string imagesXPath
 		{
-			get { return "//*[@itemprop='photo']"; }
-		}
-
-		protected virtual string images2XPath
-		{
-			get { return "//*[@itemprop='image']"; }
+			get { return "//*[@itemprop='photo' or @itemprop='image']"; }
 		}
 
 		protected virtual string ratingXPath
 		{
-			get { return "//*[@itemprop='rating']"; }
-		}
-
-		protected virtual string rating2XPath
-		{
-			get { return "//*[@itemprop='ratingValue']"; }
+			get { return "//*[@itemprop='rating' or @itemprop='ratingValue']"; }
 		}
 
 		protected virtual PageNumbers pageNumberURLRegex { get { return null; } }
@@ -134,7 +114,7 @@ namespace Crawler
 			if (qty != null)
 			{
 				var ingr = doc.DocumentNode.SelectSingleNode(ingredientNameXPath);
-				var meas = CrawlerHelper.GetIngredientQuantity(DbContext, qty.InnerText, true, false);
+				var meas = CrawlerHelper.GetIngredientQuantity(dbContext, qty.InnerText, true, false);
 				var ingrText = PaJaMa.Common.Common.StripHTML(ingr.InnerText).Trim();
 				if (meas.Item2 == null && string.IsNullOrEmpty(ingrText))
 					return null;
@@ -142,16 +122,20 @@ namespace Crawler
 			}
 			var innerText = Common.StripHTML(innerHtml).Trim();
 			if (string.IsNullOrEmpty(innerText)) return null;
-			return CrawlerHelper.GetIngredientQuantity(DbContext, innerText, false, true);
+			return CrawlerHelper.GetIngredientQuantity(dbContext, innerText, false, true);
 		}
 
 		public CrawlerBase()
 		{
 			webClient = new WebClient();
+			dbContext = new RecipesContext();
+			dbContext.Configuration.AutoDetectChangesEnabled = false;
+			dbContext.Database.CommandTimeout = 120;
+			recipeSource = CrawlerHelper.GetRecipeSource(dbContext, myAttribute.RecipeSourceName);
 		}
 
 		[DebuggerNonUserCode()]
-		protected virtual string getHTML(string url)
+		protected virtual string getHTML(string url, Dictionary<string, string> headers = null)
 		{
 			string html = string.Empty;
 			int tries = 3;
@@ -159,7 +143,17 @@ namespace Crawler
 			{
 				try
 				{
+					if (headers != null)
+						webClient = new WebClient();
+
 					webClient.Headers.Add("User-Agent: Other");
+					if (headers != null)
+					{
+						foreach (var kvp in headers)
+						{
+							webClient.Headers.Add(kvp.Key, kvp.Value);
+						}
+					}
 					html = webClient.DownloadString(url);
 					break;
 				}
@@ -173,59 +167,105 @@ namespace Crawler
 			return html;
 		}
 
-		public void Crawl(RecipesContext db)
+		protected virtual string postHTML(string url, string data)
 		{
-			DbContext = db;
+			string html = string.Empty;
+			int tries = 3;
+			while (tries > 0)
+			{
+				try
+				{
+					webClient.Headers.Add("User-Agent: Other");
+					html = webClient.UploadString(url, data);
+					break;
+				}
+				catch
+				{
+					tries--;
+					if (tries == 0) throw;
+					System.Threading.Thread.Sleep(2500);
+				}
+			}
+			return html;
+		}
+
+		public void Crawl()
+		{
 			lock (CrawlerHelper.LockObject)
 			{
-				recipeSource = CrawlerHelper.GetRecipeSource(DbContext, myAttribute.RecipeSourceName);
 				string sql = string.Format("select {0} from Recipe where RecipeSourceID = {1}", myAttribute.UniqueRecipeName ? "RecipeName" : "RecipeURL", recipeSource.ID);
 				//existingRecipes = myAttribute.UniqueRecipeName ? recipeSource.Recipes.Select(r => r.RecipeName).ToList()
 				//	: recipeSource.Recipes.Select(r => r.RecipeURL).ToList();
 				var dt = new DataTable();
-				using (var cmd = db.Database.Connection.CreateCommand())
+				using (var cmd = dbContext.Database.Connection.CreateCommand())
 				{
 					cmd.CommandTimeout = 300;
 					cmd.CommandText = sql;
-					db.Database.Connection.Open();
+					dbContext.Database.Connection.Open();
 					using (var dr = cmd.ExecuteReader())
 						dt.Load(dr);
-					db.Database.Connection.Close();
+					dbContext.Database.Connection.Close();
 				}
 				existingRecipes = dt.Rows.OfType<DataRow>().Select(dr => dr[0].ToString()).ToList();
 			}
-			crawl(myAttribute.StartPage);
+			crawl();
 		}
 
-		protected virtual void crawl(int startPage)
+		protected virtual void crawl()
 		{
 			string html = getHTML(baseURL + allURL);
 			var doc = new HtmlDocument();
 			doc.LoadHtml(html);
 
+			var fn = this.GetType().Name + ".txt";
 
 			List<string> keywordPages = getKeywordPages(doc);
+			int forceStartPage = -1;
+			if (System.IO.File.Exists(fn))
+			{
+				var parts = System.IO.File.ReadAllText(fn).Split(new string[] { " page " }, StringSplitOptions.RemoveEmptyEntries);
+				var i = keywordPages.ToList().IndexOf(parts[0]);
+				keywordPages = keywordPages.Skip(i).ToList();
+				forceStartPage = Convert.ToInt16(parts[1]);
+			}
 
 			foreach (string keywordPage in keywordPages)
 			{
 				Console.WriteLine(myAttribute.RecipeSourceName + " - Keyword " + keywordPage);
 
 				int tempInt = 1;
+				int startPage = myAttribute.StartsAt0 ? 0 : 1;
 				if (pageNumberURLRegex == null || string.IsNullOrEmpty(pageNumberURLRegex.MaxPageRegexPattern))
 				{
-					for (int i = 0; i < tempInt; i++)
+					if (forceStartPage != -1)
 					{
-						crawlPage(getPageURL(keywordPage, i), i, ref tempInt);
+						startPage = forceStartPage;
+						tempInt = startPage + 1;
+						forceStartPage = -1;
+					}
+
+					for (int i = startPage; i < tempInt; i++)
+					{
+						crawlPage(getPageURL(keywordPage, i), keywordPage, i, ref tempInt);
+						System.IO.File.WriteAllText(fn, keywordPage + " page " + i.ToString());
 					}
 				}
 				else
 				{
 					html = getHTML(keywordPage);
-					MatchCollection mc2 = Regex.Matches(html, pageNumberURLRegex.MaxPageRegexPattern, RegexOptions.Singleline);
+					MatchCollection mc2 = Regex.Matches(html, pageNumberURLRegex.MaxPageRegexPattern, RegexOptions.Singleline | RegexOptions.IgnoreCase);
 					if (mc2.Count < 1)
 					{
 						tempInt = 1;
-						crawlPage(keywordPage, 1, ref tempInt);
+						if (forceStartPage != -1)
+						{
+							startPage = forceStartPage;
+							tempInt = startPage + 1;
+							forceStartPage = -1;
+						}
+
+						crawlPage(keywordPage, keywordPage, startPage, ref tempInt);
+						System.IO.File.WriteAllText(fn, keywordPage + " page " + tempInt.ToString());
 					}
 					else
 					{
@@ -233,11 +273,17 @@ namespace Crawler
 						int maxPage = getMaxPage((from m2 in mc2.OfType<Match>()
 												  where float.TryParse(m2.Groups[1].Value.Replace(",", ""), out temp)
 												  select float.Parse(m2.Groups[1].Value.Replace(",", ""))).Max());
+						if (forceStartPage != -1)
+						{
+							startPage = forceStartPage;
+							forceStartPage = -1;
+						}
 
 						for (int i = startPage; i <= maxPage; i++)
 						{
-							Console.WriteLine(myAttribute.RecipeSourceName + " - Page " + i + " of " + maxPage);
-							crawlPage(getPageURL(keywordPage, i), i, ref maxPage);
+							Console.WriteLine(myAttribute.RecipeSourceName + " - Page " + i + " of " + maxPage + " - " + keywordPage);
+							crawlPage(getPageURL(keywordPage, i), keywordPage, i, ref maxPage);
+							System.IO.File.WriteAllText(fn, keywordPage + " page " + i.ToString());
 						}
 					}
 				}
@@ -256,9 +302,9 @@ namespace Crawler
 			return keywordPage + (keywordPage.EndsWith(".com") ? "/" : "") + (pageNumberURLRegex == null || pageNum == 0 ? string.Empty : string.Format(pageNumberURLRegex.URLFormat, pageNum));
 		}
 
-		protected virtual void crawlPage(string url, int pageNum, ref int maxPage)
+		protected virtual void crawlPage(string url, string keyword, int pageNum, ref int maxPage)
 		{
-			Console.WriteLine("Page " + pageNum.ToString() + " of " + maxPage.ToString());
+			Console.WriteLine("Page " + pageNum.ToString() + " of " + maxPage.ToString() + " - " + keyword);
 			var doc = new HtmlDocument();
 			try
 			{
@@ -274,7 +320,12 @@ namespace Crawler
 				else
 					throw new Exception(ex.GetFullExceptionTextWithStackTrace());
 			}
-			var urls = getRecipeURLs(doc);
+			crawlRecipeURLs(getRecipeURLs(doc), pageNum, maxPage);
+			updateMaxPage(doc, ref maxPage);
+		}
+
+		protected void crawlRecipeURLs(Dictionary<string, string> urls, int pageNum, int maxPage)
+		{
 			foreach (var kvp in urls)
 			{
 				try
@@ -290,7 +341,6 @@ namespace Crawler
 					string recipeName = CrawlerHelper.ChildSafeName(Common.StripHTML(HttpUtility.HtmlDecode(kvp.Value))).Trim();
 
 					string display = myAttribute.RecipeSourceName + " - Page " + pageNum + " of " + maxPage + " - " + (string.IsNullOrEmpty(recipeName) ? recipeURL : recipeName);
-					Console.WriteLine(display);
 
 					if (existingRecipes.Contains(myAttribute.UniqueRecipeName ? recipeName : recipeURL))
 					{
@@ -298,11 +348,14 @@ namespace Crawler
 						continue;
 					}
 
-					Console.WriteLine("* " + display);
-
 					lock (CrawlerHelper.LockObject)
-						CreateRecipe(recipeURL, recipeName, recipeSource.RecipeSourceID);
-
+					{
+						var rec = CreateRecipe(recipeURL, recipeName);
+						if (rec != null)
+							Console.ForegroundColor = ConsoleColor.Blue;
+						Console.WriteLine(display);
+						Console.ResetColor();
+					}
 					existingRecipes.Add(myAttribute.UniqueRecipeName ? recipeName : recipeURL);
 				}
 				catch (Exception ex)
@@ -311,11 +364,9 @@ namespace Crawler
 					System.IO.File.AppendAllText("errors.txt", ex.GetFullExceptionTextWithStackTrace());
 				}
 			}
-
-			updateMaxPage(doc, ref maxPage);
 		}
 
-		public virtual Recipe CreateRecipe(string recipeURL, string recipeName, int recipeSourceID)
+		public virtual Recipe CreateRecipe(string recipeURL, string recipeName)
 		{
 			string html = getHTML(recipeURL);
 
@@ -333,13 +384,11 @@ namespace Crawler
 			}
 
 			Recipe rec = new Recipe();
-			rec.RecipeSourceID = recipeSourceID;
+			rec.RecipeSourceID = recipeSource.RecipeSourceID;
 			rec.RecipeName = recipeName;
 			rec.RecipeURL = recipeURL;
 
 			var directions = doc.DocumentNode.SelectNodes(directionsXPath);
-			if (directions == null || !directions.Any())
-				directions = doc.DocumentNode.SelectNodes(directions2XPath);
 			rec.Directions = string.Empty;
 			if (directions != null)
 			{
@@ -351,7 +400,8 @@ namespace Crawler
 			}
 			rec.Rating = getRating(doc.DocumentNode);
 
-			if (rec.Rating != null && rec.Rating.Value < 4)
+			// if (rec.Rating.GetValueOrDefault() > 0 && rec.Rating.Value < 4)
+			if (rec.Rating.GetValueOrDefault() < 4 && (!myAttribute.IncludeNoRating || rec.Rating != null))
 				return null;
 
 			rec.NumberOfServings = getServings(doc.DocumentNode);
@@ -366,8 +416,8 @@ namespace Crawler
 			foreach (var img in getRecipeImages(doc.DocumentNode))
 				rec.RecipeImages.Add(img);
 
-			DbContext.Recipes.Add(rec);
-			DbContext.SaveChanges();
+			dbContext.Recipes.Add(rec);
+			dbContext.SaveChanges();
 			return rec;
 		}
 
@@ -381,7 +431,7 @@ namespace Crawler
 				var ing = getIngredient(ingredient);
 				if (ing == null || string.IsNullOrEmpty(ing.Item1))
 					continue;
-				recIngrs.Add(CrawlerHelper.GetIngredient(DbContext, ing.Item1, ing.Item2, ing.Item3));
+				recIngrs.Add(CrawlerHelper.GetIngredient(dbContext, ing.Item1, ing.Item2, ing.Item3));
 			}
 			return recIngrs;
 		}
@@ -399,7 +449,6 @@ namespace Crawler
 			{
 				List<string> imageURLs = new List<string>();
 				var imageNodes = pageNode.SelectNodes(imagesXPath);
-				if (imageNodes == null) imageNodes = pageNode.SelectNodes(images2XPath);
 				if (imageNodes == null) continue;
 				foreach (var imgNode in imageNodes)
 				{
@@ -424,7 +473,6 @@ namespace Crawler
 		protected virtual int? getServings(HtmlNode node)
 		{
 			var servingsNode = node.SelectSingleNode(servingsXPath);
-			if (servingsNode == null) servingsNode = node.SelectSingleNode(servings2XPath);
 			if (servingsNode != null)
 			{
 				int tempInt = -1;
@@ -444,7 +492,6 @@ namespace Crawler
 		protected virtual float? getRating(HtmlNode node)
 		{
 			var ratingNode = node.SelectSingleNode(ratingXPath);
-			if (ratingNode == null) ratingNode = node.SelectSingleNode(rating2XPath);
 			if (ratingNode != null)
 			{
 				float rating = 0;

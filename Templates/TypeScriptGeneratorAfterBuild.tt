@@ -1,0 +1,358 @@
+﻿<#@ template debug="false" hostspecific="true" language="C#" #>
+<#@ assembly name="System.Core" #>
+<#@ assembly name="$(TargetPath)" #>
+<#@ import namespace="System.IO" #>
+<#@ import namespace="System.Linq" #>
+<#@ import namespace="System.Reflection" #>
+<#@ import namespace="System.Text" #>
+<#@ import namespace="System.Text.RegularExpressions" #>
+<#@ import namespace="System.Collections" #>
+<#@ import namespace="System.Collections.Generic" #>
+<#@ assembly name="$(SolutionDir)..\SLO.Data\bin\Debug\SLO.Data.dll" #>
+<#@ assembly name="EnvDTE" #>
+<#@ import namespace="EnvDTE" #>
+<#@ output extension=".ts" #>
+<#
+	var serviceProvider = this.Host as IServiceProvider;
+	var dte = serviceProvider.GetService(typeof(DTE)) as DTE;
+	var sbContext = new StringBuilder();
+
+	DirectoryInfo projectDinf = null;
+	var projDLL = string.Empty;
+	foreach (Project p in dte.Solution.Projects) 
+	{
+		projectDinf = new DirectoryInfo(Path.GetDirectoryName(p.FullName));
+		if (!File.Exists(Path.Combine(projectDinf.FullName, "Model", "Model.xml"))) continue;projDLL = p.Name + ".dll";
+		break;
+	}
+	var helper = new GenerateHelper(projectDinf.FullName, projectDinf, projDLL);
+	helper.GenerateDtos();
+	helper.GenerateApiService();
+        
+#>
+<#+
+public class GenerateHelper
+{
+	public List<Tuple<string, string>> MappedTypes { get; private set; }
+	private string _entitiesDirectory;
+	private string _servicesDirectory;
+	private DirectoryInfo _projectDinf;
+	private string _projDLL;
+
+	public GenerateHelper(string directory, DirectoryInfo projectDinf, string projDLL)
+	{
+		this.MappedTypes = new List<Tuple<string, string>>(); 
+		_entitiesDirectory = Path.Combine(directory, "src", "app", "shared", "entities");
+		_servicesDirectory = Path.Combine(directory, "src", "app", "shared", "services");
+		_projectDinf = projectDinf;
+		var tempPath = Path.Combine(Path.GetTempPath(), Guid.NewGuid().ToString());
+		Directory.CreateDirectory(tempPath);
+		foreach (var finf in new DirectoryInfo(Path.Combine(projectDinf.FullName, "bin")).GetFiles())
+		{
+			finf.CopyTo(Path.Combine(tempPath, finf.Name));
+		}
+		
+		_projDLL = Path.Combine(tempPath, projDLL);
+	}
+
+	public void GenerateDtos()
+    {
+        var generates = new List<Tuple<int, string, StringBuilder>>();
+		StringBuilder sbEnums = new StringBuilder();
+
+		var asm = Assembly.LoadFrom(_projDLL);
+        var tstypes = new List<Type>();
+        tstypes = asm.GetTypes().Where(t => t.IsSubclassOf(typeof(SLO.Data.EntityDtoBase)) && !t.IsAbstract).ToList();
+
+        var imports = new Dictionary<Type, string>();
+        foreach (var type in tstypes)
+        {
+            generateClassText(type, generates, imports, 1000, sbEnums);
+        }
+
+        try
+        {
+            StringBuilder sb = new StringBuilder();
+            foreach (var kvp in imports)
+                sb.AppendLine(kvp.Value);
+
+            if (imports.Any())
+                sb.AppendLine();
+
+            foreach (var g in generates.OrderBy(t => t.Item1))
+            {
+                sb.AppendLine(g.Item3.ToString());
+            }
+            
+			if (!Directory.Exists(_entitiesDirectory))
+				Directory.CreateDirectory(_entitiesDirectory);
+
+			sb.Insert(0, "// !!!! DO NOT MAKE CHANGES IN HERE HERE THEY WILL GET OVERWRITTEN WHEN TEMPLATE GETS GENERATED !!!!\r\n\r\n");
+			var p = System.Diagnostics.Process.Start(@"C:\Program Files (x86)\Microsoft Visual Studio 14.0\Common7\IDE\TF.exe", "checkout \"" + 
+				Path.Combine(_entitiesDirectory, "classes.ts") + "\"");
+			p.WaitForExit();
+			File.WriteAllText(Path.Combine(_entitiesDirectory, "classes.ts"), sb.ToString());
+
+			sbEnums.Insert(0, "// !!!! DO NOT MAKE CHANGES IN HERE HERE THEY WILL GET OVERWRITTEN WHEN TEMPLATE GETS GENERATED !!!!\r\n\r\n");
+			p = System.Diagnostics.Process.Start(@"C:\Program Files (x86)\Microsoft Visual Studio 14.0\Common7\IDE\TF.exe", "checkout \"" + 
+				Path.Combine(_entitiesDirectory, "enums.ts") + "\"");
+			p.WaitForExit();
+			File.WriteAllText(Path.Combine(_entitiesDirectory, "enums.ts"), sbEnums.ToString());
+			
+        }
+        catch (Exception ex)
+        {
+            throw new Exception("is interfaces.ts, classes.ts and enums.ts checked out?!?! " + ex.Message);
+        }
+    }
+
+    private void generateClassText(Type type, List<Tuple<int, string, StringBuilder>> generates, Dictionary<Type, string> imports, int key,
+		StringBuilder sbEnums)
+    {
+        var className = GetTypeName(type);
+        if (generates.Any(g => g.Item2 == className))
+            return;
+
+        var sb = new StringBuilder();
+        generates.Add(new Tuple<int, string, StringBuilder>(key, className, sb));
+
+        sb.AppendLine(string.Format("export class {0} {{", className));
+
+		if (!MappedTypes.Any(t => t.Item1 == type.Name))
+			MappedTypes.Add(new Tuple<string, string>(type.Name, className));
+        
+		/*
+		var genProps = type.GetProperties(BindingFlags.Public | BindingFlags.Instance | BindingFlags.DeclaredOnly)
+			.Union(type.BaseType.GetProperties(BindingFlags.Public | BindingFlags.Instance | BindingFlags.DeclaredOnly));
+		*/
+		var genProps = type.GetProperties(BindingFlags.Public | BindingFlags.Instance);
+
+		var ignoreProps = genProps.Where(prop => prop.GetCustomAttributes().Any(a => a.ToString().Contains("JsonIgnore")))
+				.Select(p => p.Name);
+
+		var generatedProps = new List<string>();
+		foreach (var prop in genProps)
+        {
+			if (ignoreProps.Any(p => p == prop.Name)) continue;
+			if (generatedProps.Contains(prop.Name)) continue;
+			generatedProps.Add(prop.Name);
+            Type dependentType = null;
+            string tsType = GetTypeScriptType(prop.PropertyType, imports, sbEnums);
+            if (prop.PropertyType.GetGenericArguments().Any() && prop.PropertyType.GetInterface(typeof(IEnumerable).Name) != null)
+            {
+                var innerType = prop.PropertyType.GetGenericArguments().First();
+                var innerTypeScriptType = GetTypeScriptType(innerType, imports, sbEnums);
+                if (string.IsNullOrEmpty(innerTypeScriptType))
+                {
+                    dependentType = innerType;
+                    innerTypeScriptType = GetTypeName(innerType);
+                }
+                tsType = "Array<" + innerTypeScriptType + ">";
+            }
+            else if (prop.PropertyType.IsArray)
+            {
+				if (prop.PropertyType == typeof(byte[]))
+				{
+					tsType = "Uint8Array";
+				}
+				else
+				{
+					var innerType = prop.PropertyType.GetElementType();
+					var innerTypeScriptType = GetTypeScriptType(innerType, imports, sbEnums);
+					if (string.IsNullOrEmpty(innerTypeScriptType))
+					{
+						dependentType = innerType;
+						innerTypeScriptType = GetTypeName(innerType);
+					}
+					tsType = "Array<" + innerTypeScriptType + ">";
+				}
+            }
+            else if (string.IsNullOrEmpty(tsType) && (prop.PropertyType.IsClass || prop.PropertyType.IsInterface))
+            {
+                if (prop.PropertyType == typeof(object))
+                    continue;
+
+                tsType = GetTypeName(prop.PropertyType);
+            }
+            else if (string.IsNullOrEmpty(tsType))
+            {
+                throw new NotImplementedException(prop.PropertyType.FullName);
+            }
+
+            sb.AppendLine("\t" + GetJsonName(prop.Name) + ": " + tsType + ";");
+            if (dependentType != null)
+                generateClassText(dependentType, generates, imports, key - 1, sbEnums);
+        }
+        sb.AppendLine("}");
+    }
+
+	public void GenerateApiService()
+	{
+		List<string> classesImports = new List<string>();
+		List<string> interfacesImports = new List<string>();
+
+		var sb = new StringBuilder(@"import { Injectable } from '@angular/core';
+import { DataService, Items, GetArguments } from './data.service';
+import { Http } from '@angular/http';
+import { Observable } from 'rxjs/Rx';
+
+@Injectable()
+export class ApiService extends DataService {
+	API_URL = ""api/"";
+
+	constructor(protected http: Http) { super(http); }
+
+");
+		var asm = Assembly.LoadFrom(_projDLL);
+		
+		var ctrlers = asm.GetTypes().Where(t => !t.IsAbstract && t.GetInterface("IApiController") != null);
+		
+		foreach (var ctrler in ctrlers)
+		{
+			var dtoType = ctrler.BaseType.GetGenericArguments().Last();
+			var dtoTypeName = GetTypeName(dtoType);
+			sb.AppendLine(string.Format(@"	get{0}s(args?: GetArguments) : Observable<Items<{0}>> {{
+		let url = '{0}' + (args && args.includeCount ? '/entitiesOData' : '/entities');
+		return this.getItems<{0}>(this.API_URL + url, args);
+	}}
+
+	get{0}(id: number): Observable<{0}> {{
+		return this.getItem<{0}>(`${{this.API_URL}}{0}/entity/${{id}}`);
+	}}
+
+	insert{0}({1}: {0}): Observable<{0}> {{
+		return this.post(`${{this.API_URL}}{0}/postEntity`, {1});
+	}}
+
+	update{0}({1}: {0}): Observable<{0}> {{
+		return this.put(`${{this.API_URL}}{0}/putEntity/${{{1}.id}}`, {1});
+	}}
+
+	delete{0}(id: number): Observable<boolean> {{
+		return this.delete(`${{this.API_URL}}{0}/deleteEntity/${{id}}`);
+	}}
+
+
+", dtoTypeName, GetJsonName(dtoTypeName)));
+			classesImports.Add(dtoTypeName);
+		}
+		
+
+		sb.AppendLine("}");
+
+		if (classesImports.Any())
+			sb.Insert(0, "import { " + string.Join(", ", classesImports.Distinct().ToArray()) + " } from '../entities/classes';\r\n");
+		if (interfacesImports.Any())
+			sb.Insert(0, "import { " + string.Join(", ", interfacesImports.Distinct().ToArray()) + " } from '../entities/interfaces';\r\n");
+
+		if (!Directory.Exists(_servicesDirectory))
+				Directory.CreateDirectory(_servicesDirectory);
+			
+		sb.Insert(0, "// !!!! DO NOT MAKE CHANGES IN HERE HERE THEY WILL GET OVERWRITTEN WHEN TEMPLATE GETS GENERATED !!!!\r\n\r\n");
+		var p = System.Diagnostics.Process.Start(@"C:\Program Files (x86)\Microsoft Visual Studio 14.0\Common7\IDE\TF.exe", "checkout \"" + 
+				Path.Combine(_servicesDirectory, "api.service.ts") + "\"");
+		p.WaitForExit();
+		File.WriteAllText(Path.Combine(_servicesDirectory, "api.service.ts"), sb.ToString());
+	}
+
+	private static bool IsSubclassOfRawGeneric(Type generic, Type toCheck) {
+		while (toCheck != null && toCheck != typeof(object)) {
+			var cur = toCheck.IsGenericType ? toCheck.GetGenericTypeDefinition() : toCheck;
+			if (generic == cur) {
+				return true;
+			}
+			toCheck = toCheck.BaseType;
+		}
+		return false;
+	}
+
+    private static bool IsType(Type type, params Type[] checkTypes)
+    {
+        foreach (var checkType in checkTypes)
+        {
+            if (type == checkType || type.GetGenericArguments().Any(a => a == checkType))
+                return true;
+        }
+
+        return false;
+    }
+
+	private static string GetJsonName(string name)
+    {
+        int firstLowerIndex = -1;
+        for (int i = 0; i < name.Length; i++)
+        {
+            if (char.IsLower(name[i]))
+            {
+                firstLowerIndex = i;
+                break;
+            }
+        }
+
+        if (firstLowerIndex < 0)
+            return name.ToLower();
+
+        if (firstLowerIndex == 0)
+            return name;
+
+        if (firstLowerIndex == 1)
+            return name.Substring(0, 1).ToLower() + name.Substring(1);
+
+        return name.Substring(0, firstLowerIndex - 1).ToLower() + name.Substring(firstLowerIndex - 1);
+
+    }
+
+    private static string GetTypeScriptType(Type type, Dictionary<Type, string> imports, StringBuilder sbEnums)
+    {
+        string tsType = string.Empty;
+        if (type.IsEnum)
+        {
+            tsType = type.Name;
+            // all enums in dtos must be exported
+            if (!imports.ContainsKey(type))
+			{
+                imports.Add(type, "import { " + type.Name + " } from './enums';");
+
+				sbEnums.AppendLine(string.Format(@"export enum {0} {{", type.Name));
+
+				// TODO: gauranteed that all enums are ints?
+				bool firstIn = true;
+				foreach (var e in Enum.GetNames(type))
+				{
+					sbEnums.AppendLine("\t" + e + " = " + ((int)Enum.Parse(type, e)).ToString() + ",");
+					firstIn = false;
+				}
+
+				sbEnums.AppendLine("}");
+				sbEnums.AppendLine();
+			}
+        }
+        else if (IsType(type, typeof(string), typeof(Guid)))
+        {
+            tsType = "string";
+        }
+        else if (IsType(type, typeof(DateTime)))
+        {
+            tsType = "Date";
+        }
+		else if (IsType(type, typeof(TimeSpan)))
+		{
+			tsType = "Date";
+		}
+        else if (IsType(type, typeof(bool)))
+        {
+            tsType = "boolean";
+        }
+        else if (IsType(type, typeof(Int16), typeof(Int32), typeof(Int64), typeof(Decimal), typeof(float)))
+        {
+            tsType = "number";
+        }
+        return tsType;
+    }
+
+    private static string GetTypeName(Type type)
+    {
+        return type.Name.EndsWith("Dto") ? type.Name.Substring(0, type.Name.Length - 3) : type.Name;
+    }
+}
+#>

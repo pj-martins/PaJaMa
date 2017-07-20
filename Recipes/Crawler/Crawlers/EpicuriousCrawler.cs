@@ -13,65 +13,61 @@ using HtmlAgilityPack;
 
 namespace Crawler.Crawlers
 {
-    [RecipeSource("Epicurious")]
-    public class EpicuriousCrawler : CrawlerBase
-    {
-        protected override string baseURL
-        {
-            get { return "http://www.epicurious.com"; }
-        }
+	[RecipeSource("Epicurious")]
+	public class EpicuriousCrawler : CrawlerBase
+	{
+		protected override string baseURL
+		{
+			get { return "http://www.epicurious.com"; }
+		}
 
-        protected override string allURL
-        {
-            get { return "/search/?meal=dinner%2Clunch%2Cside%2Cappetizer%2Cbrunch%2Cbreakfast%2Cdessert%2Cbuffet"; }
-        }
+		protected override PageNumbers pageNumberURLRegex
+		{
+			get
+			{
+				return new PageNumbers()
+				{
+					URLFormat = "?page={0}",
+					MaxPageRegexPattern = "\\?page=(\\d*)"
+				};
+			}
+		}
 
-        protected override PageNumbers pageNumberURLRegex
-        {
-            get
-            {
-                return new PageNumbers()
-                {
-                    URLFormat = "&page={0}"
-                };
-            }
-        }
+		protected override string recipesXPath
+		{
+			get { return "//h4[@itemprop='name']/a[contains(@href, '/recipes/')]"; }
+		}
 
-        protected override string recipesXPath
-        {
-            get { return "//h4[@itemprop='name']/a[contains(@href, '/recipes/')]"; }
-        }
+		//protected override string recipeNameXPath
+		//{
+		//    get { return "//meta[@itemprop='name']/@content"; }
+		//}
 
-        //protected override string recipeNameXPath
-        //{
-        //    get { return "//meta[@itemprop='name']/@content"; }
-        //}
+		protected override string imagesXPath
+		{
+			get { return "//img[@class='photo loaded']"; }
+		}
 
-        protected override string imagesXPath
-        {
-            get { return "//img[@class='photo loaded']"; }
-        }
+		protected override List<string> getKeywordPages(HtmlDocument document)
+		{
+			return Properties.Resources.Keywords.Split(new string[] { "\r\n" }, StringSplitOptions.RemoveEmptyEntries).Select(
+				k => baseURL + "/search/" + k).ToList();
+		}
 
-        protected override float? getRating(HtmlNode node)
-        {
-            var n = node.SelectSingleNode("//meta[@itemprop='ratingValue']");
-            var matchedRating = Convert.ToSingle(n.Attributes["content"].Value);
-            return (5 * matchedRating) / 4;
-        }
+		protected override float? getRating(HtmlNode node)
+		{
+			var n = node.SelectSingleNode("//meta[@itemprop='ratingValue']");
+			if (n == null) return null;
+			var matchedRating = Convert.ToSingle(n.Attributes["content"].Value);
+			return (5 * matchedRating) / 4;
+		}
 
-        protected override void updateMaxPage(HtmlDocument doc, ref int maxPage)
-        {
-            // TODO:
-            base.updateMaxPage(doc, ref maxPage);
-            maxPage++;
-        }
+		protected override string getImageURL(HtmlNode node)
+		{
+			return node.Attributes["srcset"].Value;
+		}
 
-        protected override string getImageURL(HtmlNode node)
-        {
-            return node.Attributes["srcset"].Value;
-        }
-
-        /*
+		/*
                 public static void Crawl(DataFactory df)
                 {
                     WebClient wc = new WebClient();
@@ -196,5 +192,5 @@ namespace Crawler.Crawlers
                     }
                 }
          */
-    }
+	}
 }

@@ -15,7 +15,7 @@ namespace Crawler.Crawlers
     [RecipeSource("Food.com")]
     public class FoodCrawler : CrawlerBase
     {
-        private bool _hasMore;
+        protected bool _hasMore;
 
         protected override string baseURL => "http://www.food.com/topics";
         protected override string imagesXPath => "//img[@class='recipe-main-img']";

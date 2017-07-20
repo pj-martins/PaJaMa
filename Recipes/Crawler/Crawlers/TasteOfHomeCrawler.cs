@@ -1,27 +1,68 @@
-﻿//using PaJaMa.Recipes.Model;
-//using System;
-//using System.Collections.Generic;
-//using System.Data;
-//using System.Linq;
-//using System.Net;
-//using System.Text;
-//using System.Text.RegularExpressions;
-//using System.Threading.Tasks;
+﻿using PaJaMa.Recipes.Model;
+using System;
+using System.Collections.Generic;
+using System.Data;
+using System.Linq;
+using System.Net;
+using System.Text;
+using System.Text.RegularExpressions;
+using System.Threading.Tasks;
+using HtmlAgilityPack;
 
-//namespace Crawler.Crawlers
-//{
-//    [RecipeSource("Taste Of Home")]
-//    public class TasteOfHomeCrawler : CrawlerBase
-//    {
-//        protected override string baseURL
-//        {
-//            get { return "http://www.tasteofhome.com"; }
-//        }
+namespace Crawler.Crawlers
+{
+	[RecipeSource("Taste Of Home")]
+	public class TasteOfHomeCrawler : CrawlerBase
+	{
+		protected override string baseURL
+		{
+			get { return "http://www.tasteofhome.com"; }
+		}
 
-//        protected override string allURL
-//        {
-//            get { return "/recipes/ingredients"; }
-//        }
+		protected override string allURL
+		{
+			get { return "/recipes/ingredients"; }
+		}
+
+		protected override List<string> getKeywordPages(HtmlDocument document)
+		{
+			return document.DocumentNode.SelectNodes("//a[@data-analytics-link_module='categorylist - hubs']")
+				.Select(n => n.Attributes["href"].Value).ToList();
+		}
+
+		protected override string directionsXPath
+		{
+			get
+			{
+				return "//*[@itemprop='recipeInstructions']//span[@class='rd_name']";
+			}
+		}
+
+		protected override string recipesXPath
+		{
+			get { return "//a[@class='rd_recipe_group_title']"; }
+		}
+
+		protected override PageNumbers pageNumberURLRegex
+		{
+			get
+			{
+				return new PageNumbers()
+				{
+					MaxPageRegexPattern = "<a href=\"javascript::void\\(0\\)\" class=\"\">(.*?)</a>",
+					URLFormat = "?page={0}"
+				};
+			}
+		}
+
+		protected override float? getRating(HtmlNode node)
+		{
+			var ratingNode = node.SelectSingleNode("//div[@class='rd_star_rating_font']");
+			if (ratingNode == null) return null;
+			return Convert.ToSingle(ratingNode.Attributes["data-rd-star-rating"].Value);
+		}
+	}
+}
 
 //        protected override string recipesRegexPattern
 //        {
@@ -182,7 +223,7 @@
 //                m2 = Regex.Match(html, "<ol class=\"rd_directions\">(.*?)</ol>", RegexOptions.Singleline);
 //                if (!m2.Success)
 //                    continue;
-				
+
 //                MatchCollection mc2 = Regex.Matches(m2.Groups[1].Value, "<span class=\"rd_name\">(.*?)</span>");
 //                if (mc2.Count < 1)
 //                    throw new NotImplementedException();
@@ -225,7 +266,7 @@
 //                if (!m2.Success)
 //                    throw new NotImplementedException();
 //                mc2 = Regex.Matches(m2.Groups[1].Value, "<span class=\"rd_name\" itemprop=\"ingredients\">(.*?)</span>");
-				
+
 //                foreach (Match m3 in mc2)
 //                {
 //                    Tuple<string, Measurement, float> ingr = CrawlerHelper.GetIngredientQuantity(df, m3.Groups[1].Value, false, true);
