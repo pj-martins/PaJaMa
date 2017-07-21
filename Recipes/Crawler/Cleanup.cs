@@ -26,6 +26,14 @@ namespace Crawler
 				File.WriteAllText("Keywords.txt", string.Join("\r\n", parts.ToArray()));
 			}
 		}
+
+		public static void GetHTML()
+		{
+			var wc = new WebClient();
+			wc.Headers.Add("User-Agent: Other");
+			var str = wc.DownloadString("http://www.rachaelraymag.com/recipe/main-ingredient/chicken/");
+		}
+
 		//		public static void DownloadMissingImages(DataFactory df)
 		//		{
 		//			WebClient wc = new WebClient();

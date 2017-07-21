@@ -95,7 +95,18 @@
 						});
 				}
 
-
+				$scope.setRating = function (rating) {
+					if ($scope.recipe.userRating == rating)
+						rating = 0;
+					$http.post(appSettings.apiUrl + '/api/recipe/SetRecipeRating', { recipeID: $scope.recipe.id, rating: rating })
+						.success(function (data, status, headers, config) {
+							$scope.recipe.userRating = rating;
+							alert('recipe rated');
+						})
+						.error(function (data, status, headers, config) {
+							alert('error: \n' + JSON.stringify(data) + '\n' + JSON.stringify(status) + '\n' + JSON.stringify(headers) + '\n' + JSON.stringify(config));
+						});
+				}
 
 				recipeFactory.getRecipe($scope.recipeId, $scope.modal).then(function (recipe) {
 					$scope.recipe = recipe;

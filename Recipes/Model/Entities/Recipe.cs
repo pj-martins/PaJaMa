@@ -27,6 +27,7 @@ namespace PaJaMa.Recipes.Model.Entities
 		public string RecipeName { get; set; }
 		public string IngredientString { get; set; }
 		public float? Rating { get; set; }
+		public float? UserRating { get; set; }
 		public string CoverImageURL { get; set; }
 	}
 }

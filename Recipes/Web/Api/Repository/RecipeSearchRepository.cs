@@ -17,7 +17,7 @@ namespace PaJaMa.Recipes.Web.Api.Repository
 	public class RecipeSearchRepository : Repository<RecipesContext, Recipe>
 	{
 		public List<RecipeSearch> SearchRecipes(string recipeName, string includes, string excludes, float? rating,
-			bool bookmarked, int? recipeSourceID, bool picturesOnly, int page, int pageSize, out int count)
+			bool bookmarked, bool rated, int? recipeSourceID, bool picturesOnly, int page, int pageSize, out int count)
 		{
 			StringBuilder sbSQL = new StringBuilder();
 			try
@@ -27,8 +27,22 @@ namespace PaJaMa.Recipes.Web.Api.Repository
 				Dictionary<string, object> paramz = new Dictionary<string, object>();
 
 				// should be RecipeName in order but this is faster
-				sbSQL.AppendLine("select top 1000 r.RecipeID as ID, r.*, RowNum = row_number() over (order by r.RecipeID) from RecipeSearch r");
+				sbSQL.AppendLine("select top 1000 r.RecipeID as ID, r.*, RowNum = row_number() over (order by r.RecipeID)");
 				if (!string.IsNullOrEmpty(userName))
+					sbSQL.AppendLine(", UserRating = ur.Rating");
+				if ((bookmarked || rated) && !string.IsNullOrEmpty(userName))
+				{
+					sbSQL.AppendLine($@"from UserRecipe ur 
+join [User] u on u.UserID = ur.UserID and u.UserName = @UserName
+	{(bookmarked ? " and ur.IsBookmarked = 1" : "")}
+	{(rated ? " and isnull(ur.Rating, 0) > 0" : "")}
+join RecipeSearch r on r.RecipeID = ur.RecipeID");
+					paramz.Add("@UserName", userName);
+				}
+				else
+					sbSQL.AppendLine("from RecipeSearch r");
+
+				if (!string.IsNullOrEmpty(userName) && !bookmarked && !rated)
 				{
 					sbSQL.AppendLine(@"	left join UserRecipe ur on ur.RecipeID = r.RecipeID 
 left join [User] u on u.UserID = ur.UserID
@@ -45,10 +59,6 @@ and u.UserName = @UserName");
 						sbSQL.AppendLine("and Rating >= @Rating");
 					paramz.Add("@Rating", rating.Value);
 				}
-
-				// TODO: user
-				if (bookmarked && !string.IsNullOrEmpty(userName))
-					sbSQL.AppendLine("and isnull(ur.IsBookmarked, 0) = 1");
 
 				if (recipeSourceID != null)
 				{

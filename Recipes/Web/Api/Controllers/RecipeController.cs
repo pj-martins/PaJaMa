@@ -66,5 +66,12 @@ namespace PaJaMa.Recipes.Web.Api.Controllers
 			(repository as RecipeRepository).BookmarkRecipe(id);
 			return Request.CreateResponse(HttpStatusCode.OK);
 		}
-    }
+
+		[HttpPost]
+		public HttpResponseMessage SetRecipeRating([FromBody]RecipeRating rating)
+		{
+			(repository as RecipeRepository).SetRating(rating);
+			return Request.CreateResponse(HttpStatusCode.OK);
+		}
+	}
 }

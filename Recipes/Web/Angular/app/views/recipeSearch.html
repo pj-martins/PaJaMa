@@ -55,6 +55,11 @@
                 <input type="checkbox" ng-model="bookmarked" ng-change="setBookmarked();" />&nbsp;Bookmarked
             </div>
         </div>
+		<div class="row">
+			<div class="col-md-12">
+				<input type="checkbox" ng-model="rated" />&nbsp;Rated
+			</div>
+		</div>
         <div class="row">
             <div class="col-md-12">
                 <input type="checkbox" ng-model="picturesOnly" ng-change="setPicturesOnly();" />&nbsp;With Picture(s)
@@ -85,8 +90,17 @@
 							<ul class="ratingList">
 								<li ng-repeat="rat in [1,2,3,4,5,6,7,8,9,10]">
 									<div ng-switch="rec.rating >= rat / 2">
-										<img ng-switch-when="true" ng-click="setFilterRating(rat / 2);" ng-src="{{rat % 2 == 1 ? 'img/starleft.png' : 'img/starright.png'}}" />
-										<img ng-switch-when="false" ng-click="setFilterRating(rat / 2);" ng-src="{{rat % 2 == 1 ? 'img/staremptyleft.png' : 'img/staremptyright.png'}}" />
+										<img ng-switch-when="true" ng-src="{{rat % 2 == 1 ? 'img/starleft.png' : 'img/starright.png'}}" />
+										<img ng-switch-when="false" ng-src="{{rat % 2 == 1 ? 'img/staremptyleft.png' : 'img/staremptyright.png'}}" />
+									</div>
+								</li>
+							</ul>
+							<br />
+							<ul class="ratingList" ng-if="rec.userRating">
+								<li ng-repeat="rat in [1,2,3,4,5,6,7,8,9,10]">
+									<div ng-switch="rec.userRating >= rat / 2">
+										<img ng-switch-when="true" class="userstar" ng-src="{{rat % 2 == 1 ? 'img/userstarleft.png' : 'img/userstarright.png'}}" />
+										<img ng-switch-when="false" class="userstar" ng-src="{{rat % 2 == 1 ? 'img/userstaremptyleft.png' : 'img/userstaremptyright.png'}}" />
 									</div>
 								</li>
 							</ul>

@@ -26,6 +26,8 @@
 			entityFactory.getEntity('Recipe', recipeId, { baseUrl: appSettings.apiUrl })
 				.then(function (data) {
 					currRecipe = data;
+					if (data.userRecipes.length > 0)
+						data.userRating = data.userRecipes[0].rating;
 					initRecipe();
 					deferred.resolve(currRecipe);
 				},
@@ -79,13 +81,6 @@
 					return;
 				ri.quantity = (ri.activeAlternate == null ? 1 : ri.activeAlternate.multiplier) * ri.originalQuantity * fraction;
 			}
-		};
-
-		factory.setRating = function (recipe, rating) {
-			if (recipe.userRating == rating)
-				rating = 0;
-			recipe.userRating = rating;
-			return factory.saveRecipe(recipe);
 		};
 
 		factory.saveRecipe = function (recipe) {

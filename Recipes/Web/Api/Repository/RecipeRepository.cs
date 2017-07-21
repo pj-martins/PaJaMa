@@ -19,6 +19,7 @@ namespace PaJaMa.Recipes.Web.Api.Repository
 			return (context as RecipesContext).Recipes
 			.Include("RecipeImages")
 			.Include("RecipeSource")
+			.Include("UserRecipes")
 			.Include("RecipeIngredientMeasurements.IngredientMeasurement.Ingredient")
 			.Include("RecipeIngredientMeasurements.IngredientMeasurement.Measurement")
 			.Where(r => r.RecipeID == id).First();
@@ -48,5 +49,18 @@ namespace PaJaMa.Recipes.Web.Api.Repository
 			ur.IsBookmarked = !ur.IsBookmarked;
 			context.SaveChanges();
 		}
+
+		public void SetRating(RecipeRating rating)
+		{
+			var ur = getUserRecipe(rating.RecipeID);
+			ur.Rating = rating.Rating == 0 ? (float?)null : rating.Rating;
+			context.SaveChanges();
+		}
+	}
+
+	public class RecipeRating
+	{
+		public int RecipeID { get; set; }
+		public float Rating { get; set; }
 	}
 }

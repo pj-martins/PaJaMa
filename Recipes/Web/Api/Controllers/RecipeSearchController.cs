@@ -25,12 +25,12 @@ namespace PaJaMa.Recipes.Web.Api.Controllers
         [HttpGet]
         [EnableQuery]
         public HttpResponseMessage SearchRecipes(string recipeName = null, string includes = null, string excludes = null, float? rating = null, bool bookmarked = false,
-            int? recipeSourceID = null, bool picturesOnly = false, int page = 1, int pageSize = 20)
+            bool rated = false, int? recipeSourceID = null, bool picturesOnly = false, int page = 1, int pageSize = 20)
         {
             var recipeRepository = repository as RecipeSearchRepository;
             int recipeCount = 0;
             var recipes = recipeRepository.SearchRecipes(recipeName, includes, excludes, rating, bookmarked,
-                recipeSourceID, picturesOnly, page, pageSize, out recipeCount);
+                rated, recipeSourceID, picturesOnly, page, pageSize, out recipeCount);
             var response = Request.CreateResponse(HttpStatusCode.OK, recipes);
             response.Headers.Add("X-InlineCount", recipeCount.ToString());
             return response;

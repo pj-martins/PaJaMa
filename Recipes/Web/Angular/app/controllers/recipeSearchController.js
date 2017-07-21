@@ -4,6 +4,7 @@
 		$scope.rating = 0;
 		$scope.recipeName = "";
 		$scope.bookmarked = false;
+		$scope.rated = false;
 		$scope.picturesOnly = false;
 		$scope.searchResults = null;
 		$scope.totalRecords = 0;
@@ -183,6 +184,7 @@
 			if ($scope.recipeName) params += "&recipeName=" + $scope.recipeName;
 			if ($scope.rating != 0) params += '&rating=' + $scope.rating;
 			if ($scope.bookmarked) params += '&bookmarked=' + true;
+			if ($scope.rated) params += '&rated=' + true;
 			if ($scope.source != null && $scope.source != '') params += '&recipeSourceID=' + $scope.source.id;
 			if ($scope.picturesOnly) params += '&picturesOnly=' + true;
 
