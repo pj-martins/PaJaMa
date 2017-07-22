@@ -26,8 +26,10 @@
 			entityFactory.getEntity('Recipe', recipeId, { baseUrl: appSettings.apiUrl })
 				.then(function (data) {
 					currRecipe = data;
-					if (data.userRecipes.length > 0)
+					if (data.userRecipes.length > 0) {
 						data.userRating = data.userRecipes[0].rating;
+						data.isBookmarked = data.userRecipes[0].isBookmarked;
+					}
 					initRecipe();
 					deferred.resolve(currRecipe);
 				},

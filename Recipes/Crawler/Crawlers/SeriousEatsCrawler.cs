@@ -22,6 +22,14 @@ namespace Crawler.Crawlers
 			get { return "http://www.seriouseats.com"; }
 		}
 
+		protected override string recipesXPath
+		{
+			get
+			{
+				throw new NotImplementedException();
+			}
+		}
+
 		protected override void crawl()
 		{
 			var eats = JsonConvert.DeserializeObject<SeriousEats>(System.IO.File.ReadAllText("eats.json"));

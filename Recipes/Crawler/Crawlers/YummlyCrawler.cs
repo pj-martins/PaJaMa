@@ -23,6 +23,14 @@ namespace Crawler.Crawlers
 			}
 		}
 
+		protected override string recipesXPath
+		{
+			get
+			{
+				throw new NotImplementedException();
+			}
+		}
+
 		private Dictionary<string, Type> _externals = new Dictionary<string, Type>()
 		{
 			{ "http://allrecipes.com", typeof(AllRecipesCrawler) },
@@ -30,7 +38,8 @@ namespace Crawler.Crawlers
 			{ "http://www.foodnetwork.com/", typeof(FoodNetworkCrawler) },
 			{ "http://www.food.com/", typeof(FoodCrawler) },
 			{ "http://www.seriouseats.com/", typeof(SeriousEatsCrawler) },
-			{ "http://www.tasteofhome.com/", typeof(TasteOfHomeCrawler) }
+			{ "http://www.tasteofhome.com/", typeof(TasteOfHomeCrawler) },
+			{ "http://www.myrecipes.com/", typeof(MyRecipesCrawler) }
 		};
 
 		protected override void crawl()

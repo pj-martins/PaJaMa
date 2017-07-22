@@ -15,6 +15,7 @@ namespace Crawler.Crawlers
 	[RecipeSource("Food.com")]
 	public class FoodCrawlerApi : FoodCrawler
 	{
+		private int _counter = 0;
 		protected override void crawl()
 		{
 			List<string> keywords;
@@ -42,6 +43,7 @@ namespace Crawler.Crawlers
 					forceStartPage = -1;
 				}
 				int i = startPage;
+				_counter = 0;
 				while (true)
 				{
 					int tries = 3;
@@ -58,7 +60,7 @@ namespace Crawler.Crawlers
 					Console.WriteLine("Total results: " + searchResults.Response.TotalResultsCount.ToString() + " - " + kw);
 					if (searchResults.Response.Results == null || searchResults.Response.Results.Count < 1)
 						break;
-					
+
 					somethingFound = true;
 
 					var urls = new Dictionary<string, string>();
@@ -73,6 +75,10 @@ namespace Crawler.Crawlers
 
 					crawlRecipeURLs(urls, startPage, searchResults.Response.TotalResultsCount / 10);
 					startPage++;
+					if (searchResults.Response.TotalResultsCount > 2000)
+						_counter++;
+					if (_counter > 100)
+						break;
 					System.IO.File.WriteAllText("food.txt", kw + " page " + startPage.ToString());
 				}
 
@@ -85,6 +91,14 @@ namespace Crawler.Crawlers
 					System.IO.File.WriteAllText("newkeywords.txt", string.Join("\r\n", keywords.ToArray()));
 				}
 			}
+		}
+
+		public override Recipe CreateRecipe(string recipeURL, string recipeName)
+		{
+			var rec = base.CreateRecipe(recipeURL, recipeName);
+			if (rec != null)
+				_counter = 0;
+			return rec;
 		}
 
 		#region OLD

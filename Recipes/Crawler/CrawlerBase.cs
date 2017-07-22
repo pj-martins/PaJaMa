@@ -40,7 +40,7 @@ namespace Crawler
 		protected abstract string baseURL { get; }
 		protected virtual string allURL { get { return string.Empty; } }
 
-		protected virtual string recipesXPath { get { return string.Empty; } }
+		protected abstract string recipesXPath { get; }
 		protected virtual Tuple<string, string> getRecipeURL(HtmlNode node)
 		{
 			return new Tuple<string, string>(node.Attributes["href"].Value, node.InnerText.Trim());
@@ -63,7 +63,7 @@ namespace Crawler
 
 		protected virtual string ingredientsXPath
 		{
-			get { return "//*[@itemprop='ingredients']"; }
+			get { return "//*[@itemprop='ingredients' or @itemprop='recipeIngredient']"; }
 		}
 
 		protected virtual string ingredientAmountXPath
@@ -410,9 +410,11 @@ namespace Crawler
 			if (ingredients == null)
 				return null;
 
+			rec.RecipeIngredientMeasurements = new List<RecipeIngredientMeasurement>();
 			foreach (var ing in ingredients)
 				rec.RecipeIngredientMeasurements.Add(ing);
 
+			rec.RecipeImages = new List<RecipeImage>();
 			foreach (var img in getRecipeImages(doc.DocumentNode))
 				rec.RecipeImages.Add(img);
 

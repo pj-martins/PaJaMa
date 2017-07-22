@@ -106,6 +106,7 @@
 			$scope.keyword = "";
 			$scope.rating = 0;
 			$scope.bookmarked = false;
+			$scope.rated = false;
 			$scope.picturesOnly = false;
 			$scope.searchResults = null;
 			$scope.source = null;

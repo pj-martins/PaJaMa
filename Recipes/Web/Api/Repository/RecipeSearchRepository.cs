@@ -71,15 +71,14 @@ and u.UserName = @UserName");
 
 				if (!string.IsNullOrEmpty(recipeName))
 				{
-					sbSQL.AppendLine("and Contains(RecipeName, @RecipeName)");
-					paramz.Add("@RecipeName", recipeName);
+					sbSQL.AppendLine("and Contains(RecipeName, '\"*" + recipeName.Replace("'", "''").Replace("\"", "\"\"") + "*\"')");
 				}
 
 				if (!string.IsNullOrEmpty(includes))
 				{
 					string[] parts = includes.Split(';');
 					sbSQL.AppendLine("and Contains(IngredientString, '" +
-						string.Join(" AND ", parts.Select(p => "\"*" + p.Replace("'", "''") + "*\"").ToArray())
+						string.Join(" AND ", parts.Select(p => "\"*" + p.Replace("'", "''").Replace("\"", "\"\"") + "*\"").ToArray())
 					);
 					sbSQL.AppendLine("')");
 				}
@@ -88,7 +87,7 @@ and u.UserName = @UserName");
 				{
 					string[] parts = excludes.Split(';');
 					sbSQL.AppendLine("and not Contains(IngredientString, '" +
-						string.Join(" OR ", parts.Select(p => "\"*" + p.Replace("'", "''") + "*\"").ToArray())
+						string.Join(" OR ", parts.Select(p => "\"*" + p.Replace("'", "''").Replace("\"", "\"\"") + "*\"").ToArray())
 					);
 					sbSQL.AppendLine("')");
 				}

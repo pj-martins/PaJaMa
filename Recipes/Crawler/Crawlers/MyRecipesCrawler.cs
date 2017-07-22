@@ -25,14 +25,9 @@ namespace Crawler.Crawlers
             get { return "//a[contains(@href, 'http://www.myrecipes.com/recipe/')]"; }
         }
 
-        protected override string ingredientsXPath
-        {
-            get { return "//*[@itemprop='ingredient']"; }
-        }
-
         protected override string imagesXPath
         {
-            get { return "//img[@typeof='foaf:Image' and @width='300']"; }
+            get { return "//div[@class='image-container']//img"; }
         }
 
         protected override PageNumbers pageNumberURLRegex

@@ -45,7 +45,7 @@ namespace Crawler
 
 			//    //crawlers.Enqueue(Activator.CreateInstance(t) as CrawlerBase);
 			//}
-
+			// Cleanup.YummlyToOriginal("http://www.myrecipes.com/", "MyRecipes", new MyRecipesCrawler());
 #if Thread1
 			// new ChowCrawler().Crawl(getDbContext());
 			// new FoodNetworkCrawler().Crawl(getDbContext());
@@ -65,9 +65,10 @@ namespace Crawler
 
 #endif
 #if Thread3
-			new EpicuriousCrawlerApi().Crawl();
+			// new EpicuriousCrawlerApi().Crawl();
 			// new SeriousEatsCrawler().Crawl(getDbContext());
 			// new YummlyCrawler().Crawl();
+			new Food52Crawler().Crawl();
 #endif
 #if Thread4
 			new FoodCrawlerApi().Crawl();

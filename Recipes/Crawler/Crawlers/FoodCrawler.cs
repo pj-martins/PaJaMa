@@ -25,7 +25,15 @@ namespace Crawler.Crawlers
 		protected override string ratingXPath => "//span[@class='fd-rating-percent']";
 		protected override PageNumbers pageNumberURLRegex => new PageNumbers() { URLFormat = "?pn={0}" };
 
-        protected override List<string> getKeywordPages(HtmlDocument document)
+		protected override string recipesXPath
+		{
+			get
+			{
+				throw new NotImplementedException();
+			}
+		}
+
+		protected override List<string> getKeywordPages(HtmlDocument document)
         {
 			//return new List<string>()
 			//{
