@@ -26,9 +26,10 @@ namespace Crawler.Crawlers
 
 			int forceStartPage = -1;
 			var partial = keywords.ToList();
-			if (System.IO.File.Exists("food.txt"))
+			var fn = System.IO.Path.Combine("..\\..\\Progress", this.GetType().Name + ".txt");
+			if (System.IO.File.Exists(fn))
 			{
-				var parts = System.IO.File.ReadAllText("food.txt").Split(new string[] { " page " }, StringSplitOptions.RemoveEmptyEntries);
+				var parts = System.IO.File.ReadAllText(fn).Split(new string[] { " page " }, StringSplitOptions.RemoveEmptyEntries);
 				var i = keywords.ToList().IndexOf(parts[0]);
 				partial = keywords.Skip(i).ToList();
 				forceStartPage = Convert.ToInt32(parts[1]);
@@ -79,7 +80,7 @@ namespace Crawler.Crawlers
 						_counter++;
 					if (_counter > 100)
 						break;
-					System.IO.File.WriteAllText("food.txt", kw + " page " + startPage.ToString());
+					System.IO.File.WriteAllText(fn, kw + " page " + startPage.ToString());
 				}
 
 				if (!somethingFound)

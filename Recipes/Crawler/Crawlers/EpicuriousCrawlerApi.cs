@@ -22,9 +22,10 @@ namespace Crawler.Crawlers
 			List<string> keywords = Properties.Resources.Keywords.Split(new string[] { "\r\n" }, StringSplitOptions.RemoveEmptyEntries).ToList();
 			int forceStartPage = -1;
 			var partial = keywords.ToList();
-			if (System.IO.File.Exists("epicurious.txt"))
+			var fn = Path.Combine("..\\..\\Progress", this.GetType().Name + ".txt");
+			if (System.IO.File.Exists(fn))
 			{
-				var parts = System.IO.File.ReadAllText("epicurious.txt").Split(new string[] { " page " }, StringSplitOptions.RemoveEmptyEntries);
+				var parts = System.IO.File.ReadAllText(fn).Split(new string[] { " page " }, StringSplitOptions.RemoveEmptyEntries);
 				var i = keywords.ToList().IndexOf(parts[0]);
 				partial = keywords.Skip(i).ToList();
 				forceStartPage = Convert.ToInt32(parts[1]);
@@ -42,7 +43,7 @@ namespace Crawler.Crawlers
 				int totalPages = 0;
 				do
 				{
-					System.IO.File.WriteAllText("epicurious.txt", kw + " page " + startPage.ToString());
+					System.IO.File.WriteAllText(fn, kw + " page " + startPage.ToString());
 
 					string json = string.Empty;
 					int tries = 3;

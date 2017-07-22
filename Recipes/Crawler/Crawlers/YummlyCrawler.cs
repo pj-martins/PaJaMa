@@ -39,16 +39,20 @@ namespace Crawler.Crawlers
 			{ "http://www.food.com/", typeof(FoodCrawler) },
 			{ "http://www.seriouseats.com/", typeof(SeriousEatsCrawler) },
 			{ "http://www.tasteofhome.com/", typeof(TasteOfHomeCrawler) },
-			{ "http://www.myrecipes.com/", typeof(MyRecipesCrawler) }
+			{ "http://www.myrecipes.com/", typeof(MyRecipesCrawler) },
+			{ "http://www.food52.com/", typeof(Food52Crawler) },
 		};
 
 		protected override void crawl()
 		{
 			var keywords = Properties.Resources.Keywords.Split(new string[] { "\r\n" }, StringSplitOptions.RemoveEmptyEntries);
 			int forceStartPage = -1;
-			if (System.IO.File.Exists("yummly.txt"))
+
+			var fn = System.IO.Path.Combine("..\\..\\Progress", this.GetType().Name + ".txt");
+
+			if (System.IO.File.Exists(fn))
 			{
-				var parts = System.IO.File.ReadAllText("yummly.txt").Split(new string[] { " page " }, StringSplitOptions.RemoveEmptyEntries);
+				var parts = System.IO.File.ReadAllText(fn).Split(new string[] { " page " }, StringSplitOptions.RemoveEmptyEntries);
 				var i = keywords.ToList().IndexOf(parts[0]);
 				keywords = keywords.Skip(i).ToArray();
 				forceStartPage = Convert.ToInt32(parts[1]);
@@ -85,13 +89,12 @@ namespace Crawler.Crawlers
 					{
 						string display = $"{i++} of {yummlyResult.totalMatchCount} - Yummly - {feed.content.details.name}";
 
-						Console.WriteLine(display);
-
 						if (feed.content.details.attribution.url.Length > 255)
 							feed.content.details.attribution.url = feed.content.details.attribution.url.Substring(0, 255);
 
 						if (existingRecipes.Contains(feed.content.details.attribution.url))
 						{
+							Console.WriteLine(display);
 							continue;
 						}
 
@@ -99,14 +102,19 @@ namespace Crawler.Crawlers
 						if (external != null)
 						{
 							if (dbContext.Recipes.Any(r => r.RecipeURL.ToLower() == feed.content.details.directionsUrl.ToLower()))
+							{
+								Console.WriteLine(display);
 								continue;
+							}
 							try
 							{
 								CrawlerBase crawler = Activator.CreateInstance(_externals[external]) as CrawlerBase;
 								var arec = crawler.CreateRecipe(feed.content.details.directionsUrl, feed.content.details.name);
 								if (arec != null)
 								{
-									Console.WriteLine("*** GOT FROM " + external);
+									Console.ForegroundColor = ConsoleColor.Yellow;
+									Console.WriteLine("GOT FROM " + external);
+									Console.ResetColor();
 									continue;
 								}
 							}
@@ -126,10 +134,13 @@ namespace Crawler.Crawlers
 						if (rec.Rating.GetValueOrDefault() > 0 && rec.Rating.GetValueOrDefault() < 4)
 							continue;
 
-						Console.WriteLine("****");
+						Console.ForegroundColor = ConsoleColor.Blue;
+						Console.WriteLine(display);
+						Console.ResetColor();
 
 						rec.NumberOfServings = feed.content.details.numberOfServings;
 
+						rec.RecipeIngredientMeasurements = new List<RecipeIngredientMeasurement>();
 						foreach (var ingredient in feed.content.ingredientLines)
 						{
 							if (ingredient.ingredient == null && string.IsNullOrEmpty(ingredient.wholeLine)) continue;
@@ -146,6 +157,7 @@ namespace Crawler.Crawlers
 									(double)ingredient.quantity.GetValueOrDefault()));
 						}
 
+						rec.RecipeImages = new List<RecipeImage>();
 						foreach (var im in feed.content.details.images)
 						{
 							RecipeImage img = new RecipeImage();
@@ -161,7 +173,7 @@ namespace Crawler.Crawlers
 					}
 
 					startPage += pageSize;
-					System.IO.File.WriteAllText("yummly.txt", kw + " page " + startPage.ToString());
+					System.IO.File.WriteAllText(fn, kw + " page " + startPage.ToString());
 				}
 			}
 		}

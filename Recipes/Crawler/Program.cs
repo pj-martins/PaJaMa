@@ -67,12 +67,12 @@ namespace Crawler
 #if Thread3
 			// new EpicuriousCrawlerApi().Crawl();
 			// new SeriousEatsCrawler().Crawl(getDbContext());
-			// new YummlyCrawler().Crawl();
+			
 			new Food52Crawler().Crawl();
 #endif
 #if Thread4
-			new FoodCrawlerApi().Crawl();
-
+			// new FoodCrawlerApi().Crawl();
+			new YummlyCrawler().Crawl();
 #endif
 
 			//while (true)

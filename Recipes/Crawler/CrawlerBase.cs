@@ -217,7 +217,7 @@ namespace Crawler
 			var doc = new HtmlDocument();
 			doc.LoadHtml(html);
 
-			var fn = this.GetType().Name + ".txt";
+			var fn = System.IO.Path.Combine("..\\..\\Progress", this.GetType().Name + ".txt");
 
 			List<string> keywordPages = getKeywordPages(doc);
 			int forceStartPage = -1;
