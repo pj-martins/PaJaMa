@@ -226,7 +226,7 @@ namespace Crawler
 				var parts = System.IO.File.ReadAllText(fn).Split(new string[] { " page " }, StringSplitOptions.RemoveEmptyEntries);
 				var i = keywordPages.ToList().IndexOf(parts[0]);
 				keywordPages = keywordPages.Skip(i).ToList();
-				forceStartPage = Convert.ToInt16(parts[1]);
+				forceStartPage = Convert.ToInt32(parts[1]);
 			}
 
 			foreach (string keywordPage in keywordPages)

@@ -12,7 +12,7 @@ using System.Threading.Tasks;
 
 namespace Crawler.Crawlers
 {
-	[RecipeSource("Food52", IncludeNoRating = true)]
+	[RecipeSource("Food52")] //, IncludeNoRating = true)]
 	public class Food52Crawler : CrawlerBase
 	{
 		protected override string baseURL
