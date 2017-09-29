@@ -66,6 +66,12 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="FreeYouTubeDownloader\Helpers\ReportingHelper.cs" />
+    <Compile Include="FreeYouTubeDownloader\MainWindow.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FreeYouTubeDownloader\MainWindow.designer.cs">
+		<DependentUpon>MainWindow.cs</DependentUpon>
+	</Compile>
     <Compile Include="FreeYouTubeDownloader\Settings.cs" />
     <Compile Include="FreeYouTubeDownloader\DownloadItemComparerAscending.cs" />
     <Compile Include="FreeYouTubeDownloader\DownloadItemComparerDescending.cs" />
@@ -80,9 +86,6 @@
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="FreeYouTubeDownloader\IFrameWindow.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="FreeYouTubeDownloader\MainWindow.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="FreeYouTubeDownloader\GeneralHelper.cs" />
@@ -150,7 +153,9 @@
     <EmbeddedResource Include="FreeYouTubeDownloader\ConfirmationWindow.resx" />
     <EmbeddedResource Include="FreeYouTubeDownloader\ExitPromptWindow.resx" />
     <EmbeddedResource Include="FreeYouTubeDownloader\IFrameWindow.resx" />
-    <EmbeddedResource Include="FreeYouTubeDownloader\MainWindow.resx" />
+    <EmbeddedResource Include="FreeYouTubeDownloader\MainWindow.resx">
+		<DependentUpon>MainWindow.cs</DependentUpon>
+	</EmbeddedResource>
     <EmbeddedResource Include="FreeYouTubeDownloader\Properties\Resources.resx">
       <SubType>Designer</SubType>
     </EmbeddedResource>
