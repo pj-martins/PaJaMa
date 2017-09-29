@@ -12,63 +12,63 @@ using System.Collections.Generic;
 
 namespace FreeYouTubeDownloader.Converter
 {
-  internal sealed class ExtractAudioConversionProfile : ConversionProfile
-  {
-    private const string FfmpegCommandArgsPattern = "-y -i \"{0}\" -vn -acodec copy \"{1}\"";
-
-    internal override string FormatName { get; set; }
-
-    internal override IEnumerable<AudioStreamType> PreferredAudioStreamTypes
+    public sealed class ExtractAudioConversionProfile : ConversionProfile
     {
-      get
-      {
-        throw new NotImplementedException();
-      }
-    }
+        private const string FfmpegCommandArgsPattern = "-y -i \"{0}\" -vn -acodec copy \"{1}\"";
 
-    internal override string GetFfmpegCommandArgs(VideoQualityInfo inputVideoQualityInfo)
-    {
-      return string.Format("-y -i \"{0}\" -vn -acodec copy \"{1}\"", (object) this.InputFileName, (object) this.OutputFileName);
-    }
+        public override string FormatName { get; set; }
 
-    public override void ReadJson(JsonTextReader jsonTextReader)
-    {
-      while (jsonTextReader.Read() && jsonTextReader.TokenType != JsonToken.EndObject)
-      {
-        if (jsonTextReader.TokenType == JsonToken.PropertyName)
+        public override IEnumerable<AudioStreamType> PreferredAudioStreamTypes
         {
-          string str = (string) jsonTextReader.Value;
-          if (!(str == "OutputFileName"))
-          {
-            if (!(str == "FormatName"))
+            get
             {
-              if (str == "DeleteInputFile")
-              {
-                jsonTextReader.Read();
-                this.DeleteInputFile = (bool) jsonTextReader.Value;
-              }
+                throw new NotImplementedException();
             }
-            else
-              this.FormatName = jsonTextReader.ReadAsString();
-          }
-          else
-            this.OutputFileName = jsonTextReader.ReadAsString();
         }
-      }
-    }
 
-    public override void WriteJson(JsonTextWriter jsonTextWriter)
-    {
-      jsonTextWriter.WriteStartObject();
-      jsonTextWriter.WritePropertyName("$type");
-      jsonTextWriter.WriteValue(this.GetType().ToString());
-      jsonTextWriter.WritePropertyName("OutputFileName");
-      jsonTextWriter.WriteValue(this.OutputFileName);
-      jsonTextWriter.WritePropertyName("FormatName");
-      jsonTextWriter.WriteValue(this.FormatName);
-      jsonTextWriter.WritePropertyName("DeleteInputFile");
-      jsonTextWriter.WriteValue(this.DeleteInputFile);
-      jsonTextWriter.WriteEndObject();
+        public override string GetFfmpegCommandArgs(VideoQualityInfo inputVideoQualityInfo)
+        {
+            return string.Format("-y -i \"{0}\" -vn -acodec copy \"{1}\"", (object)this.InputFileName, (object)this.OutputFileName);
+        }
+
+        public override void ReadJson(JsonTextReader jsonTextReader)
+        {
+            while (jsonTextReader.Read() && jsonTextReader.TokenType != JsonToken.EndObject)
+            {
+                if (jsonTextReader.TokenType == JsonToken.PropertyName)
+                {
+                    string str = (string)jsonTextReader.Value;
+                    if (!(str == "OutputFileName"))
+                    {
+                        if (!(str == "FormatName"))
+                        {
+                            if (str == "DeleteInputFile")
+                            {
+                                jsonTextReader.Read();
+                                this.DeleteInputFile = (bool)jsonTextReader.Value;
+                            }
+                        }
+                        else
+                            this.FormatName = jsonTextReader.ReadAsString();
+                    }
+                    else
+                        this.OutputFileName = jsonTextReader.ReadAsString();
+                }
+            }
+        }
+
+        public override void WriteJson(JsonTextWriter jsonTextWriter)
+        {
+            jsonTextWriter.WriteStartObject();
+            jsonTextWriter.WritePropertyName("$type");
+            jsonTextWriter.WriteValue(this.GetType().ToString());
+            jsonTextWriter.WritePropertyName("OutputFileName");
+            jsonTextWriter.WriteValue(this.OutputFileName);
+            jsonTextWriter.WritePropertyName("FormatName");
+            jsonTextWriter.WriteValue(this.FormatName);
+            jsonTextWriter.WritePropertyName("DeleteInputFile");
+            jsonTextWriter.WriteValue(this.DeleteInputFile);
+            jsonTextWriter.WriteEndObject();
+        }
     }
-  }
 }

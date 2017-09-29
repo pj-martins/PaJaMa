@@ -6,7 +6,7 @@
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProjectGuid>{930EA111-35C8-4FBC-94C7-1EDA251E8F11}</ProjectGuid>
     <OutputType>WinExe</OutputType>
-    <AssemblyName>YouTubeDownloader</AssemblyName>
+    <AssemblyName>FreeYouTubeDownloader</AssemblyName>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <ApplicationVersion>4.2.795.0</ApplicationVersion>
     <FileAlignment>512</FileAlignment>
@@ -44,7 +44,7 @@
     <ApplicationIcon>icon.ico</ApplicationIcon>
   </PropertyGroup>
   <PropertyGroup>
-    <RootNamespace>YouTubeDownloader</RootNamespace>
+    <RootNamespace>FreeYouTubeDownloader</RootNamespace>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="Newtonsoft.Json">
@@ -88,6 +88,12 @@
     <Compile Include="MainWindow.designer.cs">
       <DependentUpon>MainWindow.cs</DependentUpon>
     </Compile>
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Properties\Resources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
     <Compile Include="Settings.cs" />
     <Compile Include="DownloadItemComparerAscending.cs" />
     <Compile Include="DownloadItemComparerDescending.cs" />
@@ -119,7 +125,6 @@
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="DownloadItemViewModel.cs" />
-    <Compile Include="Properties\Resources.cs" />
     <Compile Include="Youtube\YoutubeHelper.cs" />
     <Compile Include="Youtube\YoutubeVideoRecord.cs" />
     <Compile Include="UI\ToolbarTheme.cs" />
@@ -158,7 +163,6 @@
     <Compile Include="Controls\WebBrowserExBeforeNavigate2EventArgs.cs" />
     <Compile Include="Controls\WebBrowserExNewWindow3EventArgs.cs" />
     <Compile Include="Controls\DWebBrowserEvents2.cs" />
-    <Compile Include="AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
     <Resource Include="windows_critical_stop" />
@@ -173,7 +177,8 @@
       <DependentUpon>MainWindow.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
-      <SubType>Designer</SubType>
+      <Generator>PublicResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
     <EmbeddedResource Include="SettingsWindow.resx" />
     <EmbeddedResource Include="UnhandledExceptionWindow.resx" />

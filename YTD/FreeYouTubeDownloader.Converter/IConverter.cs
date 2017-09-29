@@ -8,10 +8,10 @@ using FreeYouTubeDownloader.Analyzer;
 
 namespace FreeYouTubeDownloader.Converter
 {
-  internal interface IConverter
-  {
-    void Convert(string inputFileName, ConversionProfile conversionProfile, VideoQualityInfo inputVideoQualityInfo);
+    public interface IConverter
+    {
+        void Convert(string inputFileName, ConversionProfile conversionProfile, VideoQualityInfo inputVideoQualityInfo);
 
-    void Cancel();
-  }
+        void Cancel();
+    }
 }

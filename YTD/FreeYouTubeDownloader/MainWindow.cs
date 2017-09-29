@@ -71,75 +71,12 @@ namespace FreeYouTubeDownloader
         private TimerEx _timerSearch;
         private float _tableLayoutPanelSearchResultRowHeight;
         private bool _hiddenStart;
-        private bool _bottomAdShown;
-        private bool _rightAdShown;
-        private WebBrowserEx _adRightHost;
-        private WebBrowserEx _adBottomHost;
         private System.Windows.Forms.ToolTip _toolTip;
         private uint _lastClipboardSequenceNumber;
         private System.Drawing.Image _thumbnailOverlay;
         private bool _ignoreAutoDownloadFlag;
         private TaskbarIcon _notifyIcon;
-        private System.Windows.Forms.TextBox textBoxUrl;
-        private TableLayoutPanel tableLayoutPanel;
-        private StatusStrip statusStrip;
-        private ToolStripStatusLabel toolStripStatusLabel;
-        private ObjectListView olvDownloads;
-        private OLVColumn olvColumnProgress;
-        private OLVColumn olvColumnDownloadSpeed;
-        private OLVColumn olvColumnEta;
-        private OLVColumn olvColumnName;
-        private BarRenderer barRenderer;
-        private OLVColumn olvColumnSize;
-        private OLVColumn olvColumnDuration;
-        private MenuStrip menuStrip;
-        private ToolStripMenuItem windowToolStripMenuItem;
-        private ToolStripMenuItem exitToolStripMenuItem;
-        private ToolStripMenuItem settingsToolStripMenuItem;
-        private ToolStripMenuItem preferencesToolStripMenuItem;
-        private OLVColumn olvColumnStatus;
-        private OLVColumn olvColumnFormat;
-        private ToolStripMenuItem minimizeToolStripMenuItem;
-        private ToolStripMenuItem versionNumberToolStripMenuItem;
-        private ToolStripMenuItem minimizeToNotificationAreaToolStripMenuItem;
-        private ToolStripSeparator toolStripSeparator1;
-        private TableLayoutPanel tableLayoutPanelActionButtons;
-        private System.Windows.Forms.Button buttonConvert;
-        private ToolStripMenuItem alwaysOnTopMenuItem;
-        private System.Windows.Forms.ToolTip toolTip;
-        private TableLayoutPanel tableLayoutPanelActionButtonsContainer;
-        private TransparentPictureBox picBoxVideo;
-        private SplitButton splitButtonActionVideo;
-        private SplitButton splitButtonActionAudio;
-        private TransparentPictureBox picBoxAudio;
-        private TableLayoutPanel tableLayoutPanel2;
-        private PictureBox pictureBoxSettings;
-        private LinkLabel lnkLabelSettings;
-        private System.Windows.Forms.Button btnVideoFiles;
-        private System.Windows.Forms.Button btnAudioFiles;
-        private ContextMenuStrip contextMenuStripDownloadVideo;
-        private ContextMenuStrip contextMenuStripDownloadAudio;
-        private ToolStripMenuItem askFileNameAndFolderToolStripMenuItem;
-        private OLVColumn olvColumnFrameSize;
-        private System.Windows.Forms.Panel panelButtonActionVideo;
-        private System.Windows.Forms.Panel panelButtonActionAudio;
-        private System.Windows.Forms.Panel PanelContainerAutoComplete;
-        private System.Windows.Forms.Panel PanelWrapperContainerAutoComplete;
-        private System.Windows.Forms.ProgressBar progressBarLoadingData;
-        private System.Windows.Forms.Panel panelSearchResult;
-        private System.Windows.Forms.Label lblSearchResultTitle;
-        private System.Windows.Forms.Label lblSearchResultTime;
-        private System.Windows.Forms.Label lblSearchResultDescription;
-        private PictureBox pictureBoxOpenFile;
-        private System.Windows.Forms.ToolTip toolTipPictureBoxOpenFile;
-        private PictureBox pictureBoxCopyPath;
-        private ToolStripSeparator toolStripSeparator2;
-        private ToolStripMenuItem compatibleURLNotificationToolStripMenuItem;
-        private ToolStripSeparator toolStripSeparator3;
-        private ToolStripMenuItem autoDownloadMenuItem;
-        private ToolStripMenuItem videoAutoDownloadMenuItem;
-        private ToolStripMenuItem audioAutoDownloadMenuItem;
-
+        
         private string Status
         {
             set
@@ -660,7 +597,7 @@ namespace FreeYouTubeDownloader
            });
             this._clearInputButton.Location = new System.Drawing.Point(this.textBoxUrl.ClientSize.Width - this._clearInputButton.Width, -1);
             this._clearInputButton.Cursor = Cursors.Default;
-            this._clearInputButton.Image = (System.Drawing.Image)Resources.Clear;
+            this._clearInputButton.Image = (System.Drawing.Image)Properties.Resources.Clear;
             this._clearInputButton.Dock = DockStyle.Right;
             this.textBoxUrl.Controls.Add((System.Windows.Forms.Control)this._clearInputButton);
             this._clearInputButton.Width = this._clearInputButton.Height;
@@ -1594,12 +1531,12 @@ namespace FreeYouTubeDownloader
                 {
                     if (downloadState != DownloadState.Error)
                         return;
-                    using (SoundPlayer soundPlayer = new SoundPlayer((Stream)Resources.windows_critical_stop))
+                    using (SoundPlayer soundPlayer = new SoundPlayer(new MemoryStream(Resources.windows_critical_stop)))
                         soundPlayer.Play();
                 }
                 else
                 {
-                    using (SoundPlayer soundPlayer = new SoundPlayer((Stream)Resources.windows_notify))
+                    using (SoundPlayer soundPlayer = new SoundPlayer(new MemoryStream(Resources.windows_notify)))
                         soundPlayer.Play();
                 }
             }
@@ -2556,7 +2493,7 @@ namespace FreeYouTubeDownloader
                        goto case DownloadState.Waiting;
                    case DownloadState.Waiting:
                    case DownloadState.InQueue:
-                       return (object)Resources.Waiting;
+                       return (object)Properties.Resources.Waiting;
                    case DownloadState.Downloading:
                        return (object)Resources.Downloading;
                    case DownloadState.Completed:

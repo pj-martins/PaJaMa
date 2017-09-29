@@ -14,47 +14,47 @@ using System.IO;
 
 namespace FreeYouTubeDownloader.Converter
 {
-  public abstract class ConversionProfile : IJsonSerializable
-  {
-    internal static List<ConversionProfile> ConversionProfiles { get; private set; }
-
-    internal abstract string FormatName { get; set; }
-
-    internal abstract IEnumerable<AudioStreamType> PreferredAudioStreamTypes { get; }
-
-    internal virtual string OutputFileName { get; set; }
-
-    internal string InputFileName { get; set; }
-
-    internal bool DeleteInputFile { get; set; }
-
-    internal string AudioBitRate { get; set; }
-
-    internal string AudioBitRateCommandArg
+    public abstract class ConversionProfile : IJsonSerializable
     {
-      get
-      {
-        if (string.IsNullOrWhiteSpace(this.AudioBitRate))
-          return string.Empty;
-        return string.Format(" -b:a {0} ", (object) this.AudioBitRate);
-      }
-    }
+        public static List<ConversionProfile> ConversionProfiles { get; private set; }
 
-    internal string VideoScale { get; set; }
+        public abstract string FormatName { get; set; }
 
-    internal string VideoScaleCommandArg
-    {
-      get
-      {
-        if (string.IsNullOrWhiteSpace(this.VideoScale))
-          return string.Empty;
-        return string.Format(" -vf scale=-1:{0} ", (object) this.VideoScale);
-      }
-    }
+        public abstract IEnumerable<AudioStreamType> PreferredAudioStreamTypes { get; }
 
-    static ConversionProfile()
-    {
-      ConversionProfile.ConversionProfiles = new List<ConversionProfile>()
+        public virtual string OutputFileName { get; set; }
+
+        public string InputFileName { get; set; }
+
+        public bool DeleteInputFile { get; set; }
+
+        public string AudioBitRate { get; set; }
+
+        public string AudioBitRateCommandArg
+        {
+            get
+            {
+                if (string.IsNullOrWhiteSpace(this.AudioBitRate))
+                    return string.Empty;
+                return string.Format(" -b:a {0} ", (object)this.AudioBitRate);
+            }
+        }
+
+        public string VideoScale { get; set; }
+
+        public string VideoScaleCommandArg
+        {
+            get
+            {
+                if (string.IsNullOrWhiteSpace(this.VideoScale))
+                    return string.Empty;
+                return string.Format(" -vf scale=-1:{0} ", (object)this.VideoScale);
+            }
+        }
+
+        static ConversionProfile()
+        {
+            ConversionProfile.ConversionProfiles = new List<ConversionProfile>()
       {
         (ConversionProfile) new Mp3ConversionProfile(),
         (ConversionProfile) new AacConversionProfile(),
@@ -64,77 +64,77 @@ namespace FreeYouTubeDownloader.Converter
         (ConversionProfile) new VorbisConversionProfile(),
         (ConversionProfile) new WebmConversionProfile()
       };
-    }
-
-    internal ConversionProfile()
-    {
-      this.DeleteInputFile = true;
-    }
-
-    protected virtual string ChangeExtension(string fileName, string formatName)
-    {
-      return Path.ChangeExtension(fileName, formatName);
-    }
-
-    internal abstract string GetFfmpegCommandArgs(VideoQualityInfo inputVideoQualityInfo);
-
-    public override string ToString()
-    {
-      return this.FormatName;
-    }
-
-    public override bool Equals(object obj)
-    {
-      string b = obj as string;
-      if (b == null)
-        return base.Equals(obj);
-      return string.Equals(this.FormatName, b, StringComparison.OrdinalIgnoreCase);
-    }
-
-    public override int GetHashCode()
-    {
-      return base.GetHashCode();
-    }
-
-    public string CreateCommandArg(string pattern, string value)
-    {
-      string str = string.Empty;
-      if (!string.IsNullOrWhiteSpace(pattern) && !string.IsNullOrWhiteSpace(value))
-        str = string.Format(pattern, (object) value);
-      return str;
-    }
-
-    public virtual void ReadJson(JsonTextReader jsonTextReader)
-    {
-      while (jsonTextReader.Read() && jsonTextReader.TokenType != JsonToken.EndObject)
-      {
-        if (jsonTextReader.TokenType == JsonToken.PropertyName)
-        {
-          string str = (string) jsonTextReader.Value;
-          if (!(str == "OutputFileName"))
-          {
-            if (str == "DeleteInputFile")
-            {
-              jsonTextReader.Read();
-              this.DeleteInputFile = (bool) jsonTextReader.Value;
-            }
-          }
-          else
-            this.OutputFileName = jsonTextReader.ReadAsString();
         }
-      }
-    }
 
-    public virtual void WriteJson(JsonTextWriter jsonTextWriter)
-    {
-      jsonTextWriter.WriteStartObject();
-      jsonTextWriter.WritePropertyName("$type");
-      jsonTextWriter.WriteValue(this.GetType().ToString());
-      jsonTextWriter.WritePropertyName("OutputFileName");
-      jsonTextWriter.WriteValue(this.OutputFileName);
-      jsonTextWriter.WritePropertyName("DeleteInputFile");
-      jsonTextWriter.WriteValue(this.DeleteInputFile);
-      jsonTextWriter.WriteEndObject();
+        public ConversionProfile()
+        {
+            this.DeleteInputFile = true;
+        }
+
+        protected virtual string ChangeExtension(string fileName, string formatName)
+        {
+            return Path.ChangeExtension(fileName, formatName);
+        }
+
+        public abstract string GetFfmpegCommandArgs(VideoQualityInfo inputVideoQualityInfo);
+
+        public override string ToString()
+        {
+            return this.FormatName;
+        }
+
+        public override bool Equals(object obj)
+        {
+            string b = obj as string;
+            if (b == null)
+                return base.Equals(obj);
+            return string.Equals(this.FormatName, b, StringComparison.OrdinalIgnoreCase);
+        }
+
+        public override int GetHashCode()
+        {
+            return base.GetHashCode();
+        }
+
+        public string CreateCommandArg(string pattern, string value)
+        {
+            string str = string.Empty;
+            if (!string.IsNullOrWhiteSpace(pattern) && !string.IsNullOrWhiteSpace(value))
+                str = string.Format(pattern, (object)value);
+            return str;
+        }
+
+        public virtual void ReadJson(JsonTextReader jsonTextReader)
+        {
+            while (jsonTextReader.Read() && jsonTextReader.TokenType != JsonToken.EndObject)
+            {
+                if (jsonTextReader.TokenType == JsonToken.PropertyName)
+                {
+                    string str = (string)jsonTextReader.Value;
+                    if (!(str == "OutputFileName"))
+                    {
+                        if (str == "DeleteInputFile")
+                        {
+                            jsonTextReader.Read();
+                            this.DeleteInputFile = (bool)jsonTextReader.Value;
+                        }
+                    }
+                    else
+                        this.OutputFileName = jsonTextReader.ReadAsString();
+                }
+            }
+        }
+
+        public virtual void WriteJson(JsonTextWriter jsonTextWriter)
+        {
+            jsonTextWriter.WriteStartObject();
+            jsonTextWriter.WritePropertyName("$type");
+            jsonTextWriter.WriteValue(this.GetType().ToString());
+            jsonTextWriter.WritePropertyName("OutputFileName");
+            jsonTextWriter.WriteValue(this.OutputFileName);
+            jsonTextWriter.WritePropertyName("DeleteInputFile");
+            jsonTextWriter.WriteValue(this.DeleteInputFile);
+            jsonTextWriter.WriteEndObject();
+        }
     }
-  }
 }

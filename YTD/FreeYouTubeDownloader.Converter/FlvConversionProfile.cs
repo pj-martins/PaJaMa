@@ -10,37 +10,37 @@ using System.Collections.Generic;
 
 namespace FreeYouTubeDownloader.Converter
 {
-  internal sealed class FlvConversionProfile : ConversionProfile
-  {
-    public static readonly IEnumerable<AudioStreamType> PreferredAudioStreamTypesStatic = (IEnumerable<AudioStreamType>) new AudioStreamType[2]
+    public sealed class FlvConversionProfile : ConversionProfile
     {
+        public static readonly IEnumerable<AudioStreamType> PreferredAudioStreamTypesStatic = (IEnumerable<AudioStreamType>)new AudioStreamType[2]
+        {
       AudioStreamType.Mp4,
       AudioStreamType.M4A
-    };
-    private const string FfmpegConvertCommandArgsPatternConvert = "-y -i \"{0}\" -qscale 0 {1} \"{2}\"";
+        };
+        private const string FfmpegConvertCommandArgsPatternConvert = "-y -i \"{0}\" -qscale 0 {1} \"{2}\"";
 
-    internal override string FormatName
-    {
-      get
-      {
-        return "FLV";
-      }
-      set
-      {
-      }
-    }
+        public override string FormatName
+        {
+            get
+            {
+                return "FLV";
+            }
+            set
+            {
+            }
+        }
 
-    internal override IEnumerable<AudioStreamType> PreferredAudioStreamTypes
-    {
-      get
-      {
-        return FlvConversionProfile.PreferredAudioStreamTypesStatic;
-      }
-    }
+        public override IEnumerable<AudioStreamType> PreferredAudioStreamTypes
+        {
+            get
+            {
+                return FlvConversionProfile.PreferredAudioStreamTypesStatic;
+            }
+        }
 
-    internal override string GetFfmpegCommandArgs(VideoQualityInfo inputVideoQualityInfo)
-    {
-      return string.Format("-y -i \"{0}\" -qscale 0 {1} \"{2}\"", (object) this.InputFileName, (object) this.VideoScaleCommandArg, (object) this.OutputFileName);
+        public override string GetFfmpegCommandArgs(VideoQualityInfo inputVideoQualityInfo)
+        {
+            return string.Format("-y -i \"{0}\" -qscale 0 {1} \"{2}\"", (object)this.InputFileName, (object)this.VideoScaleCommandArg, (object)this.OutputFileName);
+        }
     }
-  }
 }

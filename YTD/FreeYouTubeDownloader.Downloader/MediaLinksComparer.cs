@@ -8,18 +8,18 @@ using System.Collections.Generic;
 
 namespace FreeYouTubeDownloader.Downloader
 {
-  internal class MediaLinksComparer : EqualityComparer<MediaLink>
-  {
-    public override bool Equals(MediaLink x, MediaLink y)
+    public class MediaLinksComparer : EqualityComparer<MediaLink>
     {
-      return x.Equals((object) y);
-    }
+        public override bool Equals(MediaLink x, MediaLink y)
+        {
+            return x.Equals((object)y);
+        }
 
-    public override int GetHashCode(MediaLink obj)
-    {
-      if (obj == null)
-        return 0;
-      return obj.GetHashCode();
+        public override int GetHashCode(MediaLink obj)
+        {
+            if (obj == null)
+                return 0;
+            return obj.GetHashCode();
+        }
     }
-  }
 }

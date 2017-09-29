@@ -15,7 +15,7 @@ using System.Xml.Linq;
 
 namespace FreeYouTubeDownloader.Downloader.Providers
 {
-    internal class YouTubeDownloadProvider : DownloadProvider, IVideoInfoAnalyzer, IGetVideoId
+    public class YouTubeDownloadProvider : DownloadProvider, IVideoInfoAnalyzer, IGetVideoId
     {
         private static readonly string[] TicketExpressions = new string[2]
         {

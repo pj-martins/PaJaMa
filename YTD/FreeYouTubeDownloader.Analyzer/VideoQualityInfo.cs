@@ -13,73 +13,73 @@ using System.Reflection;
 
 namespace FreeYouTubeDownloader.Analyzer
 {
-  internal class VideoQualityInfo : IJsonSerializable
-  {
-    internal string FormatName { get; set; }
-
-    internal double Duration { get; set; }
-
-    internal long Size { get; set; }
-
-    internal MediaLink File { get; set; }
-
-    public void ReadJson(JsonTextReader jsonTextReader)
+    public class VideoQualityInfo : IJsonSerializable
     {
-      List<StreamInfo> streamInfoList = new List<StreamInfo>();
-      while (jsonTextReader.Read() && jsonTextReader.TokenType != JsonToken.EndObject)
-      {
-        if (jsonTextReader.TokenType == JsonToken.PropertyName)
+        public string FormatName { get; set; }
+
+        public double Duration { get; set; }
+
+        public long Size { get; set; }
+
+        public MediaLink File { get; set; }
+
+        public void ReadJson(JsonTextReader jsonTextReader)
         {
-          string str = (string) jsonTextReader.Value;
-          if (!(str == "FormatName"))
-          {
-            if (!(str == "Duration"))
+            List<StreamInfo> streamInfoList = new List<StreamInfo>();
+            while (jsonTextReader.Read() && jsonTextReader.TokenType != JsonToken.EndObject)
             {
-              if (!(str == "Size"))
-              {
-                if (str == "File")
+                if (jsonTextReader.TokenType == JsonToken.PropertyName)
                 {
-                  jsonTextReader.Read();
-                  jsonTextReader.Read();
-                  this.File = (MediaLink) Activator.CreateInstance(Assembly.Load("FreeYouTubeDownloader.Downloader").GetType(jsonTextReader.ReadAsString()));
-                  this.File.ReadJson(jsonTextReader);
+                    string str = (string)jsonTextReader.Value;
+                    if (!(str == "FormatName"))
+                    {
+                        if (!(str == "Duration"))
+                        {
+                            if (!(str == "Size"))
+                            {
+                                if (str == "File")
+                                {
+                                    jsonTextReader.Read();
+                                    jsonTextReader.Read();
+                                    this.File = (MediaLink)Activator.CreateInstance(Assembly.Load("FreeYouTubeDownloader.Downloader").GetType(jsonTextReader.ReadAsString()));
+                                    this.File.ReadJson(jsonTextReader);
+                                }
+                            }
+                            else
+                            {
+                                jsonTextReader.Read();
+                                this.Size = (long)jsonTextReader.Value;
+                            }
+                        }
+                        else
+                        {
+                            jsonTextReader.Read();
+                            this.Duration = (double)jsonTextReader.Value;
+                        }
+                    }
+                    else
+                        this.FormatName = jsonTextReader.ReadAsString();
                 }
-              }
-              else
-              {
-                jsonTextReader.Read();
-                this.Size = (long) jsonTextReader.Value;
-              }
             }
-            else
-            {
-              jsonTextReader.Read();
-              this.Duration = (double) jsonTextReader.Value;
-            }
-          }
-          else
-            this.FormatName = jsonTextReader.ReadAsString();
         }
-      }
-    }
 
-    public void WriteJson(JsonTextWriter jsonTextWriter)
-    {
-      jsonTextWriter.WriteStartObject();
-      jsonTextWriter.WritePropertyName("$type");
-      jsonTextWriter.WriteValue(this.GetType().ToString());
-      jsonTextWriter.WritePropertyName("FormatName");
-      jsonTextWriter.WriteValue(this.FormatName);
-      jsonTextWriter.WritePropertyName("Duration");
-      jsonTextWriter.WriteValue(this.Duration);
-      jsonTextWriter.WritePropertyName("Size");
-      jsonTextWriter.WriteValue(this.Size);
-      if (this.File != null)
-      {
-        jsonTextWriter.WritePropertyName("File");
-        this.File.WriteJson(jsonTextWriter);
-      }
-      jsonTextWriter.WriteEndObject();
+        public void WriteJson(JsonTextWriter jsonTextWriter)
+        {
+            jsonTextWriter.WriteStartObject();
+            jsonTextWriter.WritePropertyName("$type");
+            jsonTextWriter.WriteValue(this.GetType().ToString());
+            jsonTextWriter.WritePropertyName("FormatName");
+            jsonTextWriter.WriteValue(this.FormatName);
+            jsonTextWriter.WritePropertyName("Duration");
+            jsonTextWriter.WriteValue(this.Duration);
+            jsonTextWriter.WritePropertyName("Size");
+            jsonTextWriter.WriteValue(this.Size);
+            if (this.File != null)
+            {
+                jsonTextWriter.WritePropertyName("File");
+                this.File.WriteJson(jsonTextWriter);
+            }
+            jsonTextWriter.WriteEndObject();
+        }
     }
-  }
 }

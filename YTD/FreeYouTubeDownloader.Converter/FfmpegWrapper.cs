@@ -19,7 +19,7 @@ using System.Text.RegularExpressions;
 
 namespace FreeYouTubeDownloader.Converter
 {
-    internal class FfmpegWrapper : ConversionTask
+    public class FfmpegWrapper : ConversionTask
     {
         private static readonly object Locker = new object();
         private const string RegexVideoSize = "(\\d{2,5}[x|X]\\d{2,5})";
@@ -48,7 +48,7 @@ namespace FreeYouTubeDownloader.Converter
 
         public string VideoSize { get; set; }
 
-        internal ConversionProfile ConversionProfile
+        public ConversionProfile ConversionProfile
         {
             get
             {
@@ -230,7 +230,7 @@ namespace FreeYouTubeDownloader.Converter
             }
         }
 
-        internal MediaMetadata ObtainMediaMetadata(string inputFile)
+        public MediaMetadata ObtainMediaMetadata(string inputFile)
         {
             this.EnsureFFMpegLibs();
             if (!File.Exists(this._ffmpegFileName))

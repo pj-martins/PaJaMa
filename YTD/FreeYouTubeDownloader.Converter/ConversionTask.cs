@@ -9,44 +9,44 @@ using System;
 
 namespace FreeYouTubeDownloader.Converter
 {
-  internal class ConversionTask : IConverter
-  {
-    public event ConversionTask.ProgressChangedEvent ProgressChanged;
-
-    public event ConversionTask.ConversionCompletedEvent ConversionCompleted;
-
-    public virtual void Convert(string inputFileName, ConversionProfile conversionProfile, VideoQualityInfo inputVideoQualityInfo)
+    public class ConversionTask : IConverter
     {
-      throw new NotImplementedException("ConversionTask.Convert(string, ConversionProfile, VideoQualityInfo)");
+        public event ConversionTask.ProgressChangedEvent ProgressChanged;
+
+        public event ConversionTask.ConversionCompletedEvent ConversionCompleted;
+
+        public virtual void Convert(string inputFileName, ConversionProfile conversionProfile, VideoQualityInfo inputVideoQualityInfo)
+        {
+            throw new NotImplementedException("ConversionTask.Convert(string, ConversionProfile, VideoQualityInfo)");
+        }
+
+        public virtual void Cancel()
+        {
+            throw new NotImplementedException("ConversionTask.Cancel()");
+        }
+
+        protected void RaiseProgressChanged(int progressInPercent)
+        {
+            // ISSUE: reference to a compiler-generated field
+            ConversionTask.ProgressChangedEvent progressChanged = this.ProgressChanged;
+            if (progressChanged == null)
+                return;
+            ProgressChangedEventArgs args = new ProgressChangedEventArgs(progressInPercent);
+            progressChanged((object)this, args);
+        }
+
+        protected void RaiseConversionCompleted(bool succeeded, bool isCanceled = false, Exception error = null)
+        {
+            // ISSUE: reference to a compiler-generated field
+            ConversionTask.ConversionCompletedEvent conversionCompleted = this.ConversionCompleted;
+            if (conversionCompleted == null)
+                return;
+            ConversionCompletedEventArgs args = new ConversionCompletedEventArgs(succeeded, isCanceled, error);
+            conversionCompleted((object)this, args);
+        }
+
+        public delegate void ProgressChangedEvent(object sender, ProgressChangedEventArgs args);
+
+        public delegate void ConversionCompletedEvent(object sender, ConversionCompletedEventArgs args);
     }
-
-    public virtual void Cancel()
-    {
-      throw new NotImplementedException("ConversionTask.Cancel()");
-    }
-
-    protected void RaiseProgressChanged(int progressInPercent)
-    {
-      // ISSUE: reference to a compiler-generated field
-      ConversionTask.ProgressChangedEvent progressChanged = this.ProgressChanged;
-      if (progressChanged == null)
-        return;
-      ProgressChangedEventArgs args = new ProgressChangedEventArgs(progressInPercent);
-      progressChanged((object) this, args);
-    }
-
-    protected void RaiseConversionCompleted(bool succeeded, bool isCanceled = false, Exception error = null)
-    {
-      // ISSUE: reference to a compiler-generated field
-      ConversionTask.ConversionCompletedEvent conversionCompleted = this.ConversionCompleted;
-      if (conversionCompleted == null)
-        return;
-      ConversionCompletedEventArgs args = new ConversionCompletedEventArgs(succeeded, isCanceled, error);
-      conversionCompleted((object) this, args);
-    }
-
-    public delegate void ProgressChangedEvent(object sender, ProgressChangedEventArgs args);
-
-    public delegate void ConversionCompletedEvent(object sender, ConversionCompletedEventArgs args);
-  }
 }

@@ -16,6 +16,65 @@ namespace FreeYouTubeDownloader
     public partial class MainWindow
     {
         private IContainer components;
+        private System.Windows.Forms.TextBox textBoxUrl;
+        private TableLayoutPanel tableLayoutPanel;
+        private StatusStrip statusStrip;
+        private ToolStripStatusLabel toolStripStatusLabel;
+        private ObjectListView olvDownloads;
+        private OLVColumn olvColumnProgress;
+        private OLVColumn olvColumnDownloadSpeed;
+        private OLVColumn olvColumnEta;
+        private OLVColumn olvColumnName;
+        private BarRenderer barRenderer;
+        private OLVColumn olvColumnSize;
+        private OLVColumn olvColumnDuration;
+        private MenuStrip menuStrip;
+        private ToolStripMenuItem windowToolStripMenuItem;
+        private ToolStripMenuItem exitToolStripMenuItem;
+        private ToolStripMenuItem settingsToolStripMenuItem;
+        private ToolStripMenuItem preferencesToolStripMenuItem;
+        private OLVColumn olvColumnStatus;
+        private OLVColumn olvColumnFormat;
+        private ToolStripMenuItem minimizeToolStripMenuItem;
+        private ToolStripMenuItem versionNumberToolStripMenuItem;
+        private ToolStripMenuItem minimizeToNotificationAreaToolStripMenuItem;
+        private ToolStripSeparator toolStripSeparator1;
+        private TableLayoutPanel tableLayoutPanelActionButtons;
+        private System.Windows.Forms.Button buttonConvert;
+        private ToolStripMenuItem alwaysOnTopMenuItem;
+        private System.Windows.Forms.ToolTip toolTip;
+        private TableLayoutPanel tableLayoutPanelActionButtonsContainer;
+        private TransparentPictureBox picBoxVideo;
+        private SplitButton splitButtonActionVideo;
+        private SplitButton splitButtonActionAudio;
+        private TransparentPictureBox picBoxAudio;
+        private TableLayoutPanel tableLayoutPanel2;
+        private PictureBox pictureBoxSettings;
+        private LinkLabel lnkLabelSettings;
+        private System.Windows.Forms.Button btnVideoFiles;
+        private System.Windows.Forms.Button btnAudioFiles;
+        private ContextMenuStrip contextMenuStripDownloadVideo;
+        private ContextMenuStrip contextMenuStripDownloadAudio;
+        private ToolStripMenuItem askFileNameAndFolderToolStripMenuItem;
+        private OLVColumn olvColumnFrameSize;
+        private System.Windows.Forms.Panel panelButtonActionVideo;
+        private System.Windows.Forms.Panel panelButtonActionAudio;
+        private System.Windows.Forms.Panel PanelContainerAutoComplete;
+        private System.Windows.Forms.Panel PanelWrapperContainerAutoComplete;
+        private System.Windows.Forms.ProgressBar progressBarLoadingData;
+        private System.Windows.Forms.Panel panelSearchResult;
+        private System.Windows.Forms.Label lblSearchResultTitle;
+        private System.Windows.Forms.Label lblSearchResultTime;
+        private System.Windows.Forms.Label lblSearchResultDescription;
+        private PictureBox pictureBoxOpenFile;
+        private System.Windows.Forms.ToolTip toolTipPictureBoxOpenFile;
+        private PictureBox pictureBoxCopyPath;
+        private ToolStripSeparator toolStripSeparator2;
+        private ToolStripMenuItem compatibleURLNotificationToolStripMenuItem;
+        private ToolStripSeparator toolStripSeparator3;
+        private ToolStripMenuItem autoDownloadMenuItem;
+        private ToolStripMenuItem videoAutoDownloadMenuItem;
+        private ToolStripMenuItem audioAutoDownloadMenuItem;
 
         private void InitializeComponent()
         {

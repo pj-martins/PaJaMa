@@ -8,16 +8,16 @@ using System.Collections.Generic;
 
 namespace FreeYouTubeDownloader.Downloader
 {
-  internal class VideoStreamQualityDistinctComparer : IEqualityComparer<VideoLink>
-  {
-    public bool Equals(VideoLink x, VideoLink y)
+    public class VideoStreamQualityDistinctComparer : IEqualityComparer<VideoLink>
     {
-      return x.VideoStreamQuality == y.VideoStreamQuality;
-    }
+        public bool Equals(VideoLink x, VideoLink y)
+        {
+            return x.VideoStreamQuality == y.VideoStreamQuality;
+        }
 
-    public int GetHashCode(VideoLink obj)
-    {
-      return obj.VideoStreamQuality.GetHashCode();
+        public int GetHashCode(VideoLink obj)
+        {
+            return obj.VideoStreamQuality.GetHashCode();
+        }
     }
-  }
 }

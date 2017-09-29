@@ -11,32 +11,32 @@ using System.Collections.Generic;
 
 namespace FreeYouTubeDownloader.Converter
 {
-  internal class YouTubeDashAudioNormalizer : ConversionProfile
-  {
-    private const string FfmpegCommandArgsPattern = "-y -i \"{0}\" -f {2} -acodec copy -vcodec copy \"{1}\"";
-
-    internal override string FormatName
+    public class YouTubeDashAudioNormalizer : ConversionProfile
     {
-      get
-      {
-        return "MP4";
-      }
-      set
-      {
-      }
-    }
+        private const string FfmpegCommandArgsPattern = "-y -i \"{0}\" -f {2} -acodec copy -vcodec copy \"{1}\"";
 
-    internal override IEnumerable<AudioStreamType> PreferredAudioStreamTypes
-    {
-      get
-      {
-        throw new NotImplementedException();
-      }
-    }
+        public override string FormatName
+        {
+            get
+            {
+                return "MP4";
+            }
+            set
+            {
+            }
+        }
 
-    internal override string GetFfmpegCommandArgs(VideoQualityInfo inputVideoQualityInfo)
-    {
-      return string.Format("-y -i \"{0}\" -f {2} -acodec copy -vcodec copy \"{1}\"", (object) this.InputFileName, (object) this.OutputFileName, (object) this.FormatName);
+        public override IEnumerable<AudioStreamType> PreferredAudioStreamTypes
+        {
+            get
+            {
+                throw new NotImplementedException();
+            }
+        }
+
+        public override string GetFfmpegCommandArgs(VideoQualityInfo inputVideoQualityInfo)
+        {
+            return string.Format("-y -i \"{0}\" -f {2} -acodec copy -vcodec copy \"{1}\"", (object)this.InputFileName, (object)this.OutputFileName, (object)this.FormatName);
+        }
     }
-  }
 }

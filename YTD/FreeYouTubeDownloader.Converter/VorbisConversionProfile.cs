@@ -10,35 +10,35 @@ using System.Collections.Generic;
 
 namespace FreeYouTubeDownloader.Converter
 {
-  public class VorbisConversionProfile : ConversionProfile
-  {
-    private const string FfmpegCommandArgsPattern = "-i \"{0}\" -acodec libvorbis -vn {1} \"{2}\"";
-
-    internal override string FormatName
+    public class VorbisConversionProfile : ConversionProfile
     {
-      get
-      {
-        return "OGG";
-      }
-      set
-      {
-      }
-    }
+        private const string FfmpegCommandArgsPattern = "-i \"{0}\" -acodec libvorbis -vn {1} \"{2}\"";
 
-    internal override IEnumerable<AudioStreamType> PreferredAudioStreamTypes
-    {
-      get
-      {
-        return (IEnumerable<AudioStreamType>) new AudioStreamType[1]
+        public override string FormatName
         {
-          AudioStreamType.WebM
-        };
-      }
-    }
+            get
+            {
+                return "OGG";
+            }
+            set
+            {
+            }
+        }
 
-    internal override string GetFfmpegCommandArgs(VideoQualityInfo inputVideoQualityInfo)
-    {
-      return string.Format("-i \"{0}\" -acodec libvorbis -vn {1} \"{2}\"", (object) this.InputFileName, (object) this.AudioBitRateCommandArg, (object) this.OutputFileName);
+        public override IEnumerable<AudioStreamType> PreferredAudioStreamTypes
+        {
+            get
+            {
+                return (IEnumerable<AudioStreamType>)new AudioStreamType[1]
+                {
+          AudioStreamType.WebM
+                };
+            }
+        }
+
+        public override string GetFfmpegCommandArgs(VideoQualityInfo inputVideoQualityInfo)
+        {
+            return string.Format("-i \"{0}\" -acodec libvorbis -vn {1} \"{2}\"", (object)this.InputFileName, (object)this.AudioBitRateCommandArg, (object)this.OutputFileName);
+        }
     }
-  }
 }

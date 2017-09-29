@@ -11,14 +11,14 @@ using System.Linq;
 
 namespace FreeYouTubeDownloader.Converter
 {
-  internal class FileMergeTaskParameters
-  {
-    public string[] Input;
-    public string Output;
-
-    internal string GetCommandLine()
+    public class FileMergeTaskParameters
     {
-      return string.Format(Path.GetExtension(this.Output).ToLower().Equals(".webm") ? "-y {0} -c:v copy -f webm -c:a copy \"{1}\"" : "{0} -c:v copy -c:a copy -y -nostdin -f mp4 \"{1}\"", (object) ((IEnumerable<string>) this.Input).Aggregate<string, string>(string.Empty, (Func<string, string, string>) ((current, inputFile) => current + string.Format(" -i \"{0}\"", (object) inputFile))), (object) this.Output);
+        public string[] Input;
+        public string Output;
+
+        public string GetCommandLine()
+        {
+            return string.Format(Path.GetExtension(this.Output).ToLower().Equals(".webm") ? "-y {0} -c:v copy -f webm -c:a copy \"{1}\"" : "{0} -c:v copy -c:a copy -y -nostdin -f mp4 \"{1}\"", (object)((IEnumerable<string>)this.Input).Aggregate<string, string>(string.Empty, (Func<string, string, string>)((current, inputFile) => current + string.Format(" -i \"{0}\"", (object)inputFile))), (object)this.Output);
+        }
     }
-  }
 }

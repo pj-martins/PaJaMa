@@ -18,7 +18,7 @@ namespace FreeYouTubeDownloader.Converter
     };
     private const string FfmpegConvertCommandArgsPatternConvert = "-y -i \"{0}\" -c:v libvpx -b:v 1900K -crf 10 -f webm {1} \"{2}\"";
 
-    internal override string FormatName
+    public override string FormatName
     {
       get
       {
@@ -29,7 +29,7 @@ namespace FreeYouTubeDownloader.Converter
       }
     }
 
-    internal override IEnumerable<AudioStreamType> PreferredAudioStreamTypes
+    public override IEnumerable<AudioStreamType> PreferredAudioStreamTypes
     {
       get
       {
@@ -37,7 +37,7 @@ namespace FreeYouTubeDownloader.Converter
       }
     }
 
-    internal override string GetFfmpegCommandArgs(VideoQualityInfo inputVideoQualityInfo)
+    public override string GetFfmpegCommandArgs(VideoQualityInfo inputVideoQualityInfo)
     {
       return string.Format("-y -i \"{0}\" -c:v libvpx -b:v 1900K -crf 10 -f webm {1} \"{2}\"", (object) this.InputFileName, (object) this.VideoScaleCommandArg, (object) this.OutputFileName);
     }

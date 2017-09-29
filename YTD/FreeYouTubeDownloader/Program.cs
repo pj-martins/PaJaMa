@@ -19,7 +19,7 @@ using System.Windows.Forms;
 
 namespace FreeYouTubeDownloader
 {
-    internal static class Program
+    static class Program
     {
         internal static readonly NetworkMonitor NetworkMonitor = new NetworkMonitor();
         private const string AppGuid = "cac59cef-f70f-43e2-80ed-013c89cd7666";

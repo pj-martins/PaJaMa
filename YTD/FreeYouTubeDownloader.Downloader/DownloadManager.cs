@@ -12,28 +12,28 @@ using System.Text.RegularExpressions;
 
 namespace FreeYouTubeDownloader.Downloader
 {
-  internal static class DownloadManager
-  {
-    private static readonly List<DownloadProvider> Providers = new List<DownloadProvider>()
+    public static class DownloadManager
+    {
+        private static readonly List<DownloadProvider> Providers = new List<DownloadProvider>()
     {
       (DownloadProvider) new YouTubeDownloadProvider()
     };
 
-    internal static DownloadProvider GetProviderForUrl(string url)
-    {
-      return DownloadManager.Providers.SingleOrDefault<DownloadProvider>((Func<DownloadProvider, bool>) (provider => Regex.IsMatch(url, provider.UrlPattern)));
-    }
+        public static DownloadProvider GetProviderForUrl(string url)
+        {
+            return DownloadManager.Providers.SingleOrDefault<DownloadProvider>((Func<DownloadProvider, bool>)(provider => Regex.IsMatch(url, provider.UrlPattern)));
+        }
 
-    internal static DownloadProvider GetProviderByProviderType(Type providerType)
-    {
-      return DownloadManager.Providers.SingleOrDefault<DownloadProvider>((Func<DownloadProvider, bool>) (provider => provider.GetType() == providerType));
-    }
+        public static DownloadProvider GetProviderByProviderType(Type providerType)
+        {
+            return DownloadManager.Providers.SingleOrDefault<DownloadProvider>((Func<DownloadProvider, bool>)(provider => provider.GetType() == providerType));
+        }
 
-    internal static bool HasProviderForUrl(string url)
-    {
-      if (!string.IsNullOrWhiteSpace(url))
-        return DownloadManager.Providers.Any<DownloadProvider>((Func<DownloadProvider, bool>) (provider => Regex.IsMatch(url, provider.UrlPattern)));
-      return false;
+        public static bool HasProviderForUrl(string url)
+        {
+            if (!string.IsNullOrWhiteSpace(url))
+                return DownloadManager.Providers.Any<DownloadProvider>((Func<DownloadProvider, bool>)(provider => Regex.IsMatch(url, provider.UrlPattern)));
+            return false;
+        }
     }
-  }
 }

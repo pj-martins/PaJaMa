@@ -8,13 +8,13 @@ using System.Collections.Generic;
 
 namespace FreeYouTubeDownloader.Downloader
 {
-  internal class VideoInfo : MediaInfo
-  {
-    public List<Thumbnail> Thumbnails;
-
-    public VideoInfo()
+    public class VideoInfo : MediaInfo
     {
-      this.Thumbnails = new List<Thumbnail>();
+        public List<Thumbnail> Thumbnails;
+
+        public VideoInfo()
+        {
+            this.Thumbnails = new List<Thumbnail>();
+        }
     }
-  }
 }
