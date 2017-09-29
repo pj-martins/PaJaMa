@@ -5,7 +5,6 @@
 // Assembly location: C:\Program Files (x86)\Free YouTube Downloader\FreeYouTubeDownloader.Downloader.dll
 
 using FreeYouTubeDownloader.Common;
-using FreeYouTubeDownloader.Debug;
 using FreeYouTubeDownloader.Localization;
 using Newtonsoft.Json.Linq;
 using System;
@@ -928,7 +927,6 @@ namespace FreeYouTubeDownloader.Downloader.Providers
 
         public VideoInfo ParseVideoInfo(string videoInfoContent)
         {
-            Log.Trace("CALL YouTubeDownloadProvider.ParseVideoInfo(string)", (Exception)null);
             if (string.IsNullOrEmpty(videoInfoContent))
                 throw new ProviderParsingException("Unable to get video info content", this._url);
             if (videoInfoContent.JustAfter("status=", "&") == "fail")
@@ -964,7 +962,6 @@ namespace FreeYouTubeDownloader.Downloader.Providers
 
         public void ParseVideoInfo(Uri videoInfoUrl, string pageData, Action<MediaInfo> callback, object userState)
         {
-            Log.Trace("CALL YouTubeDownloadProvider.ParseVideoInfo(Uri, string, Action<MediaInfo>, object)", (Exception)null);
             HttpUtil.Instance.GetData(videoInfoUrl, (Action<string>)(content => this.VideoInfoContentReceived(content, pageData, callback, userState)), "GET", (Dictionary<string, object>)null);
         }
 
@@ -975,7 +972,6 @@ namespace FreeYouTubeDownloader.Downloader.Providers
 
         public void VideoInfoContentReceived(string videoInfoContent, string pageData, Action<MediaInfo> callback, object userState)
         {
-            Log.Trace("CALL YouTubeDownloadProvider.VideoInfoContentReceived(string, string, Action<MediaInfo>, object)", (Exception)null);
             VideoInfo videoInfo1 = new VideoInfo();
             string url1 = this._url;
             videoInfo1.SourceUrl = url1;
@@ -993,7 +989,6 @@ namespace FreeYouTubeDownloader.Downloader.Providers
             }
             catch (Exception ex1)
             {
-                Log.Warning("YouTubeDownloadProvider.VideoInfoContentReceived(string, string, Action<MediaInfo>, object) => " + ex1.Message, (Exception)null);
                 Match match1 = new Regex(YouTubeDownloadProvider.TicketExpressions[0]).Match(pageData);
                 if (string.IsNullOrEmpty(match1.Value))
                 {
@@ -1070,7 +1065,6 @@ namespace FreeYouTubeDownloader.Downloader.Providers
 
         public override void ReceiveMediaInfo(string url, string pageData, Action<MediaInfo> callback)
         {
-            Log.Trace("CALL YouTubeDownloadProvider.ReceiveMediaInfo(string, string, Action<MediaInfo>)", (Exception)null);
             this._url = url;
             List<MediaLink> mediaLinkList = new List<MediaLink>();
             VideoInfo videoInfo1 = new VideoInfo();
@@ -1140,7 +1134,6 @@ namespace FreeYouTubeDownloader.Downloader.Providers
                 }
                 else
                 {
-                    Log.Warning("Fallback to get_video_info! Url: " + this._url, (Exception)null);
                     string videoId = this.GetVideoId(url);
                     if (string.IsNullOrEmpty(videoId))
                         throw new ProviderParsingException("Unable to get video id", url);
@@ -1159,7 +1152,6 @@ namespace FreeYouTubeDownloader.Downloader.Providers
 
         public override void ReceiveMediaInfoFromServerSide(string url, Action<MediaInfo> callback)
         {
-            Log.Trace("CALL YouTubeDownloadProvider.ReceiveMediaInfoFromServerSide(string, Action<MediaInfo>)", (Exception)null);
             string dataSync = HttpUtil.Instance.GetDataSync(string.Format("https://api.videoplex.com/getVideo?url={0}&token={1}&optimized=true&excludeFields=quality,videoType,bitrate,resolution,qualityDescription,videoOnly,audioOnly,duration,metaData,uploadDate,type,websiteLogos,isAdult,website", (object)url, (object)Authorization.GenerateToken()), "GET", (Dictionary<string, object>)null);
             if (string.IsNullOrEmpty(dataSync))
                 throw new ProviderParsingException("Could not obtain media information from the remote source", url);
@@ -1333,13 +1325,11 @@ namespace FreeYouTubeDownloader.Downloader.Providers
                 }
                 return mediaLink;
             }
-            Log.Warning(string.Format("Found unknown itag {0}", (object)key), (Exception)null);
             return (MediaLink)null;
         }
 
         private List<MediaLink> GetLinksFromDashManifest(string dashManifest)
         {
-            Log.Trace("CALL YouTubeDownloadProvider.GetLinksFromDashManifest(string)", (Exception)null);
             XDocument xdocument = XDocument.Parse(dashManifest);
             XNamespace defaultNamespace = xdocument.Root.GetDefaultNamespace();
             xdocument.Root.GetNamespaceOfPrefix("yt");
@@ -1365,7 +1355,6 @@ namespace FreeYouTubeDownloader.Downloader.Providers
                         }
                         else
                         {
-                            Log.Warning(string.Format("[YouTubeDownloadProvider.GetLinksFromDashManifest] : unknown itag {0} was discovered", (object)int32_1), (Exception)null);
                             itag = YouTubeDownloadProvider.Itags.Values.First<Itag>();
                         }
                         if (itag.IsVideoTag)

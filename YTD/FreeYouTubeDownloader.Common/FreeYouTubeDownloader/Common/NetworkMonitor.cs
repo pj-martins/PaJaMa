@@ -5,7 +5,6 @@
 // Assembly location: C:\Program Files (x86)\Free YouTube Downloader\FreeYouTubeDownloader.Common.dll
 
 using FreeYouTubeDownloader.Common.Collections;
-using FreeYouTubeDownloader.Debug;
 using System;
 using System.Linq;
 using System.Net;
@@ -88,7 +87,6 @@ namespace FreeYouTubeDownloader.Common
       }
       catch (WebException ex1)
       {
-        Log.Info("NetworkMonitor.CheckInternetConnection => " + ex1.Message, (Exception) null);
         try
         {
           return NetworkMonitor.Ping("http://wd.getyoutubedownloader.com/check/check.jpg");

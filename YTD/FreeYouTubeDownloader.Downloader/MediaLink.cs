@@ -5,7 +5,6 @@
 // Assembly location: C:\Program Files (x86)\Free YouTube Downloader\FreeYouTubeDownloader.Downloader.dll
 
 using FreeYouTubeDownloader.Common;
-using FreeYouTubeDownloader.Debug;
 using FreeYouTubeDownloader.Downloader.Providers;
 using Newtonsoft.Json;
 using System;
@@ -73,7 +72,6 @@ namespace FreeYouTubeDownloader.Downloader
 
     public void UpdateLink()
     {
-      Log.Trace("CALL MediaLink.UpdateLink", (Exception) null);
       if (this.Expire.HasValue && this.Expire.Value <= DateTime.Now)
       {
         ManualResetEvent waitHandle = new ManualResetEvent(false);

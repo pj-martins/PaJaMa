@@ -5,7 +5,6 @@
 // Assembly location: C:\Program Files (x86)\Free YouTube Downloader\YouTubeDownloader.exe
 
 using BrightIdeasSoftware;
-using FreeYouTubeDownloader.Ads;
 using FreeYouTubeDownloader.Analyzer;
 using FreeYouTubeDownloader.Common;
 using FreeYouTubeDownloader.Common.Types;
@@ -15,7 +14,6 @@ using FreeYouTubeDownloader.Downloader;
 using FreeYouTubeDownloader.Downloader.Providers;
 using FreeYouTubeDownloader.Downloader.Tasks;
 using FreeYouTubeDownloader.Extensions;
-using FreeYouTubeDownloader.License;
 using FreeYouTubeDownloader.Localization;
 using FreeYouTubeDownloader.Model;
 using FreeYouTubeDownloader.Properties;
@@ -50,11 +48,10 @@ using System.Windows.Controls;
 using System.Windows.Forms;
 using System.Windows.Forms.Layout;
 using wyDay.Controls;
-using wyDay.TurboActivate;
 
 namespace FreeYouTubeDownloader
 {
-    public sealed class MainWindow : Form, ILocalizableForm, IAdsHost
+    public sealed class MainWindow : Form, ILocalizableForm
     {
         private FormWindowState _lastWindowState = FormWindowState.Minimized;
         private bool _connected = true;
@@ -103,19 +100,11 @@ namespace FreeYouTubeDownloader
         private ToolStripMenuItem preferencesToolStripMenuItem;
         private OLVColumn olvColumnStatus;
         private ToolStripMenuItem versionToolStripMenuItem;
-        private ToolStripMenuItem checkForUpdateToolStripMenuItem;
         private OLVColumn olvColumnFormat;
         private ToolStripMenuItem minimizeToolStripMenuItem;
-        private ToolStripMenuItem contributeToolStripMenuItem;
-        private ToolStripMenuItem suggestToolStripMenuItem;
         private ToolStripMenuItem versionNumberToolStripMenuItem;
         private ToolStripMenuItem minimizeToNotificationAreaToolStripMenuItem;
         private ToolStripSeparator toolStripSeparator1;
-        private ToolStripMenuItem downloadLatestVersionToolStripMenuItem;
-        private ToolStripMenuItem becomeAFanToolStripMenuItem;
-        private ToolStripMenuItem helpToolStripMenuItem;
-        private ToolStripMenuItem visitOurWebsiteToolStripMenuItem;
-        private ToolStripMenuItem askAQuestionToolStripMenuItem;
         private TableLayoutPanel tableLayoutPanelActionButtons;
         private System.Windows.Forms.Button buttonConvert;
         private ToolStripMenuItem alwaysOnTopMenuItem;
@@ -126,11 +115,7 @@ namespace FreeYouTubeDownloader
         private SplitButton splitButtonActionAudio;
         private TransparentPictureBox picBoxAudio;
         private TableLayoutPanel tableLayoutPanel2;
-        private PictureBox picBoxHelp;
-        private LinkLabel lnkLabelHelp;
-        private PictureBox picBoxSupport;
         private PictureBox pictureBoxSettings;
-        private LinkLabel lnkLabelSupport;
         private LinkLabel lnkLabelSettings;
         private System.Windows.Forms.Button btnVideoFiles;
         private System.Windows.Forms.Button btnAudioFiles;
@@ -138,34 +123,22 @@ namespace FreeYouTubeDownloader
         private ContextMenuStrip contextMenuStripDownloadAudio;
         private ToolStripMenuItem askFileNameAndFolderToolStripMenuItem;
         private OLVColumn olvColumnFrameSize;
-        private ToolStripMenuItem readDocumentationToolStripMenuItem;
-        private PictureBox picBoxFacebook;
-        private PictureBox picBoxTwitter;
         private System.Windows.Forms.Panel panelButtonActionVideo;
         private System.Windows.Forms.Panel panelButtonActionAudio;
         private System.Windows.Forms.Panel PanelContainerAutoComplete;
         private System.Windows.Forms.Panel PanelWrapperContainerAutoComplete;
         private System.Windows.Forms.ProgressBar progressBarLoadingData;
         private System.Windows.Forms.Panel panelSearchResult;
-        private PictureBoxEx pictureBoxSearchResult;
         private System.Windows.Forms.Label lblSearchResultTitle;
         private System.Windows.Forms.Label lblSearchResultTime;
         private System.Windows.Forms.Label lblSearchResultDescription;
         private PictureBox pictureBoxOpenFile;
         private System.Windows.Forms.ToolTip toolTipPictureBoxOpenFile;
         private PictureBox pictureBoxCopyPath;
-        private ToolStripMenuItem reportAProblemToolStripMenuItem;
-        private ToolStripMenuItem signupForUpdatesToolStripMenuItem;
-        private System.Windows.Forms.Panel panelAdBottom;
-        private System.Windows.Forms.Panel panelAdRight;
         private ToolStripSeparator toolStripSeparator2;
         private ToolStripMenuItem compatibleURLNotificationToolStripMenuItem;
         private ToolStripSeparator toolStripSeparator3;
-        private ToolStripMenuItem aboutToolStripMenuItem;
         private ToolStripSeparator toolStripSeparator4;
-        private ToolStripMenuItem upgradeToProVersionToolStripMenuItem;
-        private ToolStripMenuItem deactivateFYDProToolStripMenuItem;
-        private PictureBox picBoxAppNotify;
         private ToolStripMenuItem autoDownloadMenuItem;
         private ToolStripMenuItem videoAutoDownloadMenuItem;
         private ToolStripMenuItem audioAutoDownloadMenuItem;
@@ -205,20 +178,12 @@ namespace FreeYouTubeDownloader
                 this.textBoxUrl.Tag = (object)value;
                 if (string.IsNullOrEmpty(value))
                 {
-                    this.picBoxFacebook.Enabled = false;
-                    this.picBoxFacebook.Image = (System.Drawing.Image)Resources.facebook_image_dis;
-                    this.picBoxTwitter.Enabled = false;
-                    this.picBoxTwitter.Image = (System.Drawing.Image)Resources.twitter_image_dis;
                     YoutubeHelper.YoutubeSearch.Query = value;
                 }
                 else
                 {
                     if (YoutubeHelper.GetYoutubeVideoIdByUrl(value) == null)
                         return;
-                    this.picBoxFacebook.Enabled = true;
-                    this.picBoxFacebook.Image = (System.Drawing.Image)Resources.facebook_image;
-                    this.picBoxTwitter.Enabled = true;
-                    this.picBoxTwitter.Image = (System.Drawing.Image)Resources.twitter_image;
                 }
             }
         }
@@ -258,11 +223,7 @@ namespace FreeYouTubeDownloader
             DownloadItemViewModel.Initialize((object)this, this.olvDownloads);
             this.HandleCommandArgs();
             this.CheckForSupportedUrlInClipboard(false);
-            if (Settings.Instance.CheckForUpdates)
-                ThreadPool.QueueUserWorkItem((WaitCallback)(foo => this.CheckForNewVersion(false, false)));
             this.olvDownloads.ColumnWidthChanged += new ColumnWidthChangedEventHandler(this.OnColumnWidthChanged);
-            AdsHelper.Init((IAdsHost)this);
-            this.VerifyAndInitializeLicense();
             this.InitializeFromSettings();
             if (WBEmulator.IsBrowserEmulationSet())
                 return;
@@ -417,11 +378,6 @@ namespace FreeYouTubeDownloader
             DownloadItemViewModel.Instance.UpdateQueue();
         }
 
-        private void OnCheckForUpdateMenuItemClick(object sender, EventArgs e)
-        {
-            ThreadPool.QueueUserWorkItem((WaitCallback)(foo => this.CheckForNewVersion(true, false)));
-        }
-
         private void OnMainWindowResize(object sender, EventArgs e)
         {
             this.ResizePanelSearchResultControls(false);
@@ -432,25 +388,9 @@ namespace FreeYouTubeDownloader
             if (this.WindowState == this._lastWindowState)
                 return;
             this._lastWindowState = this.WindowState;
-            if (this.WindowState == FormWindowState.Maximized)
-            {
-                if (LicenseHelper.IsGenuine)
-                    return;
-                this.ShowRightAd(true);
-                this.HideBottomAd(true);
-            }
             if (this.WindowState != FormWindowState.Normal)
                 return;
-            if (LicenseHelper.IsGenuine)
-                return;
-            this.HideRightAd(true);
             DateTime startupTime = Process.GetCurrentProcess().StartTime;
-            this.ShowBottomAd(!this._bottomAdShown & (DownloadItemViewModel.Instance != null && DownloadItemViewModel.Instance.Downloads.Any<DownloadItem>((Func<DownloadItem, bool>)(d => d.TimeStamp > startupTime))));
-        }
-
-        private void OnSuggestMenuItemClick(object sender, EventArgs e)
-        {
-            MainWindow.RunProcessStart(MainWindow.VerifyUrl("https://youtubedownloader.com/suggest-a-feature/", UriKind.Absolute), "https://youtubedownloader.com/suggest-a-feature/", false);
         }
 
         private void OnPlayDownloadClick(object sender, EventArgs eventArgs)
@@ -481,12 +421,6 @@ namespace FreeYouTubeDownloader
             this.Status = Strings.VideoURLCopiedToClipboard;
         }
 
-        private void OnShareVideoOnFacebookDownloadClick(object sender, EventArgs eventArgs)
-        {
-            string str = string.Format("https://www.facebook.com/sharer/sharer.php?u={0}", (object)Uri.EscapeDataString(string.Format("https://savemedia.com/watch?v={0}", (object)new YouTubeDownloadProvider().GetVideoId(((DownloadItem)((ToolStripItem)sender).Tag).SourceUrl))));
-            MainWindow.RunProcessStart(MainWindow.VerifyUrl(str, UriKind.Absolute), str, false);
-        }
-
         private void OnMinimizeMenuItemClick(object sender, EventArgs e)
         {
             this.WindowState = FormWindowState.Minimized;
@@ -497,7 +431,6 @@ namespace FreeYouTubeDownloader
             this.RowSearchResultHide();
             this.SearchDropDownPanelHide(true);
             this.SetEnableDownloadButtons(false, true);
-            this.SetTooltipToFacebookAndTwitterButtons(false);
             if (string.IsNullOrWhiteSpace(this.textBoxUrl.Text) || this.textBoxUrl.Text.Length <= 2 || Strings.PasteURLHere.Equals(this.textBoxUrl.Text))
                 return;
             string str = this.textBoxUrl.Text.Trim();
@@ -581,25 +514,6 @@ namespace FreeYouTubeDownloader
             this.splitButtonActionVideo.Text = string.Format("{0} ({1})", (object)toolStripMenuItem.OwnerItem.Text, (object)toolStripMenuItem.Text);
             VideoStreamType tag = (VideoStreamType)toolStripMenuItem.OwnerItem.Tag;
             VideoQuality videoQuality = (VideoQuality)toolStripMenuItem.Tag;
-            if (!LicenseHelper.IsGenuine)
-            {
-                switch (videoQuality)
-                {
-                    case VideoQuality._4320p:
-                    case VideoQuality._4320p60fps:
-                    case VideoQuality._1440p:
-                    case VideoQuality._1440p60fps:
-                    case VideoQuality._2160p:
-                    case VideoQuality._2160p60fps:
-                    case VideoQuality._3072p:
-                        if (System.Windows.Forms.MessageBox.Show((IWin32Window)this, Strings.UltraHDProSubscriptionMessageText, Strings.SubscribeToFYDPro, MessageBoxButtons.YesNo, MessageBoxIcon.Asterisk) == DialogResult.Yes)
-                            MainWindow.RunDefaultApp("https://youtubedownloader.com/subscribe-to-pro-youtube-downloader/", false, false);
-                        VideoLink videoLink = this._receivedMediaInfo.Links.GetVideoLink(tag, VideoQuality._1080p60fps);
-                        videoQuality = videoLink.VideoStreamQuality;
-                        this.splitButtonActionVideo.Text = string.Format("{0} ({1})", (object)toolStripMenuItem.OwnerItem.Text, (object)videoLink.MediaQuality);
-                        break;
-                }
-            }
             switch (tag)
             {
                 case VideoStreamType.Flv:
@@ -622,25 +536,6 @@ namespace FreeYouTubeDownloader
             ToolStripMenuItem toolStripMenuItem = (ToolStripMenuItem)sender;
             this.splitButtonActionVideo.Text = string.Format("{0} ({1})", (object)toolStripMenuItem.OwnerItem.Text, (object)toolStripMenuItem.Text);
             VideoQuality videoQuality = (VideoQuality)toolStripMenuItem.Tag;
-            if (!LicenseHelper.IsGenuine)
-            {
-                switch (videoQuality)
-                {
-                    case VideoQuality._4320p:
-                    case VideoQuality._4320p60fps:
-                    case VideoQuality._1440p:
-                    case VideoQuality._1440p60fps:
-                    case VideoQuality._2160p:
-                    case VideoQuality._2160p60fps:
-                    case VideoQuality._3072p:
-                        if (System.Windows.Forms.MessageBox.Show((IWin32Window)this, Strings.UltraHDProSubscriptionMessageText, Strings.SubscribeToFYDPro, MessageBoxButtons.OKCancel, MessageBoxIcon.Asterisk) == DialogResult.OK)
-                            MainWindow.RunDefaultApp("https://youtubedownloader.com/subscribe-to-pro-youtube-downloader/", false, false);
-                        VideoLink videoLink = this._receivedMediaInfo.Links.GetVideoLink(VideoQuality._1080p60fps);
-                        videoQuality = videoLink.VideoStreamQuality;
-                        this.splitButtonActionVideo.Text = string.Format("{0} ({1})", (object)toolStripMenuItem.OwnerItem.Text, (object)videoLink.MediaQuality);
-                        break;
-                }
-            }
             this.splitButtonActionVideo.Tag = (object)new ButtonActionData(DesiredAction.DownloadAndConvertToAVI, (object)videoQuality);
         }
 
@@ -736,11 +631,6 @@ namespace FreeYouTubeDownloader
             MainWindow.RunProcessStart(MainWindow.VerifyUrl("https://www.facebook.com/FreeYouTubeDownloader", UriKind.Absolute), "https://www.facebook.com/FreeYouTubeDownloader", false);
         }
 
-        private void OnDownloadLatestVersionMenuItemClick(object sender, EventArgs e)
-        {
-            ThreadPool.QueueUserWorkItem((WaitCallback)(foo => this.CheckForNewVersion(true, true)));
-        }
-
         private void OnMinimizeToTrayMenuItemClick(object sender, EventArgs e)
         {
             this.MinimizeToSystemTray();
@@ -754,11 +644,6 @@ namespace FreeYouTubeDownloader
             this.Show();
             this.Activate();
             this._notifyIcon.Visibility = Visibility.Collapsed;
-        }
-
-        private void OnAskQuestionMenuItemClick(object sender, EventArgs e)
-        {
-            MainWindow.RunProcessStart(MainWindow.VerifyUrl("http://youtubedownloader.com/support", UriKind.Absolute), "http://youtubedownloader.com/support", false);
         }
 
         private void OnMainWindowLoad(object sender, EventArgs e)
@@ -792,20 +677,12 @@ namespace FreeYouTubeDownloader
 
         private void OnInternetAvailabilityChanged(InternetAvailabilityEventArgs args)
         {
-            FreeYouTubeDownloader.Debug.Log.Trace("EVENT MainWindow.OnInternetAvailabilityChanged", (Exception)null);
-            FreeYouTubeDownloader.Debug.Log.Info(string.Format("Internet is {0}", args.HasInternetConnection ? (object)"connected" : (object)"disconnected"), (Exception)null);
             this.Connected = args.HasInternetConnection;
         }
 
         private void OnExtractMp3MenuItemClick(object sender, EventArgs e)
         {
             AudioQuality audioQuality = (AudioQuality)((ToolStripItem)sender).Tag;
-            if (!LicenseHelper.IsGenuine && audioQuality > AudioQuality._128kbps)
-            {
-                if (System.Windows.Forms.MessageBox.Show((IWin32Window)this, Strings.HighBitrateProSubscriptionMessageText, Strings.SubscribeToFYDPro, MessageBoxButtons.YesNo, MessageBoxIcon.Asterisk) == DialogResult.Yes)
-                    MainWindow.RunDefaultApp("https://youtubedownloader.com/subscribe-to-pro-youtube-downloader/", false, false);
-                audioQuality = AudioQuality._128kbps;
-            }
             this.splitButtonActionAudio.Text = string.Format("{0} MP3 ({1} kbps)", (object)Strings.Download, (object)((int)audioQuality).ToString((IFormatProvider)CultureInfo.InvariantCulture));
             this.splitButtonActionAudio.Tag = (object)new ButtonActionData(DesiredAction.ExtractMP3, (object)audioQuality);
         }
@@ -813,12 +690,6 @@ namespace FreeYouTubeDownloader
         private void OnExtractAacMenuItemClick(object sender, EventArgs e)
         {
             AudioQuality audioQuality = (AudioQuality)((ToolStripItem)sender).Tag;
-            if (!LicenseHelper.IsGenuine && audioQuality > AudioQuality._128kbps)
-            {
-                if (System.Windows.Forms.MessageBox.Show((IWin32Window)this, Strings.HighBitrateProSubscriptionMessageText, Strings.SubscribeToFYDPro, MessageBoxButtons.YesNo, MessageBoxIcon.Asterisk) == DialogResult.Yes)
-                    MainWindow.RunDefaultApp("https://youtubedownloader.com/subscribe-to-pro-youtube-downloader/", false, false);
-                audioQuality = AudioQuality._128kbps;
-            }
             this.splitButtonActionAudio.Text = string.Format("{0} AAC ({1} kbps)", (object)Strings.Download, (object)((int)audioQuality).ToString((IFormatProvider)CultureInfo.InvariantCulture));
             this.splitButtonActionAudio.Tag = (object)new ButtonActionData(DesiredAction.ExtractAAC, (object)audioQuality);
         }
@@ -826,12 +697,6 @@ namespace FreeYouTubeDownloader
         private void OnExtractVorbisMenuItemClick(object sender, EventArgs e)
         {
             AudioQuality audioQuality = (AudioQuality)((ToolStripItem)sender).Tag;
-            if (!LicenseHelper.IsGenuine && audioQuality > AudioQuality._128kbps)
-            {
-                if (System.Windows.Forms.MessageBox.Show((IWin32Window)this, Strings.HighBitrateProSubscriptionMessageText, Strings.SubscribeToFYDPro, MessageBoxButtons.YesNo, MessageBoxIcon.Asterisk) == DialogResult.Yes)
-                    MainWindow.RunDefaultApp("https://youtubedownloader.com/subscribe-to-pro-youtube-downloader/", false, false);
-                audioQuality = AudioQuality._128kbps;
-            }
             this.splitButtonActionAudio.Text = string.Format("{0} Vorbis ({1} kbps)", (object)Strings.Download, (object)((int)audioQuality).ToString((IFormatProvider)CultureInfo.InvariantCulture));
             this.splitButtonActionAudio.Tag = (object)new ButtonActionData(DesiredAction.ExtractVorbis, (object)audioQuality);
         }
@@ -932,30 +797,6 @@ namespace FreeYouTubeDownloader
             Settings.Instance.FileLocationOption = this.askFileNameAndFolderToolStripMenuItem.Checked ? FileLocationOption.AskMeForNameAndFolder : FileLocationOption.OriginalNameAndDefaultFolder;
         }
 
-        private void OnLabelHelpClicked(object sender, LinkLabelLinkClickedEventArgs e)
-        {
-            MainWindow.RunProcessStart(MainWindow.VerifyUrl("http://youtubedownloader.com/en/how-to-download-youtube-videos", UriKind.Absolute), "http://youtubedownloader.com/en/how-to-download-youtube-videos", false);
-        }
-
-        private void OnReadDocumentationMenuItemClick(object sender, EventArgs e)
-        {
-            MainWindow.RunProcessStart(MainWindow.VerifyUrl("http://youtubedownloader.com/en/how-to-download-youtube-videos", UriKind.Absolute), "http://youtubedownloader.com/en/how-to-download-youtube-videos", false);
-        }
-
-        private void OnButtonFacebookClick(object sender, EventArgs e)
-        {
-            string youtubeVideoIdByUrl = YoutubeHelper.GetYoutubeVideoIdByUrl(this.TextBoxUrl);
-            string str = string.IsNullOrWhiteSpace(youtubeVideoIdByUrl) ? "https://www.facebook.com/sharer/sharer.php?u=https%3A//youtubedownloader.com/" : string.Format("https://www.facebook.com/sharer/sharer.php?u=https%3A//savemedia.com/watch?v={0}", (object)youtubeVideoIdByUrl);
-            MainWindow.RunProcessStart(MainWindow.VerifyUrl(str, UriKind.Absolute), str, false);
-        }
-
-        private void OnShareVideoOnTwitterDownloadClick(object sender, EventArgs e)
-        {
-            string youtubeVideoIdByUrl = YoutubeHelper.GetYoutubeVideoIdByUrl(this.TextBoxUrl);
-            string str = string.IsNullOrWhiteSpace(youtubeVideoIdByUrl) ? "https://twitter.com/intent/tweet?related=FreeYouTubeDL&text=YouTube%20Downloader%20-%20Download%20and%20Convert%20Videos%20for%20Free&url=https%3A//youtubedownloader.com/" : string.Format("https://twitter.com/intent/tweet?related=FreeYouTubeDL&text=YouTube%20Downloader%20-%20Download%20and%20Convert%20Videos%20for%20Free&url=https%3A//savemedia.com/watch?v={0}", (object)youtubeVideoIdByUrl);
-            MainWindow.RunProcessStart(MainWindow.VerifyUrl(str, UriKind.Absolute), str, false);
-        }
-
         private void OnTextBoxUrlClick(object sender, EventArgs e)
         {
             if (this.PanelWrapperContainerAutoComplete.Visible || !this.textBoxUrl.Text.Equals(Strings.PasteURLHere) && !this.textBoxUrl.Text.IsValidFileName())
@@ -991,11 +832,6 @@ namespace FreeYouTubeDownloader
                     this.SearchDropDownPanelHide(false);
                     break;
             }
-        }
-
-        private void OnReportProblemMenuItemClick(object sender, EventArgs e)
-        {
-            new ProblemReporterWindow().Show((IWin32Window)this);
         }
 
         private void OnTextBoxUrlEnter(object sender, EventArgs e)
@@ -1034,30 +870,6 @@ namespace FreeYouTubeDownloader
         private void OnAboutClick(object sender, EventArgs e)
         {
             new AboutWindow().Show((IWin32Window)this);
-        }
-
-        private void OnUpgradeToProVersionClick(object sender, EventArgs e)
-        {
-            if (new ActivationWindow().ShowDialog((IWin32Window)this) != DialogResult.OK)
-                return;
-            this.upgradeToProVersionToolStripMenuItem.Visible = false;
-            this.deactivateFYDProToolStripMenuItem.Visible = true;
-            this.Text = LicenseHelper.GetAppTitle(true);
-            this.OnTextBoxUrlTextChanged((object)this.textBoxUrl, new EventArgs());
-        }
-
-        private void OnDeactivateFydProClick(object sender, EventArgs e)
-        {
-            if (new DeactivationWindow().ShowDialog((IWin32Window)this) != DialogResult.OK)
-                return;
-            this.upgradeToProVersionToolStripMenuItem.Visible = true;
-            this.deactivateFYDProToolStripMenuItem.Visible = false;
-            this.Text = "Free YouTube Downloader";
-            this.OnTextBoxUrlTextChanged((object)this.textBoxUrl, new EventArgs());
-            this.autoDownloadMenuItem.Checked = this.videoAutoDownloadMenuItem.Checked = Settings.Instance.AutomaticallyDownloadVideo = false;
-            this.autoDownloadMenuItem.Checked = this.audioAutoDownloadMenuItem.Checked = Settings.Instance.AutomaticallyDownloadAudio = false;
-            this.splitButtonActionVideo.Image = (System.Drawing.Image)null;
-            this.splitButtonActionAudio.Image = (System.Drawing.Image)null;
         }
 
         private void OnFormClosing(object sender, FormClosingEventArgs e)
@@ -1108,70 +920,33 @@ namespace FreeYouTubeDownloader
             Settings.Instance.NameColumnWidth = this.olvColumnName.Width;
         }
 
-        private void OnPictureBoxSearchResultMouseEnter(object sender, EventArgs e)
-        {
-            if (this.pictureBoxSearchResult.Image != null)
-                return;
-            this.pictureBoxSearchResult.Image = this._thumbnailOverlay;
-        }
-
-        private void OnPictureBoxSearchResultMouseLeave(object sender, EventArgs e)
-        {
-            this.pictureBoxSearchResult.Image = (System.Drawing.Image)null;
-        }
-
-        private void OnPictureBoxSearchResultClick(object sender, EventArgs e)
-        {
-            this.PlayYouTubeUrl();
-        }
-
         private void OnAutoDownloadVideoMenuItemClick(object sender, EventArgs e)
         {
-            if (!LicenseHelper.IsGenuine)
+            Settings.Instance.AutomaticallyDownloadVideo = this.videoAutoDownloadMenuItem.Checked;
+            if (!Settings.Instance.AutomaticallyDownloadVideo && !Settings.Instance.AutomaticallyDownloadAudio)
             {
-                this.videoAutoDownloadMenuItem.Checked = false;
-                if (System.Windows.Forms.MessageBox.Show((IWin32Window)this, Strings.OnlyInProVersion, Strings.SubscribeToFYDPro, MessageBoxButtons.YesNo, MessageBoxIcon.Asterisk) != DialogResult.Yes)
-                    return;
-                MainWindow.RunDefaultApp("https://youtubedownloader.com/subscribe-to-pro-youtube-downloader/", false, false);
+                this.autoDownloadMenuItem.Checked = false;
             }
             else
             {
-                Settings.Instance.AutomaticallyDownloadVideo = this.videoAutoDownloadMenuItem.Checked;
-                if (!Settings.Instance.AutomaticallyDownloadVideo && !Settings.Instance.AutomaticallyDownloadAudio)
-                {
-                    this.autoDownloadMenuItem.Checked = false;
-                }
-                else
-                {
-                    if (!Settings.Instance.AutomaticallyDownloadVideo)
-                        return;
-                    this.autoDownloadMenuItem.Checked = true;
-                }
+                if (!Settings.Instance.AutomaticallyDownloadVideo)
+                    return;
+                this.autoDownloadMenuItem.Checked = true;
             }
         }
 
         private void OnAutoDownloadAudioMenuItemClick(object sender, EventArgs e)
         {
-            if (!LicenseHelper.IsGenuine)
+            Settings.Instance.AutomaticallyDownloadAudio = this.audioAutoDownloadMenuItem.Checked;
+            if (!Settings.Instance.AutomaticallyDownloadVideo && !Settings.Instance.AutomaticallyDownloadAudio)
             {
-                this.audioAutoDownloadMenuItem.Checked = false;
-                if (System.Windows.Forms.MessageBox.Show((IWin32Window)this, Strings.OnlyInProVersion, Strings.SubscribeToFYDPro, MessageBoxButtons.YesNo, MessageBoxIcon.Asterisk) != DialogResult.Yes)
-                    return;
-                MainWindow.RunDefaultApp("https://youtubedownloader.com/subscribe-to-pro-youtube-downloader/", false, false);
+                this.autoDownloadMenuItem.Checked = false;
             }
             else
             {
-                Settings.Instance.AutomaticallyDownloadAudio = this.audioAutoDownloadMenuItem.Checked;
-                if (!Settings.Instance.AutomaticallyDownloadVideo && !Settings.Instance.AutomaticallyDownloadAudio)
-                {
-                    this.autoDownloadMenuItem.Checked = false;
-                }
-                else
-                {
-                    if (!Settings.Instance.AutomaticallyDownloadAudio)
-                        return;
-                    this.autoDownloadMenuItem.Checked = true;
-                }
+                if (!Settings.Instance.AutomaticallyDownloadAudio)
+                    return;
+                this.autoDownloadMenuItem.Checked = true;
             }
         }
 
@@ -1204,71 +979,6 @@ namespace FreeYouTubeDownloader
             if (!Settings.Instance.NotifyUrlInClipboard || this.autoDownloadMenuItem.Checked)
                 return;
             this.ShowBalloon(System.Windows.Forms.Application.ProductName, Strings.CompatibleVideoURLDetected, BalloonIcon.Info);
-        }
-
-        private void CheckForNewVersion(bool showMessageAlreadyHaveLatestVersion = false, bool autoDownload = false)
-        {
-            if (!showMessageAlreadyHaveLatestVersion && !autoDownload)
-                Thread.Sleep(5000);
-            try
-            {
-                string json;
-                try
-                {
-                    json = new WebClient().DownloadString("http://youtubedownloader.com/files/version.json");
-                }
-                catch (WebException ex)
-                {
-                    json = new WebClient().DownloadString("http://wd.getyoutubedownloader.com/version/version.json");
-                }
-                JObject jobject = JObject.Parse(json);
-                string version = (string)jobject["Version"];
-                if (Assembly.GetExecutingAssembly().GetName().Version.CompareTo(new Version(version)) < 0)
-                {
-                    if (!(System.Windows.Forms.MessageBox.Show(string.Format(Strings.NewVersionIsAvailableMessage, (object)version), Strings.NewVersionIsAvailableTitle, MessageBoxButtons.YesNo, MessageBoxIcon.Asterisk) == DialogResult.Yes | autoDownload))
-                        return;
-                    string fileName = Path.ChangeExtension(Path.Combine(Path.GetTempPath(), Path.GetRandomFileName()), ".exe");
-                    this.DownloadLatestInstaller(LicenseHelper.IsGenuine ? (string)jobject["UrlPro"] : (string)jobject["Url"], fileName);
-                }
-                else
-                {
-                    if (!showMessageAlreadyHaveLatestVersion)
-                        return;
-                    int num = (int)System.Windows.Forms.MessageBox.Show(FreeYouTubeDownloader.Localization.Localization.Instance.GetString("AlreadyHaveTheLatestVersion", Settings.Instance.LanguageCode), "Free YouTube Downloader", MessageBoxButtons.OK, MessageBoxIcon.Asterisk);
-                    if (!autoDownload)
-                        return;
-                    string fileName = Path.ChangeExtension(Path.Combine(Path.GetTempPath(), Path.GetRandomFileName()), ".exe");
-                    this.DownloadLatestInstaller((string)jobject["Url"], fileName);
-                }
-            }
-            catch (Exception ex)
-            {
-                this.ExecuteOnUIThread((Action)(() => this.Status = FreeYouTubeDownloader.Localization.Localization.Instance.GetString("UnableToCheckForUpdates", Settings.Instance.LanguageCode)));
-            }
-        }
-
-        private void DownloadLatestInstaller(string uri, string fileName)
-        {
-            WebClient webClient = new WebClient();
-            DownloadProgressChangedEventHandler changedEventHandler = (DownloadProgressChangedEventHandler)((sender, args) => this._syncContext.Post((SendOrPostCallback)(state => this.Status = string.Format(Strings.DownloadingUpdate, (object)args.ProgressPercentage)), (object)null));
-            webClient.DownloadProgressChanged += changedEventHandler;
-            AsyncCompletedEventHandler completedEventHandler = (AsyncCompletedEventHandler)((sender, args) =>
-           {
-               this._syncContext.Post((SendOrPostCallback)(state => this.Status = Strings.Done), (object)null);
-               if (args.Error != null || args.Cancelled)
-               {
-                   if (!System.IO.File.Exists(fileName))
-                       return;
-                   FileSystemUtil.SafeDeleteFile(fileName);
-               }
-               else
-                   MainWindow.RunDefaultApp((string)args.UserState, true, true);
-           });
-            webClient.DownloadFileCompleted += completedEventHandler;
-            Uri address = new Uri(uri, UriKind.Absolute);
-            string fileName1 = fileName;
-            string str = fileName;
-            webClient.DownloadFileAsync(address, fileName1, (object)str);
         }
 
         private bool GetFileNameAccordingToPreferences(FileLocationOption fileLocationOption, bool isAudioFile, string title, string fileExtension, out string fileName)
@@ -1582,7 +1292,6 @@ namespace FreeYouTubeDownloader
                     if (downloadItem != null)
                         this.olvDownloads.RemoveObject((object)downloadItem);
                     this.Status = Strings.AnalyzingFailed;
-                    FreeYouTubeDownloader.Debug.Log.Warning("AnalyzingFailed => " + mediaInfo.SourceUrl, (Exception)null);
                     this.Cursor = Cursors.Default;
                 }
             }
@@ -1736,22 +1445,21 @@ namespace FreeYouTubeDownloader
                        this.InitDropDownMenuDownload(false, false, (string)null);
                        this.ExecuteOnUIThread((Action)(() =>
                {
-                       this.TextBoxUrl = pathToSource;
-                       this.SetTooltipToFacebookAndTwitterButtons(true);
-                   }));
+                   this.TextBoxUrl = pathToSource;
+               }));
                        MainWindow.SetControlEnable((System.Windows.Forms.Control)this.tableLayoutPanelActionButtonsContainer, true);
                        if (ignoreAutoDownload)
                            return;
                        this.ExecuteOnUIThread((Action)(() =>
                {
-                       if (this.videoAutoDownloadMenuItem.Checked)
-                           this.OnActionButtonClick((object)this.splitButtonActionVideo, EventArgs.Empty);
-                       if (this.audioAutoDownloadMenuItem.Checked)
-                           this.OnActionButtonClick((object)this.splitButtonActionAudio, EventArgs.Empty);
-                       if (!this.autoDownloadMenuItem.Checked)
-                           return;
-                       this.ShowBalloon(System.Windows.Forms.Application.ProductName, Strings.AutoDownloadStarted, BalloonIcon.Info);
-                   }));
+                   if (this.videoAutoDownloadMenuItem.Checked)
+                       this.OnActionButtonClick((object)this.splitButtonActionVideo, EventArgs.Empty);
+                   if (this.audioAutoDownloadMenuItem.Checked)
+                       this.OnActionButtonClick((object)this.splitButtonActionAudio, EventArgs.Empty);
+                   if (!this.autoDownloadMenuItem.Checked)
+                       return;
+                   this.ShowBalloon(System.Windows.Forms.Application.ProductName, Strings.AutoDownloadStarted, BalloonIcon.Info);
+               }));
                    }
                    else
                    {
@@ -2028,7 +1736,6 @@ namespace FreeYouTubeDownloader
                 else if (DownloadManager.HasProviderForUrl(str))
                 {
                     flag = true;
-                    this.PlayYouTubeUrl();
                 }
             }
             if (flag)
@@ -2038,25 +1745,6 @@ namespace FreeYouTubeDownloader
         Strings.FilePathIsInvalid,
         path
             }), Strings.Warning, MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
-        }
-
-        private void PlayYouTubeUrl()
-        {
-            if (PlayerWindow.IsOpened)
-                return;
-            IMediaLink mediaLink = ((IEnumerable<IMediaLink>)this._receivedMediaInfo.Links).First<IMediaLink>((Func<IMediaLink, bool>)(l =>
-          {
-              if (l.IsVideoLink && !l.ToVideoLink().IsDash)
-                  return l.ToVideoLink().StreamType == VideoStreamType.Mp4;
-              return false;
-          }));
-            mediaLink.UpdateLink();
-            int maxWidth = ((VideoInfo)this._receivedMediaInfo).Thumbnails.Max<FreeYouTubeDownloader.Downloader.Thumbnail>((Func<FreeYouTubeDownloader.Downloader.Thumbnail, int>)(t => t.Width));
-            string thumbnailUrl = ((VideoInfo)this._receivedMediaInfo).Thumbnails.Single<FreeYouTubeDownloader.Downloader.Thumbnail>((Func<FreeYouTubeDownloader.Downloader.Thumbnail, bool>)(t => t.Width == maxWidth)).Url;
-            if (thumbnailUrl.IndexOf('?') != -1)
-                thumbnailUrl = thumbnailUrl.Substring(0, thumbnailUrl.IndexOf('?'));
-            Uri uri = new Uri(mediaLink.Url);
-            new PlayerWindow(this._receivedMediaInfo.Title, uri.Scheme + "://redirector.googlevideo.com" + uri.PathAndQuery, "video/mp4", thumbnailUrl).Show((IWin32Window)this);
         }
 
         private List<ToolStripMenuItem> GetContextMenuAudioItemsForLocalFile(bool isLocalFile, string filePath, AudioQuality? highestAudioQuality)
@@ -2070,7 +1758,6 @@ namespace FreeYouTubeDownloader
                 AudioQuality audioQuality = AudioQuality._128kbps;
                 if ((nullable.GetValueOrDefault() > audioQuality ? (nullable.HasValue ? 1 : 0) : 0) != 0)
                 {
-                    this.Invoke(new Action(() => this.picBoxAppNotify.Visible = !LicenseHelper.IsGenuine));
                     ToolStripMenuItem audioSubmenuItem1 = this.CreateAudioSubmenuItem("MP3", title, isLocalFile, highestAudioQuality.Value, !isLocalFile || !str.ToLower().Contains("mp3"), new EventHandler(this.OnExtractMp3MenuItemClick), new EventHandler(this.OnConvertToMp3MenuItemClick));
                     toolStripMenuItemList.Add(audioSubmenuItem1);
                     ToolStripMenuItem audioSubmenuItem2 = this.CreateAudioSubmenuItem("AAC", title, isLocalFile, highestAudioQuality.Value, !isLocalFile || !str.ToLower().Contains("aac"), new EventHandler(this.OnExtractAacMenuItemClick), new EventHandler(this.OnConvertToAacMenuItemClick));
@@ -2081,7 +1768,6 @@ namespace FreeYouTubeDownloader
                     goto label_4;
                 }
             }
-            this.Invoke(new Action(() => this.picBoxAppNotify.Visible = false));
             label_4:
             ToolStripMenuItem audioSubmenuItem4 = this.CreateAudioSubmenuItem("MP3", title, isLocalFile, AudioQuality._128kbps, !isLocalFile || !str.ToLower().Contains("mp3"), new EventHandler(this.OnExtractMp3MenuItemClick), new EventHandler(this.OnConvertToMp3MenuItemClick));
             toolStripMenuItemList.Add(audioSubmenuItem4);
@@ -2261,29 +1947,29 @@ namespace FreeYouTubeDownloader
                        if (audioMenuItems.Count > 0 || videoMenuItems != null)
                            this.ExecuteOnUIThread((Action)(() =>
                    {
-                         if (audioMenuItems.Count > 0)
-                             this.InitContextMenuStrip(this.contextMenuStripDownloadAudio, audioMenuItems);
-                         if (videoMenuItems != null)
-                             this.InitContextMenuStrip(this.contextMenuStripDownloadVideo, videoMenuItems);
-                         this.PanelWrapperContainerAutoComplete.Visible = false;
-                         this.Status = Strings.Done;
-                     }));
+                       if (audioMenuItems.Count > 0)
+                           this.InitContextMenuStrip(this.contextMenuStripDownloadAudio, audioMenuItems);
+                       if (videoMenuItems != null)
+                           this.InitContextMenuStrip(this.contextMenuStripDownloadVideo, videoMenuItems);
+                       this.PanelWrapperContainerAutoComplete.Visible = false;
+                       this.Status = Strings.Done;
+                   }));
                        else
                            this.ExecuteOnUIThread((Action)(() =>
                    {
-                         this.PanelWrapperContainerAutoComplete.Visible = false;
-                         this.Status = Strings.Done;
-                     }));
+                       this.PanelWrapperContainerAutoComplete.Visible = false;
+                       this.Status = Strings.Done;
+                   }));
                    }
                    else
                    {
                        this.SetEnableDownloadButtons(false, false);
                        this.ExecuteOnUIThread((Action)(() =>
                {
-                       this.PanelWrapperContainerAutoComplete.Visible = false;
-                       this.Status = Strings.Done;
-                       int num = (int)System.Windows.Forms.MessageBox.Show(string.Format(Strings.FileWithoutLinksWarningMessage, (object)filePath), Strings.Warning, MessageBoxButtons.OK, MessageBoxIcon.Asterisk);
-                   }));
+                   this.PanelWrapperContainerAutoComplete.Visible = false;
+                   this.Status = Strings.Done;
+                   int num = (int)System.Windows.Forms.MessageBox.Show(string.Format(Strings.FileWithoutLinksWarningMessage, (object)filePath), Strings.Warning, MessageBoxButtons.OK, MessageBoxIcon.Asterisk);
+               }));
                    }
                }))
                 {
@@ -2518,8 +2204,6 @@ namespace FreeYouTubeDownloader
                     return (ToolStripMenuItem)null;
                 return item;
             }
-            if (!LicenseHelper.IsGenuine && Settings.Instance.DesiredDownloadVideoQuality > VideoQuality._1080p60fps)
-                Settings.Instance.DesiredDownloadVideoQuality = VideoQuality._1080p60fps;
             if (item.Enabled && item.HasDropDownItems)
             {
                 switch (Settings.Instance.DesiredVideoDownloadAction)
@@ -2580,8 +2264,6 @@ namespace FreeYouTubeDownloader
         {
             if (item.Enabled && !item.HasDropDownItems)
             {
-                if ((AudioQuality)item.Tag > AudioQuality._128kbps && !LicenseHelper.IsGenuine)
-                    return (ToolStripMenuItem)null;
                 return item;
             }
             if (item.Enabled && item.HasDropDownItems)
@@ -2591,7 +2273,7 @@ namespace FreeYouTubeDownloader
                     ToolStripMenuItem dropDownItem = (ToolStripMenuItem)item.DropDownItems[index];
                     if (dropDownItem.Enabled)
                     {
-                        if (dropDownItem.Tag.GetType() != typeof(VideoQuality) || LicenseHelper.IsGenuine)
+                        if (dropDownItem.Tag.GetType() != typeof(VideoQuality))
                             return dropDownItem;
                         switch ((VideoQuality)dropDownItem.Tag)
                         {
@@ -2718,63 +2400,6 @@ namespace FreeYouTubeDownloader
             this.Hide();
         }
 
-        private void VerifyAndInitializeLicense()
-        {
-            if (!LicenseHelper.IsGenuine && LicenseHelper.IsProductKeyRevoked())
-            {
-                FreeYouTubeDownloader.Debug.Log.Warning("Failed to verify the subscription", (Exception)null);
-                int num1 = RegistryManager.GetValue<int>(Registry.CurrentUser, "Software\\Vitzo\\FreeYouTubeDownloader\\", "LicenseWarningShown");
-                if (num1 < 5)
-                {
-                    if (num1 == 0 && System.Windows.Forms.MessageBox.Show((IWin32Window)this, Strings.ProSubscriptionIsReverted2, System.Windows.Forms.Application.ProductName, MessageBoxButtons.YesNo, MessageBoxIcon.Asterisk) == DialogResult.Yes)
-                        MainWindow.RunProcessStart(MainWindow.VerifyUrl("https://youtubedownloader.com/support", UriKind.Absolute), "https://youtubedownloader.com/support", false);
-                    int num2;
-                    RegistryManager.SetValue(Registry.CurrentUser, "Software\\Vitzo\\FreeYouTubeDownloader\\", "LicenseWarningShown", (object)(num2 = num1 + 1), RegistryValueKind.DWord);
-                    this.SetStatusStrip(Strings.ProSubscriptionIsReverted);
-                }
-            }
-            if (!LicenseHelper.IsGenuine)
-            {
-                if (LicenseHelper.IsExpired)
-                {
-                    try
-                    {
-                        //LicenseHelper.TurboActivate.Deactivate(true);
-                    }
-                    catch (TurboActivateException ex)
-                    {
-                    }
-                    string path;
-                    switch (new ConfirmationWindow(System.Windows.Forms.Application.ProductName, Strings.KeyExpiredMessage, (string)null).ShowDialog())
-                    {
-                        case DialogResult.Ignore:
-                            goto label_13;
-                        case DialogResult.Yes:
-                            path = "https://youtubedownloader.com/subscribe/";
-                            break;
-                        default:
-                            path = "http://youtubedownloader.com/support";
-                            break;
-                    }
-                    int num1 = 0;
-                    int num2 = 0;
-                    MainWindow.RunDefaultApp(path, num1 != 0, num2 != 0);
-                }
-            }
-            label_13:
-            this.Text = LicenseHelper.GetAppTitle(true);
-            if (LicenseHelper.IsGenuine)
-            {
-                this.upgradeToProVersionToolStripMenuItem.Visible = false;
-                this.deactivateFYDProToolStripMenuItem.Visible = true;
-            }
-            else
-            {
-                this.upgradeToProVersionToolStripMenuItem.Visible = true;
-                this.deactivateFYDProToolStripMenuItem.Visible = false;
-            }
-        }
-
         private void HandleCommandArgs()
         {
             if (!Environment.CommandLine.Contains("-cc"))
@@ -2869,13 +2494,8 @@ namespace FreeYouTubeDownloader
                     break;
             }
             this.olvColumnName.Width = Settings.Instance.NameColumnWidth;
-            if (LicenseHelper.IsGenuine)
-            {
-                this.autoDownloadMenuItem.Checked = this.videoAutoDownloadMenuItem.Checked = Settings.Instance.AutomaticallyDownloadVideo;
-                this.autoDownloadMenuItem.Checked = this.audioAutoDownloadMenuItem.Checked = Settings.Instance.AutomaticallyDownloadAudio;
-            }
-            else
-                Settings.Instance.AutomaticallyDownloadVideo = Settings.Instance.AutomaticallyDownloadAudio = false;
+            this.autoDownloadMenuItem.Checked = this.videoAutoDownloadMenuItem.Checked = Settings.Instance.AutomaticallyDownloadVideo;
+            this.autoDownloadMenuItem.Checked = this.audioAutoDownloadMenuItem.Checked = Settings.Instance.AutomaticallyDownloadAudio;
             Settings.Instance.SettingsChanged += new Settings.SettingsChangedEventHandler(this.OnApplicationSettingsChanged);
         }
 
@@ -3046,20 +2666,6 @@ namespace FreeYouTubeDownloader
                 toolStripMenuItem1.Image = (System.Drawing.Image)copy;
                 ToolStripMenuItem toolStripMenuItem2 = toolStripMenuItem1;
                 contextMenuStrip.Items.Add((ToolStripItem)toolStripMenuItem2);
-                ToolStripMenuItem toolStripMenuItem3 = new ToolStripMenuItem(Strings.ShareVideoOnFacebook, (System.Drawing.Image)null, new EventHandler(this.OnShareVideoOnFacebookDownloadClick));
-                DownloadItem downloadItem2 = download;
-                toolStripMenuItem3.Tag = (object)downloadItem2;
-                Bitmap facebook = Resources.facebook;
-                toolStripMenuItem3.Image = (System.Drawing.Image)facebook;
-                ToolStripMenuItem toolStripMenuItem4 = toolStripMenuItem3;
-                contextMenuStrip.Items.Add((ToolStripItem)toolStripMenuItem4);
-                ToolStripMenuItem toolStripMenuItem5 = new ToolStripMenuItem(Strings.ShareThisVideoOnTwitter, (System.Drawing.Image)null, new EventHandler(this.OnShareVideoOnTwitterDownloadClick));
-                DownloadItem downloadItem3 = download;
-                toolStripMenuItem5.Tag = (object)downloadItem3;
-                Bitmap twitterImage = Resources.twitter_image;
-                toolStripMenuItem5.Image = (System.Drawing.Image)twitterImage;
-                ToolStripMenuItem toolStripMenuItem6 = toolStripMenuItem5;
-                contextMenuStrip.Items.Add((ToolStripItem)toolStripMenuItem6);
                 contextMenuStrip.Items.Add((ToolStripItem)new ToolStripSeparator());
             }
             if (download.State == DownloadState.Error)
@@ -3098,20 +2704,6 @@ namespace FreeYouTubeDownloader
                     toolStripMenuItem5.Image = (System.Drawing.Image)copy;
                     ToolStripMenuItem toolStripMenuItem6 = toolStripMenuItem5;
                     contextMenuStrip.Items.Add((ToolStripItem)toolStripMenuItem6);
-                    ToolStripMenuItem toolStripMenuItem7 = new ToolStripMenuItem(Strings.ShareVideoOnFacebook, (System.Drawing.Image)null, new EventHandler(this.OnShareVideoOnFacebookDownloadClick));
-                    DownloadItem downloadItem4 = download;
-                    toolStripMenuItem7.Tag = (object)downloadItem4;
-                    Bitmap facebook = Resources.facebook;
-                    toolStripMenuItem7.Image = (System.Drawing.Image)facebook;
-                    ToolStripMenuItem toolStripMenuItem8 = toolStripMenuItem7;
-                    contextMenuStrip.Items.Add((ToolStripItem)toolStripMenuItem8);
-                    ToolStripMenuItem toolStripMenuItem9 = new ToolStripMenuItem(Strings.ShareThisVideoOnTwitter, (System.Drawing.Image)null, new EventHandler(this.OnShareVideoOnTwitterDownloadClick));
-                    DownloadItem downloadItem5 = download;
-                    toolStripMenuItem9.Tag = (object)downloadItem5;
-                    Bitmap twitterImage = Resources.twitter_image;
-                    toolStripMenuItem9.Image = (System.Drawing.Image)twitterImage;
-                    ToolStripMenuItem toolStripMenuItem10 = toolStripMenuItem9;
-                    contextMenuStrip.Items.Add((ToolStripItem)toolStripMenuItem10);
                     contextMenuStrip.Items.Add((ToolStripItem)new ToolStripSeparator());
                 }
             }
@@ -3274,15 +2866,12 @@ namespace FreeYouTubeDownloader
             this.InitPanelSearchResultFromYoutube(panel);
             string correctUrl = MainWindow.GetCorrectUrl(panel.Tag.ToString());
             this.TextBoxUrl = correctUrl;
-            this.SetTooltipToFacebookAndTwitterButtons(true);
             this.GetMediaInfo(correctUrl, false, false);
         }
 
         private void InitPanelSearchResultFromYoutube(System.Windows.Forms.Panel panel)
         {
             System.Windows.Forms.Control[] controlArray1 = panel.Controls.Find("Image", false);
-            if (controlArray1.Length != 0)
-                this.pictureBoxSearchResult.BackgroundImage = ((PictureBox)controlArray1[0]).Image;
             System.Windows.Forms.Control[] controlArray2 = panel.Controls.Find("Title", false);
             if (controlArray2.Length != 0)
                 this.lblSearchResultTitle.Text = controlArray2[0].Text;
@@ -3333,7 +2922,6 @@ namespace FreeYouTubeDownloader
             this.ExecuteOnUIThread((Action)(() =>
            {
                this.TextBoxUrl = url;
-               this.pictureBoxSearchResult.BackgroundImage = videoData.Thumbnail;
                this.lblSearchResultTitle.Text = videoData.Title;
                this.lblSearchResultDescription.Text = videoData.Description;
                this._toolTip.SetToolTip((System.Windows.Forms.Control)this.lblSearchResultDescription, videoData.Description);
@@ -3358,7 +2946,6 @@ namespace FreeYouTubeDownloader
                     this.lblSearchResultTime.Tag = (object)milliseconds;
                     this.lblSearchResultTime.Text = milliseconds.MillisecondsToHumanFriendlyRepresentation(false, false, false);
                     this.lblSearchResultTitle.Text = Path.GetFileNameWithoutExtension(shellFile.Name);
-                    this.pictureBoxSearchResult.BackgroundImage = (System.Drawing.Image)shellFile.Thumbnail.MediumBitmap;
                     if (!string.IsNullOrWhiteSpace(shellFile.Properties.System.FileExtension.Value))
                         this.lblSearchResultDescription.Text = string.Format("{0}: {1}", (object)Strings.Format.ToLower(), (object)shellFile.Properties.System.FileExtension.Value.Substring(1).ToUpper());
                     ulong? nullable = shellFile.Properties.System.Size.Value;
@@ -3511,12 +3098,10 @@ namespace FreeYouTubeDownloader
                 case 1:
                     if (FreeYouTubeDownloader.Common.NativeMethods.User32.AddClipboardFormatListener(this.Handle))
                         break;
-                    FreeYouTubeDownloader.Debug.Log.Error("The window hadn't been added to the system-maintained clipboard format listener list", (Exception)null);
                     break;
                 case 2:
                     if (FreeYouTubeDownloader.Common.NativeMethods.User32.RemoveClipboardFormatListener(this.Handle))
                         break;
-                    FreeYouTubeDownloader.Debug.Log.Error(string.Format("The window hadn't been removed from the system-maintained clipboard format listener list. Last Win32 error code - {0}", (object)Marshal.GetLastWin32Error()), (Exception)null);
                     break;
                 case 797:
                     uint clipboardSequenceNumber = FreeYouTubeDownloader.Common.NativeMethods.User32.GetClipboardSequenceNumber();
@@ -3567,14 +3152,10 @@ namespace FreeYouTubeDownloader
             this.exitToolStripMenuItem.Text = Strings.Exit;
             this.minimizeToolStripMenuItem.Text = Strings.Minimize;
             this.minimizeToNotificationAreaToolStripMenuItem.Text = Strings.MinimizeToNotificationArea;
-            this.contributeToolStripMenuItem.Text = Strings.Contribute;
-            this.becomeAFanToolStripMenuItem.Text = Strings.BecomeAFan;
             this.settingsToolStripMenuItem.Text = Strings.Settings;
             this.preferencesToolStripMenuItem.Text = Strings.Preferences;
             this.windowToolStripMenuItem.Text = Strings.Window;
             this.versionToolStripMenuItem.Text = Strings.Version;
-            this.downloadLatestVersionToolStripMenuItem.Text = Strings.DownloadLatestVersion;
-            this.checkForUpdateToolStripMenuItem.Text = Strings.CheckForUpdate;
             this.olvColumnName.Text = Strings.Name;
             this.olvColumnFormat.Text = Strings.Format;
             this.olvColumnSize.Text = Strings.Size;
@@ -3583,46 +3164,20 @@ namespace FreeYouTubeDownloader
             this.olvColumnFrameSize.Text = Strings.Resolution;
             this.olvColumnDuration.Text = Strings.Duration;
             this.olvColumnProgress.Text = Strings.Progress;
-            this.suggestToolStripMenuItem.Text = Strings.SuggestFeature;
-            this.helpToolStripMenuItem.Text = Strings.Help;
-            this.visitOurWebsiteToolStripMenuItem.Text = Strings.VisitOurWebsite;
-            this.askAQuestionToolStripMenuItem.Text = Strings.AskAQuestion;
             this.askFileNameAndFolderToolStripMenuItem.Text = Strings.AskFileNameAndFolder;
             this.alwaysOnTopMenuItem.Text = Strings.AlwaysOnTop;
             this.toolTip.SetToolTip((System.Windows.Forms.Control)this.buttonConvert, Strings.SelectFileForConversionButtonHint);
-            this.lnkLabelHelp.Text = Strings.Help;
-            this.lnkLabelSupport.Text = Strings.Support;
             this.lnkLabelSettings.Text = Strings.Preferences;
             this.btnVideoFiles.Text = Strings.OpenVideoFiles;
             this.btnAudioFiles.Text = Strings.OpenAudioFiles;
-            this.readDocumentationToolStripMenuItem.Text = Strings.ReadDocumentation;
             this.toolTip.SetToolTip((System.Windows.Forms.Control)this.pictureBoxCopyPath, Strings.CopyPath);
-            this.reportAProblemToolStripMenuItem.Text = Strings.ReportAProblem;
-            this.signupForUpdatesToolStripMenuItem.Text = Strings.SignUpForUpdates;
             this.compatibleURLNotificationToolStripMenuItem.Text = Strings.CompatibleURLNotification;
-            this.aboutToolStripMenuItem.Text = Strings.About + "...";
-            this.upgradeToProVersionToolStripMenuItem.Text = Strings.UpgradeToProVersion;
             ((HeaderedItemsControl)this._notifyIcon.ContextMenu.Items[0]).Header = (object)Strings.OpenApplication;
             ((HeaderedItemsControl)this._notifyIcon.ContextMenu.Items[1]).Header = (object)Strings.Exit;
-            this.toolTip.SetToolTip((System.Windows.Forms.Control)this.picBoxAppNotify, Strings.HigherAudioQualitiesTooltip);
             this.autoDownloadMenuItem.Text = Strings.AutoDownloadVideos;
             this.videoAutoDownloadMenuItem.Text = Strings.Video;
             this.audioAutoDownloadMenuItem.Text = Strings.Audio;
             this.SetDefaultTextDownloadButtons(false);
-        }
-
-        private void SetTooltipToFacebookAndTwitterButtons(bool urlVideoAvailable)
-        {
-            if (urlVideoAvailable)
-            {
-                this.toolTip.SetToolTip((System.Windows.Forms.Control)this.picBoxFacebook, Strings.ShareThisVideoOnFacebook);
-                this.toolTip.SetToolTip((System.Windows.Forms.Control)this.picBoxTwitter, Strings.ShareThisVideoOnTwitter);
-            }
-            else
-            {
-                this.toolTip.SetToolTip((System.Windows.Forms.Control)this.picBoxFacebook, Strings.ShareVideoOnFacebook);
-                this.toolTip.SetToolTip((System.Windows.Forms.Control)this.picBoxTwitter, Strings.ShareVideoOnTwitter);
-            }
         }
 
         private string GetLocalizedStatusText(DownloadState downloadState)
@@ -3655,260 +3210,6 @@ namespace FreeYouTubeDownloader
             return str;
         }
 
-        public void ShowBottomAd(bool createNew = true)
-        {
-            FreeYouTubeDownloader.Debug.Log.Trace(string.Format("CALL MainWindow.ShowBottomAd(createNew:{0})", (object)createNew), (Exception)null);
-            if (LicenseHelper.IsGenuine || this.WindowState == FormWindowState.Maximized)
-                return;
-            if (this.InvokeRequired)
-                this.Invoke(new Action(() => this.ShowBottomAd(createNew)));
-            else if (!createNew)
-            {
-                if (this._adBottomHost == null)
-                    return;
-                this.OnBotomAdFinishLoading((object)this._adBottomHost, new WebBrowserDocumentCompletedEventArgs(new Uri("https://youtubedownloader.com/wd/ads/728x90.html")));
-            }
-            else
-            {
-                if (this._bottomAdShown)
-                    return;
-                if (this._adBottomHost == null)
-                {
-                    FreeYouTubeDownloader.Debug.Log.Trace("Creating bottom ad", (Exception)null);
-                    WebBrowserEx webBrowserEx = new WebBrowserEx();
-                    int num1 = 1;
-                    webBrowserEx.ScriptErrorsSuppressed = num1 != 0;
-                    int num2 = 0;
-                    webBrowserEx.ScrollBarsEnabled = num2 != 0;
-                    this._adBottomHost = webBrowserEx;
-                    this._adBottomHost.NavigateError += (WebBrowserExNavigateErrorEventHandler)((sender, args) => this.HideBottomAd(true));
-                    this._adBottomHost.DocumentCompleted += new WebBrowserDocumentCompletedEventHandler(this.OnBotomAdFinishLoading);
-                    this._adBottomHost.NewWindow3 += (WebBrowserExNewWindow3EventHandler)((sender, args) =>
-                   {
-                       this.HideBottomAd(false);
-                       args.Cancel = true;
-                       MainWindow.RunDefaultApp(args.Url, false, false);
-                   });
-                    this._adBottomHost.Navigate("https://youtubedownloader.com/wd/ads/728x90.html");
-                    this.panelAdBottom.Controls.Add((System.Windows.Forms.Control)this._adBottomHost);
-                    PictureBox closeButton = AdsHelper.CreateCloseButton(712, 0);
-                    closeButton.Click += (EventHandler)((sender, args) =>
-                   {
-                       this.PromptForPro();
-                       this.HideBottomAd(false);
-                   });
-                    this.panelAdBottom.Controls.Add((System.Windows.Forms.Control)closeButton);
-                    this.panelAdBottom.Controls.SetChildIndex((System.Windows.Forms.Control)closeButton, 1);
-                    closeButton.BringToFront();
-                    System.Windows.Forms.Timer timer1 = new System.Windows.Forms.Timer()
-                    {
-                        Interval = 1000
-                    };
-                    timer1.Tick += (EventHandler)((sender, args) =>
-                   {
-                       ((System.Windows.Forms.Timer)sender).Stop();
-                       this.panelAdBottom.Controls[0].Visible = true;
-                   });
-                    this.panelAdBottom.Tag = (object)timer1;
-                    System.Windows.Forms.Timer timer2 = new System.Windows.Forms.Timer()
-                    {
-                        Interval = 604800000
-                    };
-                    timer2.Tick += (EventHandler)((sender, args) =>
-                   {
-                       WebBrowserEx adBottomHost = this._adBottomHost;
-                       if (adBottomHost == null)
-                           return;
-                       string urlString = "https://youtubedownloader.com/wd/ads/728x90.html";
-                       adBottomHost.Navigate(urlString);
-                   });
-                    this._adBottomHost.Tag = (object)timer2;
-                }
-                else
-                    this._adBottomHost.Navigate("https://youtubedownloader.com/wd/ads/728x90.html");
-            }
-        }
-
-        public void OnBotomAdFinishLoading(object sender, WebBrowserDocumentCompletedEventArgs args)
-        {
-            FreeYouTubeDownloader.Debug.Log.Trace("EVENT MainWindow.OnBotomAdFinishLoading", (Exception)null);
-            if (args.Url.ToString() != "https://youtubedownloader.com/wd/ads/728x90.html" || this.WindowState == FormWindowState.Maximized || LicenseHelper.IsGenuine)
-                return;
-            this.Invoke(new Action(() =>
-            {
-                this.tableLayoutPanel.RowStyles[4].Height = 100f;
-                this._adBottomHost.Size = this._adBottomHost.Document.Window.Size;
-                this._adBottomHost.Visible = true;
-                System.Windows.Forms.Timer tag1 = (System.Windows.Forms.Timer)this.panelAdBottom.Tag;
-                if (!tag1.Enabled)
-                    tag1.Start();
-                System.Windows.Forms.Timer tag2 = (System.Windows.Forms.Timer)this._adBottomHost.Tag;
-                if (tag2.Enabled)
-                    return;
-                tag2.Start();
-            }));
-        }
-
-        public void HideBottomAd(bool onlyHide = true)
-        {
-            FreeYouTubeDownloader.Debug.Log.Trace(string.Format("CALL MainWindow.HideBottomAd(onlyHide:{0})", (object)onlyHide), (Exception)null);
-            if (this.InvokeRequired)
-            {
-                this.Invoke(new Action(() => this.HideBottomAd(onlyHide)));
-            }
-            else
-            {
-                this.tableLayoutPanel.RowStyles[4].Height = 0.0f;
-                if (this.panelAdBottom.Controls.Count > 0)
-                {
-                    this.panelAdBottom.Controls[0].Visible = false;
-                    if (this._adBottomHost != null)
-                    {
-                        this.olvDownloads.Focus();
-                        this._adBottomHost.Visible = false;
-                    }
-                }
-                if (onlyHide)
-                    return;
-                ((System.Windows.Forms.Timer)this._adBottomHost.Tag).Stop();
-                this._adBottomHost = (WebBrowserEx)null;
-                this._bottomAdShown = true;
-            }
-        }
-
-        public void ShowRightAd(bool createNew = true)
-        {
-            FreeYouTubeDownloader.Debug.Log.Trace(string.Format("CALL MainWindow.ShowRightAd(createNew:{0})", (object)createNew), (Exception)null);
-            if (LicenseHelper.IsGenuine || this.WindowState != FormWindowState.Maximized)
-                return;
-            if (this.InvokeRequired)
-                this.Invoke(new Action(() => this.ShowRightAd(createNew)));
-            else if (!createNew)
-            {
-                if (this._adRightHost == null)
-                    return;
-                this.OnRightAdFinishLoading((object)this._adRightHost, new WebBrowserDocumentCompletedEventArgs(new Uri("https://youtubedownloader.com/wd/ads/160x600.html")));
-            }
-            else
-            {
-                if (this._rightAdShown)
-                    return;
-                if (this._adRightHost == null)
-                {
-                    FreeYouTubeDownloader.Debug.Log.Trace("Creating right ad", (Exception)null);
-                    WebBrowserEx webBrowserEx = new WebBrowserEx();
-                    int num1 = 1;
-                    webBrowserEx.ScriptErrorsSuppressed = num1 != 0;
-                    int num2 = 0;
-                    webBrowserEx.ScrollBarsEnabled = num2 != 0;
-                    this._adRightHost = webBrowserEx;
-                    this._adRightHost.NavigateError += (WebBrowserExNavigateErrorEventHandler)((sender, args) => this.HideRightAd(true));
-                    this._adRightHost.DocumentCompleted += new WebBrowserDocumentCompletedEventHandler(this.OnRightAdFinishLoading);
-                    this._adRightHost.NewWindow3 += (WebBrowserExNewWindow3EventHandler)((sender, args) =>
-                   {
-                       this.HideRightAd(false);
-                       args.Cancel = true;
-                       MainWindow.RunDefaultApp(args.Url, false, false);
-                   });
-                    this._adRightHost.Navigate("https://youtubedownloader.com/wd/ads/160x600.html");
-                    this.panelAdRight.Controls.Add((System.Windows.Forms.Control)this._adRightHost);
-                    PictureBox closeButton = AdsHelper.CreateCloseButton(144, 584);
-                    closeButton.Click += (EventHandler)((sender, args) =>
-                   {
-                       this.PromptForPro();
-                       this.HideRightAd(false);
-                   });
-                    this.panelAdRight.Controls.Add((System.Windows.Forms.Control)closeButton);
-                    this.panelAdRight.Controls.SetChildIndex((System.Windows.Forms.Control)closeButton, 1);
-                    closeButton.BringToFront();
-                    System.Windows.Forms.Timer timer1 = new System.Windows.Forms.Timer()
-                    {
-                        Interval = 1000
-                    };
-                    timer1.Tick += (EventHandler)((sender, args) =>
-                   {
-                       ((System.Windows.Forms.Timer)sender).Stop();
-                       this.panelAdRight.Controls[0].Visible = true;
-                   });
-                    this.panelAdRight.Tag = (object)timer1;
-                    System.Windows.Forms.Timer timer2 = new System.Windows.Forms.Timer()
-                    {
-                        Interval = 604800000
-                    };
-                    timer2.Tick += (EventHandler)((sender, args) =>
-                   {
-                       WebBrowserEx adRightHost = this._adRightHost;
-                       if (adRightHost == null)
-                           return;
-                       string urlString = "https://youtubedownloader.com/wd/ads/160x600.html";
-                       adRightHost.Navigate(urlString);
-                   });
-                    this._adRightHost.Tag = (object)timer2;
-                }
-                else
-                    this._adRightHost.Navigate("https://youtubedownloader.com/wd/ads/160x600.html");
-            }
-        }
-
-        public void OnRightAdFinishLoading(object sender, WebBrowserDocumentCompletedEventArgs args)
-        {
-            FreeYouTubeDownloader.Debug.Log.Trace("EVENT MainWindow.OnRightAdFinishLoading", (Exception)null);
-            if (args.Url.ToString() != "https://youtubedownloader.com/wd/ads/160x600.html" || this.WindowState != FormWindowState.Maximized || LicenseHelper.IsGenuine)
-                return;
-            this.Invoke(new Action(() =>
-            {
-                this.tableLayoutPanel.ColumnStyles[2].Width = 167f;
-                this._adRightHost.Size = this._adRightHost.Document.Window.Size;
-                this._adRightHost.Visible = true;
-                System.Windows.Forms.Timer tag1 = (System.Windows.Forms.Timer)this.panelAdRight.Tag;
-                if (!tag1.Enabled)
-                    tag1.Start();
-                System.Windows.Forms.Timer tag2 = (System.Windows.Forms.Timer)this._adRightHost.Tag;
-                if (tag2.Enabled)
-                    return;
-                tag2.Start();
-            }));
-        }
-
-        public void HideRightAd(bool onlyHide = true)
-        {
-            FreeYouTubeDownloader.Debug.Log.Trace(string.Format("CALL MainWindow.HideRightAd(onlyHide:{0})", (object)onlyHide), (Exception)null);
-            if (this.InvokeRequired)
-            {
-                this.Invoke(new Action(() => this.HideRightAd(onlyHide)));
-            }
-            else
-            {
-                this.tableLayoutPanel.ColumnStyles[2].Width = 0.0f;
-                if (this.panelAdRight.Controls.Count > 0)
-                {
-                    this.panelAdRight.Controls[0].Visible = false;
-                    if (this._adRightHost != null)
-                    {
-                        this.olvDownloads.Focus();
-                        this._adRightHost.Visible = false;
-                    }
-                }
-                if (onlyHide)
-                    return;
-                ((System.Windows.Forms.Timer)this._adRightHost.Tag).Stop();
-                this._adRightHost = (WebBrowserEx)null;
-                this._rightAdShown = true;
-            }
-        }
-
-        private void PromptForPro()
-        {
-            if (System.Windows.Forms.MessageBox.Show(new string[3]
-            {
-        Strings.AdCloseText,
-        Strings.AdCloseText2,
-        Strings.AdCloseText3
-            }[new Random().Next(3)], Strings.AdCloseCaption, MessageBoxButtons.YesNo, MessageBoxIcon.Asterisk) != DialogResult.Yes)
-                return;
-            MainWindow.RunDefaultApp("https://youtubedownloader.com/subscribe-to-pro-youtube-downloader/", false, false);
-        }
-
         private void InitializeComponent()
         {
             this.components = (IContainer)new Container();
@@ -3931,8 +3232,6 @@ namespace FreeYouTubeDownloader
             this.tableLayoutPanelActionButtons = new TableLayoutPanel();
             this.buttonConvert = new System.Windows.Forms.Button();
             this.tableLayoutPanelActionButtonsContainer = new TableLayoutPanel();
-            this.picBoxFacebook = new PictureBox();
-            this.picBoxTwitter = new PictureBox();
             this.panelButtonActionVideo = new System.Windows.Forms.Panel();
             this.picBoxVideo = new TransparentPictureBox();
             this.splitButtonActionVideo = new SplitButton();
@@ -3941,13 +3240,8 @@ namespace FreeYouTubeDownloader
             this.picBoxAudio = new TransparentPictureBox();
             this.splitButtonActionAudio = new SplitButton();
             this.contextMenuStripDownloadAudio = new ContextMenuStrip(this.components);
-            this.picBoxAppNotify = new PictureBox();
             this.tableLayoutPanel2 = new TableLayoutPanel();
-            this.picBoxHelp = new PictureBox();
-            this.lnkLabelHelp = new LinkLabel();
-            this.picBoxSupport = new PictureBox();
             this.pictureBoxSettings = new PictureBox();
-            this.lnkLabelSupport = new LinkLabel();
             this.lnkLabelSettings = new LinkLabel();
             this.btnVideoFiles = new System.Windows.Forms.Button();
             this.btnAudioFiles = new System.Windows.Forms.Button();
@@ -3957,9 +3251,6 @@ namespace FreeYouTubeDownloader
             this.lblSearchResultTime = new System.Windows.Forms.Label();
             this.lblSearchResultDescription = new System.Windows.Forms.Label();
             this.lblSearchResultTitle = new System.Windows.Forms.Label();
-            this.pictureBoxSearchResult = new PictureBoxEx();
-            this.panelAdBottom = new System.Windows.Forms.Panel();
-            this.panelAdRight = new System.Windows.Forms.Panel();
             this.PanelContainerAutoComplete = new System.Windows.Forms.Panel();
             this.menuStrip = new MenuStrip();
             this.windowToolStripMenuItem = new ToolStripMenuItem();
@@ -3977,23 +3268,9 @@ namespace FreeYouTubeDownloader
             this.videoAutoDownloadMenuItem = new ToolStripMenuItem();
             this.audioAutoDownloadMenuItem = new ToolStripMenuItem();
             this.versionToolStripMenuItem = new ToolStripMenuItem();
-            this.checkForUpdateToolStripMenuItem = new ToolStripMenuItem();
-            this.downloadLatestVersionToolStripMenuItem = new ToolStripMenuItem();
-            this.signupForUpdatesToolStripMenuItem = new ToolStripMenuItem();
             this.toolStripSeparator4 = new ToolStripSeparator();
-            this.upgradeToProVersionToolStripMenuItem = new ToolStripMenuItem();
-            this.deactivateFYDProToolStripMenuItem = new ToolStripMenuItem();
-            this.contributeToolStripMenuItem = new ToolStripMenuItem();
-            this.reportAProblemToolStripMenuItem = new ToolStripMenuItem();
-            this.suggestToolStripMenuItem = new ToolStripMenuItem();
-            this.becomeAFanToolStripMenuItem = new ToolStripMenuItem();
             this.versionNumberToolStripMenuItem = new ToolStripMenuItem();
-            this.helpToolStripMenuItem = new ToolStripMenuItem();
-            this.visitOurWebsiteToolStripMenuItem = new ToolStripMenuItem();
-            this.askAQuestionToolStripMenuItem = new ToolStripMenuItem();
-            this.readDocumentationToolStripMenuItem = new ToolStripMenuItem();
             this.toolStripSeparator3 = new ToolStripSeparator();
-            this.aboutToolStripMenuItem = new ToolStripMenuItem();
             this.toolTip = new System.Windows.Forms.ToolTip(this.components);
             this.PanelWrapperContainerAutoComplete = new System.Windows.Forms.Panel();
             this.progressBarLoadingData = new System.Windows.Forms.ProgressBar();
@@ -4003,14 +3280,9 @@ namespace FreeYouTubeDownloader
             ((ISupportInitialize)this.olvDownloads).BeginInit();
             this.tableLayoutPanelActionButtons.SuspendLayout();
             this.tableLayoutPanelActionButtonsContainer.SuspendLayout();
-            ((ISupportInitialize)this.picBoxFacebook).BeginInit();
-            ((ISupportInitialize)this.picBoxTwitter).BeginInit();
             this.panelButtonActionVideo.SuspendLayout();
             this.panelButtonActionAudio.SuspendLayout();
-            ((ISupportInitialize)this.picBoxAppNotify).BeginInit();
             this.tableLayoutPanel2.SuspendLayout();
-            ((ISupportInitialize)this.picBoxHelp).BeginInit();
-            ((ISupportInitialize)this.picBoxSupport).BeginInit();
             ((ISupportInitialize)this.pictureBoxSettings).BeginInit();
             this.panelSearchResult.SuspendLayout();
             ((ISupportInitialize)this.pictureBoxCopyPath).BeginInit();
@@ -4042,8 +3314,6 @@ namespace FreeYouTubeDownloader
             this.tableLayoutPanel.Controls.Add((System.Windows.Forms.Control)this.tableLayoutPanelActionButtonsContainer, 0, 2);
             this.tableLayoutPanel.Controls.Add((System.Windows.Forms.Control)this.tableLayoutPanel2, 0, 5);
             this.tableLayoutPanel.Controls.Add((System.Windows.Forms.Control)this.panelSearchResult, 0, 1);
-            this.tableLayoutPanel.Controls.Add((System.Windows.Forms.Control)this.panelAdBottom, 0, 4);
-            this.tableLayoutPanel.Controls.Add((System.Windows.Forms.Control)this.panelAdRight, 2, 0);
             this.tableLayoutPanel.Dock = DockStyle.Fill;
             this.tableLayoutPanel.Location = new System.Drawing.Point(0, 28);
             this.tableLayoutPanel.Margin = new Padding(4);
@@ -4184,11 +3454,8 @@ namespace FreeYouTubeDownloader
             this.tableLayoutPanelActionButtonsContainer.ColumnStyles.Add(new ColumnStyle());
             this.tableLayoutPanelActionButtonsContainer.ColumnStyles.Add(new ColumnStyle());
             this.tableLayoutPanelActionButtonsContainer.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 5f));
-            this.tableLayoutPanelActionButtonsContainer.Controls.Add((System.Windows.Forms.Control)this.picBoxFacebook, 5, 0);
-            this.tableLayoutPanelActionButtonsContainer.Controls.Add((System.Windows.Forms.Control)this.picBoxTwitter, 6, 0);
             this.tableLayoutPanelActionButtonsContainer.Controls.Add((System.Windows.Forms.Control)this.panelButtonActionVideo, 1, 0);
             this.tableLayoutPanelActionButtonsContainer.Controls.Add((System.Windows.Forms.Control)this.panelButtonActionAudio, 3, 0);
-            this.tableLayoutPanelActionButtonsContainer.Controls.Add((System.Windows.Forms.Control)this.picBoxAppNotify, 4, 0);
             this.tableLayoutPanelActionButtonsContainer.Dock = DockStyle.Fill;
             this.tableLayoutPanelActionButtonsContainer.Location = new System.Drawing.Point(4, 130);
             this.tableLayoutPanelActionButtonsContainer.Margin = new Padding(4);
@@ -4197,32 +3464,6 @@ namespace FreeYouTubeDownloader
             this.tableLayoutPanelActionButtonsContainer.RowStyles.Add(new RowStyle(SizeType.Percent, 100f));
             this.tableLayoutPanelActionButtonsContainer.Size = new System.Drawing.Size(891, 50);
             this.tableLayoutPanelActionButtonsContainer.TabIndex = 12;
-            this.picBoxFacebook.Anchor = AnchorStyles.Top | AnchorStyles.Right;
-            this.picBoxFacebook.BackColor = System.Drawing.Color.Transparent;
-            this.picBoxFacebook.Cursor = Cursors.Hand;
-            this.picBoxFacebook.Enabled = false;
-            this.picBoxFacebook.Image = (System.Drawing.Image)Resources.facebook_image_dis;
-            this.picBoxFacebook.Location = new System.Drawing.Point(782, 5);
-            this.picBoxFacebook.Margin = new Padding(4, 5, 4, 4);
-            this.picBoxFacebook.Name = "picBoxFacebook";
-            this.picBoxFacebook.Size = new System.Drawing.Size(45, 36);
-            this.picBoxFacebook.SizeMode = PictureBoxSizeMode.Zoom;
-            this.picBoxFacebook.TabIndex = 4;
-            this.picBoxFacebook.TabStop = false;
-            this.picBoxFacebook.Click += new EventHandler(this.OnButtonFacebookClick);
-            this.picBoxTwitter.Anchor = AnchorStyles.Top | AnchorStyles.Right;
-            this.picBoxTwitter.BackColor = System.Drawing.Color.Transparent;
-            this.picBoxTwitter.Cursor = Cursors.Hand;
-            this.picBoxTwitter.Enabled = false;
-            this.picBoxTwitter.Image = (System.Drawing.Image)Resources.twitter_image_dis;
-            this.picBoxTwitter.Location = new System.Drawing.Point(835, 5);
-            this.picBoxTwitter.Margin = new Padding(4, 5, 6, 4);
-            this.picBoxTwitter.Name = "picBoxTwitter";
-            this.picBoxTwitter.Size = new System.Drawing.Size(45, 35);
-            this.picBoxTwitter.SizeMode = PictureBoxSizeMode.Zoom;
-            this.picBoxTwitter.TabIndex = 5;
-            this.picBoxTwitter.TabStop = false;
-            this.picBoxTwitter.Click += new EventHandler(this.OnShareVideoOnTwitterDownloadClick);
             this.panelButtonActionVideo.Controls.Add((System.Windows.Forms.Control)this.picBoxVideo);
             this.panelButtonActionVideo.Controls.Add((System.Windows.Forms.Control)this.splitButtonActionVideo);
             this.panelButtonActionVideo.Dock = DockStyle.Fill;
@@ -4293,16 +3534,6 @@ namespace FreeYouTubeDownloader
             this.contextMenuStripDownloadAudio.Name = "contextMenuStripDownloadAudio";
             this.contextMenuStripDownloadAudio.ShowImageMargin = false;
             this.contextMenuStripDownloadAudio.Size = new System.Drawing.Size(36, 4);
-            this.picBoxAppNotify.Anchor = AnchorStyles.Left;
-            this.picBoxAppNotify.Image = (System.Drawing.Image)Resources.InfoRed;
-            this.picBoxAppNotify.Location = new System.Drawing.Point(756, 12);
-            this.picBoxAppNotify.Margin = new Padding(3, 1, 3, 3);
-            this.picBoxAppNotify.Name = "picBoxAppNotify";
-            this.picBoxAppNotify.Size = new System.Drawing.Size(19, 24);
-            this.picBoxAppNotify.SizeMode = PictureBoxSizeMode.StretchImage;
-            this.picBoxAppNotify.TabIndex = 8;
-            this.picBoxAppNotify.TabStop = false;
-            this.picBoxAppNotify.Visible = false;
             this.tableLayoutPanel2.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
             this.tableLayoutPanel2.ColumnCount = 9;
             this.tableLayoutPanel.SetColumnSpan((System.Windows.Forms.Control)this.tableLayoutPanel2, 2);
@@ -4315,11 +3546,7 @@ namespace FreeYouTubeDownloader
             this.tableLayoutPanel2.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 100f));
             this.tableLayoutPanel2.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 173f));
             this.tableLayoutPanel2.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 173f));
-            this.tableLayoutPanel2.Controls.Add((System.Windows.Forms.Control)this.picBoxHelp, 0, 0);
-            this.tableLayoutPanel2.Controls.Add((System.Windows.Forms.Control)this.lnkLabelHelp, 1, 0);
-            this.tableLayoutPanel2.Controls.Add((System.Windows.Forms.Control)this.picBoxSupport, 2, 0);
             this.tableLayoutPanel2.Controls.Add((System.Windows.Forms.Control)this.pictureBoxSettings, 4, 0);
-            this.tableLayoutPanel2.Controls.Add((System.Windows.Forms.Control)this.lnkLabelSupport, 3, 0);
             this.tableLayoutPanel2.Controls.Add((System.Windows.Forms.Control)this.lnkLabelSettings, 5, 0);
             this.tableLayoutPanel2.Controls.Add((System.Windows.Forms.Control)this.btnVideoFiles, 7, 0);
             this.tableLayoutPanel2.Controls.Add((System.Windows.Forms.Control)this.btnAudioFiles, 8, 0);
@@ -4330,32 +3557,6 @@ namespace FreeYouTubeDownloader
             this.tableLayoutPanel2.RowStyles.Add(new RowStyle(SizeType.Percent, 100f));
             this.tableLayoutPanel2.Size = new System.Drawing.Size(880, 39);
             this.tableLayoutPanel2.TabIndex = 13;
-            this.picBoxHelp.Image = (System.Drawing.Image)componentResourceManager.GetObject("picBoxHelp.Image");
-            this.picBoxHelp.Location = new System.Drawing.Point(0, 4);
-            this.picBoxHelp.Margin = new Padding(0, 4, 0, 4);
-            this.picBoxHelp.Name = "picBoxHelp";
-            this.picBoxHelp.Size = new System.Drawing.Size(40, 31);
-            this.picBoxHelp.SizeMode = PictureBoxSizeMode.Zoom;
-            this.picBoxHelp.TabIndex = 1;
-            this.picBoxHelp.TabStop = false;
-            this.lnkLabelHelp.Anchor = AnchorStyles.Left;
-            this.lnkLabelHelp.AutoSize = true;
-            this.lnkLabelHelp.Location = new System.Drawing.Point(40, 11);
-            this.lnkLabelHelp.Margin = new Padding(0, 0, 4, 0);
-            this.lnkLabelHelp.Name = "lnkLabelHelp";
-            this.lnkLabelHelp.Size = new System.Drawing.Size(37, 17);
-            this.lnkLabelHelp.TabIndex = 2;
-            this.lnkLabelHelp.TabStop = true;
-            this.lnkLabelHelp.Text = "Help";
-            this.lnkLabelHelp.LinkClicked += new LinkLabelLinkClickedEventHandler(this.OnLabelHelpClicked);
-            this.picBoxSupport.Image = (System.Drawing.Image)Resources.user_headset;
-            this.picBoxSupport.Location = new System.Drawing.Point((int)sbyte.MaxValue, 4);
-            this.picBoxSupport.Margin = new Padding(0, 4, 0, 4);
-            this.picBoxSupport.Name = "picBoxSupport";
-            this.picBoxSupport.Size = new System.Drawing.Size(40, 31);
-            this.picBoxSupport.SizeMode = PictureBoxSizeMode.Zoom;
-            this.picBoxSupport.TabIndex = 3;
-            this.picBoxSupport.TabStop = false;
             this.pictureBoxSettings.Image = (System.Drawing.Image)Resources.gears_preferences;
             this.pictureBoxSettings.Location = new System.Drawing.Point(267, 4);
             this.pictureBoxSettings.Margin = new Padding(0, 4, 0, 4);
@@ -4364,16 +3565,6 @@ namespace FreeYouTubeDownloader
             this.pictureBoxSettings.SizeMode = PictureBoxSizeMode.Zoom;
             this.pictureBoxSettings.TabIndex = 4;
             this.pictureBoxSettings.TabStop = false;
-            this.lnkLabelSupport.Anchor = AnchorStyles.Left;
-            this.lnkLabelSupport.AutoSize = true;
-            this.lnkLabelSupport.Location = new System.Drawing.Point(167, 11);
-            this.lnkLabelSupport.Margin = new Padding(0, 0, 4, 0);
-            this.lnkLabelSupport.Name = "lnkLabelSupport";
-            this.lnkLabelSupport.Size = new System.Drawing.Size(58, 17);
-            this.lnkLabelSupport.TabIndex = 5;
-            this.lnkLabelSupport.TabStop = true;
-            this.lnkLabelSupport.Text = "Support";
-            this.lnkLabelSupport.Click += new EventHandler(this.OnAskQuestionMenuItemClick);
             this.lnkLabelSettings.Anchor = AnchorStyles.Left;
             this.lnkLabelSettings.AutoSize = true;
             this.lnkLabelSettings.Location = new System.Drawing.Point(307, 11);
@@ -4414,7 +3605,6 @@ namespace FreeYouTubeDownloader
             this.panelSearchResult.Controls.Add((System.Windows.Forms.Control)this.lblSearchResultTime);
             this.panelSearchResult.Controls.Add((System.Windows.Forms.Control)this.lblSearchResultDescription);
             this.panelSearchResult.Controls.Add((System.Windows.Forms.Control)this.lblSearchResultTitle);
-            this.panelSearchResult.Controls.Add((System.Windows.Forms.Control)this.pictureBoxSearchResult);
             this.panelSearchResult.Location = new System.Drawing.Point(13, 49);
             this.panelSearchResult.Margin = new Padding(13, 4, 13, 4);
             this.panelSearchResult.Name = "panelSearchResult";
@@ -4469,31 +3659,6 @@ namespace FreeYouTubeDownloader
             this.lblSearchResultTitle.Size = new System.Drawing.Size(532, 21);
             this.lblSearchResultTitle.TabIndex = 1;
             this.lblSearchResultTitle.Text = "Title";
-            this.pictureBoxSearchResult.BackColor = System.Drawing.Color.White;
-            this.pictureBoxSearchResult.Cursor = Cursors.Hand;
-            this.pictureBoxSearchResult.Location = new System.Drawing.Point(2, 2);
-            this.pictureBoxSearchResult.Margin = new Padding(0);
-            this.pictureBoxSearchResult.Name = "pictureBoxSearchResult";
-            this.pictureBoxSearchResult.Size = new System.Drawing.Size(118, 67);
-            this.pictureBoxSearchResult.SizeMode = PictureBoxSizeMode.CenterImage;
-            this.pictureBoxSearchResult.TabIndex = 0;
-            this.pictureBoxSearchResult.TabStop = false;
-            this.pictureBoxSearchResult.Click += new EventHandler(this.OnPictureBoxSearchResultClick);
-            this.pictureBoxSearchResult.MouseEnter += new EventHandler(this.OnPictureBoxSearchResultMouseEnter);
-            this.pictureBoxSearchResult.MouseLeave += new EventHandler(this.OnPictureBoxSearchResultMouseLeave);
-            this.tableLayoutPanel.SetColumnSpan((System.Windows.Forms.Control)this.panelAdBottom, 2);
-            this.panelAdBottom.Dock = DockStyle.Fill;
-            this.panelAdBottom.Location = new System.Drawing.Point(12, 509);
-            this.panelAdBottom.Margin = new Padding(12, 3, 12, 3);
-            this.panelAdBottom.Name = "panelAdBottom";
-            this.panelAdBottom.Size = new System.Drawing.Size(875, 1);
-            this.panelAdBottom.TabIndex = 15;
-            this.panelAdRight.Dock = DockStyle.Fill;
-            this.panelAdRight.Location = new System.Drawing.Point(902, 3);
-            this.panelAdRight.Name = "panelAdRight";
-            this.tableLayoutPanel.SetRowSpan((System.Windows.Forms.Control)this.panelAdRight, 6);
-            this.panelAdRight.Size = new System.Drawing.Size(1, 547);
-            this.panelAdRight.TabIndex = 16;
             this.PanelContainerAutoComplete.BackColor = System.Drawing.Color.White;
             this.PanelContainerAutoComplete.Location = new System.Drawing.Point(0, 0);
             this.PanelContainerAutoComplete.Margin = new Padding(4);
@@ -4503,14 +3668,12 @@ namespace FreeYouTubeDownloader
             this.PanelContainerAutoComplete.Scroll += new ScrollEventHandler(this.OnPanelContainerAutoCompleteScroll);
             this.PanelContainerAutoComplete.PreviewKeyDown += new PreviewKeyDownEventHandler(this.OnPanelContainerAutoCompletePreviewKeyDown);
             this.menuStrip.ImageScalingSize = new System.Drawing.Size(20, 20);
-            this.menuStrip.Items.AddRange(new ToolStripItem[6]
+            this.menuStrip.Items.AddRange(new ToolStripItem[4]
             {
         (ToolStripItem) this.windowToolStripMenuItem,
         (ToolStripItem) this.settingsToolStripMenuItem,
         (ToolStripItem) this.versionToolStripMenuItem,
-        (ToolStripItem) this.contributeToolStripMenuItem,
         (ToolStripItem) this.versionNumberToolStripMenuItem,
-        (ToolStripItem) this.helpToolStripMenuItem
             });
             this.menuStrip.Location = new System.Drawing.Point(0, 0);
             this.menuStrip.Name = "menuStrip";
@@ -4597,103 +3760,21 @@ namespace FreeYouTubeDownloader
             this.audioAutoDownloadMenuItem.Size = new System.Drawing.Size(124, 26);
             this.audioAutoDownloadMenuItem.Text = "Audio";
             this.audioAutoDownloadMenuItem.Click += new EventHandler(this.OnAutoDownloadAudioMenuItemClick);
-            this.versionToolStripMenuItem.DropDownItems.AddRange(new ToolStripItem[6]
+            this.versionToolStripMenuItem.DropDownItems.AddRange(new ToolStripItem[1]
             {
-        (ToolStripItem) this.checkForUpdateToolStripMenuItem,
-        (ToolStripItem) this.downloadLatestVersionToolStripMenuItem,
-        (ToolStripItem) this.signupForUpdatesToolStripMenuItem,
-        (ToolStripItem) this.toolStripSeparator4,
-        (ToolStripItem) this.upgradeToProVersionToolStripMenuItem,
-        (ToolStripItem) this.deactivateFYDProToolStripMenuItem
+        (ToolStripItem) this.toolStripSeparator4
             });
             this.versionToolStripMenuItem.Name = "versionToolStripMenuItem";
             this.versionToolStripMenuItem.Size = new System.Drawing.Size(69, 24);
             this.versionToolStripMenuItem.Text = "Version";
-            this.checkForUpdateToolStripMenuItem.Image = (System.Drawing.Image)Resources.updates_find;
-            this.checkForUpdateToolStripMenuItem.Name = "checkForUpdateToolStripMenuItem";
-            this.checkForUpdateToolStripMenuItem.Size = new System.Drawing.Size(296, 26);
-            this.checkForUpdateToolStripMenuItem.Text = "Check for update";
-            this.checkForUpdateToolStripMenuItem.Click += new EventHandler(this.OnCheckForUpdateMenuItemClick);
-            this.downloadLatestVersionToolStripMenuItem.Image = (System.Drawing.Image)Resources.download;
-            this.downloadLatestVersionToolStripMenuItem.Name = "downloadLatestVersionToolStripMenuItem";
-            this.downloadLatestVersionToolStripMenuItem.Size = new System.Drawing.Size(296, 26);
-            this.downloadLatestVersionToolStripMenuItem.Text = "Download latest version";
-            this.downloadLatestVersionToolStripMenuItem.Click += new EventHandler(this.OnDownloadLatestVersionMenuItemClick);
-            this.signupForUpdatesToolStripMenuItem.Image = (System.Drawing.Image)Resources.subscribe;
-            this.signupForUpdatesToolStripMenuItem.Name = "signupForUpdatesToolStripMenuItem";
-            this.signupForUpdatesToolStripMenuItem.Size = new System.Drawing.Size(296, 26);
-            this.signupForUpdatesToolStripMenuItem.Text = "Sign-up for updates notification";
-            this.signupForUpdatesToolStripMenuItem.Click += new EventHandler(this.OnSignupForUpdatesClick);
             this.toolStripSeparator4.Name = "toolStripSeparator4";
             this.toolStripSeparator4.Size = new System.Drawing.Size(293, 6);
-            this.upgradeToProVersionToolStripMenuItem.Name = "upgradeToProVersionToolStripMenuItem";
-            this.upgradeToProVersionToolStripMenuItem.Size = new System.Drawing.Size(296, 26);
-            this.upgradeToProVersionToolStripMenuItem.Text = "Upgrade to Pro version";
-            this.upgradeToProVersionToolStripMenuItem.Click += new EventHandler(this.OnUpgradeToProVersionClick);
-            this.deactivateFYDProToolStripMenuItem.Name = "deactivateFYDProToolStripMenuItem";
-            this.deactivateFYDProToolStripMenuItem.Size = new System.Drawing.Size(296, 26);
-            this.deactivateFYDProToolStripMenuItem.Text = "Deactivate FYD Pro";
-            this.deactivateFYDProToolStripMenuItem.Click += new EventHandler(this.OnDeactivateFydProClick);
-            this.contributeToolStripMenuItem.DropDownItems.AddRange(new ToolStripItem[3]
-            {
-        (ToolStripItem) this.reportAProblemToolStripMenuItem,
-        (ToolStripItem) this.suggestToolStripMenuItem,
-        (ToolStripItem) this.becomeAFanToolStripMenuItem
-            });
-            this.contributeToolStripMenuItem.Name = "contributeToolStripMenuItem";
-            this.contributeToolStripMenuItem.Size = new System.Drawing.Size(91, 24);
-            this.contributeToolStripMenuItem.Text = "Contribute";
-            this.reportAProblemToolStripMenuItem.Image = (System.Drawing.Image)Resources.flag_red;
-            this.reportAProblemToolStripMenuItem.Name = "reportAProblemToolStripMenuItem";
-            this.reportAProblemToolStripMenuItem.Size = new System.Drawing.Size(202, 26);
-            this.reportAProblemToolStripMenuItem.Text = "Report a problem";
-            this.reportAProblemToolStripMenuItem.Click += new EventHandler(this.OnReportProblemMenuItemClick);
-            this.suggestToolStripMenuItem.Image = (System.Drawing.Image)Resources.suggest_feature;
-            this.suggestToolStripMenuItem.Name = "suggestToolStripMenuItem";
-            this.suggestToolStripMenuItem.Size = new System.Drawing.Size(202, 26);
-            this.suggestToolStripMenuItem.Text = "Suggest feature";
-            this.suggestToolStripMenuItem.Click += new EventHandler(this.OnSuggestMenuItemClick);
-            this.becomeAFanToolStripMenuItem.Image = (System.Drawing.Image)Resources.facebook;
-            this.becomeAFanToolStripMenuItem.Name = "becomeAFanToolStripMenuItem";
-            this.becomeAFanToolStripMenuItem.Size = new System.Drawing.Size(202, 26);
-            this.becomeAFanToolStripMenuItem.Text = "Become a fan";
-            this.becomeAFanToolStripMenuItem.Click += new EventHandler(this.OnBecomeAFanMenuItemClick);
             this.versionNumberToolStripMenuItem.Alignment = ToolStripItemAlignment.Right;
             this.versionNumberToolStripMenuItem.Name = "versionNumberToolStripMenuItem";
             this.versionNumberToolStripMenuItem.Size = new System.Drawing.Size(62, 24);
             this.versionNumberToolStripMenuItem.Text = "4.0.0.0";
-            this.helpToolStripMenuItem.DropDownItems.AddRange(new ToolStripItem[5]
-            {
-        (ToolStripItem) this.visitOurWebsiteToolStripMenuItem,
-        (ToolStripItem) this.askAQuestionToolStripMenuItem,
-        (ToolStripItem) this.readDocumentationToolStripMenuItem,
-        (ToolStripItem) this.toolStripSeparator3,
-        (ToolStripItem) this.aboutToolStripMenuItem
-            });
-            this.helpToolStripMenuItem.Name = "helpToolStripMenuItem";
-            this.helpToolStripMenuItem.Size = new System.Drawing.Size(53, 24);
-            this.helpToolStripMenuItem.Text = "Help";
-            this.visitOurWebsiteToolStripMenuItem.Image = (System.Drawing.Image)Resources.browser_view;
-            this.visitOurWebsiteToolStripMenuItem.Name = "visitOurWebsiteToolStripMenuItem";
-            this.visitOurWebsiteToolStripMenuItem.Size = new System.Drawing.Size(210, 26);
-            this.visitOurWebsiteToolStripMenuItem.Text = "Visit our website";
-            this.visitOurWebsiteToolStripMenuItem.Click += new EventHandler(this.OnVisitOurWebsiteMenuItemClick);
-            this.askAQuestionToolStripMenuItem.Image = (System.Drawing.Image)Resources.support_public;
-            this.askAQuestionToolStripMenuItem.Name = "askAQuestionToolStripMenuItem";
-            this.askAQuestionToolStripMenuItem.Size = new System.Drawing.Size(210, 26);
-            this.askAQuestionToolStripMenuItem.Text = "Ask a question";
-            this.askAQuestionToolStripMenuItem.Click += new EventHandler(this.OnAskQuestionMenuItemClick);
-            this.readDocumentationToolStripMenuItem.Image = (System.Drawing.Image)Resources.help;
-            this.readDocumentationToolStripMenuItem.Name = "readDocumentationToolStripMenuItem";
-            this.readDocumentationToolStripMenuItem.Size = new System.Drawing.Size(210, 26);
-            this.readDocumentationToolStripMenuItem.Text = "Read documention";
-            this.readDocumentationToolStripMenuItem.Click += new EventHandler(this.OnReadDocumentationMenuItemClick);
             this.toolStripSeparator3.Name = "toolStripSeparator3";
             this.toolStripSeparator3.Size = new System.Drawing.Size(207, 6);
-            this.aboutToolStripMenuItem.Name = "aboutToolStripMenuItem";
-            this.aboutToolStripMenuItem.Size = new System.Drawing.Size(210, 26);
-            this.aboutToolStripMenuItem.Text = "About...";
-            this.aboutToolStripMenuItem.Click += new EventHandler(this.OnAboutClick);
             this.PanelWrapperContainerAutoComplete.BorderStyle = BorderStyle.FixedSingle;
             this.PanelWrapperContainerAutoComplete.Controls.Add((System.Windows.Forms.Control)this.PanelContainerAutoComplete);
             this.PanelWrapperContainerAutoComplete.Controls.Add((System.Windows.Forms.Control)this.progressBarLoadingData);
@@ -4736,17 +3817,12 @@ namespace FreeYouTubeDownloader
             ((ISupportInitialize)this.olvDownloads).EndInit();
             this.tableLayoutPanelActionButtons.ResumeLayout(false);
             this.tableLayoutPanelActionButtonsContainer.ResumeLayout(false);
-            ((ISupportInitialize)this.picBoxFacebook).EndInit();
-            ((ISupportInitialize)this.picBoxTwitter).EndInit();
             this.panelButtonActionVideo.ResumeLayout(false);
             this.panelButtonActionVideo.PerformLayout();
             this.panelButtonActionAudio.ResumeLayout(false);
             this.panelButtonActionAudio.PerformLayout();
-            ((ISupportInitialize)this.picBoxAppNotify).EndInit();
             this.tableLayoutPanel2.ResumeLayout(false);
             this.tableLayoutPanel2.PerformLayout();
-            ((ISupportInitialize)this.picBoxHelp).EndInit();
-            ((ISupportInitialize)this.picBoxSupport).EndInit();
             ((ISupportInitialize)this.pictureBoxSettings).EndInit();
             this.panelSearchResult.ResumeLayout(false);
             ((ISupportInitialize)this.pictureBoxCopyPath).EndInit();

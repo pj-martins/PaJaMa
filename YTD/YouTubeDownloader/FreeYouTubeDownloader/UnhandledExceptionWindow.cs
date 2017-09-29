@@ -4,7 +4,6 @@
 // MVID: E906DA98-D8CA-4CAE-B96B-249F2467E375
 // Assembly location: C:\Program Files (x86)\Free YouTube Downloader\YouTubeDownloader.exe
 
-using FreeYouTubeDownloader.Debug;
 using FreeYouTubeDownloader.Localization;
 using FreeYouTubeDownloader.Properties;
 using System;
@@ -75,7 +74,7 @@ namespace FreeYouTubeDownloader
     private void buttonReport_Click(object sender, EventArgs e)
     {
       string description = string.Equals(this.textBoxBugInfo.Text, Strings.DescribeTheBug, StringComparison.OrdinalIgnoreCase) ? "(No description)" : this.textBoxBugInfo.Text;
-      string exceptionDump = this._exception != null ? Log.FormatException(this._exception) : "(No exception dump)";
+      string exceptionDump = "(No exception dump)";
       ThreadPool.QueueUserWorkItem((WaitCallback) (foo =>
       {
         try

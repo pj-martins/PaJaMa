@@ -4,15 +4,12 @@
 // MVID: E906DA98-D8CA-4CAE-B96B-249F2467E375
 // Assembly location: C:\Program Files (x86)\Free YouTube Downloader\YouTubeDownloader.exe
 
-using FreeYouTubeDownloader.Ads;
 using FreeYouTubeDownloader.Analyzer;
 using FreeYouTubeDownloader.Common;
 using FreeYouTubeDownloader.Common.Reporting.Freshdesk;
 using FreeYouTubeDownloader.Converter;
-using FreeYouTubeDownloader.Debug;
 using FreeYouTubeDownloader.Downloader;
 using FreeYouTubeDownloader.Downloader.Tasks;
-using FreeYouTubeDownloader.License;
 using FreeYouTubeDownloader.Localization;
 using Newtonsoft.Json;
 using System;
@@ -525,7 +522,6 @@ namespace FreeYouTubeDownloader.Model
 
         public void TriggerDownloadingSinceQueueReleased()
         {
-            Log.Trace("CALL ActiveDownloadViewModel.TriggerDownloadingSinceQueueReleased()", (Exception)null);
             if (DownloadItemViewModel.Instance.PutInQueue(this.Id))
                 return;
             this.State = DownloadState.Preparing;
@@ -655,9 +651,6 @@ namespace FreeYouTubeDownloader.Model
                     raiseSetStatus((object)this, (EventArgs)downloadStateEventArgs);
                 }
             }
-            if (LicenseHelper.IsGenuine)
-                return;
-            AdsHelper.ShowBottomAd();
         }
 
         private void OnDownloadError(object sender, DownloadErrorEventArgs args)
@@ -699,13 +692,6 @@ namespace FreeYouTubeDownloader.Model
                 }
                 if (MessageBox.Show(stringBuilder.ToString(), Strings.DownloadErrors, buttons, MessageBoxIcon.Hand) != DialogResult.Yes)
                     return;
-                ProblemReporterWindow problemReporterWindow = new ProblemReporterWindow();
-                problemReporterWindow.Title = Strings.ProblemDuringDownloading;
-                problemReporterWindow.TypeOfProblem = TypeOfProblem.DownloadErrors;
-                problemReporterWindow.Description = str1;
-                string str2 = problemReporterWindow.Description + "\r\nUrl: " + this.SourceUrl;
-                problemReporterWindow.Description = str2;
-                int num = (int)problemReporterWindow.ShowDialog();
             }
         }
 

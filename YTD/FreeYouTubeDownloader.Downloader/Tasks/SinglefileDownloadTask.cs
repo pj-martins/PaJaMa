@@ -5,7 +5,6 @@
 // Assembly location: C:\Program Files (x86)\Free YouTube Downloader\FreeYouTubeDownloader.Downloader.dll
 
 using FreeYouTubeDownloader.Common;
-using FreeYouTubeDownloader.Debug;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
@@ -32,7 +31,6 @@ namespace FreeYouTubeDownloader.Downloader.Tasks
 
         public override void Download(MediaLink link, string downloadedMediaFileLocation, long range = -1)
         {
-            Log.Trace("CALL SinglefileDownloadTask.Download(string, string, long)", (Exception)null);
             if (link == null && this.SourceUrl == null)
             {
                 this.NotifyDownloadError(new DownloadErrorEventArgs(FreeYouTubeDownloader.Downloader.DownloadError.Unknown, (Exception)null));
@@ -66,7 +64,6 @@ namespace FreeYouTubeDownloader.Downloader.Tasks
                    }
                    catch (Exception ex)
                    {
-                       Log.Error("SinglefileDownloadTask.Download => " + ex.Message, (Exception)null);
                        this.NotifyDownloadError(new DownloadErrorEventArgs(FreeYouTubeDownloader.Downloader.DownloadError.Unknown, ex));
                    }
                    if (!string.IsNullOrEmpty(this.Id))
@@ -83,7 +80,6 @@ namespace FreeYouTubeDownloader.Downloader.Tasks
 
         public override void Abort()
         {
-            Log.Trace("CALL SinglefileDownloadTask.Abort()", (Exception)null);
             if (this._pendingCancellation || this._waitObject == null)
                 return;
             this._pendingCancellation = true;
@@ -92,14 +88,12 @@ namespace FreeYouTubeDownloader.Downloader.Tasks
 
         public override void Pause()
         {
-            Log.Trace("CALL SinglefileDownloadTask.Pause()", (Exception)null);
             this.Abort();
             this.NotifyDownloadStateChanged(DownloadState.Paused);
         }
 
         public override void Resume()
         {
-            Log.Trace("CALL SinglefileDownloadTask.Resume()", (Exception)null);
             this.Download(this.Link, this.FileName, this._bytesDownloaded);
             this.PausedByNetworkState = false;
         }
@@ -191,7 +185,6 @@ namespace FreeYouTubeDownloader.Downloader.Tasks
 
         private void GetDataCallback(IAsyncResult result)
         {
-            Log.Trace("CALL SinglefileDownloadTask.GetDataCallback(IAsyncResult)", (Exception)null);
             DownloadTaskResponseDataObject asyncState = (DownloadTaskResponseDataObject)result.AsyncState;
             HttpWebRequest request = asyncState.Request;
             long range = asyncState.Range;
@@ -281,7 +274,6 @@ namespace FreeYouTubeDownloader.Downloader.Tasks
                         }
                         else if (fileStream.Length < totalFileSize)
                         {
-                            Log.Warning("The file wasn't downloaded completely", (Exception)null);
                             this.Cleanup((IDisposable)timer, (IDisposable)responseStream, (IDisposable)response, (IDisposable)fileStream);
                             this.NotifyDownloadError(new DownloadErrorEventArgs(FreeYouTubeDownloader.Downloader.DownloadError.Unknown, (Exception)null));
                             this._waitObject.Set();
@@ -297,7 +289,6 @@ namespace FreeYouTubeDownloader.Downloader.Tasks
             }
             catch (Exception ex)
             {
-                Log.Error("SinglefileDownloadTask.GetDataCallback => " + ex.Message, ex);
                 this._pendingCancellation = true;
                 this.NotifyDownloadError(new DownloadErrorEventArgs(FreeYouTubeDownloader.Downloader.DownloadError.Unknown, ex));
             }
@@ -309,7 +300,6 @@ namespace FreeYouTubeDownloader.Downloader.Tasks
 
         public override void UpdateAfterDeserialization()
         {
-            Log.Trace("CALL SinglefileDownloadTask.UpdateAfterDeserialization()", (Exception)null);
             if (this.Link == null || string.IsNullOrEmpty(this.FileName) || this._bytesDownloaded <= 0L)
                 return;
             this.Download(this.Link, this.FileName, System.IO.File.Exists(this.FileName) ? this._bytesDownloaded : 0L);

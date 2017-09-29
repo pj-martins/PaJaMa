@@ -5,7 +5,6 @@
 // Assembly location: C:\Program Files (x86)\Free YouTube Downloader\YouTubeDownloader.exe
 
 using FreeYouTubeDownloader.Common;
-using FreeYouTubeDownloader.Debug;
 using FreeYouTubeDownloader.Downloader;
 using Microsoft.Win32;
 using Newtonsoft.Json;
@@ -256,33 +255,6 @@ namespace FreeYouTubeDownloader
             }
         }
 
-        public bool CheckForUpdates
-        {
-            get
-            {
-                return this._checkForUpdates;
-            }
-            set
-            {
-                if (this._checkForUpdates == value)
-                    return;
-                this._checkForUpdates = value;
-                this.NeedToSerialize = true;
-            }
-        }
-
-        internal bool StartWithWindows
-        {
-            get
-            {
-                return RegistryManager.IsValue(Registry.CurrentUser, "Software\\Microsoft\\Windows\\CurrentVersion\\Run\\", Application.ProductName);
-            }
-            set
-            {
-                Settings.MakeStartWithWindows(value);
-            }
-        }
-
         internal bool NotifyUrlInClipboard
         {
             get
@@ -423,7 +395,6 @@ namespace FreeYouTubeDownloader
 
         public void RestoreState()
         {
-            Log.Trace("CALL Settings.RestoreState()", (Exception)null);
             if (!File.Exists(SharedConstants.SettingsFileName))
                 return;
             try
@@ -444,7 +415,6 @@ namespace FreeYouTubeDownloader
 
         public void SaveState()
         {
-            Log.Trace("CALL Settings.SaveState()", (Exception)null);
             try
             {
                 using (FileStream fileStream = new FileStream(SharedConstants.SettingsFileName, FileMode.Create, FileAccess.Write))
@@ -522,11 +492,6 @@ namespace FreeYouTubeDownloader
                     {
                         nullable = jsonTextReader.ReadAsInt32();
                         this.DesiredAudioDownloadAction = (DesiredAction)nullable.Value;
-                    }
-                    else if (true && s == "CheckForUpdates") // if ((int) stringHash == -1437496568 && s == "CheckForUpdates")
-                    {
-                        jsonTextReader.Read();
-                        this.CheckForUpdates = (bool)jsonTextReader.Value;
                     }
                     else if (s == "RememberLastQualityUsed")
                     {
@@ -633,8 +598,6 @@ namespace FreeYouTubeDownloader
             jsonTextWriter.WriteValue(this.RememberLastQualityUsed);
             jsonTextWriter.WritePropertyName("RunSearchOnEnterKey");
             jsonTextWriter.WriteValue(this.RunSearchOnEnterKey);
-            jsonTextWriter.WritePropertyName("CheckForUpdates");
-            jsonTextWriter.WriteValue(this.CheckForUpdates);
             jsonTextWriter.WritePropertyName("NotifyUrlInClipboard");
             jsonTextWriter.WriteValue(this.NotifyUrlInClipboard);
             if (this.CloseAppAction != CloseAppActions.Prompt)

@@ -76,17 +76,9 @@
       <Project>{b5b3b539-5d22-4764-8ae8-816db9b21e74}</Project>
       <Name>FreeYouTubeDownloader.Common</Name>
     </ProjectReference>
-    <ProjectReference Include="..\FreeYouTubeDownloader.Debug\FreeYouTubeDownloader.Debug.csproj">
-      <Project>{c04a11aa-a0e7-41ee-8f93-fe0d8e7cc00f}</Project>
-      <Name>FreeYouTubeDownloader.Debug</Name>
-    </ProjectReference>
     <ProjectReference Include="..\FreeYouTubeDownloader.Downloader\FreeYouTubeDownloader.Downloader.csproj">
       <Project>{3bf2cc66-2dc3-4327-9f7d-409a98ab8861}</Project>
       <Name>FreeYouTubeDownloader.Downloader</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\FreeYouTubeDownloader.Localization\FreeYouTubeDownloader.Localization.csproj">
-      <Project>{4b1f64ae-c55e-477a-b4cb-3ea3e26fe5c4}</Project>
-      <Name>FreeYouTubeDownloader.Localization</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

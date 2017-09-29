@@ -1,0 +1,51 @@
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 15
+VisualStudioVersion = 15.0.26430.13
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FreeYouTubeDownloader.Analyzer", "YTD\FreeYouTubeDownloader.Analyzer\FreeYouTubeDownloader.Analyzer.csproj", "{608D8636-5674-44A9-AD38-D0FAA5607BD4}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FreeYouTubeDownloader.Downloader", "YTD\FreeYouTubeDownloader.Downloader\FreeYouTubeDownloader.Downloader.csproj", "{3BF2CC66-2DC3-4327-9F7D-409A98AB8861}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FreeYouTubeDownloader.Common", "YTD\FreeYouTubeDownloader.Common\FreeYouTubeDownloader.Common.csproj", "{B5B3B539-5D22-4764-8AE8-816DB9B21E74}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FreeYouTubeDownloader.Converter", "YTD\FreeYouTubeDownloader.Converter\FreeYouTubeDownloader.Converter.csproj", "{0AABE11D-0345-43DC-8746-14C11F2F6773}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "YouTubeDownloader", "YTD\YouTubeDownloader\YouTubeDownloader.csproj", "{930EA111-35C8-4FBC-94C7-1EDA251E8F11}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FreeYouTubeDownloader.Localization", "YTD\FreeYouTubeDownloader.Localization\FreeYouTubeDownloader.Localization.csproj", "{4B1F64AE-C55E-477A-B4CB-3EA3E26FE5C4}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{608D8636-5674-44A9-AD38-D0FAA5607BD4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{608D8636-5674-44A9-AD38-D0FAA5607BD4}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{608D8636-5674-44A9-AD38-D0FAA5607BD4}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{608D8636-5674-44A9-AD38-D0FAA5607BD4}.Release|Any CPU.Build.0 = Release|Any CPU
+		{3BF2CC66-2DC3-4327-9F7D-409A98AB8861}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3BF2CC66-2DC3-4327-9F7D-409A98AB8861}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3BF2CC66-2DC3-4327-9F7D-409A98AB8861}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3BF2CC66-2DC3-4327-9F7D-409A98AB8861}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B5B3B539-5D22-4764-8AE8-816DB9B21E74}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B5B3B539-5D22-4764-8AE8-816DB9B21E74}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B5B3B539-5D22-4764-8AE8-816DB9B21E74}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B5B3B539-5D22-4764-8AE8-816DB9B21E74}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0AABE11D-0345-43DC-8746-14C11F2F6773}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0AABE11D-0345-43DC-8746-14C11F2F6773}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0AABE11D-0345-43DC-8746-14C11F2F6773}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0AABE11D-0345-43DC-8746-14C11F2F6773}.Release|Any CPU.Build.0 = Release|Any CPU
+		{930EA111-35C8-4FBC-94C7-1EDA251E8F11}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{930EA111-35C8-4FBC-94C7-1EDA251E8F11}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{930EA111-35C8-4FBC-94C7-1EDA251E8F11}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{930EA111-35C8-4FBC-94C7-1EDA251E8F11}.Release|Any CPU.Build.0 = Release|Any CPU
+		{4B1F64AE-C55E-477A-B4CB-3EA3E26FE5C4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4B1F64AE-C55E-477A-B4CB-3EA3E26FE5C4}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4B1F64AE-C55E-477A-B4CB-3EA3E26FE5C4}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4B1F64AE-C55E-477A-B4CB-3EA3E26FE5C4}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal
