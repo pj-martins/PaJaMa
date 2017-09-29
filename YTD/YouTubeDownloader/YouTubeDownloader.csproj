@@ -30,6 +30,22 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'ReleaseDropbox|AnyCPU'">
+    <OutputPath>..\..\..\..\Users\PJ\Dropbox\Binaries\YTDDownloader\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <Optimize>true</Optimize>
+    <DebugType>pdbonly</DebugType>
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+    <Prefer32Bit>true</Prefer32Bit>
+  </PropertyGroup>
+  <PropertyGroup>
+    <ApplicationIcon>icon.ico</ApplicationIcon>
+  </PropertyGroup>
+  <PropertyGroup>
+    <RootNamespace>YouTubeDownloader</RootNamespace>
+  </PropertyGroup>
   <ItemGroup>
     <Reference Include="Newtonsoft.Json">
       <HintPath>..\lib\Newtonsoft.Json.dll</HintPath>
@@ -65,83 +81,83 @@
     <Reference Include="WindowsBase" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="FreeYouTubeDownloader\Helpers\ReportingHelper.cs" />
-    <Compile Include="FreeYouTubeDownloader\MainWindow.cs">
+    <Compile Include="Helpers\ReportingHelper.cs" />
+    <Compile Include="MainWindow.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="FreeYouTubeDownloader\MainWindow.designer.cs">
-		<DependentUpon>MainWindow.cs</DependentUpon>
-	</Compile>
-    <Compile Include="FreeYouTubeDownloader\Settings.cs" />
-    <Compile Include="FreeYouTubeDownloader\DownloadItemComparerAscending.cs" />
-    <Compile Include="FreeYouTubeDownloader\DownloadItemComparerDescending.cs" />
-    <Compile Include="FreeYouTubeDownloader\AboutWindow.cs">
+    <Compile Include="MainWindow.designer.cs">
+      <DependentUpon>MainWindow.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Settings.cs" />
+    <Compile Include="DownloadItemComparerAscending.cs" />
+    <Compile Include="DownloadItemComparerDescending.cs" />
+    <Compile Include="AboutWindow.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="FreeYouTubeDownloader\ConfirmationWindow.cs">
+    <Compile Include="ConfirmationWindow.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="FreeYouTubeDownloader\CloseAppActions.cs" />
-    <Compile Include="FreeYouTubeDownloader\ExitPromptWindow.cs">
+    <Compile Include="CloseAppActions.cs" />
+    <Compile Include="ExitPromptWindow.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="FreeYouTubeDownloader\IFrameWindow.cs">
+    <Compile Include="IFrameWindow.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="FreeYouTubeDownloader\GeneralHelper.cs" />
-    <Compile Include="FreeYouTubeDownloader\BrowserEmulationVersion.cs" />
-    <Compile Include="FreeYouTubeDownloader\WBEmulator.cs" />
-    <Compile Include="FreeYouTubeDownloader\WindowHelper.cs" />
-    <Compile Include="FreeYouTubeDownloader\Program.cs" />
-    <Compile Include="FreeYouTubeDownloader\SettingsWindow.cs">
+    <Compile Include="GeneralHelper.cs" />
+    <Compile Include="BrowserEmulationVersion.cs" />
+    <Compile Include="WBEmulator.cs" />
+    <Compile Include="WindowHelper.cs" />
+    <Compile Include="Program.cs" />
+    <Compile Include="SettingsWindow.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="FreeYouTubeDownloader\RadioButtonRender.cs">
+    <Compile Include="RadioButtonRender.cs">
       <SubType>Component</SubType>
     </Compile>
-    <Compile Include="FreeYouTubeDownloader\UnhandledExceptionWindow.cs">
+    <Compile Include="UnhandledExceptionWindow.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="FreeYouTubeDownloader\DownloadItemViewModel.cs" />
-    <Compile Include="FreeYouTubeDownloader\Properties\Resources.cs" />
-    <Compile Include="FreeYouTubeDownloader\Youtube\YoutubeHelper.cs" />
-    <Compile Include="FreeYouTubeDownloader\Youtube\YoutubeVideoRecord.cs" />
-    <Compile Include="FreeYouTubeDownloader\UI\ToolbarTheme.cs" />
-    <Compile Include="FreeYouTubeDownloader\UI\ToolStripAeroRenderer.cs" />
-    <Compile Include="FreeYouTubeDownloader\UI\TransparentPictureBox.cs">
+    <Compile Include="DownloadItemViewModel.cs" />
+    <Compile Include="Properties\Resources.cs" />
+    <Compile Include="Youtube\YoutubeHelper.cs" />
+    <Compile Include="Youtube\YoutubeVideoRecord.cs" />
+    <Compile Include="UI\ToolbarTheme.cs" />
+    <Compile Include="UI\ToolStripAeroRenderer.cs" />
+    <Compile Include="UI\TransparentPictureBox.cs">
       <SubType>Component</SubType>
     </Compile>
-    <Compile Include="FreeYouTubeDownloader\Search\HttpClientEx.cs" />
-    <Compile Include="FreeYouTubeDownloader\Search\SearchException.cs" />
-    <Compile Include="FreeYouTubeDownloader\Search\SearchResultsOrder.cs" />
-    <Compile Include="FreeYouTubeDownloader\Search\SearchVideoDefinitions.cs" />
-    <Compile Include="FreeYouTubeDownloader\Search\Thumbnail.cs" />
-    <Compile Include="FreeYouTubeDownloader\Search\TimerEx.cs">
+    <Compile Include="Search\HttpClientEx.cs" />
+    <Compile Include="Search\SearchException.cs" />
+    <Compile Include="Search\SearchResultsOrder.cs" />
+    <Compile Include="Search\SearchVideoDefinitions.cs" />
+    <Compile Include="Search\Thumbnail.cs" />
+    <Compile Include="Search\TimerEx.cs">
       <SubType>Component</SubType>
     </Compile>
-    <Compile Include="FreeYouTubeDownloader\Search\VideoSearch.cs" />
-    <Compile Include="FreeYouTubeDownloader\Search\VideoSearchResult.cs" />
-    <Compile Include="FreeYouTubeDownloader\Search\YouTubeSearchException.cs" />
-    <Compile Include="FreeYouTubeDownloader\Search\YouTubeVideoSearch.cs" />
-    <Compile Include="FreeYouTubeDownloader\Model\VideoStreamTypeExtensions.cs" />
-    <Compile Include="FreeYouTubeDownloader\Model\DownloadItem.cs" />
-    <Compile Include="FreeYouTubeDownloader\Model\DownloadStateEventArgs.cs" />
-    <Compile Include="FreeYouTubeDownloader\Model\SplitButtonTagData.cs" />
-    <Compile Include="FreeYouTubeDownloader\Extensions\ControlCollectionExtensions.cs" />
-    <Compile Include="FreeYouTubeDownloader\Extensions\PanelExtension.cs" />
-    <Compile Include="FreeYouTubeDownloader\Controls\PictureBoxEx.cs">
+    <Compile Include="Search\VideoSearch.cs" />
+    <Compile Include="Search\VideoSearchResult.cs" />
+    <Compile Include="Search\YouTubeSearchException.cs" />
+    <Compile Include="Search\YouTubeVideoSearch.cs" />
+    <Compile Include="Model\VideoStreamTypeExtensions.cs" />
+    <Compile Include="Model\DownloadItem.cs" />
+    <Compile Include="Model\DownloadStateEventArgs.cs" />
+    <Compile Include="Model\SplitButtonTagData.cs" />
+    <Compile Include="Extensions\ControlCollectionExtensions.cs" />
+    <Compile Include="Extensions\PanelExtension.cs" />
+    <Compile Include="Controls\PictureBoxEx.cs">
       <SubType>Component</SubType>
     </Compile>
-    <Compile Include="FreeYouTubeDownloader\Controls\WebBrowserEx.cs">
+    <Compile Include="Controls\WebBrowserEx.cs">
       <SubType>Component</SubType>
     </Compile>
-    <Compile Include="FreeYouTubeDownloader\Controls\WebBrowserExNavigateErrorEventHandler.cs" />
-    <Compile Include="FreeYouTubeDownloader\Controls\WebBrowserExBeforeNavigate2EventHandler.cs" />
-    <Compile Include="FreeYouTubeDownloader\Controls\WebBrowserExNewWindow3EventHandler.cs" />
-    <Compile Include="FreeYouTubeDownloader\Controls\WebBrowserExNavigateErrorEventArgs.cs" />
-    <Compile Include="FreeYouTubeDownloader\Controls\WebBrowserExBeforeNavigate2EventArgs.cs" />
-    <Compile Include="FreeYouTubeDownloader\Controls\WebBrowserExNewWindow3EventArgs.cs" />
-    <Compile Include="FreeYouTubeDownloader\Controls\DWebBrowserEvents2.cs" />
+    <Compile Include="Controls\WebBrowserExNavigateErrorEventHandler.cs" />
+    <Compile Include="Controls\WebBrowserExBeforeNavigate2EventHandler.cs" />
+    <Compile Include="Controls\WebBrowserExNewWindow3EventHandler.cs" />
+    <Compile Include="Controls\WebBrowserExNavigateErrorEventArgs.cs" />
+    <Compile Include="Controls\WebBrowserExBeforeNavigate2EventArgs.cs" />
+    <Compile Include="Controls\WebBrowserExNewWindow3EventArgs.cs" />
+    <Compile Include="Controls\DWebBrowserEvents2.cs" />
     <Compile Include="AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -149,18 +165,18 @@
     <Resource Include="windows_notify" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="FreeYouTubeDownloader\AboutWindow.resx" />
-    <EmbeddedResource Include="FreeYouTubeDownloader\ConfirmationWindow.resx" />
-    <EmbeddedResource Include="FreeYouTubeDownloader\ExitPromptWindow.resx" />
-    <EmbeddedResource Include="FreeYouTubeDownloader\IFrameWindow.resx" />
-    <EmbeddedResource Include="FreeYouTubeDownloader\MainWindow.resx">
-		<DependentUpon>MainWindow.cs</DependentUpon>
-	</EmbeddedResource>
-    <EmbeddedResource Include="FreeYouTubeDownloader\Properties\Resources.resx">
+    <EmbeddedResource Include="AboutWindow.resx" />
+    <EmbeddedResource Include="ConfirmationWindow.resx" />
+    <EmbeddedResource Include="ExitPromptWindow.resx" />
+    <EmbeddedResource Include="IFrameWindow.resx" />
+    <EmbeddedResource Include="MainWindow.resx">
+      <DependentUpon>MainWindow.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Properties\Resources.resx">
       <SubType>Designer</SubType>
     </EmbeddedResource>
-    <EmbeddedResource Include="FreeYouTubeDownloader\SettingsWindow.resx" />
-    <EmbeddedResource Include="FreeYouTubeDownloader\UnhandledExceptionWindow.resx" />
+    <EmbeddedResource Include="SettingsWindow.resx" />
+    <EmbeddedResource Include="UnhandledExceptionWindow.resx" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\FreeYouTubeDownloader.Analyzer\FreeYouTubeDownloader.Analyzer.csproj">
@@ -183,6 +199,9 @@
       <Project>{4b1f64ae-c55e-477a-b4cb-3ea3e26fe5c4}</Project>
       <Name>FreeYouTubeDownloader.Localization</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="icon.ico" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

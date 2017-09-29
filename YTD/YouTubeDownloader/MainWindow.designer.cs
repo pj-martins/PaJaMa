@@ -20,6 +20,7 @@ namespace FreeYouTubeDownloader
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MainWindow));
             this.textBoxUrl = new System.Windows.Forms.TextBox();
             this.tableLayoutPanel = new System.Windows.Forms.TableLayoutPanel();
             this.statusStrip = new System.Windows.Forms.StatusStrip();
@@ -737,6 +738,7 @@ namespace FreeYouTubeDownloader
             this.Controls.Add(this.PanelWrapperContainerAutoComplete);
             this.Controls.Add(this.tableLayoutPanel);
             this.Controls.Add(this.menuStrip);
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.MainMenuStrip = this.menuStrip;
             this.MinimumSize = new System.Drawing.Size(604, 393);
             this.Name = "MainWindow";
