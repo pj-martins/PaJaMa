@@ -1,0 +1,101 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <!--Project was exported from assembly: C:\Program Files (x86)\Free YouTube Downloader\FreeYouTubeDownloader.Common.dll-->
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{B5B3B539-5D22-4764-8AE8-816DB9B21E74}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AssemblyName>FreeYouTubeDownloader.Common</AssemblyName>
+    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <ApplicationVersion>1.0.0.0</ApplicationVersion>
+    <FileAlignment>512</FileAlignment>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="System" />
+    <Reference Include="PresentationCore" />
+    <Reference Include="WindowsBase" />
+    <Reference Include="Newtonsoft.Json">
+      <HintPath>lib\Newtonsoft.Json.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Core" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="FreeYouTubeDownloader\Common\ApplicationManager.cs" />
+    <Compile Include="FreeYouTubeDownloader\Common\ApplicationStateManager.cs" />
+    <Compile Include="FreeYouTubeDownloader\Common\DpiHelper.cs" />
+    <Compile Include="FreeYouTubeDownloader\Common\ConvertExtension.cs" />
+    <Compile Include="FreeYouTubeDownloader\Common\StringExtensions.cs" />
+    <Compile Include="FreeYouTubeDownloader\Common\NativeMethods.cs" />
+    <Compile Include="FreeYouTubeDownloader\Common\RegistryManager.cs" />
+    <Compile Include="FreeYouTubeDownloader\Common\SharedConstants.cs" />
+    <Compile Include="FreeYouTubeDownloader\Common\DesiredAction.cs" />
+    <Compile Include="FreeYouTubeDownloader\Common\FileLocationOption.cs" />
+    <Compile Include="FreeYouTubeDownloader\Common\IJsonSerializable.cs" />
+    <Compile Include="FreeYouTubeDownloader\Common\IPreservable.cs" />
+    <Compile Include="FreeYouTubeDownloader\Common\DateTimeUtil.cs" />
+    <Compile Include="FreeYouTubeDownloader\Common\FileSystemUtil.cs" />
+    <Compile Include="FreeYouTubeDownloader\Common\WebResponseAsyncCallbackUserObject.cs" />
+    <Compile Include="FreeYouTubeDownloader\Common\HttpUtil.cs" />
+    <Compile Include="FreeYouTubeDownloader\Common\InternetAvailabilityEventArgs.cs" />
+    <Compile Include="FreeYouTubeDownloader\Common\NetworkMonitor.cs" />
+    <Compile Include="FreeYouTubeDownloader\Common\Types\ButtonActionData.cs" />
+    <Compile Include="FreeYouTubeDownloader\Common\Reporting\Freshdesk\StringValue.cs" />
+    <Compile Include="FreeYouTubeDownloader\Common\Reporting\Freshdesk\Validate.cs" />
+    <Compile Include="FreeYouTubeDownloader\Common\Reporting\Freshdesk\EnumHelper.cs" />
+    <Compile Include="FreeYouTubeDownloader\Common\Reporting\Freshdesk\FreshdeskAgents.cs" />
+    <Compile Include="FreeYouTubeDownloader\Common\Reporting\Freshdesk\FreshdeskAttachment.cs" />
+    <Compile Include="FreeYouTubeDownloader\Common\Reporting\Freshdesk\FreshdeskClient.cs" />
+    <Compile Include="FreeYouTubeDownloader\Common\Reporting\Freshdesk\FreshdeskGroups.cs" />
+    <Compile Include="FreeYouTubeDownloader\Common\Reporting\Freshdesk\FreshdeskTicket.cs" />
+    <Compile Include="FreeYouTubeDownloader\Common\Reporting\Freshdesk\TicketStatus.cs" />
+    <Compile Include="FreeYouTubeDownloader\Common\Reporting\Freshdesk\TypeOfProblem.cs" />
+    <Compile Include="FreeYouTubeDownloader\Common\Collections\LimitedQueue`1.cs" />
+    <Compile Include="FreeYouTubeDownloader\Common\Collections\CircularStack`1.cs" />
+    <Compile Include="Google\Measurement\StringExtensions.cs" />
+    <Compile Include="Google\Measurement\HttpHelper.cs" />
+    <Compile Include="Google\Measurement\AppProperty.cs" />
+    <Compile Include="Google\Measurement\AppEventData.cs" />
+    <Compile Include="Google\Measurement\EventData.cs" />
+    <Compile Include="Google\Measurement\WebEventData.cs" />
+    <Compile Include="Google\Measurement\ExceptionData.cs" />
+    <Compile Include="Google\Measurement\HitType.cs" />
+    <Compile Include="Google\Measurement\PageViewData.cs" />
+    <Compile Include="Google\Measurement\PayloadData.cs" />
+    <Compile Include="Google\Measurement\ScreenViewData.cs" />
+    <Compile Include="Google\Measurement\SocialData.cs" />
+    <Compile Include="Google\Measurement\WebProperty.cs" />
+    <Compile Include="Google\Measurement\MeasurementClient.cs" />
+    <Compile Include="AssemblyInfo.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\FreeYouTubeDownloader.Debug\FreeYouTubeDownloader.Debug.csproj">
+      <Project>{c04a11aa-a0e7-41ee-8f93-fe0d8e7cc00f}</Project>
+      <Name>FreeYouTubeDownloader.Debug</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\FreeYouTubeDownloader.Localization\FreeYouTubeDownloader.Localization.csproj">
+      <Project>{4b1f64ae-c55e-477a-b4cb-3ea3e26fe5c4}</Project>
+      <Name>FreeYouTubeDownloader.Localization</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+</Project>

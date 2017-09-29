@@ -1,0 +1,803 @@
+<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <!-- 
+    Microsoft ResX Schema 
+    
+    Version 2.0
+    
+    The primary goals of this format is to allow a simple XML format 
+    that is mostly human readable. The generation and parsing of the 
+    various data types are done through the TypeConverter classes 
+    associated with the data types.
+    
+    Example:
+    
+    ... ado.net/XML headers & schema ...
+    <resheader name="resmimetype">text/microsoft-resx</resheader>
+    <resheader name="version">2.0</resheader>
+    <resheader name="reader">System.Resources.ResXResourceReader, System.Windows.Forms, ...</resheader>
+    <resheader name="writer">System.Resources.ResXResourceWriter, System.Windows.Forms, ...</resheader>
+    <data name="Name1"><value>this is my long string</value><comment>this is a comment</comment></data>
+    <data name="Color1" type="System.Drawing.Color, System.Drawing">Blue</data>
+    <data name="Bitmap1" mimetype="application/x-microsoft.net.object.binary.base64">
+        <value>[base64 mime encoded serialized .NET Framework object]</value>
+    </data>
+    <data name="Icon1" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+        <value>[base64 mime encoded string representing a byte array form of the .NET Framework object]</value>
+        <comment>This is a comment</comment>
+    </data>
+                
+    There are any number of "resheader" rows that contain simple 
+    name/value pairs.
+    
+    Each data row contains a name, and value. The row also contains a 
+    type or mimetype. Type corresponds to a .NET class that support 
+    text/value conversion through the TypeConverter architecture. 
+    Classes that don't support this are serialized and stored with the 
+    mimetype set.
+    
+    The mimetype is used for serialized objects, and tells the 
+    ResXResourceReader how to depersist the object. This is currently not 
+    extensible. For a given mimetype the value must be set accordingly:
+    
+    Note - application/x-microsoft.net.object.binary.base64 is the format 
+    that the ResXResourceWriter will generate, however the reader can 
+    read any of the formats listed below.
+    
+    mimetype: application/x-microsoft.net.object.binary.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Binary.BinaryFormatter
+            : and then encoded with base64 encoding.
+    
+    mimetype: application/x-microsoft.net.object.soap.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Soap.SoapFormatter
+            : and then encoded with base64 encoding.
+
+    mimetype: application/x-microsoft.net.object.bytearray.base64
+    value   : The object must be serialized into a byte array 
+            : using a System.ComponentModel.TypeConverter
+            : and then encoded with base64 encoding.
+    -->
+  <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
+    <xsd:element name="root" msdata:IsDataSet="true">
+      <xsd:complexType>
+        <xsd:choice maxOccurs="unbounded">
+          <xsd:element name="metadata">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" />
+              </xsd:sequence>
+              <xsd:attribute name="name" use="required" type="xsd:string" />
+              <xsd:attribute name="type" type="xsd:string" />
+              <xsd:attribute name="mimetype" type="xsd:string" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="assembly">
+            <xsd:complexType>
+              <xsd:attribute name="alias" type="xsd:string" />
+              <xsd:attribute name="name" type="xsd:string" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="data">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1" />
+              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
+              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="resheader">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" />
+            </xsd:complexType>
+          </xsd:element>
+        </xsd:choice>
+      </xsd:complexType>
+    </xsd:element>
+  </xsd:schema>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <data name="Support" xml:space="preserve">
+    <value>Support</value>
+  </data>
+  <data name="Information" xml:space="preserve">
+    <value>Information</value>
+  </data>
+  <data name="RemoveFinishedFiles" xml:space="preserve">
+    <value>Clear downloads list upon restart</value>
+  </data>
+  <data name="DeleteSelectedDownloads" xml:space="preserve">
+    <value>Are you sure you want to delete selected downloads?</value>
+  </data>
+  <data name="SuggestFeature" xml:space="preserve">
+    <value>Suggest feature</value>
+  </data>
+  <data name="VideoBitrate" xml:space="preserve">
+    <value>Video bitrate</value>
+  </data>
+  <data name="FileMissingOnComputer" xml:space="preserve">
+    <value>File is missing on a computer</value>
+  </data>
+  <data name="ConversionIssues" xml:space="preserve">
+    <value>Conversion Issues</value>
+  </data>
+  <data name="KeyExpiredMessage" xml:space="preserve">
+    <value>It seems that your subscription has expired. If you believe this is an error, please contact support. If you wish to extend your subscription, please click "Extend Subscription"</value>
+  </data>
+  <data name="CompletedStringPattern" xml:space="preserve">
+    <value>Completed ({0})</value>
+  </data>
+  <data name="ConvertTo" xml:space="preserve">
+    <value>Convert to</value>
+  </data>
+  <data name="FollowingErrorOccurred" xml:space="preserve">
+    <value>The following error occurred: </value>
+  </data>
+  <data name="SelectOnDownload" xml:space="preserve">
+    <value>Select on download</value>
+  </data>
+  <data name="Format" xml:space="preserve">
+    <value>Format</value>
+  </data>
+  <data name="AutoDownloadVideos" xml:space="preserve">
+    <value>Auto download</value>
+  </data>
+  <data name="AutoDownloadStarted" xml:space="preserve">
+    <value>An Auto-Download has just started</value>
+  </data>
+  <data name="RememberAction" xml:space="preserve">
+    <value>Remember action</value>
+  </data>
+  <data name="Delete" xml:space="preserve">
+    <value>Delete file(s) from disk...</value>
+  </data>
+  <data name="UnableToCheckForUpdates" xml:space="preserve">
+    <value>Unable to check for updates</value>
+  </data>
+  <data name="TypeFullName" xml:space="preserve">
+    <value>Type full name</value>
+  </data>
+  <data name="ShareVideoOnTwitter" xml:space="preserve">
+    <value>Share video on Twitter</value>
+  </data>
+  <data name="Application" xml:space="preserve">
+    <value>Application</value>
+  </data>
+  <data name="Cancel" xml:space="preserve">
+    <value>Cancel</value>
+  </data>
+  <data name="ConvertingCompleted" xml:space="preserve">
+    <value>Converting completed</value>
+  </data>
+  <data name="ChooseDefaultDownloadFolder" xml:space="preserve">
+    <value>Choose default download folder</value>
+  </data>
+  <data name="AgeProtectedWarning" xml:space="preserve">
+    <value>This video is age protected. We're going to implement its support in future versions.</value>
+  </data>
+  <data name="AudioCodec" xml:space="preserve">
+    <value>Audio codec</value>
+  </data>
+  <data name="Canceled" xml:space="preserve">
+    <value>Canceled</value>
+  </data>
+  <data name="ProSubscriptionIsReverted2" xml:space="preserve">
+    <value>Your PRO has been reverted to Free. Would you like to contact support to renew your subscription?</value>
+  </data>
+  <data name="ErrorHasOccured" xml:space="preserve">
+    <value>Error has occured</value>
+  </data>
+  <data name="RegisteredTo" xml:space="preserve">
+    <value>Licensed to</value>
+  </data>
+  <data name="AnalyzingStreamsQuality" xml:space="preserve">
+    <value>Analyzing media streams quality</value>
+  </data>
+  <data name="ProVersionIsActivated" xml:space="preserve">
+    <value>PRO is activated</value>
+  </data>
+  <data name="ReportAProblem" xml:space="preserve">
+    <value>Report a problem</value>
+  </data>
+  <data name="Resolution" xml:space="preserve">
+    <value>Resolution</value>
+  </data>
+  <data name="DownloadLatestVersion" xml:space="preserve">
+    <value>Download latest version</value>
+  </data>
+  <data name="Progress" xml:space="preserve">
+    <value>Progress</value>
+  </data>
+  <data name="General" xml:space="preserve">
+    <value>General</value>
+  </data>
+  <data name="AnalyzingFailed" xml:space="preserve">
+    <value>Analyzing failed</value>
+  </data>
+  <data name="ExtractOriginalAudio" xml:space="preserve">
+    <value>Extract original audio</value>
+  </data>
+  <data name="OpenFileLocation" xml:space="preserve">
+    <value>Open file location</value>
+  </data>
+  <data name="DownloadWebM" xml:space="preserve">
+    <value>Download WebM</value>
+  </data>
+  <data name="SelectedFiles" xml:space="preserve">
+    <value>{0} selected file(s)</value>
+  </data>
+  <data name="ContactSupport" xml:space="preserve">
+    <value>Contact Support</value>
+  </data>
+  <data name="DownloadAsAudio" xml:space="preserve">
+    <value>Download as Audio</value>
+  </data>
+  <data name="DownloadAsVideo" xml:space="preserve">
+    <value>Download as Video</value>
+  </data>
+  <data name="PreferredLanguage" xml:space="preserve">
+    <value>Preferred language</value>
+  </data>
+  <data name="Window" xml:space="preserve">
+    <value>Window</value>
+  </data>
+  <data name="Target" xml:space="preserve">
+    <value>Target</value>
+  </data>
+  <data name="ShareThisVideoOnFacebook" xml:space="preserve">
+    <value>Share this video on Facebook</value>
+  </data>
+  <data name="CheckForNewVersion" xml:space="preserve">
+    <value>Check for new version on startup</value>
+  </data>
+  <data name="UnhandledErrorTitle" xml:space="preserve">
+    <value>Unfortunately unhandled error occurred
+You may ignore this error but we will be thankful if you report us about this problem</value>
+  </data>
+  <data name="Report" xml:space="preserve">
+    <value>Report</value>
+  </data>
+  <data name="Resume" xml:space="preserve">
+    <value>Resume</value>
+  </data>
+  <data name="Remove" xml:space="preserve">
+    <value>Remove file(s) from this list</value>
+  </data>
+  <data name="SimultaneousDownloads" xml:space="preserve">
+    <value>Simultaneous downloads</value>
+  </data>
+  <data name="EnterActivationKey" xml:space="preserve">
+    <value>Enter your activation key</value>
+  </data>
+  <data name="Minimize" xml:space="preserve">
+    <value>Minimize to task bar</value>
+  </data>
+  <data name="WouldYouLikeSubmitErrorReport" xml:space="preserve">
+    <value>Would you like to submit an error report?</value>
+  </data>
+  <data name="System" xml:space="preserve">
+    <value>System</value>
+  </data>
+  <data name="DefaultFolderForVideoDownloads" xml:space="preserve">
+    <value>Default folder for video downloads</value>
+  </data>
+  <data name="Paused" xml:space="preserve">
+    <value>Paused</value>
+  </data>
+  <data name="DownloadButtonHint" xml:space="preserve">
+    <value>Click the arrow to select a different file type or folder. Click the main button to start downloading the video from the URL you entered in the text box</value>
+  </data>
+  <data name="NewVersionIsAvailableMessage" xml:space="preserve">
+    <value>New version {0} is available. We highly recommend to update software in order to work correctly. Would you like to update?</value>
+  </data>
+  <data name="HighBitrateProSubscriptionMessageText" xml:space="preserve">
+    <value>This feature is only available on Pro. Subscribe to Pro to download audio with greater quality than 128kbps. It's cheaper than a Big Mac!</value>
+  </data>
+  <data name="PlayYoutubePlayer" xml:space="preserve">
+    <value>Watch</value>
+  </data>
+  <data name="AnalysisFileErrorMessage" xml:space="preserve">
+    <value>Unable to create the analysis file.</value>
+  </data>
+  <data name="YouTubeRedNotSupported" xml:space="preserve">
+    <value>This video is part of YouTube RED and is protected from downloading by YouTube. It cannot be downloaded</value>
+  </data>
+  <data name="ShareVideoOnFacebook" xml:space="preserve">
+    <value>Share video on Facebook</value>
+  </data>
+  <data name="Exception" xml:space="preserve">
+    <value>Exception</value>
+  </data>
+  <data name="StartWithWindows" xml:space="preserve">
+    <value>Start with Windows</value>
+  </data>
+  <data name="SendReport" xml:space="preserve">
+    <value>Send Report</value>
+  </data>
+  <data name="ConnectedToInternet" xml:space="preserve">
+    <value>Connected to Internet</value>
+  </data>
+  <data name="RememberLastQualityUsed" xml:space="preserve">
+    <value>Remember last quality used</value>
+  </data>
+  <data name="Downloads" xml:space="preserve">
+    <value>Downloads</value>
+  </data>
+  <data name="AdCloseCaption" xml:space="preserve">
+    <value>Before you close the ad...</value>
+  </data>
+  <data name="Activate" xml:space="preserve">
+    <value>Activate</value>
+  </data>
+  <data name="NoSuitableStreamsForDownload" xml:space="preserve">
+    <value>Video you attempting to download doesn't contains suitable streams for download. We apologize for the inconvenience.</value>
+  </data>
+  <data name="OpenAudioFiles" xml:space="preserve">
+    <value>My audio files</value>
+  </data>
+  <data name="CheckForUpdate" xml:space="preserve">
+    <value>Check for update</value>
+  </data>
+  <data name="SearchError" xml:space="preserve">
+    <value>Search error</value>
+  </data>
+  <data name="ConvertingStringPattern" xml:space="preserve">
+    <value>Converting ({0})</value>
+  </data>
+  <data name="ExceptionReporterMessage" xml:space="preserve">
+    <value>This dialog with detailed information on an Exception and the application /system running it. It allows you to send a report about this incident to the developers. 
+We thank you for your participation in the process.</value>
+  </data>
+  <data name="ReceivingDownloadLinks" xml:space="preserve">
+    <value>Receiving download links</value>
+  </data>
+  <data name="PasteURLHere" xml:space="preserve">
+    <value>Enter search, paste YouTube URL or select local file to convert</value>
+  </data>
+  <data name="SignUpForUpdates" xml:space="preserve">
+    <value>Sign-up for updates notification</value>
+  </data>
+  <data name="ConvertIsFailed" xml:space="preserve">
+    <value>Convert "{0}" is failed</value>
+  </data>
+  <data name="AskFileNameAndFolder" xml:space="preserve">
+    <value>Ask file name and folder</value>
+  </data>
+  <data name="ToolTipButtonTwitter" xml:space="preserve">
+    <value>Help us keep this software free of charge by sharing it with your friend on Twitter</value>
+  </data>
+  <data name="PleaseWait" xml:space="preserve">
+    <value>Please wait...</value>
+  </data>
+  <data name="CouldNotConnectToInternet" xml:space="preserve">
+    <value>FYD could not connect to the Internet. Please check your router and/or firewall settings.</value>
+  </data>
+  <data name="DeactivateFYDProDescription" xml:space="preserve">
+    <value>Here you can deactivate PRO from this computer. This is particularly helpful in case you want to activate your subscription in another computer.</value>
+  </data>
+  <data name="GeneralTechnicalProblem" xml:space="preserve">
+    <value>General Technical Problem</value>
+  </data>
+  <data name="ConvertIsCompleted" xml:space="preserve">
+    <value>Convert "{0}" is completed</value>
+  </data>
+  <data name="IncludeTooltipsForNotifications" xml:space="preserve">
+    <value>Balloon notifications</value>
+  </data>
+  <data name="DownloadIsCompleted" xml:space="preserve">
+    <value>Download "{0}" is completed</value>
+  </data>
+  <data name="MinimizeToNotificationArea" xml:space="preserve">
+    <value>Minimize to notification area</value>
+  </data>
+  <data name="DeactivateFYDPro" xml:space="preserve">
+    <value>Deactivate PRO</value>
+  </data>
+  <data name="Download" xml:space="preserve">
+    <value>Download</value>
+  </data>
+  <data name="No" xml:space="preserve">
+    <value>No</value>
+  </data>
+  <data name="HigherAudioQualitiesTooltip" xml:space="preserve">
+    <value>This video supports higher audio qualities.</value>
+  </data>
+  <data name="DeleteThisDownload" xml:space="preserve">
+    <value>Are you sure you want to delete this download?</value>
+  </data>
+  <data name="OpenVideoFiles" xml:space="preserve">
+    <value>My video files</value>
+  </data>
+  <data name="CopyVideoURLToClipboard" xml:space="preserve">
+    <value>Copy video URL to clipboard</value>
+  </data>
+  <data name="YourEmailToBeNotifiedAboutFix" xml:space="preserve">
+    <value>Leave us your email if you want to be notified about fix</value>
+  </data>
+  <data name="ConvertToMP4" xml:space="preserve">
+    <value>Convert to MP4</value>
+  </data>
+  <data name="ConvertToMP3" xml:space="preserve">
+    <value>Convert to MP3</value>
+  </data>
+  <data name="ConvertToAAC" xml:space="preserve">
+    <value>Convert to AAC</value>
+  </data>
+  <data name="ConvertToAVI" xml:space="preserve">
+    <value>Convert to AVI</value>
+  </data>
+  <data name="ConvertToFLV" xml:space="preserve">
+    <value>Convert to FLV</value>
+  </data>
+  <data name="AudioBitrate" xml:space="preserve">
+    <value>Audio bitrate</value>
+  </data>
+  <data name="CloseAppActionPrompt" xml:space="preserve">
+    <value>Prompt me for a choice</value>
+  </data>
+  <data name="ExtendSubscription" xml:space="preserve">
+    <value>Extend Subscription</value>
+  </data>
+  <data name="RTMPUnsupported" xml:space="preserve">
+    <value>You are trying to download video streamed via Adobe RTMP. Unfortunately RTMP streams  are not supported at this moment</value>
+  </data>
+  <data name="Eta" xml:space="preserve">
+    <value>ETA</value>
+  </data>
+  <data name="Yes" xml:space="preserve">
+    <value>Yes</value>
+  </data>
+  <data name="Error" xml:space="preserve">
+    <value>Error</value>
+  </data>
+  <data name="About" xml:space="preserve">
+    <value>About</value>
+  </data>
+  <data name="Audio" xml:space="preserve">
+    <value>Audio</value>
+  </data>
+  <data name="Video" xml:space="preserve">
+    <value>Video</value>
+  </data>
+  <data name="Title" xml:space="preserve">
+    <value>Title</value>
+  </data>
+  <data name="Retry" xml:space="preserve">
+    <value>Retry</value>
+  </data>
+  <data name="Speed" xml:space="preserve">
+    <value>Speed</value>
+  </data>
+  <data name="Pause" xml:space="preserve">
+    <value>Pause</value>
+  </data>
+  <data name="NoProvider" xml:space="preserve">
+    <value>No provider for given url</value>
+  </data>
+  <data name="ReadDocumentation" xml:space="preserve">
+    <value>Read documentation</value>
+  </data>
+  <data name="VideoURLCopiedToClipboard" xml:space="preserve">
+    <value>Video URL copied to clipboard</value>
+  </data>
+  <data name="AdCloseText3" xml:space="preserve">
+    <value>You can hide ads on FYD permanently by subscribing to PRO. Too bad it's not that easy to get rid of Trump. Subscribe?</value>
+  </data>
+  <data name="AdCloseText2" xml:space="preserve">
+    <value>RedBull isn't free, but we need it to develop FYD.  Hide ads permanently by subscribing to PRO?</value>
+  </data>
+  <data name="DownloadingError" xml:space="preserve">
+    <value>Downloading error</value>
+  </data>
+  <data name="MessagePleaseSelectAction" xml:space="preserve">
+    <value>Please select action.</value>
+  </data>
+  <data name="RemoveAllFinishedFiles" xml:space="preserve">
+    <value>Remove all finished files from this list</value>
+  </data>
+  <data name="DownloadingCompleted" xml:space="preserve">
+    <value>Downloading completed</value>
+  </data>
+  <data name="MaxSimultaneousDownloads" xml:space="preserve">
+    <value>Limit simultaneous downloads to a maximum of</value>
+  </data>
+  <data name="ReceivingConvertLinks" xml:space="preserve">
+    <value>Receiving convert links</value>
+  </data>
+  <data name="JustDownload" xml:space="preserve">
+    <value>Download original file</value>
+  </data>
+  <data name="Behavioural" xml:space="preserve">
+    <value>Behavioural</value>
+  </data>
+  <data name="NameYourProblem" xml:space="preserve">
+    <value>Name your problem</value>
+  </data>
+  <data name="VisitOurWebsite" xml:space="preserve">
+    <value>Visit our website</value>
+  </data>
+  <data name="SystemInformation" xml:space="preserve">
+    <value>System information</value>
+  </data>
+  <data name="DisconnectedFromInternet" xml:space="preserve">
+    <value>Disconnected from Internet</value>
+  </data>
+  <data name="ExtractVorbis" xml:space="preserve">
+    <value>Extract Vorbis</value>
+  </data>
+  <data name="NewVersionIsAvailableTitle" xml:space="preserve">
+    <value>New version is available</value>
+  </data>
+  <data name="FoundResults" xml:space="preserve">
+    <value>Found {0} results</value>
+  </data>
+  <data name="DownloadFolderIsUnavailable" xml:space="preserve">
+    <value>The location you are trying to save is unavailable. Please change the download folder. Would you like to change the download folder?</value>
+  </data>
+  <data name="Settings" xml:space="preserve">
+    <value>Settings</value>
+  </data>
+  <data name="Preparing" xml:space="preserve">
+    <value>Preparing</value>
+  </data>
+  <data name="ExitPromptMessage" xml:space="preserve">
+    <value>Do you want to exit the application? Click 'Yes' to shut down FYD or 'No' to minimize it to the notification area.</value>
+  </data>
+  <data name="Converting" xml:space="preserve">
+    <value>Converting</value>
+  </data>
+  <data name="MaybeLater" xml:space="preserve">
+    <value>Maybe Later</value>
+  </data>
+  <data name="Version" xml:space="preserve">
+    <value>Version</value>
+  </data>
+  <data name="WeNeedYourEmail" xml:space="preserve">
+    <value>We need your email to reach back to you</value>
+  </data>
+  <data name="ExtractMP3" xml:space="preserve">
+    <value>Extract MP3</value>
+  </data>
+  <data name="ExtractAAC" xml:space="preserve">
+    <value>Extract AAC</value>
+  </data>
+  <data name="BecomeAFan" xml:space="preserve">
+    <value>Become a fan</value>
+  </data>
+  <data name="ErrorMessage" xml:space="preserve">
+    <value>Error message</value>
+  </data>
+  <data name="VideoCouldNotBeDownloaded" xml:space="preserve">
+    <value>We're sorry. The video "{0}" could not be downloaded.</value>
+  </data>
+  <data name="UpgradeToProVersion" xml:space="preserve">
+    <value>Upgrade to Pro version</value>
+  </data>
+  <data name="FilePathIsInvalid" xml:space="preserve">
+    <value>The file path is invalid.</value>
+  </data>
+  <data name="WrongValues" xml:space="preserve">
+    <value>Wrong values</value>
+  </data>
+  <data name="DownloadingUpdate" xml:space="preserve">
+    <value>Downloading an update... {0}% complete</value>
+  </data>
+  <data name="AlreadyHaveTheLatestVersion" xml:space="preserve">
+    <value>You are using the most recent version</value>
+  </data>
+  <data name="OpenFileInDefaultPlayer" xml:space="preserve">
+    <value>Open file in default player</value>
+  </data>
+  <data name="OpenApplication" xml:space="preserve">
+    <value>Open application</value>
+  </data>
+  <data name="CopyPath" xml:space="preserve">
+    <value>Copy path</value>
+  </data>
+  <data name="ResourceNotFound" xml:space="preserve">
+    <value>The system cannot find the resource specified.</value>
+  </data>
+  <data name="AdCloseText" xml:space="preserve">
+    <value>We hate ads too, but they keep us alive. No more ads? Subscribe to PRO</value>
+  </data>
+  <data name="ClickToSubscribe" xml:space="preserve">
+    <value>Click here if you haven't subscribed to PRO yet</value>
+  </data>
+  <data name="DefaultFolderForAudioDownloads" xml:space="preserve">
+    <value>Default folder for audio downloads</value>
+  </data>
+  <data name="UltraHDProSubscriptionMessageText" xml:space="preserve">
+    <value>This feature is only available on PRO. Subscribe to PRO to download videos in quality higher than 1080P. It costs less than a Starbucks Caramel Frappucino!</value>
+  </data>
+  <data name="Preferences" xml:space="preserve">
+    <value>Preferences</value>
+  </data>
+  <data name="SelectFile" xml:space="preserve">
+    <value>Select file...</value>
+  </data>
+  <data name="FileWithoutLinksWarningMessage" xml:space="preserve">
+    <value>The file({0}) isn't appropriate for convert.</value>
+  </data>
+  <data name="CantExecuteSearchQuery" xml:space="preserve">
+    <value>Can't execute search query because of network error. Check your Internet connection</value>
+  </data>
+  <data name="SubscribeForUpdates" xml:space="preserve">
+    <value>Subscribe for updates</value>
+  </data>
+  <data name="ShareThisVideoOnTwitter" xml:space="preserve">
+    <value>Share this video on Twitter</value>
+  </data>
+  <data name="PlayMediaPlayer" xml:space="preserve">
+    <value>Watch on media player</value>
+  </data>
+  <data name="CloseAppActionExitApplication" xml:space="preserve">
+    <value>Exit the application</value>
+  </data>
+  <data name="ProblemDuringDownloading" xml:space="preserve">
+    <value>Problem during downloading</value>
+  </data>
+  <data name="ActivateProVersion" xml:space="preserve">
+    <value>Activate FYD Pro</value>
+  </data>
+  <data name="SearchingForVideos" xml:space="preserve">
+    <value>Searching for videos...</value>
+  </data>
+  <data name="DescribeYourProblem" xml:space="preserve">
+    <value>Describe your problem</value>
+  </data>
+  <data name="AnalyzingStreamsStatusTitle" xml:space="preserve">
+    <value>Analyzing quality of streams. Please wait…{0}{1}/{2} analyzed so far</value>
+  </data>
+  <data name="ConvertToVorbis" xml:space="preserve">
+    <value>Convert to Vorbis</value>
+  </data>
+  <data name="Merging" xml:space="preserve">
+    <value>Merging...</value>
+  </data>
+  <data name="ToolTipButtonFacebook" xml:space="preserve">
+    <value>Help us keep this software free of charge by sharing it with your friend on Facebook</value>
+  </data>
+  <data name="ProSubscriptionIsReverted" xml:space="preserve">
+    <value>Your PRO has been reverted to Free. Please contact support to renew your subscription.</value>
+  </data>
+  <data name="DescribeTheBug" xml:space="preserve">
+    <value>Tell us little more about what happened</value>
+  </data>
+  <data name="SelectFileForConversionButtonHint" xml:space="preserve">
+    <value>Select a file on your hard drive to convert to a different format</value>
+  </data>
+  <data name="CompatibleURLNotification" xml:space="preserve">
+    <value>Compatible URL notification</value>
+  </data>
+  <data name="StackTrace" xml:space="preserve">
+    <value>Stack trace</value>
+  </data>
+  <data name="DownloadErrors" xml:space="preserve">
+    <value>Download Errors</value>
+  </data>
+  <data name="ExitPromptSettingsText" xml:space="preserve">
+    <value>Action when the X-button is clicked</value>
+  </data>
+  <data name="ConvertToAudio" xml:space="preserve">
+    <value>Convert to Audio</value>
+  </data>
+  <data name="AskAQuestion" xml:space="preserve">
+    <value>Ask a question</value>
+  </data>
+  <data name="ConvertToVideo" xml:space="preserve">
+    <value>Convert to Video</value>
+  </data>
+  <data name="RunSearchOnEnterKey" xml:space="preserve">
+    <value>Run search only when Enter key is pressed</value>
+  </data>
+  <data name="ConvertToWebM" xml:space="preserve">
+    <value>Convert to WebM</value>
+  </data>
+  <data name="UseConversion" xml:space="preserve">
+    <value>Download and convert to...</value>
+  </data>
+  <data name="InQueue" xml:space="preserve">
+    <value>In queue</value>
+  </data>
+  <data name="PreparingForDownloading" xml:space="preserve">
+    <value>Preparing for downloading...</value>
+  </data>
+  <data name="DownloadIsFailed" xml:space="preserve">
+    <value>Download "{0}" is failed</value>
+  </data>
+  <data name="Duration" xml:space="preserve">
+    <value>Duration</value>
+  </data>
+  <data name="VideoCodec" xml:space="preserve">
+    <value>Video codec</value>
+  </data>
+  <data name="Contribute" xml:space="preserve">
+    <value>Contribute</value>
+  </data>
+  <data name="DownloadFLV" xml:space="preserve">
+    <value>Download FLV</value>
+  </data>
+  <data name="DownloadMP4" xml:space="preserve">
+    <value>Download MP4</value>
+  </data>
+  <data name="Downloading" xml:space="preserve">
+    <value>Downloading</value>
+  </data>
+  <data name="Completed" xml:space="preserve">
+    <value>Completed</value>
+  </data>
+  <data name="Deactivate" xml:space="preserve">
+    <value>Deactivate</value>
+  </data>
+  <data name="SubscribeToFYDPro" xml:space="preserve">
+    <value>Subscribe to PRO</value>
+  </data>
+  <data name="InputFileNameIsInvalid" xml:space="preserve">
+    <value>Input file name is invalid</value>
+  </data>
+  <data name="AlwaysOnTop" xml:space="preserve">
+    <value>Always on top</value>
+  </data>
+  <data name="IncludeSoundsForNotifications" xml:space="preserve">
+    <value>Sound notifications</value>
+  </data>
+  <data name="Warning" xml:space="preserve">
+    <value>Warning</value>
+  </data>
+  <data name="OnlyInProVersion" xml:space="preserve">
+    <value>This feature is only available for Pro subscribers. Join our Pro club to enjoy the benefits of this feature. Subscribe?</value>
+  </data>
+  <data name="Exit" xml:space="preserve">
+    <value>Exit</value>
+  </data>
+  <data name="Date" xml:space="preserve">
+    <value>Date</value>
+  </data>
+  <data name="Done" xml:space="preserve">
+    <value>Done</value>
+  </data>
+  <data name="Name" xml:space="preserve">
+    <value>Name</value>
+  </data>
+  <data name="Help" xml:space="preserve">
+    <value>Help</value>
+  </data>
+  <data name="Time" xml:space="preserve">
+    <value>Time</value>
+  </data>
+  <data name="Send" xml:space="preserve">
+    <value>Send</value>
+  </data>
+  <data name="Size" xml:space="preserve">
+    <value>Size</value>
+  </data>
+  <data name="DeleteFinishedFiles" xml:space="preserve">
+    <value>Are you sure you want to delete {0} file(s) from this list?</value>
+  </data>
+  <data name="ActiveStringPattern" xml:space="preserve">
+    <value>Active ({0})</value>
+  </data>
+  <data name="CompatibleVideoURLDetected" xml:space="preserve">
+    <value>Compatible video URL detected. Click here to select quality and download.</value>
+  </data>
+</root>

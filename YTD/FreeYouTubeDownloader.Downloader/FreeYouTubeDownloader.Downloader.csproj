@@ -1,0 +1,115 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <!--Project was exported from assembly: C:\Program Files (x86)\Free YouTube Downloader\FreeYouTubeDownloader.Downloader.dll-->
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{3BF2CC66-2DC3-4327-9F7D-409A98AB8861}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AssemblyName>FreeYouTubeDownloader.Downloader</AssemblyName>
+    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <ApplicationVersion>1.0.0.0</ApplicationVersion>
+    <FileAlignment>512</FileAlignment>
+    <RootNamespace>FreeYouTubeDownloader.Downloader</RootNamespace>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="System.Core" />
+    <Reference Include="System" />
+    <Reference Include="Newtonsoft.Json">
+      <HintPath>lib\Newtonsoft.Json.dll</HintPath>
+    </Reference>
+    <Reference Include="BouncyCastle.Crypto">
+      <HintPath>lib\BouncyCastle.Crypto.dll</HintPath>
+    </Reference>
+    <Reference Include="Ionic.Zip">
+      <HintPath>lib\Ionic.Zip.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Xml.Linq" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="DownloadManager.cs" />
+    <Compile Include="MediaLinksExtension.cs" />
+    <Compile Include="StringExtension.cs" />
+    <Compile Include="Authorization.cs" />
+    <Compile Include="YouTubeSignatureDecipher.cs" />
+    <Compile Include="Extensions.cs" />
+    <Compile Include="MediaLinksComparer.cs" />
+    <Compile Include="MultifileDownloadParameter.cs" />
+    <Compile Include="AudioLink.cs" />
+    <Compile Include="MediaInfo.cs" />
+    <Compile Include="MediaType.cs" />
+    <Compile Include="MediaLink.cs" />
+    <Compile Include="AudioQuality.cs" />
+    <Compile Include="AudioStreamType.cs" />
+    <Compile Include="DownloadError.cs" />
+    <Compile Include="DownloadState.cs" />
+    <Compile Include="FrameSizeAttribute.cs" />
+    <Compile Include="VideoQualityExtensions.cs" />
+    <Compile Include="VideoQuality.cs" />
+    <Compile Include="VideoStreamType.cs" />
+    <Compile Include="ProviderException.cs" />
+    <Compile Include="NotSupportedException.cs" />
+    <Compile Include="ProviderParsingException.cs" />
+    <Compile Include="VideoServerException.cs" />
+    <Compile Include="IDownloadTask.cs" />
+    <Compile Include="IGetVideoId.cs" />
+    <Compile Include="IMediaLink.cs" />
+    <Compile Include="IVideoInfoAnalyzer.cs" />
+    <Compile Include="Itag.cs" />
+    <Compile Include="VideoItag.cs" />
+    <Compile Include="AudioItag.cs" />
+    <Compile Include="Thumbnail.cs" />
+    <Compile Include="VideoInfo.cs" />
+    <Compile Include="VideoLink.cs" />
+    <Compile Include="RijndaelCBC.cs" />
+    <Compile Include="ZipUtil.cs" />
+    <Compile Include="VideoStreamQualityDistinctComparer.cs" />
+    <Compile Include="Types\YouTubeSignatureException.cs" />
+    <Compile Include="Tasks\DownloadFinishedEventArgs.cs" />
+    <Compile Include="Tasks\DownloadProgressEventArgs.cs" />
+    <Compile Include="Tasks\DownloadErrorEventArgs.cs" />
+    <Compile Include="Tasks\DownloadTaskResponseDataObject.cs" />
+    <Compile Include="Tasks\DownloadTask.cs" />
+    <Compile Include="Tasks\MultifileDownloadTask.cs" />
+    <Compile Include="Tasks\SinglefileDownloadTask.cs" />
+    <Compile Include="Providers\DownloadProvider.cs" />
+    <Compile Include="Providers\YouTubeVideoObject.cs" />
+    <Compile Include="Providers\YouTubeDownloadProvider.cs" />
+    <Compile Include="Helpers\WebSignatureDecipher.cs" />
+    <Compile Include="AssemblyInfo.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\FreeYouTubeDownloader.Common\FreeYouTubeDownloader.Common.csproj">
+      <Project>{b5b3b539-5d22-4764-8ae8-816db9b21e74}</Project>
+      <Name>FreeYouTubeDownloader.Common</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\FreeYouTubeDownloader.Debug\FreeYouTubeDownloader.Debug.csproj">
+      <Project>{c04a11aa-a0e7-41ee-8f93-fe0d8e7cc00f}</Project>
+      <Name>FreeYouTubeDownloader.Debug</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\FreeYouTubeDownloader.Localization\FreeYouTubeDownloader.Localization.csproj">
+      <Project>{4b1f64ae-c55e-477a-b4cb-3ea3e26fe5c4}</Project>
+      <Name>FreeYouTubeDownloader.Localization</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+</Project>

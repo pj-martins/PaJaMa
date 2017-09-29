@@ -1,0 +1,263 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <!--Project was exported from assembly: C:\Program Files (x86)\Free YouTube Downloader\YouTubeDownloader.exe-->
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{930EA111-35C8-4FBC-94C7-1EDA251E8F11}</ProjectGuid>
+    <OutputType>WinExe</OutputType>
+    <AssemblyName>YouTubeDownloader</AssemblyName>
+    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <ApplicationVersion>4.2.795.0</ApplicationVersion>
+    <FileAlignment>512</FileAlignment>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="Newtonsoft.Json">
+      <HintPath>lib\Newtonsoft.Json.dll</HintPath>
+    </Reference>
+    <Reference Include="ObjectListView">
+      <HintPath>lib\ObjectListView.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Windows.Forms" />
+    <Reference Include="System" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="Hardcodet.Wpf.TaskbarNotification">
+      <HintPath>lib\Hardcodet.Wpf.TaskbarNotification.dll</HintPath>
+    </Reference>
+    <Reference Include="SplitButton">
+      <HintPath>lib\SplitButton.dll</HintPath>
+    </Reference>
+    <Reference Include="PresentationFramework" />
+    <Reference Include="Microsoft.WindowsAPICodePack.Shell">
+      <HintPath>lib\Microsoft.WindowsAPICodePack.Shell.dll</HintPath>
+    </Reference>
+    <Reference Include="PresentationCore" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="MigraDoc.DocumentObjectModel">
+      <HintPath>lib\MigraDoc.DocumentObjectModel.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Management" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Configuration" />
+    <Reference Include="System.Xml" />
+    <Reference Include="MigraDoc.Rendering">
+      <HintPath>lib\MigraDoc.Rendering.dll</HintPath>
+    </Reference>
+    <Reference Include="WindowsBase" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="FreeYouTubeDownloader\Settings.cs" />
+    <Compile Include="FreeYouTubeDownloader\DownloadItemComparerAscending.cs" />
+    <Compile Include="FreeYouTubeDownloader\DownloadItemComparerDescending.cs" />
+    <Compile Include="FreeYouTubeDownloader\AboutWindow.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FreeYouTubeDownloader\ActivationWindow.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FreeYouTubeDownloader\ConfirmationWindow.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FreeYouTubeDownloader\DeactivationWindow.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FreeYouTubeDownloader\CloseAppActions.cs" />
+    <Compile Include="FreeYouTubeDownloader\ExitPromptWindow.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FreeYouTubeDownloader\IFrameWindow.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FreeYouTubeDownloader\MainWindow.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FreeYouTubeDownloader\ExceptionReporterWindow.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FreeYouTubeDownloader\PlayerWindow.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FreeYouTubeDownloader\ProblemReporterWindow.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FreeYouTubeDownloader\GeneralHelper.cs" />
+    <Compile Include="FreeYouTubeDownloader\BrowserEmulationVersion.cs" />
+    <Compile Include="FreeYouTubeDownloader\WBEmulator.cs" />
+    <Compile Include="FreeYouTubeDownloader\WindowHelper.cs" />
+    <Compile Include="FreeYouTubeDownloader\Program.cs" />
+    <Compile Include="FreeYouTubeDownloader\SettingsWindow.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FreeYouTubeDownloader\RadioButtonRender.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="FreeYouTubeDownloader\UnhandledExceptionWindow.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FreeYouTubeDownloader\DownloadItemViewModel.cs" />
+    <Compile Include="FreeYouTubeDownloader\Properties\Resources.cs" />
+    <Compile Include="FreeYouTubeDownloader\Youtube\YoutubeHelper.cs" />
+    <Compile Include="FreeYouTubeDownloader\Youtube\YoutubeVideoRecord.cs" />
+    <Compile Include="FreeYouTubeDownloader\UI\ToolbarTheme.cs" />
+    <Compile Include="FreeYouTubeDownloader\UI\ToolStripAeroRenderer.cs" />
+    <Compile Include="FreeYouTubeDownloader\UI\TransparentPictureBox.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="FreeYouTubeDownloader\Search\HttpClientEx.cs" />
+    <Compile Include="FreeYouTubeDownloader\Search\SearchException.cs" />
+    <Compile Include="FreeYouTubeDownloader\Search\SearchResultsOrder.cs" />
+    <Compile Include="FreeYouTubeDownloader\Search\SearchVideoDefinitions.cs" />
+    <Compile Include="FreeYouTubeDownloader\Search\Thumbnail.cs" />
+    <Compile Include="FreeYouTubeDownloader\Search\TimerEx.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="FreeYouTubeDownloader\Search\VideoSearch.cs" />
+    <Compile Include="FreeYouTubeDownloader\Search\VideoSearchResult.cs" />
+    <Compile Include="FreeYouTubeDownloader\Search\YouTubeSearchException.cs" />
+    <Compile Include="FreeYouTubeDownloader\Search\YouTubeVideoSearch.cs" />
+    <Compile Include="FreeYouTubeDownloader\Model\VideoStreamTypeExtensions.cs" />
+    <Compile Include="FreeYouTubeDownloader\Model\DownloadItem.cs" />
+    <Compile Include="FreeYouTubeDownloader\Model\DownloadStateEventArgs.cs" />
+    <Compile Include="FreeYouTubeDownloader\Model\SplitButtonTagData.cs" />
+    <Compile Include="FreeYouTubeDownloader\License\LicenseHelper.cs" />
+    <Compile Include="FreeYouTubeDownloader\Helpers\ReportingHelper.cs" />
+    <Compile Include="FreeYouTubeDownloader\Extensions\ControlCollectionExtensions.cs" />
+    <Compile Include="FreeYouTubeDownloader\Extensions\PanelExtension.cs" />
+    <Compile Include="FreeYouTubeDownloader\Controls\PictureBoxEx.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="FreeYouTubeDownloader\Controls\WebBrowserEx.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="FreeYouTubeDownloader\Controls\WebBrowserExNavigateErrorEventHandler.cs" />
+    <Compile Include="FreeYouTubeDownloader\Controls\WebBrowserExBeforeNavigate2EventHandler.cs" />
+    <Compile Include="FreeYouTubeDownloader\Controls\WebBrowserExNewWindow3EventHandler.cs" />
+    <Compile Include="FreeYouTubeDownloader\Controls\WebBrowserExNavigateErrorEventArgs.cs" />
+    <Compile Include="FreeYouTubeDownloader\Controls\WebBrowserExBeforeNavigate2EventArgs.cs" />
+    <Compile Include="FreeYouTubeDownloader\Controls\WebBrowserExNewWindow3EventArgs.cs" />
+    <Compile Include="FreeYouTubeDownloader\Controls\DWebBrowserEvents2.cs" />
+    <Compile Include="FreeYouTubeDownloader\Ads\AdsHelper.cs" />
+    <Compile Include="FreeYouTubeDownloader\Ads\IAdsHost.cs" />
+    <Compile Include="wyDay\TurboActivate\TA_Flags.cs" />
+    <Compile Include="wyDay\TurboActivate\TA_DateCheckFlags.cs" />
+    <Compile Include="wyDay\TurboActivate\TurboActivate.cs" />
+    <Compile Include="wyDay\TurboActivate\COMException.cs" />
+    <Compile Include="wyDay\TurboActivate\AccountCanceledException.cs" />
+    <Compile Include="wyDay\TurboActivate\PkeyRevokedException.cs" />
+    <Compile Include="wyDay\TurboActivate\PkeyMaxUsedException.cs" />
+    <Compile Include="wyDay\TurboActivate\InternetException.cs" />
+    <Compile Include="wyDay\TurboActivate\InvalidProductKeyException.cs" />
+    <Compile Include="wyDay\TurboActivate\NotActivatedException.cs" />
+    <Compile Include="wyDay\TurboActivate\ProductDetailsException.cs" />
+    <Compile Include="wyDay\TurboActivate\InvalidHandleException.cs" />
+    <Compile Include="wyDay\TurboActivate\TrialExtUsedException.cs" />
+    <Compile Include="wyDay\TurboActivate\TrialExtExpiredException.cs" />
+    <Compile Include="wyDay\TurboActivate\DateTimeException.cs" />
+    <Compile Include="wyDay\TurboActivate\PermissionException.cs" />
+    <Compile Include="wyDay\TurboActivate\InvalidFlagsException.cs" />
+    <Compile Include="wyDay\TurboActivate\VirtualMachineException.cs" />
+    <Compile Include="wyDay\TurboActivate\ExtraDataTooLongException.cs" />
+    <Compile Include="wyDay\TurboActivate\InvalidArgsException.cs" />
+    <Compile Include="wyDay\TurboActivate\TurboFloatKeyException.cs" />
+    <Compile Include="wyDay\TurboActivate\NoMoreDeactivationsException.cs" />
+    <Compile Include="wyDay\TurboActivate\EnableNetworkAdaptersException.cs" />
+    <Compile Include="wyDay\TurboActivate\AlreadyActivatedException.cs" />
+    <Compile Include="wyDay\TurboActivate\AlreadyVerifiedTrialException.cs" />
+    <Compile Include="wyDay\TurboActivate\TrialExpiredException.cs" />
+    <Compile Include="wyDay\TurboActivate\NoMoreTrialsAllowedException.cs" />
+    <Compile Include="wyDay\TurboActivate\MustSpecifyTrialTypeException.cs" />
+    <Compile Include="wyDay\TurboActivate\MustUseTrialException.cs" />
+    <Compile Include="wyDay\TurboActivate\TurboActivateException.cs" />
+    <Compile Include="wyDay\TurboActivate\IsGenuineResult.cs" />
+    <Compile Include="AssemblyInfo.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="windows_critical_stop" />
+    <Resource Include="windows_notify" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="FreeYouTubeDownloader\AboutWindow.resx" />
+    <EmbeddedResource Include="FreeYouTubeDownloader\ActivationWindow.resx" />
+    <EmbeddedResource Include="FreeYouTubeDownloader\ConfirmationWindow.resx" />
+    <EmbeddedResource Include="FreeYouTubeDownloader\DeactivationWindow.resx" />
+    <EmbeddedResource Include="FreeYouTubeDownloader\ExceptionReporterWindow.resx" />
+    <EmbeddedResource Include="FreeYouTubeDownloader\ExitPromptWindow.resx" />
+    <EmbeddedResource Include="FreeYouTubeDownloader\IFrameWindow.resx" />
+    <EmbeddedResource Include="FreeYouTubeDownloader\MainWindow.resx" />
+    <EmbeddedResource Include="FreeYouTubeDownloader\PlayerWindow.resx" />
+    <EmbeddedResource Include="FreeYouTubeDownloader\ProblemReporterWindow.resx" />
+    <EmbeddedResource Include="FreeYouTubeDownloader\Properties\Resources.resx">
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FreeYouTubeDownloader\SettingsWindow.resx" />
+    <EmbeddedResource Include="FreeYouTubeDownloader\UnhandledExceptionWindow.resx" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\FreeYouTubeDownloader.Analyzer\FreeYouTubeDownloader.Analyzer.csproj">
+      <Project>{608d8636-5674-44a9-ad38-d0faa5607bd4}</Project>
+      <Name>FreeYouTubeDownloader.Analyzer</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\FreeYouTubeDownloader.Common\FreeYouTubeDownloader.Common.csproj">
+      <Project>{b5b3b539-5d22-4764-8ae8-816db9b21e74}</Project>
+      <Name>FreeYouTubeDownloader.Common</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\FreeYouTubeDownloader.Converter\FreeYouTubeDownloader.Converter.csproj">
+      <Project>{0aabe11d-0345-43dc-8746-14c11f2f6773}</Project>
+      <Name>FreeYouTubeDownloader.Converter</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\FreeYouTubeDownloader.Debug\FreeYouTubeDownloader.Debug.csproj">
+      <Project>{c04a11aa-a0e7-41ee-8f93-fe0d8e7cc00f}</Project>
+      <Name>FreeYouTubeDownloader.Debug</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\FreeYouTubeDownloader.Downloader\FreeYouTubeDownloader.Downloader.csproj">
+      <Project>{3bf2cc66-2dc3-4327-9f7d-409a98ab8861}</Project>
+      <Name>FreeYouTubeDownloader.Downloader</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\FreeYouTubeDownloader.Localization\FreeYouTubeDownloader.Localization.csproj">
+      <Project>{4b1f64ae-c55e-477a-b4cb-3ea3e26fe5c4}</Project>
+      <Name>FreeYouTubeDownloader.Localization</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="lib\BouncyCastle.Crypto.dll" />
+    <Content Include="lib\ffmpeg.exe" />
+    <Content Include="lib\Hardcodet.Wpf.TaskbarNotification.dll" />
+    <Content Include="lib\Ionic.Zip.dll" />
+    <Content Include="lib\Microsoft.WindowsAPICodePack.dll" />
+    <Content Include="lib\Microsoft.WindowsAPICodePack.Shell.dll" />
+    <Content Include="lib\MigraDoc.DocumentObjectModel.dll" />
+    <Content Include="lib\MigraDoc.Rendering.dll" />
+    <Content Include="lib\Newtonsoft.Json.dll" />
+    <Content Include="lib\NLog.dll" />
+    <Content Include="lib\ObjectListView.dll" />
+    <Content Include="lib\PdfSharp.Charting.dll" />
+    <Content Include="lib\PdfSharp.dll" />
+    <Content Include="lib\SplitButton.dll" />
+    <Content Include="TurboActivate.dll">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="TurboActivate64.dll">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+</Project>
