@@ -59,16 +59,16 @@ namespace Crawler
 			// Cleanup.YummlyToOriginal("http://www.food.com/", "Food.com", new FoodCrawler());
 			// Cleanup.YummlyToOriginal("http://www.tasteofhome.com/", "Taste Of Home", new TasteOfHomeCrawler());
 			// Cleanup.Keywords();
-			// new AllRecipesCrawler().Crawl();
 			// new CooksCrawler().Crawl();
-			new AllRecipesCrawler().Crawl();
+			Cleanup.YummlyToOriginal("https://food52.com/", "Food52", new Food52Crawler());
 
 #endif
 #if Thread3
 			// new EpicuriousCrawlerApi().Crawl();
 			// new SeriousEatsCrawler().Crawl(getDbContext());
+			new AllRecipesCrawler().Crawl();
 			
-			new Food52Crawler().Crawl();
+			// new Food52Crawler().Crawl();
 #endif
 #if Thread4
 			// new FoodCrawlerApi().Crawl();

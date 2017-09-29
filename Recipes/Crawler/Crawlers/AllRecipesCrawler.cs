@@ -143,9 +143,11 @@ namespace Crawler.Crawlers
 
 		protected override List<string> getKeywordPages(HtmlDocument document)
 		{
-			return document.DocumentNode.SelectNodes("//ul[@class='browse-hubs__subcategories']/*/a").Select(n =>
-				baseURL + n.Attributes["href"].Value)
+			var urls = document.DocumentNode.SelectNodes("//ul[@class='browse-hubs__subcategories']/*/a").Select(n =>
+				n.Attributes["href"].Value)
 				.ToList();
+
+			return urls.Select(u => u.StartsWith(baseURL) ? u : baseURL + u).ToList();
 		}
 
 		#region OLD

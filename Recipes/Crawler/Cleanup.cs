@@ -118,7 +118,7 @@ namespace Crawler
 				foreach (var yummly in yummlies)
 				{
 					Console.WriteLine((i++).ToString() + " of " + yummlies.Count.ToString());
-					if (!origs.Any(f => f.ToLower() == yummly.Directions.ToLower()))
+					if (!origs.Any(f => f.ToLower() == yummly.Directions.ToLower() || f.ToLower().Replace("https://", "http://") == yummly.Directions.Replace("https://", "http://")))
 					{
 						try
 						{

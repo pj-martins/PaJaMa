@@ -28,7 +28,7 @@ namespace Crawler.Crawlers
 			{
 				return new PageNumbers()
 				{
-					MaxPageRegexPattern = " of <b>(.*?)</b>"
+					MaxPageRegexPattern = " of <b>(\\d*)</b>"
 				};
 			}
 		}

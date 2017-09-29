@@ -40,6 +40,7 @@ namespace Crawler.Crawlers
 			{ "http://www.seriouseats.com/", typeof(SeriousEatsCrawler) },
 			{ "http://www.tasteofhome.com/", typeof(TasteOfHomeCrawler) },
 			{ "http://www.myrecipes.com/", typeof(MyRecipesCrawler) },
+			{ "https://food52.com/", typeof(Food52Crawler) },
 			{ "http://www.food52.com/", typeof(Food52Crawler) },
 		};
 
@@ -101,7 +102,8 @@ namespace Crawler.Crawlers
 						var external = _externals.Keys.FirstOrDefault(k => feed.content.details.directionsUrl.StartsWith(k));
 						if (external != null)
 						{
-							if (dbContext.Recipes.Any(r => r.RecipeURL.ToLower() == feed.content.details.directionsUrl.ToLower()))
+							if (dbContext.Recipes.Any(r => r.RecipeURL.ToLower() == feed.content.details.directionsUrl.ToLower()
+								|| r.RecipeURL.ToLower().Replace("https://", "http://") == feed.content.details.directionsUrl.ToLower().Replace("https://", "http://")))
 							{
 								Console.WriteLine(display);
 								continue;
@@ -131,7 +133,7 @@ namespace Crawler.Crawlers
 						rec.Directions = feed.content.preparationSteps == null ? feed.content.details.directionsUrl : string.Join("\r\n", feed.content.preparationSteps);
 						rec.Rating = feed.content.details.rating;
 
-						if (rec.Rating.GetValueOrDefault() > 0 && rec.Rating.GetValueOrDefault() < 4)
+						if (rec.Rating.GetValueOrDefault() < 4)
 							continue;
 
 						Console.ForegroundColor = ConsoleColor.Blue;
